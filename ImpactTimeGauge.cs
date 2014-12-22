@@ -26,6 +26,7 @@ namespace Nereid
             private static readonly Texture2D SCALE = Utils.GetTexture("Nereid/NanoGauges/Resource/IMPACT-scale");
 
             private const float NO_IMPACT_TIME = -1;
+            private const float MAX_IMPACT_TIME = 2 * 60 * 60; //2 hours is the maximum shown on the IMPACT-scale
 
             public ImpactTimeGauge()
                 : base(Constants.WINDOW_ID_GAUGE_IMPACT, SKIN, SCALE, false)
@@ -61,8 +62,13 @@ namespace Nereid
                 float lower = GetLowerOffset();
                 float upper = GetUpperOffset();
                 double time = GetTimeToImpact();
-                if (time < 0)
+                if (time == NO_IMPACT_TIME || time >= MAX_IMPACT_TIME)
+                {
+                    //No Impact happening, or impact time beyond MAX_IMPACT_TIME.
+                    OutOfLimits();
                     return upper;
+                }
+                InLimits();
                 return lower + 75.0f * (float)Math.Log10(1.0 + time) / 400.0f;
             }
 
@@ -137,9 +143,11 @@ namespace Nereid
                     //altitude for long/lat code stolen from some ISA MapSat forum post; who knows why this works, but it seems to.
                     Vector3d rad = QuaternionD.AngleAxis(impactLongitude, Vector3d.down) * QuaternionD.AngleAxis(impactLatitude, Vector3d.forward) * Vector3d.right;
                     impactAltitude = FlightGlobals.ActiveVessel.mainBody.pqsController.GetSurfaceHeight(rad) - FlightGlobals.ActiveVessel.mainBody.pqsController.radius;
+                    
                     /*
                     if ((impactAltitude < 0) && FlightGlobals.ActiveVessel.mainBody.ocean)
                     {
+                        //When hitting sea level. Disabled to match the behaviour of the radar altitude gauge.
                         impactAltitude = 0;
                     }
                     */
