@@ -26,7 +26,7 @@ namespace Nereid
             private static readonly Texture2D SCALE = Utils.GetTexture("Nereid/NanoGauges/Resource/IMPACT-scale");
 
             private const float NO_IMPACT_TIME = -1;
-            private const float MAX_IMPACT_TIME = 2 * 60 * 60; //2 hours is the maximum shown on the IMPACT-scale
+            private const float MAX_IMPACT_TIME = 2 * Constants.SECONDS_PER_HOUR; //2 hours is the maximum shown on the IMPACT-scale
 
             public ImpactTimeGauge()
                 : base(Constants.WINDOW_ID_GAUGE_IMPACT, SKIN, SCALE, false)

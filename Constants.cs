@@ -94,6 +94,10 @@ namespace Nereid
          public const double G = 6.674e-11;
          public const double ATM = 1.2230948554874;
          public const double MIN_TEMP = -273;
+
+         public const long SECONDS_PER_MINUTE = 60;
+         public const long MINUTES_PER_HOUR = 60;
+         public const long SECONDS_PER_HOUR = MINUTES_PER_HOUR * SECONDS_PER_MINUTE;
       }
    }
 }
