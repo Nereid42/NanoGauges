@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1C31B3F6-206B-4092-9F21-85F25F229A4C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NanoGauges</RootNamespace>
+    <AssemblyName>NanoGauges</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\0.90-0_development_32bit\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\0.90-0_development_32bit\KSP_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractClosableGauge.cs" />
+    <Compile Include="ImpactTimeGauge.cs" />
+    <Compile Include="MachGauge.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="QGauge.cs" />
+    <Compile Include="ShieldGauge.cs" />
+    <Compile Include="Adapter.cs" />
+    <Compile Include="CameraGauge.cs" />
+    <Compile Include="HeatGauge.cs" />
+    <Compile Include="SnapinManager.cs" />
+    <Compile Include="ToolbarWrapper.cs" />
+    <Compile Include="TooltipWindow.cs" />
+    <Compile Include="TrimIndicators.cs" />
+    <Compile Include="TrippleVerticalGauge.cs" />
+    <Compile Include="VelocityToTargetGauge.cs" />
+    <Compile Include="IspDeltaGauge.cs" />
+    <Compile Include="VerticalVelocityIndicatorGauge.cs" />
+    <Compile Include="VerticalAttitudeIndicatorGauge.cs" />
+    <Compile Include="TerminalVelocityGauge.cs" />
+    <Compile Include="MovingAverage.cs" />
+    <Compile Include="SolidFuelGauge.cs" />
+    <Compile Include="KethaneAirIntakeGauge.cs" />
+    <Compile Include="MaxGeeGauge.cs" />
+    <Compile Include="AirIntakePctGauge.cs" />
+    <Compile Include="EvaMonopropellantGauge.cs" />
+    <Compile Include="KethaneGauge.cs" />
+    <Compile Include="Inspecteur.cs" />
+    <Compile Include="SelectorGauge.cs" />
+    <Compile Include="OrbitalVelocityGauge.cs" />
+    <Compile Include="GravGauge.cs" />
+    <Compile Include="VesselInspecteur.cs" />
+    <Compile Include="WasteGauge.cs" />
+    <Compile Include="WasteWaterGauge.cs" />
+    <Compile Include="FoodGauge.cs" />
+    <Compile Include="WaterGauge.cs" />
+    <Compile Include="ConfigWindow.cs" />
+    <Compile Include="AboutWindow.cs" />
+    <Compile Include="AbstractGauge.cs" />
+    <Compile Include="AbstractWindow.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Damper.cs" />
+    <Compile Include="AmpereMeter.cs" />
+    <Compile Include="CarbonDioxideGauge.cs" />
+    <Compile Include="OxygenGauge.cs" />
+    <Compile Include="TempGauge.cs" />
+    <Compile Include="SensorInspecteur.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Flag.cs" />
+    <Compile Include="AbstractResourceGauge.cs" />
+    <Compile Include="AngleOfAttackGauge.cs" />
+    <Compile Include="DistanceToTargetGauge.cs" />
+    <Compile Include="GaugeSet.cs" />
+    <Compile Include="GaugeSetPool.cs" />
+    <Compile Include="IspPerEngineGauge.cs" />
+    <Compile Include="OrbitInclinationGauge.cs" />
+    <Compile Include="VelocityGauge.cs" />
+    <Compile Include="HorizontalVelocityGauge.cs" />
+    <Compile Include="ThrustWeightRatioGauge.cs" />
+    <Compile Include="ThrustGauge.cs" />
+    <Compile Include="FuelFlowGauge.cs" />
+    <Compile Include="ElectricChargeGauge.cs" />
+    <Compile Include="AcceleroMeter.cs" />
+    <Compile Include="AtmosphereGauge.cs" />
+    <Compile Include="ApoapsisGauge.cs" />
+    <Compile Include="AirIntakeGauge.cs" />
+    <Compile Include="GameUtils.cs" />
+    <Compile Include="EngineInspecteur.cs" />
+    <Compile Include="XenonGauge.cs" />
+    <Compile Include="PeriapsisGauge.cs" />
+    <Compile Include="OxidizerGauge.cs" />
+    <Compile Include="MonopropellantGauge.cs" />
+    <Compile Include="FuelGauge.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Gauges.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="NanoGauges.cs" />
+    <Compile Include="MassGauge.cs" />
+    <Compile Include="Pair.cs" />
+    <Compile Include="OrbitGauge.cs" />
+    <Compile Include="ResourceInspecteur.cs" />
+    <Compile Include="Resources.cs" />
+    <Compile Include="VerticalGauge.cs" />
+    <Compile Include="VsiGauge.cs" />
+    <Compile Include="RadarAltimeter.cs" />
+    <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
