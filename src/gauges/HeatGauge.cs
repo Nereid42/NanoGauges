@@ -54,7 +54,15 @@ namespace Nereid
             if (vessel != null && IsOn())
             {
                double temp = inspecteur.GetHeatshieldTemp();
-               if (temp > MAX_TEMP) temp = MAX_TEMP;
+               if (temp > MAX_TEMP)
+               {
+                  temp = MAX_TEMP;
+                  OutOfLimits();
+               }
+               else
+               {
+                  InLimits();
+               }
                if (temp < MIN_TEMP) temp = MIN_TEMP;
                if(temp>=0.0)
                {

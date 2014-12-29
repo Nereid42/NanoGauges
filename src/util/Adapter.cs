@@ -51,27 +51,35 @@ namespace Nereid
 
          public override void Plugin()
          {
-            Type typeAeoUtil = GetType("ferram4.FARAeroUtil");
-            if (typeAeoUtil == null) return;
-            Log.Detail("FARAdpater plugin of type ferram4.FARAeroUtil succesful");
+            try
+            {
+               Type typeAeoUtil = GetType("ferram4.FARAeroUtil");
+               if (typeAeoUtil == null) return;
+               Log.Detail("FARAdpater plugin of type ferram4.FARAeroUtil succesful");
 
-            methodGetMachNumber = typeAeoUtil.GetMethod("GetMachNumber", BindingFlags.Public | BindingFlags.Static);
-            if (methodGetMachNumber == null) return;
-            Log.Detail("FARAdpater plugin of method GetMachNumber succesful");
+               methodGetMachNumber = typeAeoUtil.GetMethod("GetMachNumber", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(CelestialBody), typeof(double), typeof(Vector3) }, null);
+               if (methodGetMachNumber == null) return;
+               Log.Detail("FARAdpater plugin of method GetMachNumber succesful");
 
-            Type typeControlSys = GetType("ferram4.FARControlSys");
-            if (typeControlSys == null) return;
-            Log.Detail("FARAdpater plugin of type ferram4.FARControlSys succesful");
+               Type typeControlSys = GetType("ferram4.FARControlSys");
+               if (typeControlSys == null) return;
+               Log.Detail("FARAdpater plugin of type ferram4.FARControlSys succesful");
 
-            instanceProp = typeControlSys.GetProperty("ActiveControlSys", BindingFlags.Static | BindingFlags.Public);
-            if (instanceProp == null) return;
-            Log.Detail("FARAdpater plugin of instance ActiveControlSys succesful");
+               instanceProp = typeControlSys.GetProperty("ActiveControlSys", BindingFlags.Static | BindingFlags.Public);
+               if (instanceProp == null) return;
+               Log.Detail("FARAdpater plugin of instance ActiveControlSys succesful");
 
-            fieldQ = typeControlSys.GetField("q", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            if (fieldQ == null) return;
-            Log.Detail("FARAdpater plugin of field ActiveControlSys.q succesful");
+               fieldQ = typeControlSys.GetField("q", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+               if (fieldQ == null) return;
+               Log.Detail("FARAdpater plugin of field ActiveControlSys.q succesful");
 
-            SetInstalled(true);
+               SetInstalled(true);
+            }
+            catch(Exception e)
+            {
+               Log.Error("plugin of F.A.R failed; exception: " + e.GetType() + " - " + e.Message);
+               SetInstalled(false);
+            }
          }
 
 

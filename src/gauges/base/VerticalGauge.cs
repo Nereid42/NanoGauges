@@ -37,6 +37,9 @@ namespace Nereid
             limitFlag = new LimiterFlag(this);
          }
 
+         /**
+          * Get the fractional offset of the scale. This method will move the scale regarding to readout value. It has to be implemented by a gauge. 
+          */
          protected abstract float GetScaleOffset();
 
          protected int GetScaleHeight()
@@ -49,17 +52,26 @@ namespace Nereid
             return (scale.height - HEIGHT) / (2.0f * scale.height);
          }
 
+         /**
+          * Get the fractional offset of the scale for minimal value
+          */
          protected float GetLowerOffset()
          {
             return 0.0f;
          }
 
+         /**
+          * Get the fractional offset of the scale for a specific offset in pixel
+          */
          protected float GetOffset(int y)
          {
             int d = (scale.height-y) - HEIGHT / 2;
             return ((float)d) / (float)scale.height;
          }
 
+         /**
+          * Get the fractional offset of the scale for maximal value
+          */
          protected float GetUpperOffset()
          {
             return ((float)scale.height - (float)HEIGHT) / (float)scale.height;
@@ -69,9 +81,10 @@ namespace Nereid
          {
             // check for on/off
             AutomaticOnOff();
-            // check for limits
+            // check for limits (wont work very well, so disabled at the moment)
             //AutomaticLimiter();
 
+            // damper for smoother changes in the gauges
             float h = (float)HEIGHT / (float)(scale.height);
             damper.SetValue(GetScaleOffset());
 
@@ -82,6 +95,8 @@ namespace Nereid
             // flags
             if(NanoGauges.configuration.gaugeMarkerEnabled)
             {
+               // draw current state of flags (on/off and limiter)
+               // increment animation step on each draw (flags will not show up immediately)
                offFlag.Draw(GetWidth() / 2 - 4, 0);
                limitFlag.Draw(0, 0);
             }
