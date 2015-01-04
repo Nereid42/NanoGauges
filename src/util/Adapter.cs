@@ -57,7 +57,7 @@ namespace Nereid
                if (typeAeoUtil == null) return;
                Log.Detail("FARAdpater plugin of type ferram4.FARAeroUtil succesful");
 
-               methodGetMachNumber = typeAeoUtil.GetMethod("GetMachNumber", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(CelestialBody), typeof(double), typeof(Vector3) }, null);
+               methodGetMachNumber = typeAeoUtil.GetMethod("GetMachNumber", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(CelestialBody), typeof(double), typeof(Vector3d) }, null);
                if (methodGetMachNumber == null) return;
                Log.Detail("FARAdpater plugin of method GetMachNumber succesful");
 
