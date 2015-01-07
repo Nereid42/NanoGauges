@@ -36,7 +36,7 @@ namespace Nereid
             protected override void AutomaticOnOff()
             {
                Vessel vessel = FlightGlobals.ActiveVessel;
-               if (vessel != null && vessel.parts.Count > 0 && vessel.situation==Vessel.Situations.FLYING)
+               if (vessel != null && vessel.parts.Count > 0 && (vessel.situation == Vessel.Situations.FLYING || vessel.situation == Vessel.Situations.ORBITING || vessel.situation == Vessel.Situations.SUB_ORBITAL))
                {
                   On();
                }
