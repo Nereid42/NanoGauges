@@ -23,7 +23,7 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_FLOW = WINDOW_ID_BASE + 13;
          public const int WINDOW_ID_GAUGE_CHARGE = WINDOW_ID_BASE + 14;
          public const int WINDOW_ID_GAUGE_AMP = WINDOW_ID_BASE + 15;
-         public const int WINDOW_ID_GAUGE_ACCL = WINDOW_ID_BASE + 16;
+         public const int WINDOW_ID_GAUGE_G = WINDOW_ID_BASE + 16;
          public const int WINDOW_ID_GAUGE_ORBIT = WINDOW_ID_BASE + 17;
          public const int WINDOW_ID_GAUGE_MONO = WINDOW_ID_BASE + 18;
          public const int WINDOW_ID_GAUGE_MFLOW = WINDOW_ID_BASE + 19;
@@ -67,6 +67,9 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_Q = WINDOW_ID_BASE + 57;
          public const int WINDOW_ID_GAUGE_HEAT = WINDOW_ID_BASE + 58;
          public const int WINDOW_ID_GAUGE_IMPACT = WINDOW_ID_BASE + 59;
+         public const int WINDOW_ID_GAUGE_ALTIMETER = WINDOW_ID_BASE + 60;
+         public const int WINDOW_ID_GAUGE_ACCL = WINDOW_ID_BASE + 61;
+         public const int WINDOW_ID_GAUGE_HACCL = WINDOW_ID_BASE + 62;
 
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";

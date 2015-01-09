@@ -83,7 +83,7 @@ namespace Nereid
          }
 
 
-         public double GetMachNumber(CelestialBody body, double altitude, Vector3 velocity)
+         public double GetMachNumber(CelestialBody body, double altitude, Vector3d velocity)
          {
             if(IsInstalled())
             {

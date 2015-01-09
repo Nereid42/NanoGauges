@@ -9,24 +9,24 @@ namespace Nereid
 
       public class AcceleroMeter : VerticalGauge
       {
-         private static Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/ACCL-skin");
-         private static Texture2D SCALE = Utils.GetTexture("Nereid/NanoGauges/Resource/ACCL-scale");
+         private static Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/G-skin");
+         private static Texture2D SCALE = Utils.GetTexture("Nereid/NanoGauges/Resource/G-scale");
          private const double MAX_G = 10;
 
 
          public AcceleroMeter()
-            : base(Constants.WINDOW_ID_GAUGE_ACCL, SKIN, SCALE)
+            : base(Constants.WINDOW_ID_GAUGE_G, SKIN, SCALE)
          {
          }
 
          public override string GetName()
          {
-            return "Acceleration";
+            return "Gee force";
          }
 
          public override string GetDescription()
          {
-            return "Current acceleration.";
+            return "Current gee force.";
          }
 
 
@@ -50,7 +50,7 @@ namespace Nereid
 
          public override string ToString()
          {
-            return "Gauge:ACCL";
+            return "Gauge:G";
          }
       }
    }

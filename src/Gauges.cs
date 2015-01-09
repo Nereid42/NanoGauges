@@ -15,6 +15,7 @@ namespace Nereid
          private readonly EngineInspecteur engineInspecteur = new EngineInspecteur();
          private readonly SensorInspecteur sensorInspecteur = new SensorInspecteur();
          private readonly VesselInspecteur vesselInspecteur = new VesselInspecteur();
+         private readonly AccelerationInspecteur velocityInspecteur = new AccelerationInspecteur();
 
          public const int LAYOUT_GAP = 8;
          public const int LAYOUT_CELL_X = AbstractGauge.WIDTH + LAYOUT_GAP;
@@ -72,6 +73,10 @@ namespace Nereid
             AddGauge(new QGauge());
             AddGauge(new HeatGauge(vesselInspecteur));
             AddGauge(new ImpactTimeGauge());
+            AddGauge(new Altimeter());
+            AddGauge(new AccelerationGauge(velocityInspecteur));
+            AddGauge(new HorizontalAccelerationGauge(velocityInspecteur));
+
 
             // TAC life support (only added if TAC installed)
             AddOptionalResourceGauge(new OxygenGauge(resourceInspecteur));
@@ -249,6 +254,7 @@ namespace Nereid
             engineInspecteur.Update();
             sensorInspecteur.Update();
             vesselInspecteur.Update();
+            velocityInspecteur.Update();
          }
 
          public void ResetInspecteurs()
@@ -257,6 +263,7 @@ namespace Nereid
             engineInspecteur.Reset();
             sensorInspecteur.Reset();
             vesselInspecteur.Reset();
+            velocityInspecteur.Reset();
          }
 
          private bool IsEnabledInCamera(CameraManager.CameraMode camMode, bool isEva=false)

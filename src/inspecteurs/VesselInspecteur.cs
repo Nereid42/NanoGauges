@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+
 namespace Nereid
 {
    namespace NanoGauges
@@ -16,6 +17,7 @@ namespace Nereid
          private double dragCoefficent = 0;
          private double heatshieldTemp = 0;
          private bool heatshieldInstalled = false;
+
 
          private readonly List<Part> heatshieldParts = new List<Part>();
 

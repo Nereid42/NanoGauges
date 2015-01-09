@@ -147,6 +147,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SETS, "Gaugeset selector gauge enabled");
             config.trimIndicatorsEnabled = GUILayout.Toggle(config.trimIndicatorsEnabled, "Trim indicators enabled (restart required)", HighLogic.Skin.toggle);
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CAM, "Camera indicator gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ALTIMETER, "Altimeter gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, "Radar altimeter gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VSI, "VSI (vertical speed indicator) gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VT, "Terminal velocity deviation gauge enabled");
@@ -159,7 +160,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CHARGE, "Electric charge gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AMP, "Amperemeter gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SRB, "Solid fuel gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ACCL, "Accelerometer gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_G, "Accelerometer gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MAXG, "Max g gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ORBIT, "Orbit gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_INCL, "Orbit inclination gauge enabled");
@@ -196,6 +197,8 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SHIELD, "Ablative shielding gauge enabled (Deadly Reentry plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HEAT, "Temperatur gauge for heat shield enabled (Deadly Reentry plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_IMPACT, "Impact gauge");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ACCL, "Acceleration gauge enabled");
+            //GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Horizontal acceleration gauge enabled");
             GUILayout.EndScrollView();
             
             GUILayout.EndVertical();

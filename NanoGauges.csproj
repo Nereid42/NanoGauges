@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Gauges.cs" />
+    <Compile Include="src\gauges\HorizontalAccelerationGauge.cs" />
+    <Compile Include="src\gauges\AccelerationGauge.cs" />
     <Compile Include="src\gauges\AcceleroMeter.cs" />
     <Compile Include="src\gauges\AirIntakeGauge.cs" />
     <Compile Include="src\gauges\AirIntakePctGauge.cs" />
@@ -93,6 +95,7 @@
     <Compile Include="src\gauges\OxygenGauge.cs" />
     <Compile Include="src\gauges\PeriapsisGauge.cs" />
     <Compile Include="src\gauges\QGauge.cs" />
+    <Compile Include="src\gauges\Altimeter.cs" />
     <Compile Include="src\gauges\RadarAltimeter.cs" />
     <Compile Include="src\gauges\SelectorGauge.cs" />
     <Compile Include="src\gauges\ShieldGauge.cs" />
@@ -115,6 +118,7 @@
     <Compile Include="src\inspecteurs\Inspecteur.cs" />
     <Compile Include="src\inspecteurs\ResourceInspecteur.cs" />
     <Compile Include="src\inspecteurs\SensorInspecteur.cs" />
+    <Compile Include="src\inspecteurs\AccelerationInspecteur.cs" />
     <Compile Include="src\inspecteurs\VesselInspecteur.cs" />
     <Compile Include="src\NanoGauges.cs" />
     <Compile Include="src\util\Adapter.cs" />
@@ -126,6 +130,7 @@
     <Compile Include="src\util\GaugeSet.cs" />
     <Compile Include="src\util\GaugeSetPool.cs" />
     <Compile Include="src\util\Log.cs" />
+    <Compile Include="src\util\Measurement.cs" />
     <Compile Include="src\util\MovingAverage.cs" />
     <Compile Include="src\util\Pair.cs" />
     <Compile Include="src\util\Resources.cs" />
