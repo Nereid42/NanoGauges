@@ -10,17 +10,22 @@ namespace Nereid
       {
          public const int SCALE_HEIGHT = 400;
          public const int SCALE_WIDTH = 42;
+         //
+         private const float SCALE_VERTICAL_RATIO = (float)AbstractGauge.HEIGHT / (float)SCALE_HEIGHT;
 
          private readonly Texture2D skin;
          private Rect skinBounds = new Rect(0, 0, WIDTH, HEIGHT); 
          private readonly Texture2D scale;
          private Rect scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
+         
 
          private Damper damper;
          private bool autoLimiterEnabled = false;
 
          private readonly PowerOffFlag offFlag;
          private readonly LimiterFlag limitFlag;
+
+         private readonly VerticalGaugeZoom zoom;
 
          public VerticalGauge(int id, Texture2D skin, Texture2D scale, bool damped = true, float dampfactor=0.002f)
             : base(id)
@@ -29,6 +34,8 @@ namespace Nereid
             this.damper.SetEnabled(damped);
             this.scale = scale;
             this.skin = skin;
+            //
+            this.zoom = new VerticalGaugeZoom(this,skin,scale);
 
             if (scale == null) Log.Error("no scale for gauge "+id+" defined");
             if (skin == null) Log.Error("no skin for gauge " + id + " defined");
@@ -89,8 +96,12 @@ namespace Nereid
             damper.SetValue(GetScaleOffset());
 
             // scale
-            Rect off = new Rect(0, damper.GetValue(), 1.0f, 0.25f);
+            float value = damper.GetValue();
+            Rect off = new Rect(0, value, 1.0f, SCALE_VERTICAL_RATIO);
             GUI.DrawTextureWithTexCoords(skinBounds, scale, off, false);
+            //
+            // zoom
+            zoom.value = value;
             //
             // flags
             if(NanoGauges.configuration.gaugeMarkerEnabled)
@@ -103,6 +114,14 @@ namespace Nereid
             //
             // skin
             GUI.DrawTexture(skinBounds, skin);
+         }
+
+         protected override void OnTooltip()
+         {
+            if(NanoGauges.configuration.exactReadoutEnabled)
+            {
+               zoom.Draw();
+            }
          }
 
          public override void On()

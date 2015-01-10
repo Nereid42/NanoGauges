@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Gauges.cs" />
+    <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\HorizontalAccelerationGauge.cs" />
     <Compile Include="src\gauges\AccelerationGauge.cs" />
     <Compile Include="src\gauges\AcceleroMeter.cs" />

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using KSP.IO;
 
 namespace Nereid
 {
@@ -59,6 +58,11 @@ namespace Nereid
          protected virtual void OnClose()
          {
          }
+
+         protected virtual void OnTooltip()
+         {
+         }
+
 
          public void OnDraw()
          {
@@ -139,18 +143,16 @@ namespace Nereid
 
          protected void DrawTooltip()
          {
-            if (NanoGauges.configuration.tooltipsEnabled)
+            float x = Input.mousePosition.x - bounds.x;
+            float y = (Screen.height - Input.mousePosition.y) - bounds.y;
+            if(x>=0 && x<bounds.width && y>=0 && y<bounds.height)
             {
-               float x = Input.mousePosition.x - bounds.x;
-               float y = (Screen.height - Input.mousePosition.y) - bounds.y;
-               if(x>=0 && x<bounds.width && y>=0 && y<bounds.height)
-               {
-                  this.tooltip.SetVisible(true);
-               }
-               else
-               {
-                  this.tooltip.SetVisible(false);
-               }
+               OnTooltip();
+               this.tooltip.SetVisible(NanoGauges.configuration.tooltipsEnabled);
+            }
+            else
+            {
+               this.tooltip.SetVisible(false);
             }
          }
 

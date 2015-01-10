@@ -11,7 +11,8 @@ namespace Nereid
          private static readonly int GAUGES_HEIGHT = 270;
          private static readonly GUIStyle STYLE_ENABLE_DISABLE_ALL_TOGGLE = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_COPYPASTE_BUTTONS = new GUIStyle(HighLogic.Skin.button);
-         private static readonly GUIStyle STYLE_TOGGLE = new GUIStyle(HighLogic.Skin.toggle);
+         private static readonly GUIStyle STYLE_TOGGLE_2_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
+         private static readonly GUIStyle STYLE_TOGGLE_4_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
          private static readonly GUIStyle STYLE_LABEL = new GUIStyle(HighLogic.Skin.label);
          private static readonly GUIStyle STYLE_SCROLLVIEW = new GUIStyle(HighLogic.Skin.scrollView);
 
@@ -21,7 +22,8 @@ namespace Nereid
             STYLE_ENABLE_DISABLE_ALL_TOGGLE.fixedWidth = 120;
             STYLE_COPYPASTE_BUTTONS.stretchWidth = false;
             STYLE_COPYPASTE_BUTTONS.fixedWidth = 70;
-            STYLE_TOGGLE.margin = new RectOffset(0,50,0,0);
+            STYLE_TOGGLE_2_PER_ROW.margin = new RectOffset(0, 150, 0, 0);
+            STYLE_TOGGLE_4_PER_ROW.margin = new RectOffset(0, 50, 0, 0);
             STYLE_LABEL.stretchWidth = true;
             STYLE_SCROLLVIEW.stretchWidth = true;
          }
@@ -111,8 +113,13 @@ namespace Nereid
             GUILayout.BeginVertical();
             config.gaugePositionsLocked = GUILayout.Toggle(config.gaugePositionsLocked, "Gauge positions locked", HighLogic.Skin.toggle);
             config.gaugeMarkerEnabled = GUILayout.Toggle(config.gaugeMarkerEnabled, "Gauge marker enabled", HighLogic.Skin.toggle);
-            config.tooltipsEnabled = GUILayout.Toggle(config.tooltipsEnabled, "Tooltips enabled", HighLogic.Skin.toggle);
-            //config.exactReadoutEnabled = GUILayout.Toggle(config.exactReadoutEnabled, "Exact readout enabled", HighLogic.Skin.toggle);
+            // tooltips & exact readout
+            GUILayout.BeginHorizontal();
+            if (config.exactReadoutEnabled) config.tooltipsEnabled = false;
+            config.tooltipsEnabled = GUILayout.Toggle(config.tooltipsEnabled, "Tooltips enabled", STYLE_TOGGLE_2_PER_ROW);
+            if (config.tooltipsEnabled) config.exactReadoutEnabled = false;
+            config.exactReadoutEnabled = GUILayout.Toggle(config.exactReadoutEnabled, "Exact readout enabled", STYLE_TOGGLE_2_PER_ROW);
+            GUILayout.EndHorizontal();
             config.snapinEnabled = GUILayout.Toggle(config.snapinEnabled, "Snapin enabled", HighLogic.Skin.toggle);
             // Stock Toolbar
             if (ToolbarManager.ToolbarAvailable)
@@ -209,10 +216,10 @@ namespace Nereid
          {
             Configuration config = NanoGauges.configuration;
             GUILayout.BeginHorizontal();
-            gauges.SetEnabledInCamera(CameraManager.CameraMode.Flight, GUILayout.Toggle(config.IsGaugesInFlightEnabled(), "Flight", STYLE_TOGGLE));
-            gauges.SetEnabledInCamera(CameraManager.CameraMode.Map, GUILayout.Toggle(config.IsGaugesInMapEnabled(), "Map", STYLE_TOGGLE));
-            gauges.SetEnabledInCamera(CameraManager.CameraMode.IVA, GUILayout.Toggle(config.IsGaugesInIvaEnabled(), "IVA", STYLE_TOGGLE));
-            gauges.SetEnabledInEva(GUILayout.Toggle(config.IsGaugesInEvaEnabled(), "EVA", STYLE_TOGGLE));
+            gauges.SetEnabledInCamera(CameraManager.CameraMode.Flight, GUILayout.Toggle(config.IsGaugesInFlightEnabled(), "Flight", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInCamera(CameraManager.CameraMode.Map, GUILayout.Toggle(config.IsGaugesInMapEnabled(), "Map", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInCamera(CameraManager.CameraMode.IVA, GUILayout.Toggle(config.IsGaugesInIvaEnabled(), "IVA", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInEva(GUILayout.Toggle(config.IsGaugesInEvaEnabled(), "EVA", STYLE_TOGGLE_4_PER_ROW));
             GUILayout.EndHorizontal();
          }
 
@@ -262,7 +269,7 @@ namespace Nereid
             {
                Configuration config = NanoGauges.configuration;
                bool enabled =gauges.IsGaugeEnabled(windowId);
-               gauges.SetGaugeEnabled(windowId, GUILayout.Toggle(enabled, text, STYLE_TOGGLE));
+               gauges.SetGaugeEnabled(windowId, GUILayout.Toggle(enabled, text, STYLE_TOGGLE_4_PER_ROW));
                this.allGaugesEnables = this.allGaugesEnables && enabled;
 
             }

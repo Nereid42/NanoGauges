@@ -463,6 +463,14 @@ namespace Nereid
             {
                Log.Warning("loading configuration failed or incompatible file");
             }
+            finally
+            {
+               // enabling both won't make sense
+               if(tooltipsEnabled)
+               {
+                  exactReadoutEnabled = false;
+               }
+            }
          }
       }
    }
