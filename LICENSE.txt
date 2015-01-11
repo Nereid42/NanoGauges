@@ -30,3 +30,7 @@ by Chris Moolenschot
 Some of his graphics were used and changed to create this plugin.
 
 The trim indicators are based on an idea by dazoe.
+
+The code for the impact time gauge is taken from the Engineer Redux plugin from cybutek 
+
+
