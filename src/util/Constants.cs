@@ -70,6 +70,7 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_ALTIMETER = WINDOW_ID_BASE + 60;
          public const int WINDOW_ID_GAUGE_ACCL = WINDOW_ID_BASE + 61;
          public const int WINDOW_ID_GAUGE_HACCL = WINDOW_ID_BASE + 62;
+         public const int WINDOW_ID_GAUGE_VACCL = WINDOW_ID_BASE + 63;
 
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";

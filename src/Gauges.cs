@@ -76,6 +76,7 @@ namespace Nereid
             AddGauge(new Altimeter());
             AddGauge(new AccelerationGauge(velocityInspecteur));
             AddGauge(new HorizontalAccelerationGauge(velocityInspecteur));
+            AddGauge(new VerticalAccelerationGauge(velocityInspecteur));
 
 
             // TAC life support (only added if TAC installed)

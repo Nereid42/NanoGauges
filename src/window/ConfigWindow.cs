@@ -206,6 +206,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_IMPACT, "Impact gauge");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ACCL, "Acceleration gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Horizontal acceleration gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Vertical acceleration gauge enabled");
             GUILayout.EndScrollView();
             
             GUILayout.EndVertical();

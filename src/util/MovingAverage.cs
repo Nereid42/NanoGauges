@@ -27,7 +27,7 @@ namespace Nereid
          {
             values[p] = value;
             if (cnt < values.Length) cnt++;
-            p++;
+            p = (p + 1) % values.Length;
             CalcValue();
          }
 
@@ -40,17 +40,13 @@ namespace Nereid
 
          private void CalcValue()
          {
-            if (cnt == 0)
-            {
-               this.value = 0.0;
-               return;
-            }
-            double result = 0.0;
+            this.value = 0.0;
+            if (cnt == 0) return;
             for (int i = 0; i < cnt; i++)
             {
-               result += values[i];
+               this.value += values[i];
             }
-            this.value = result / cnt;
+            this.value = this.value / cnt;
          }
 
          public double GetValue()

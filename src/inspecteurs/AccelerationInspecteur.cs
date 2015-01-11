@@ -16,6 +16,7 @@ namespace Nereid
          // acceleration
          private readonly Measurement velocity = new Measurement(1);
          private readonly Measurement horizontalVelocity = new Measurement(1);
+         private readonly Measurement verticalVelocity = new Measurement(1);
 
          public AccelerationInspecteur()
             : base(2, MIN_INTERVAL)
@@ -27,6 +28,8 @@ namespace Nereid
          public override void Reset()
          {
             this.velocity.Reset();
+            this.horizontalVelocity.Reset();
+            this.verticalVelocity.Reset();
          }
 
 
@@ -41,6 +44,7 @@ namespace Nereid
             {
                velocity.value = vessel.srfSpeed;
                horizontalVelocity.value = vessel.horizontalSrfSpeed;
+               verticalVelocity.value = vessel.verticalSpeed;
             }
          }
 
@@ -48,6 +52,12 @@ namespace Nereid
          {
             return horizontalVelocity.ChangePerSecond;
          }
+
+         public double VerticalAcceleration()
+         {
+            return verticalVelocity.ChangePerSecond;
+         }
+
 
          public double Acceleration()
          {

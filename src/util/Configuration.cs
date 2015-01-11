@@ -153,6 +153,7 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ALTIMETER, x0 - 8 * dx, y0 + n * dy);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ACCL, x0 - 7 * dx, y0 + n * dy);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HACCL, x0 - 6 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VACCL, x0 - 5 * dx, y0 + n * dy);
          }
 
 
@@ -399,6 +400,8 @@ namespace Nereid
                   writer.Write(trimIndicatorsEnabled);
                   //
                   writer.Write(exactReadoutEnabled);
+                  //
+                  writer.Write(tooltipsEnabled);
                }
             }
             catch
@@ -452,6 +455,8 @@ namespace Nereid
                      trimIndicatorsEnabled = reader.ReadBoolean();
                      //
                      exactReadoutEnabled = reader.ReadBoolean();
+                     //
+                     tooltipsEnabled = reader.ReadBoolean();
                   }
                }
                else
