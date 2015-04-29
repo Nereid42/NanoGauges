@@ -63,7 +63,8 @@ namespace Nereid
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel != null)
             {
-               double alt = vessel.altitude - vessel.terrainAltitude;
+
+               double alt = vessel.RadarAltitude(); 
                if(alt>0)
                {
                   if (alt > MAX_ALTITUDE) alt = MAX_ALTITUDE;

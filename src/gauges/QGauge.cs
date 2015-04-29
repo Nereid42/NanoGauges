@@ -37,7 +37,7 @@ namespace Nereid
 
          public override string GetDescription()
          {
-            return "\n\nDynamic Pressure.";
+            return "\n\nDynamic Pressure. Neads FAR to work.";
          }
 
          protected override float GetScaleOffset()

@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\0.90-0_development_32bit\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\1.00-0_development_32bit\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\0.90-0_development_32bit\KSP_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\1.00-0_development_32bit\KSP_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="src\Gauges.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
+    <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\ExternalTempGauge.cs" />
     <Compile Include="src\gauges\VerticalAccelerationGauge.cs" />
     <Compile Include="src\gauges\HorizontalAccelerationGauge.cs" />
     <Compile Include="src\gauges\AccelerationGauge.cs" />

@@ -28,6 +28,8 @@ namespace Nereid
          public bool trimIndicatorsEnabled { get; set; }
          public bool useStockToolbar { get; set; }
          public bool exactReadoutEnabled { get; set; }
+         public int gaugeWidth { get; set; }
+         public int gaugeHeight { get; set; }
 
          private const int snapinRange = Gauges.LAYOUT_GAP; // todo: remove constant and make configurable
 
@@ -54,6 +56,9 @@ namespace Nereid
             trimIndicatorsEnabled = true;
             useStockToolbar = !ToolbarManager.ToolbarAvailable;
             exactReadoutEnabled = false;
+            //
+            gaugeWidth = 42;
+            gaugeHeight = 400;
          }
 
          public void EnableAllGauges(Gauges gauges)
@@ -154,6 +159,8 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ACCL, x0 - 7 * dx, y0 + n * dy);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HACCL, x0 - 6 * dx, y0 + n * dy);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VACCL, x0 - 5 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_EXTTEMP, x0 - 4 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ATMTEMP, x0 - 3 * dx, y0 + n * dy);
          }
 
 

@@ -26,7 +26,7 @@ namespace Nereid
 
          public override string GetDescription()
          {
-            return "Current mach number (requires Ferram Aerospace Research to work).";
+            return "Current mach number.";
          }
 
          protected override void AutomaticOnOff()
@@ -48,7 +48,7 @@ namespace Nereid
             {
                return NanoGauges.farAdapter.GetMachNumber(vessel.mainBody, vessel.altitude, vessel.srf_velocity);
             }
-            return NanoGauges.farAdapter.ApproximateMachNumber(vessel.mainBody, vessel.atmDensity, vessel.altitude, vessel.srf_velocity);
+            return vessel.mach;
          }
 
          protected override float GetScaleOffset()

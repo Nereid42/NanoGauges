@@ -77,6 +77,8 @@ namespace Nereid
             AddGauge(new AccelerationGauge(velocityInspecteur));
             AddGauge(new HorizontalAccelerationGauge(velocityInspecteur));
             AddGauge(new VerticalAccelerationGauge(velocityInspecteur));
+            AddGauge(new ExternalTempGauge());
+            AddGauge(new AtmosphereTempGauge());
 
 
             // TAC life support (only added if TAC installed)

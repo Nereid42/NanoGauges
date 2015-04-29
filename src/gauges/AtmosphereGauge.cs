@@ -43,7 +43,7 @@ namespace Nereid
                }
                else
                {
-                  if(vessel.mainBody!=null && vessel.altitude<=vessel.mainBody.maxAtmosphereAltitude)
+                  if(vessel.mainBody!=null && vessel.altitude<=vessel.mainBody.MaxAtmosphereAltitude())
                   {
                      InLimits();
                   }

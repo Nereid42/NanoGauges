@@ -49,10 +49,11 @@ namespace Nereid
                if (camera == null) return 0.0f / 400.0f;
                switch(camera.mode)
                {
-                  case FlightCamera.Modes.AUTO: return 200.0f / 400.0f;
-                  case FlightCamera.Modes.FREE: return 150.0f / 400.0f;
-                  case FlightCamera.Modes.ORBITAL: return 100.0f / 400.0f;
-                  case FlightCamera.Modes.CHASE: return 50.0f / 400.0f;
+                  case FlightCamera.Modes.AUTO: return 250.0f / 400.0f;
+                  case FlightCamera.Modes.FREE: return 200.0f / 400.0f;
+                  case FlightCamera.Modes.ORBITAL: return 150.0f / 400.0f;
+                  case FlightCamera.Modes.CHASE: return 100.0f / 400.0f;
+                  case FlightCamera.Modes.LOCKED: return 50.0f / 400.0f;
                   default: return 0.0f / 400.0f;
                }
             }

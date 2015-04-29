@@ -31,7 +31,7 @@ namespace Nereid
 
          public override string GetDescription()
          {
-            return "\nCurrent vertical acceleration in m/s^2.";
+            return "\n\nCurrent vertical acceleration in m/s^2.";
          }
 
 

@@ -24,18 +24,18 @@ namespace Nereid
 
          public override string GetName()
          {
-            return "Terminal Velocity";
+            return "Terminal\nVelocity";
          }
 
          public override string GetDescription()
          {
-            return "Current deviation to terminal velocity. A value of 0 means optimal fuel burn. Not very usable at higher altitudes.";
+            return "\n\nCurrent deviation to terminal velocity. A value of 0 means optimal fuel burn. Not very usable at higher altitudes.";
          }
 
          protected override void AutomaticOnOff()
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null && vessel.mainBody != null && vessel.parts.Count > 0 && vessel.altitude < vessel.mainBody.maxAtmosphereAltitude)
+            if (vessel != null && vessel.mainBody != null && vessel.parts.Count > 0 && vessel.altitude < vessel.mainBody.MaxAtmosphereAltitude())
             {
                On();
             }
@@ -57,7 +57,8 @@ namespace Nereid
                double alt = vessel.altitude;
                double G = Constants.G;
                double M = body.Mass;
-               double density = FlightGlobals.getAtmDensity(FlightGlobals.getStaticPressure(alt, body));
+               // TODO: check if this call works like FlightGlobals.getAtmDensity(FlightGlobals.getStaticPressure(alt, body))
+               double density = FlightGlobals.getAtmDensity(FlightGlobals.getStaticPressure(alt, body), FlightGlobals.getExternalTemperature(), body);
                if(density>0 && d >0)
                {
                   double r = alt + body.Radius;

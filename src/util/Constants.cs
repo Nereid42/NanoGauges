@@ -71,6 +71,8 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_ACCL = WINDOW_ID_BASE + 61;
          public const int WINDOW_ID_GAUGE_HACCL = WINDOW_ID_BASE + 62;
          public const int WINDOW_ID_GAUGE_VACCL = WINDOW_ID_BASE + 63;
+         public const int WINDOW_ID_GAUGE_EXTTEMP = WINDOW_ID_BASE + 64;
+         public const int WINDOW_ID_GAUGE_ATMTEMP = WINDOW_ID_BASE + 65;
 
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";
@@ -98,7 +100,7 @@ namespace Nereid
 
          public const double G = 6.674e-11;
          public const double ATM = 1.2230948554874;
-         public const double MIN_TEMP = -273;
+         public const double MIN_TEMP = -273.15;
 
          public const long SECONDS_PER_MINUTE = 60;
          public const long MINUTES_PER_HOUR = 60;

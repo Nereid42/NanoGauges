@@ -36,6 +36,7 @@ namespace Nereid
             Log.SetLevel(Log.LEVEL.INFO);
             Log.Info("static init of NanoGauges");
             configuration.Load();
+            Log.Info("log level is " + Log.GetLogLevel());
             gauges = new Gauges();
             snapinManager = new SnapinManager(gauges);
             Log.SetLevel(configuration.GetLogLevel());
@@ -65,9 +66,30 @@ namespace Nereid
             }
             if (!configuration.useStockToolbar)
             {
+               Log.Info("stock toolbar button disabled");
                AddToolbarButtons();
             }
+            else
+            {
+               Log.Info("stock toolbar button enabled");
+               CreateStockToolbarButton();
+            }
          }
+
+         private void CreateStockToolbarButton()
+         {
+            if (ApplicationLauncher.Instance != null && ApplicationLauncher.Ready)
+            {
+               Log.Detail("ApplicationLauncher is ready");
+               OnGUIAppLauncherReady();
+            }
+            else
+            {
+               Log.Detail("ApplicationLauncher is not ready");
+               GameEvents.onGUIApplicationLauncherReady.Add(OnGUIAppLauncherReady);
+            }
+         }
+
 
          private void OnGUIAppLauncherReady()
          {

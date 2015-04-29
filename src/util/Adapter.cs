@@ -104,19 +104,6 @@ namespace Nereid
 
             return 0.0;
          }
-
-         public double ApproximateMachNumber(CelestialBody body, double atmDensity, double altitude, Vector3 velocity)
-         {
-            if (altitude < 0) altitude = 0;
-            // a technical constant for speed of sound appromixation 
-            // experimental resolved; feel free to make better suggestions
-            double c1 = (altitude / 16000);
-            double c2 = (altitude / 39000);
-            double c = 1.05 + (altitude / 15000) * (1 + altitude / 10000) + Math.Pow(c1, 4.15) + Math.Pow(c2, 5.58);
-
-            return velocity.magnitude / (300 * Math.Sqrt(atmDensity)) / c;
-         }
-
       }
 
    }

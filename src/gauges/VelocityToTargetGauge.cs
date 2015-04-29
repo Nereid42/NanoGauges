@@ -21,12 +21,12 @@ namespace Nereid
 
          public override string GetName()
          {
-            return "Velocity to Target";
+            return "Velocity\n to Target";
          }
 
          public override string GetDescription()
          {
-            return "Relative velocity to a selected target.";
+            return "\n\nRelative velocity to a selected target.";
          }
 
          protected override void AutomaticOnOff()
@@ -94,7 +94,7 @@ namespace Nereid
 
          public override string ToString()
          {
-            return "Gauge:DTGT";
+            return "Gauge:VTGT";
          }
       }
    }
