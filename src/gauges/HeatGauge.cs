@@ -53,7 +53,7 @@ namespace Nereid
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel != null && IsOn())
             {
-               double temp = inspecteur.GetHeatshieldTemp();
+               double temp = Constants.MIN_TEMP + inspecteur.GetHeatshieldTemp();
                if (temp > MAX_TEMP)
                {
                   temp = MAX_TEMP;

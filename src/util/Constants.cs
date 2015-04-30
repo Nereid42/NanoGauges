@@ -73,6 +73,8 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_VACCL = WINDOW_ID_BASE + 63;
          public const int WINDOW_ID_GAUGE_EXTTEMP = WINDOW_ID_BASE + 64;
          public const int WINDOW_ID_GAUGE_ATMTEMP = WINDOW_ID_BASE + 65;
+         public const int WINDOW_ID_GAUGE_ABLAT = WINDOW_ID_BASE + 66;
+         public const int WINDOW_ID_GAUGE_ORE = WINDOW_ID_BASE + 67;
 
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";
@@ -82,6 +84,8 @@ namespace Nereid
          public const String RESOURCE_NAME_OXIDIZER = "Oxidizer";
          public const String RESOURCE_NAME_MONOPROPELLANT = "MonoPropellant";
          public const String RESOURCE_NAME_EVA_PROPELLANT = "EVA Propellant";
+         public const String RESOURCE_NAME_ABLATOR = "Ablator";
+         public const String RESOURCE_NAME_ORE = "Ore";
          // TAC Life Support
          public const String RESOURCE_NAME_FOOD = "Food";
          public const String RESOURCE_NAME_WATER = "Water";

@@ -66,7 +66,8 @@ namespace Nereid
                   if (part.packed) part.Unpack();
                   foreach (PartResource r in part.Resources)
                   {
-                     if (r.info!=null && Resources.ABLATIVE_SHIELDING!=null && r.info.id==Resources.ABLATIVE_SHIELDING.id)
+                     if ( (r.info != null && Resources.ABLATOR != null && r.info.id == Resources.ABLATOR.id)                          // Stock
+                     ||   (r.info != null && Resources.ABLATIVE_SHIELDING != null && r.info.id == Resources.ABLATIVE_SHIELDING.id) )  // Deadly Reentry
                      {
                         heatshieldParts.Add(part);
                         this.heatshieldInstalled = true;

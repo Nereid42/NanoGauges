@@ -20,6 +20,8 @@ namespace Nereid
          public static readonly PartResourceDefinition OXIDIZER;
          public static readonly PartResourceDefinition MONOPROPELLANT;
          public static readonly PartResourceDefinition EVA_PROPELLANT;
+         public static readonly PartResourceDefinition ABLATOR;
+         public static readonly PartResourceDefinition ORE;
          // TAC life support
          public static readonly PartResourceDefinition FOOD;
          public static readonly PartResourceDefinition WATER;
@@ -40,6 +42,7 @@ namespace Nereid
             try
             {
                LoadResources();
+               Log.Info("defining stock resources");
                LIQUID_FUEL = resources[Constants.RESOURCE_NAME_LIQUID_FUEL];
                XENON_GAS = resources[Constants.RESOURCE_NAME_XENON_GAS];
                SOLID_FUEL = resources[Constants.RESOURCE_NAME_SOLID_FUEL];
@@ -48,6 +51,8 @@ namespace Nereid
                OXIDIZER = resources[Constants.RESOURCE_NAME_OXIDIZER];
                MONOPROPELLANT = resources[Constants.RESOURCE_NAME_MONOPROPELLANT];
                EVA_PROPELLANT = resources[Constants.RESOURCE_NAME_EVA_PROPELLANT];
+               ABLATOR = resources[Constants.RESOURCE_NAME_ABLATOR];
+               ORE = resources[Constants.RESOURCE_NAME_ORE];
                Log.Info("defining TAC life support resources");
                FOOD = OptionalResource(Constants.RESOURCE_NAME_FOOD);
                WATER = OptionalResource(Constants.RESOURCE_NAME_WATER);
@@ -88,7 +93,7 @@ namespace Nereid
             Log.Info("loading resources");
             foreach (PartResourceDefinition item in PartResourceLibrary.Instance.resourceDefinitions)
             {
-               Log.Info("loading resource " + item.name);
+               Log.Info("loading resource " + item.name+" of id "+item.id);
                if(!resources.ContainsKey(item.name))
                {
                   resources.Add(item.name,item);

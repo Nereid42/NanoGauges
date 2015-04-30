@@ -161,6 +161,8 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VACCL, x0 - 5 * dx, y0 + n * dy);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_EXTTEMP, x0 - 4 * dx, y0 + n * dy);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ATMTEMP, x0 - 3 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ABLAT, x0 - 2 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ORE, x0 - 1 * dx, y0 + n * dy);
          }
 
 

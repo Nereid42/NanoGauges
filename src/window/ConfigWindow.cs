@@ -202,13 +202,15 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MACH, "Mach gauge enabled (FAR plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_Q, "Dynamic pressure (Q) gauge enabled (FAR plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SHIELD, "Ablative shielding gauge enabled (Deadly Reentry plugin required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HEAT, "Temperatur gauge for heat shield enabled (Deadly Reentry plugin required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ABLAT, "Ablator gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HEAT, "Heat shield temperatur gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_IMPACT, "Impact gauge");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ACCL, "Acceleration gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Horizontal acceleration gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VACCL, "Vertical acceleration gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_EXTTEMP, "External temperature gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATMTEMP, "Atmosphere temperature gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ORE, "Ore gauge enabled");
             GUILayout.EndScrollView();
             
             GUILayout.EndVertical();
