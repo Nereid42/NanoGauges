@@ -206,7 +206,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_IMPACT, "Impact gauge");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ACCL, "Acceleration gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Horizontal acceleration gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Vertical acceleration gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VACCL, "Vertical acceleration gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_EXTTEMP, "External temperature gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATMTEMP, "Atmosphere temperature gauge enabled");
             GUILayout.EndScrollView();
