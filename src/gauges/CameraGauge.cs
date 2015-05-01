@@ -59,7 +59,7 @@ namespace Nereid
             }
             else
             {
-               return 250.0f / 400.0f;
+               return 300.0f / 400.0f;
             }
          }
       }

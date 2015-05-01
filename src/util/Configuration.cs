@@ -15,9 +15,17 @@ namespace Nereid
       {
          private static readonly String ROOT_PATH = Utils.GetRootPath();
          private static readonly String CONFIG_BASE_FOLDER = ROOT_PATH + "/GameData/";
-         private static readonly String FILE_NAME = "NanoGauges.dat";
+         private const String FILE_NAME = "NanoGauges.dat";
          private static readonly Int16 FILE_MARKER = 0x7A7A;
          private static readonly Int16 FILE_VERSION = 1;
+
+         public const int DEFAULT_GAUGE_WIDTH = 42;
+         public const int DEFAULT_GAUGE_HEIGHT = 100;
+
+         public const double GAUGE_SCALE_100 = 1.0;
+         public const double GAUGE_SCALE_110 = 1.1;
+         public const double GAUGE_SCALE_120 = 1.2;
+         public const double GAUGE_SCALE_150 = 1.5;
 
          private Log.LEVEL logLevel = Log.LEVEL.INFO;
 
@@ -28,8 +36,10 @@ namespace Nereid
          public bool trimIndicatorsEnabled { get; set; }
          public bool useStockToolbar { get; set; }
          public bool exactReadoutEnabled { get; set; }
-         public int gaugeWidth { get; set; }
-         public int gaugeHeight { get; set; }
+         public double gaugeScaling { get; set; }
+         // need a restart to take effect
+         public int gaugeWidth { get; private set; }
+         public int gaugeHeight { get; private set; }
 
          private const int snapinRange = Gauges.LAYOUT_GAP; // todo: remove constant and make configurable
 
@@ -57,8 +67,9 @@ namespace Nereid
             useStockToolbar = !ToolbarManager.ToolbarAvailable;
             exactReadoutEnabled = false;
             //
-            gaugeWidth = 42;
-            gaugeHeight = 100;
+            gaugeScaling = GAUGE_SCALE_100;
+            gaugeWidth = DEFAULT_GAUGE_WIDTH;
+            gaugeHeight = DEFAULT_GAUGE_HEIGHT;
          }
 
          public void EnableAllGauges(Gauges gauges)
@@ -84,10 +95,16 @@ namespace Nereid
 
          public void ResetWindowPositions(GaugeSet set)
          {
-            int x0 = Screen.width - Gauges.LAYOUT_CELL_X;
-            int y0 = Screen.height-560;
-            int dx = Gauges.LAYOUT_CELL_X;
-            int dy = Gauges.LAYOUT_CELL_Y;
+            int LAYOUT_CELL_X = gaugeWidth + Gauges.LAYOUT_GAP;
+            int LAYOUT_CELL_Y = gaugeHeight + Gauges.LAYOUT_GAP;
+            int LAYOUT_RANGE_X = 3 * LAYOUT_CELL_X / 2;
+            int LAYOUT_RANGE_Y = 3 * LAYOUT_CELL_Y / 2;
+
+
+            int x0 = Screen.width - LAYOUT_CELL_X;
+            int y0 = Screen.height-(int)(560*gaugeScaling);
+            int dx = LAYOUT_CELL_X;
+            int dy = LAYOUT_CELL_Y;
 
             int n;
 
@@ -412,6 +429,8 @@ namespace Nereid
                   writer.Write(exactReadoutEnabled);
                   //
                   writer.Write(tooltipsEnabled);
+                  //
+                  writer.Write(gaugeScaling);
                }
             }
             catch
@@ -467,6 +486,10 @@ namespace Nereid
                      exactReadoutEnabled = reader.ReadBoolean();
                      //
                      tooltipsEnabled = reader.ReadBoolean();
+                     //
+                     gaugeScaling = reader.ReadDouble();
+                     gaugeWidth = (int)(DEFAULT_GAUGE_WIDTH * gaugeScaling);
+                     gaugeHeight = (int)(DEFAULT_GAUGE_HEIGHT * gaugeScaling);
                   }
                }
                else

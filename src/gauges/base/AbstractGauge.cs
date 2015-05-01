@@ -9,8 +9,8 @@ namespace Nereid
       public abstract class AbstractGauge
       {
          //
-         public static readonly int HEIGHT = 100;
-         public const int WIDTH = 42;
+         //public static readonly int HEIGHT = 100;
+         //public const int WIDTH = 42;
          //
          private readonly int id;
          private bool visible = false;

@@ -10,15 +10,21 @@ namespace Nereid
       {
          private static readonly Texture2D INDICATOR__ON_SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/INDICATOR-on");
 
-         private static readonly Rect BOUNDS_INDICATOR_STD = new Rect(5, 6, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_LAU = new Rect(5, 16, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_LAN = new Rect(5, 26, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_DCK = new Rect(5, 36, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_ORB = new Rect(5, 46, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_FLT = new Rect(5, 56, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_S_1 = new Rect(5, 66, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_S_2 = new Rect(5, 76, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_S_3 = new Rect(5, 86, 9, 9);
+         private static readonly Rect BOUNDS_INDICATOR_STD = ButtonRect( 6 ); // new Rect(5, 6, 9, 9);
+         private static readonly Rect BOUNDS_INDICATOR_LAU = ButtonRect(16); //  new Rect(5, 16, 9, 9);
+         private static readonly Rect BOUNDS_INDICATOR_LAN = ButtonRect(26); //  new Rect(5, 26, 9, 9);
+         private static readonly Rect BOUNDS_INDICATOR_DCK = ButtonRect(36); //  new Rect(5, 36, 9, 9);
+         private static readonly Rect BOUNDS_INDICATOR_ORB = ButtonRect(46); //  new Rect(5, 46, 9, 9);
+         private static readonly Rect BOUNDS_INDICATOR_FLT = ButtonRect(56); //  new Rect(5, 56, 9, 9);
+         private static readonly Rect BOUNDS_INDICATOR_S_1 = ButtonRect(66); //  new Rect(5, 66, 9, 9);
+         private static readonly Rect BOUNDS_INDICATOR_S_2 = ButtonRect(76); //  new Rect(5, 76, 9, 9);
+         private static readonly Rect BOUNDS_INDICATOR_S_3 = ButtonRect(86); //  new Rect(5, 86, 9, 9);
+
+         private static Rect ButtonRect(int top)
+         {
+            float gaugeScale = (float)NanoGauges.configuration.gaugeScaling;
+            return new Rect(5 * gaugeScale, top * gaugeScale, 9 * gaugeScale, 9 * gaugeScale);
+         }
 
          public override string GetName()
          {
@@ -38,7 +44,7 @@ namespace Nereid
          private readonly Gauges gauges;
 
          private readonly Texture2D skin;
-         private Rect skinBounds = new Rect(0, 0, 42, 100);
+         private Rect skinBounds = new Rect(0, 0, NanoGauges.configuration.gaugeWidth, NanoGauges.configuration.gaugeHeight);
 
          public SelectorGauge(Gauges gauges)
             : base(Constants.WINDOW_ID_GAUGE_SETS)

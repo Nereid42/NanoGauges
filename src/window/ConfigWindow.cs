@@ -90,11 +90,14 @@ namespace Nereid
                gauges.ResetPositions();
             }
             // layout gauges
+            // autolayout will only work with a 100% scale
+            GUI.enabled = (NanoGauges.configuration.gaugeHeight == Configuration.DEFAULT_GAUGE_HEIGHT && NanoGauges.configuration.gaugeScaling==Configuration.GAUGE_SCALE_100);
             if (GUILayout.Button("Automatic Layout", HighLogic.Skin.button))
             {
                gauges.AutoLayout();
                config.Save();
-            }            //
+            }
+            GUI.enabled = true;
             GUILayout.EndHorizontal();
             // save gauge postions
             if (GUILayout.Button("Save Gauge Positions", HighLogic.Skin.button))
@@ -109,10 +112,12 @@ namespace Nereid
             }
             // gauge sizes
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Size (restart reqired):", STYLE_LABEL);
-            GUILayout.Toggle(true, "100%", STYLE_TOGGLE_4_PER_ROW);
-            GUILayout.Toggle(true, "120%", STYLE_TOGGLE_4_PER_ROW);
-            GUILayout.Toggle(true, "150%", STYLE_TOGGLE_4_PER_ROW);
+            GUILayout.Label("Size (restart required):", STYLE_LABEL);
+            GaugeScaleToggle("100%", Configuration.GAUGE_SCALE_100);
+            GaugeScaleToggle("110%", Configuration.GAUGE_SCALE_110);
+            GaugeScaleToggle("120%", Configuration.GAUGE_SCALE_120);
+            GaugeScaleToggle("150%", Configuration.GAUGE_SCALE_150);
+            GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
             GUILayout.Label("Settings:", STYLE_LABEL);
@@ -223,6 +228,17 @@ namespace Nereid
             
             GUILayout.EndVertical();
             DragWindow();
+         }
+
+         private bool GaugeScaleToggle(String text, double scale)
+         {
+            bool result;
+            Configuration config = NanoGauges.configuration;
+            if( result = GUILayout.Toggle(config.gaugeScaling==scale, text, STYLE_TOGGLE_4_PER_ROW))
+            {
+               config.gaugeScaling = scale;
+            }
+            return result;
          }
 
          private void DrawCameraModeToggles()

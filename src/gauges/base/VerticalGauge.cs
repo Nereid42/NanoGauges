@@ -11,7 +11,6 @@ namespace Nereid
          public const int SCALE_HEIGHT = 400;
          public const int SCALE_WIDTH = 42;
          //
-         private static readonly float SCALE_VERTICAL_RATIO = (float)AbstractGauge.HEIGHT / (float)SCALE_HEIGHT;
 
          private readonly Texture2D skin;
          private readonly Rect skinBounds;
@@ -33,7 +32,7 @@ namespace Nereid
             this.damper.SetEnabled(damped);
             this.scale = scale;
             this.skin = skin;
-            this.skinBounds = new Rect(0, 0, WIDTH, HEIGHT);
+            this.skinBounds = new Rect(0, 0, NanoGauges.configuration.gaugeWidth, NanoGauges.configuration.gaugeHeight);
             this.scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
             //
             this.zoom = new VerticalGaugeZoom(this,skin,scale);
@@ -57,7 +56,7 @@ namespace Nereid
 
          protected float GetCenterOffset()
          {
-            return (scale.height - HEIGHT) / (2.0f * scale.height);
+            return (scale.height - Configuration.DEFAULT_GAUGE_HEIGHT) / (2.0f * scale.height);
          }
 
          /**
@@ -73,7 +72,7 @@ namespace Nereid
           */
          protected float GetOffset(int y)
          {
-            int d = (scale.height-y) - HEIGHT / 2;
+            int d = (scale.height-y) - Configuration.DEFAULT_GAUGE_HEIGHT / 2;
             return ((float)d) / (float)scale.height;
          }
 
@@ -82,7 +81,7 @@ namespace Nereid
           */
          protected float GetUpperOffset()
          {
-            return ((float)scale.height - (float)HEIGHT) / (float)scale.height;
+            return ((float)scale.height - (float)Configuration.DEFAULT_GAUGE_HEIGHT) / (float)scale.height;
          }
 
          protected override void OnWindow(int id)
@@ -93,12 +92,14 @@ namespace Nereid
             //AutomaticLimiter();
 
             // damper for smoother changes in the gauges
-            float h = (float)HEIGHT / (float)(scale.height);
+            //float h = (float)GetHeight() / (float)(scale.height);
             damper.SetValue(GetScaleOffset());
+
+            float verticalScaleratio = (float)Configuration.DEFAULT_GAUGE_HEIGHT / (float)SCALE_HEIGHT;
 
             // scale
             float value = damper.GetValue();
-            Rect off = new Rect(0, value, 1.0f, SCALE_VERTICAL_RATIO);
+            Rect off = new Rect(0, value, 1.0f, verticalScaleratio);
             GUI.DrawTextureWithTexCoords(skinBounds, scale, off, false);
             //
             // zoom
