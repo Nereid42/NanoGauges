@@ -37,6 +37,13 @@ namespace Nereid
             return GameUtils.GetThrust(vessel);
          }
 
+         public static bool IsDrill(this Part part)
+         {
+            List<BaseDrill> drills = part.FindModulesImplementing<BaseDrill>();
+            if(drills==null) return false;
+            return drills.Count > 0;
+         }
+
 
          public static bool In(this int x, int a, int b) 
          {

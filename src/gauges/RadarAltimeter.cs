@@ -63,7 +63,6 @@ namespace Nereid
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel != null)
             {
-
                double alt = vessel.RadarAltitude(); 
                if(alt>0)
                {

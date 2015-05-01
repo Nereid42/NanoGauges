@@ -211,6 +211,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_EXTTEMP, "External temperature gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATMTEMP, "Atmosphere temperature gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ORE, "Ore gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DRILLTEMP, "Drill temperature gauge enabled");
             GUILayout.EndScrollView();
             
             GUILayout.EndVertical();

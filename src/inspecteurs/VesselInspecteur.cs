@@ -17,10 +17,11 @@ namespace Nereid
          private double dragCoefficent = 0;
          private double heatshieldTemp = 0;
          private bool heatshieldInstalled = false;
-
+         private double drillTemp = 0;
+         private bool drillInstalled = false;
 
          private readonly List<Part> heatshieldParts = new List<Part>();
-
+         private readonly List<Part> drillParts = new List<Part>();
 
          public VesselInspecteur()
             : base(10, MIN_INTERVAL)
@@ -58,8 +59,13 @@ namespace Nereid
             {
                totalMass = vessel.GetTotalMass();
 
+               // heat shields
                this.heatshieldParts.Clear();
                this.heatshieldInstalled = false;
+               // drills
+               this.drillParts.Clear();
+               this.drillInstalled = false;
+
                if (vessel == null || vessel.Parts == null) return;
                foreach (Part part in vessel.Parts)
                {
@@ -74,6 +80,13 @@ namespace Nereid
                         break;
                      }
                   }
+
+                  if (part.IsDrill())
+                  {
+                     drillParts.Add(part);
+                     this.drillInstalled = true;
+                  }
+                     
                }
             }
          }
@@ -93,6 +106,16 @@ namespace Nereid
             return heatshieldInstalled;
          }
 
+         public bool IsDrillInstalled()
+         {
+            return drillInstalled;
+         }
+
+         public double GetDrillTemperature()
+         {
+            return drillTemp;
+         }
+
          protected override void Inspect(Vessel vessel)
          {
             if(vessel==null)
@@ -102,13 +125,24 @@ namespace Nereid
             }
             else
             {
+               // mass
                totalMass = vessel.GetTotalMass();
+               // heat shields
                heatshieldTemp = Constants.MIN_TEMP;
                foreach(Part p in heatshieldParts)
                {
                   if(p.temperature > heatshieldTemp)
                   {
                      heatshieldTemp = p.temperature;
+                  }
+               }
+               // drills
+               drillTemp = Constants.MIN_TEMP;
+               foreach (Part p in drillParts)
+               {
+                  if (p.temperature > drillTemp)
+                  {
+                     drillTemp = p.temperature;
                   }
                }
             }

@@ -81,6 +81,7 @@ namespace Nereid
             AddGauge(new AtmosphereTempGauge());
             AddGauge(new AblatorGauge(resourceInspecteur));
             AddGauge(new OreGauge(resourceInspecteur));
+            AddGauge(new DrillTempGauge(vesselInspecteur));
 
 
             // TAC life support (only added if TAC installed)
