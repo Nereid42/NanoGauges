@@ -58,7 +58,7 @@ namespace Nereid
             exactReadoutEnabled = false;
             //
             gaugeWidth = 42;
-            gaugeHeight = 400;
+            gaugeHeight = 100;
          }
 
          public void EnableAllGauges(Gauges gauges)

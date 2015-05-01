@@ -11,13 +11,12 @@ namespace Nereid
          public const int SCALE_HEIGHT = 400;
          public const int SCALE_WIDTH = 42;
          //
-         private const float SCALE_VERTICAL_RATIO = (float)AbstractGauge.HEIGHT / (float)SCALE_HEIGHT;
+         private static readonly float SCALE_VERTICAL_RATIO = (float)AbstractGauge.HEIGHT / (float)SCALE_HEIGHT;
 
          private readonly Texture2D skin;
-         private Rect skinBounds = new Rect(0, 0, WIDTH, HEIGHT); 
+         private readonly Rect skinBounds;
          private readonly Texture2D scale;
-         private Rect scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
-         
+         private readonly Rect scaleBounds;
 
          private Damper damper;
          private bool autoLimiterEnabled = false;
@@ -34,6 +33,8 @@ namespace Nereid
             this.damper.SetEnabled(damped);
             this.scale = scale;
             this.skin = skin;
+            this.skinBounds = new Rect(0, 0, WIDTH, HEIGHT);
+            this.scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
             //
             this.zoom = new VerticalGaugeZoom(this,skin,scale);
 

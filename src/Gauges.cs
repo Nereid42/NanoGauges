@@ -18,10 +18,10 @@ namespace Nereid
          private readonly AccelerationInspecteur velocityInspecteur = new AccelerationInspecteur();
 
          public const int LAYOUT_GAP = 8;
-         public const int LAYOUT_CELL_X = AbstractGauge.WIDTH + LAYOUT_GAP;
-         public const int LAYOUT_CELL_Y = AbstractGauge.HEIGHT + LAYOUT_GAP;
-         public const int LAYOUT_RANGE_X = 3 * LAYOUT_CELL_X / 2;
-         public const int LAYOUT_RANGE_Y = 3 * LAYOUT_CELL_Y / 2;
+         public static readonly int LAYOUT_CELL_X = AbstractGauge.WIDTH + LAYOUT_GAP;
+         public static readonly int LAYOUT_CELL_Y = AbstractGauge.HEIGHT + LAYOUT_GAP;
+         public static readonly int LAYOUT_RANGE_X = 3 * LAYOUT_CELL_X / 2;
+         public static readonly int LAYOUT_RANGE_Y = 3 * LAYOUT_CELL_Y / 2;
 
          private volatile bool hidden = false;
 

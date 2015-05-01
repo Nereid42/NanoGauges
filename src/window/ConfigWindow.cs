@@ -96,7 +96,7 @@ namespace Nereid
                config.Save();
             }            //
             GUILayout.EndHorizontal();
-            // Save Window Postions
+            // save gauge postions
             if (GUILayout.Button("Save Gauge Positions", HighLogic.Skin.button))
             {
                gauges.SaveWindowPositions();
@@ -107,6 +107,13 @@ namespace Nereid
             {
                gauges.CopySelectorPositionFrom(config.GetGaugeSetId());
             }
+            // gauge sizes
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Size (restart reqired):", STYLE_LABEL);
+            GUILayout.Toggle(true, "100%", STYLE_TOGGLE_4_PER_ROW);
+            GUILayout.Toggle(true, "120%", STYLE_TOGGLE_4_PER_ROW);
+            GUILayout.Toggle(true, "150%", STYLE_TOGGLE_4_PER_ROW);
+            GUILayout.EndHorizontal();
 
             GUILayout.Label("Settings:", STYLE_LABEL);
             // Positions Locked
