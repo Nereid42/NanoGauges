@@ -45,6 +45,9 @@ namespace Nereid
 
          private KeyCode hotkeyCloseButtons = KeyCode.RightControl;
 
+         // this class manages the default gauge positions realtive to sceen objects, navball, ...
+         private readonly DefaultGaugePositionManager defaultGaugePositionManager = new DefaultGaugePositionManager();
+
          private GaugeSet.ID gaugeSet = GaugeSet.ID.STANDARD;
          private GaugeSet currentGaugeSet = GaugeSetPool.instance.GetGaugeSet(GaugeSet.ID.STANDARD);
 

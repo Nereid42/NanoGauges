@@ -122,18 +122,17 @@ namespace Nereid
                bool enabled = NanoGauges.configuration.IsGaugeEnabled(gauge.GetWindowId());
                gauge.SetVisible(enabled && visible);
             }
+            hidden = !visible;
          }
 
          public void Hide()
          {
             SetEnabledGaugesVisible(false);
-            hidden = true;
          }
 
          public void Unhide()
          {
             SetEnabledGaugesVisible(true);
-            hidden = false;
          }
 
          public bool Hidden()
