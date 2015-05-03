@@ -55,7 +55,9 @@ namespace Nereid
 
          public double VerticalAcceleration()
          {
-            return verticalVelocity.ChangePerSecond;
+            int sgn = Math.Sign(verticalVelocity.value);
+            if (sgn == 0) return verticalVelocity.ChangePerSecond;
+            return sgn*verticalVelocity.ChangePerSecond;
          }
 
 

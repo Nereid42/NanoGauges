@@ -37,7 +37,7 @@ namespace Nereid
                CelestialBody body = vessel.mainBody;
                if (body != null)
                {
-                  CBAttributeMapSO biomeMap = vessel.mainBody.BiomeMap;
+                  CBAttributeMapSO biomeMap = body.BiomeMap;
                   if(biomeMap!=null)
                   {
                      mapAttribute = biomeMap.GetAtt(lat, lon);
@@ -56,7 +56,6 @@ namespace Nereid
             {
                return "- no biome -";
             }
-
          }
       }
    }
