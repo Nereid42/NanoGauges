@@ -52,7 +52,7 @@ namespace Nereid
          private void OnWindowInternal(int id)
          {
             float pixelOffsetInGauge = VerticalGauge.SCALE_HEIGHT * value;
-            float pixelOffsetInZoom = (pixelOffsetInGauge + Configuration.DEFAULT_GAUGE_HEIGHT/2 + bounds.height/2/ZOOM);
+            float pixelOffsetInZoom = (pixelOffsetInGauge + Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT/2 + bounds.height/2/ZOOM);
             float offset = pixelOffsetInZoom / (float)VerticalGauge.SCALE_HEIGHT;
             Rect scaleoff = new Rect(0, offset, 1.0f, 1.0f); // bounds.height / (float)VerticalGauge.SCALE_HEIGHT);
             // scale

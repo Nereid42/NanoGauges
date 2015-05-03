@@ -33,8 +33,8 @@ namespace Nereid
             Dictionary<int, int> positionXMap = defaultPositionXMap[set];
             Dictionary<int, int> positionYMap = defaultPositionYMap[set];
 
-            int LAYOUT_CELL_X = NanoGauges.configuration.gaugeWidth + Gauges.LAYOUT_GAP;
-            int LAYOUT_CELL_Y = NanoGauges.configuration.gaugeHeight + Gauges.LAYOUT_GAP;
+            int LAYOUT_CELL_X = NanoGauges.configuration.verticalGaugeWidth + Gauges.LAYOUT_GAP;
+            int LAYOUT_CELL_Y = NanoGauges.configuration.verticalGaugeHeight + Gauges.LAYOUT_GAP;
             int LAYOUT_RANGE_X = 3 * LAYOUT_CELL_X / 2;
             int LAYOUT_RANGE_Y = 3 * LAYOUT_CELL_Y / 2;
 

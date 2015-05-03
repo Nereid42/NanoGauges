@@ -32,12 +32,12 @@ namespace Nereid
             this.damper.SetEnabled(damped);
             this.scale = scale;
             this.skin = skin;
-            this.skinBounds = new Rect(0, 0, NanoGauges.configuration.gaugeWidth, NanoGauges.configuration.gaugeHeight);
+            this.skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
             this.scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
             //
             this.zoom = new VerticalGaugeZoom(this,skin,scale);
 
-            if (scale == null) Log.Error("no scale for gauge "+id+" defined");
+            if (scale == null) Log.Error("no scale for gauge " + id + " defined");
             if (skin == null) Log.Error("no skin for gauge " + id + " defined");
 
             offFlag = new PowerOffFlag(this);
@@ -49,6 +49,16 @@ namespace Nereid
           */
          protected abstract float GetScaleOffset();
 
+         public override sealed int GetWidth()
+         {
+            return NanoGauges.configuration.verticalGaugeWidth;
+         }
+
+         public override sealed int GetHeight()
+         {
+            return NanoGauges.configuration.verticalGaugeHeight;
+         }
+
          protected int GetScaleHeight()
          {
             return scale.height;
@@ -56,7 +66,7 @@ namespace Nereid
 
          protected float GetCenterOffset()
          {
-            return (scale.height - Configuration.DEFAULT_GAUGE_HEIGHT) / (2.0f * scale.height);
+            return (scale.height - Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT) / (2.0f * scale.height);
          }
 
          /**
@@ -72,7 +82,7 @@ namespace Nereid
           */
          protected float GetOffset(int y)
          {
-            int d = (scale.height-y) - Configuration.DEFAULT_GAUGE_HEIGHT / 2;
+            int d = (scale.height-y) - Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT / 2;
             return ((float)d) / (float)scale.height;
          }
 
@@ -81,7 +91,7 @@ namespace Nereid
           */
          protected float GetUpperOffset()
          {
-            return ((float)scale.height - (float)Configuration.DEFAULT_GAUGE_HEIGHT) / (float)scale.height;
+            return ((float)scale.height - (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT) / (float)scale.height;
          }
 
          protected override void OnWindow(int id)
@@ -95,7 +105,7 @@ namespace Nereid
             //float h = (float)GetHeight() / (float)(scale.height);
             damper.SetValue(GetScaleOffset());
 
-            float verticalScaleratio = (float)Configuration.DEFAULT_GAUGE_HEIGHT / (float)SCALE_HEIGHT;
+            float verticalScaleratio = (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT / (float)SCALE_HEIGHT;
 
             // scale
             float value = damper.GetValue();

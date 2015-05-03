@@ -19,8 +19,10 @@ namespace Nereid
          private static readonly Int16 FILE_MARKER = 0x7A7A;
          private static readonly Int16 FILE_VERSION = 1;
 
-         public const int DEFAULT_GAUGE_WIDTH = 42;
-         public const int DEFAULT_GAUGE_HEIGHT = 100;
+         public const int UNSCALED_VERTICAL_GAUGE_WIDTH = 42;
+         public const int UNSCALED_VERTICAL_GAUGE_HEIGHT = 100;
+         public const int UNSCALED_HORIZONTAL_GAUGE_WIDTH = 120;
+         public const int UNSCALED_HORIZONTAL_GAUGE_HEIGHT = 42;
 
          public const double GAUGE_SCALE_100 = 1.0;
          public const double GAUGE_SCALE_110 = 1.1;
@@ -38,8 +40,10 @@ namespace Nereid
          public bool exactReadoutEnabled { get; set; }
          public double gaugeScaling { get; set; }
          // need a restart to take effect
-         public int gaugeWidth { get; private set; }
-         public int gaugeHeight { get; private set; }
+         public int verticalGaugeWidth { get; private set; }
+         public int verticalGaugeHeight { get; private set; }
+         public int horizontalGaugeWidth { get; private set; }
+         public int horizontalGaugeHeight { get; private set; }
 
          private const int snapinRange = Gauges.LAYOUT_GAP; // todo: remove constant and make configurable
 
@@ -71,8 +75,10 @@ namespace Nereid
             exactReadoutEnabled = false;
             //
             gaugeScaling = GAUGE_SCALE_100;
-            gaugeWidth = DEFAULT_GAUGE_WIDTH;
-            gaugeHeight = DEFAULT_GAUGE_HEIGHT;
+            verticalGaugeWidth    = UNSCALED_VERTICAL_GAUGE_WIDTH;
+            verticalGaugeHeight   = UNSCALED_VERTICAL_GAUGE_HEIGHT;
+            horizontalGaugeWidth  = UNSCALED_HORIZONTAL_GAUGE_WIDTH;
+            horizontalGaugeHeight = UNSCALED_HORIZONTAL_GAUGE_HEIGHT;
          }
 
          public void EnableAllGauges(Gauges gauges)
@@ -98,92 +104,99 @@ namespace Nereid
 
          public void ResetWindowPositions(GaugeSet set)
          {
-            int LAYOUT_CELL_X = gaugeWidth + Gauges.LAYOUT_GAP;
-            int LAYOUT_CELL_Y = gaugeHeight + Gauges.LAYOUT_GAP;
+            int LAYOUT_CELL_X = verticalGaugeWidth + Gauges.LAYOUT_GAP;
+            int LAYOUT_CELL_Y = verticalGaugeHeight + Gauges.LAYOUT_GAP;
             int LAYOUT_RANGE_X = 3 * LAYOUT_CELL_X / 2;
             int LAYOUT_RANGE_Y = 3 * LAYOUT_CELL_Y / 2;
 
 
             int x0 = Screen.width - LAYOUT_CELL_X;
             int y0 = Screen.height-(int)(560*gaugeScaling);
-            int dx = LAYOUT_CELL_X;
-            int dy = LAYOUT_CELL_Y;
+            int vDX = LAYOUT_CELL_X;
+            int vDY = LAYOUT_CELL_Y;
+            int hDX = (int)(horizontalGaugeWidth * gaugeScaling) + Gauges.LAYOUT_GAP;
+            int hDY = (int)(verticalGaugeWidth * gaugeScaling) + Gauges.LAYOUT_GAP;
 
             int n;
 
             //
             n = 0;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SETS, x0 - 0 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SETS, x0 - 0 * vDX, y0 + n * vDY);
             // Test
             // TAC life support
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_O2, x0 - 1 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CO2, x0 - 2 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_H2O, x0 - 3 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_WH2O, x0 - 4 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_WASTE, x0 - 5 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FOOD, x0 - 6 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_O2, x0 - 1 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CO2, x0 - 2 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_H2O, x0 - 3 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_WH2O, x0 - 4 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_WASTE, x0 - 5 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FOOD, x0 - 6 * vDX, y0 + n * vDY);
             // Kethane
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KETHANE, x0 - 7 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KAIRIN, x0 - 8 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KETHANE, x0 - 7 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KAIRIN, x0 - 8 * vDX, y0 + n * vDY);
             //
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VAI, x0 - 11 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VVI, x0 - 10 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_OSPD, x0 - 9 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VAI, x0 - 11 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VVI, x0 - 10 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_OSPD, x0 - 9 * vDX, y0 + n * vDY);
             //
             n = 1;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, x0 - 11 * dx, y0 +  n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VSI, x0 - 10 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HSPD, x0 - 9 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MASS, x0 - 8 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_G, x0 - 7 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ATM, x0 - 6 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ORBIT, x0 - 5 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_PEA, x0 - 4 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_APA, x0 - 3 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_INCL, x0 - 2 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_THRUST, x0 - 1 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TWR, x0 - 0 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, x0 - 11 * vDX, y0 +  n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VSI, x0 - 10 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HSPD, x0 - 9 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MASS, x0 - 8 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_G, x0 - 7 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ATM, x0 - 6 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ORBIT, x0 - 5 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_PEA, x0 - 4 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_APA, x0 - 3 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_INCL, x0 - 2 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_THRUST, x0 - 1 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TWR, x0 - 0 * vDX, y0 + n * vDY);
             n = 2;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FUEL, x0 - 11 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_OXID, x0 - 10 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FLOW, x0 - 9 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MONO, x0 - 8 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CHARGE, x0 - 7 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AMP, x0 - 6 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_XENON, x0 - 5 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AIRIN, x0 - 4 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AIRPCT, x0 - 3 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AOA, x0 - 2 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_DTGT, x0 - 1 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VTGT, x0 - 0 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FUEL, x0 - 11 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_OXID, x0 - 10 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FLOW, x0 - 9 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MONO, x0 - 8 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CHARGE, x0 - 7 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AMP, x0 - 6 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_XENON, x0 - 5 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AIRIN, x0 - 4 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AIRPCT, x0 - 3 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AOA, x0 - 2 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_DTGT, x0 - 1 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VTGT, x0 - 0 * vDX, y0 + n * vDY);
             n = 3;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VT, x0 - 11 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SRB, x0 - 10 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MAXG, x0 - 9 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_EVAMP, x0 - 8 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_DISP, x0 - 7 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ISPE, x0 - 6 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TEMP, x0 - 5 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_GRAV, x0 - 4 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SPD, x0 - 3 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CAM, x0 - 2 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MACH, x0 - 1 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SHIELD, x0 - 0 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VT, x0 - 11 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SRB, x0 - 10 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MAXG, x0 - 9 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_EVAMP, x0 - 8 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_DISP, x0 - 7 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ISPE, x0 - 6 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TEMP, x0 - 5 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_GRAV, x0 - 4 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SPD, x0 - 3 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CAM, x0 - 2 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MACH, x0 - 1 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SHIELD, x0 - 0 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_ABOUT, 50, 50);
             set.SetWindowPosition(Constants.WINDOW_ID_CONFIG, 50, 50);
             n = 4;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_Q, x0 - 11 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HEAT, x0 - 10 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_IMPACT, x0 - 9 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ALTIMETER, x0 - 8 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ACCL, x0 - 7 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HACCL, x0 - 6 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VACCL, x0 - 5 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_EXTTEMP, x0 - 4 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ATMTEMP, x0 - 3 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ABLAT, x0 - 2 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ORE, x0 - 1 * dx, y0 + n * dy);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_DRILLTEMP, x0 - 0 * dx, y0 + n * dy);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_Q, x0 - 11 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HEAT, x0 - 10 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_IMPACT, x0 - 9 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ALTIMETER, x0 - 8 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ACCL, x0 - 7 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HACCL, x0 - 6 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VACCL, x0 - 5 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_EXTTEMP, x0 - 4 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ATMTEMP, x0 - 3 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ABLAT, x0 - 2 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ORE, x0 - 1 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_DRILLTEMP, x0 - 0 * vDX, y0 + n * vDY);
+
+            // horizontal gauges
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 50, 100 + 0 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 50, 100 + 1 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 50, 100 + 2 * hDY);
          }
 
 
@@ -491,8 +504,10 @@ namespace Nereid
                      tooltipsEnabled = reader.ReadBoolean();
                      //
                      gaugeScaling = reader.ReadDouble();
-                     gaugeWidth = (int)(DEFAULT_GAUGE_WIDTH * gaugeScaling);
-                     gaugeHeight = (int)(DEFAULT_GAUGE_HEIGHT * gaugeScaling);
+                     verticalGaugeWidth =    (int)(UNSCALED_VERTICAL_GAUGE_WIDTH    * gaugeScaling);
+                     verticalGaugeHeight =   (int)(UNSCALED_VERTICAL_GAUGE_HEIGHT   * gaugeScaling);
+                     horizontalGaugeWidth =  (int)(UNSCALED_HORIZONTAL_GAUGE_WIDTH  * gaugeScaling); ;
+                     horizontalGaugeHeight = (int)(UNSCALED_HORIZONTAL_GAUGE_HEIGHT * gaugeScaling); ;
                   }
                }
                else

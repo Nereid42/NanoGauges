@@ -8,10 +8,6 @@ namespace Nereid
    {
       public abstract class AbstractGauge
       {
-         //
-         //public static readonly int HEIGHT = 100;
-         //public const int WIDTH = 42;
-         //
          private readonly int id;
          private bool visible = false;
          protected Rect bounds;
@@ -26,7 +22,7 @@ namespace Nereid
          {
             Log.Detail("creating gauge window for gauge id "+id);
             this.id = id;
-            this.bounds = new Rect(0, 0, NanoGauges.configuration.gaugeWidth, NanoGauges.configuration.gaugeHeight);
+            this.bounds = new Rect(0, 0, GetWidth(), GetHeight());
 
             Log.Info("position for gauge id "+id+": "+NanoGauges.configuration.GetWindowPosition(id));
             SetPosition(NanoGauges.configuration.GetWindowPosition(id));
@@ -200,15 +196,15 @@ namespace Nereid
             return (int)bounds.yMin;
          }
 
-         public int GetWidth()
-         {
+         public abstract int GetWidth();
+         /*{
             return (int)bounds.width;
-         }
+         }*/
 
-         public int GetHeight()
-         {
+         public abstract int GetHeight();
+         /*{
             return (int)bounds.height;
-         }
+         }*/
 
          public void SetPosition(Pair<int, int> coords)
          {

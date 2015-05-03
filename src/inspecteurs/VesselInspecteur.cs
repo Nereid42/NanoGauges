@@ -44,6 +44,30 @@ namespace Nereid
             return this.dragCoefficent;
          }
 
+         protected void InspectVesselParts(Vessel vessel)
+         {
+            foreach (Part part in vessel.Parts)
+            {
+               if (part.packed) part.Unpack();
+               foreach (PartResource r in part.Resources)
+               {
+                  if ((r.info != null && Resources.ABLATOR != null && r.info.id == Resources.ABLATOR.id)                          // Stock
+                  || (r.info != null && Resources.ABLATIVE_SHIELDING != null && r.info.id == Resources.ABLATIVE_SHIELDING.id))  // Deadly Reentry
+                  {
+                     heatshieldParts.Add(part);
+                     this.heatshieldInstalled = true;
+                     break;
+                  }
+               }
+
+               if (part.IsDrill())
+               {
+                  drillParts.Add(part);
+                  this.drillInstalled = true;
+               }
+            }
+         }
+
          protected override void ScanVessel(Vessel vessel)
          {
 
@@ -66,27 +90,10 @@ namespace Nereid
                this.drillParts.Clear();
                this.drillInstalled = false;
 
-               if (vessel == null || vessel.Parts == null) return;
-               foreach (Part part in vessel.Parts)
+               // inspect parts if present
+               if (vessel != null && vessel.Parts != null)
                {
-                  if (part.packed) part.Unpack();
-                  foreach (PartResource r in part.Resources)
-                  {
-                     if ( (r.info != null && Resources.ABLATOR != null && r.info.id == Resources.ABLATOR.id)                          // Stock
-                     ||   (r.info != null && Resources.ABLATIVE_SHIELDING != null && r.info.id == Resources.ABLATIVE_SHIELDING.id) )  // Deadly Reentry
-                     {
-                        heatshieldParts.Add(part);
-                        this.heatshieldInstalled = true;
-                        break;
-                     }
-                  }
-
-                  if (part.IsDrill())
-                  {
-                     drillParts.Add(part);
-                     this.drillInstalled = true;
-                  }
-                     
+                  InspectVesselParts(vessel);
                }
             }
          }

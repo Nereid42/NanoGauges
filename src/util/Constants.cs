@@ -76,6 +76,9 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_ABLAT = WINDOW_ID_BASE + 66;
          public const int WINDOW_ID_GAUGE_ORE = WINDOW_ID_BASE + 67;
          public const int WINDOW_ID_GAUGE_DRILLTEMP = WINDOW_ID_BASE + 68;
+         public const int WINDOW_ID_GAUGE_BIOME = WINDOW_ID_BASE + 69;
+         public const int WINDOW_ID_GAUGE_LATITUDE = WINDOW_ID_BASE + 70;
+         public const int WINDOW_ID_GAUGE_LONGITUDE = WINDOW_ID_BASE + 71;
 
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";

@@ -16,6 +16,7 @@ namespace Nereid
          private readonly SensorInspecteur sensorInspecteur = new SensorInspecteur();
          private readonly VesselInspecteur vesselInspecteur = new VesselInspecteur();
          private readonly AccelerationInspecteur velocityInspecteur = new AccelerationInspecteur();
+         private readonly BiomeInspecteur biomeInspecteur = new BiomeInspecteur();
 
          public const int LAYOUT_GAP = 8;
 
@@ -78,6 +79,12 @@ namespace Nereid
             AddGauge(new AblatorGauge(resourceInspecteur));
             AddGauge(new OreGauge(resourceInspecteur));
             AddGauge(new DrillTempGauge(vesselInspecteur));
+
+            // horizontal gauges
+            AddGauge(new BiomeGauge(biomeInspecteur));
+            AddGauge(new LatitudeGauge());
+            AddGauge(new LongitudeGauge());
+
 
 
             // TAC life support (only added if TAC installed)
@@ -256,6 +263,7 @@ namespace Nereid
             sensorInspecteur.Update();
             vesselInspecteur.Update();
             velocityInspecteur.Update();
+            biomeInspecteur.Update();
          }
 
          public void ResetInspecteurs()
@@ -265,6 +273,7 @@ namespace Nereid
             sensorInspecteur.Reset();
             vesselInspecteur.Reset();
             velocityInspecteur.Reset();
+            biomeInspecteur.Reset();
          }
 
          private bool IsEnabledInCamera(CameraManager.CameraMode camMode, bool isEva=false)
@@ -384,8 +393,8 @@ namespace Nereid
          {
             Log.Info("autolayout of gauges on screen");
 
-            int LAYOUT_CELL_X = NanoGauges.configuration.gaugeWidth + Gauges.LAYOUT_GAP;
-            int LAYOUT_CELL_Y = NanoGauges.configuration.gaugeHeight + Gauges.LAYOUT_GAP;
+            int LAYOUT_CELL_X = NanoGauges.configuration.verticalGaugeWidth + Gauges.LAYOUT_GAP;
+            int LAYOUT_CELL_Y = NanoGauges.configuration.verticalGaugeHeight + Gauges.LAYOUT_GAP;
             int LAYOUT_RANGE_X = 3 * LAYOUT_CELL_X / 2;
             int LAYOUT_RANGE_Y = 3 * LAYOUT_CELL_Y / 2;
 
@@ -537,8 +546,8 @@ namespace Nereid
 
          public HashSet<AbstractGauge> GetNeighBours(AbstractGauge gauge)
          {
-            int LAYOUT_CELL_X = NanoGauges.configuration.gaugeWidth + Gauges.LAYOUT_GAP;
-            int LAYOUT_CELL_Y = NanoGauges.configuration.gaugeHeight + Gauges.LAYOUT_GAP;
+            int LAYOUT_CELL_X = NanoGauges.configuration.verticalGaugeWidth + Gauges.LAYOUT_GAP;
+            int LAYOUT_CELL_Y = NanoGauges.configuration.verticalGaugeHeight + Gauges.LAYOUT_GAP;
             int LAYOUT_RANGE_X = 3 * LAYOUT_CELL_X / 2;
             int LAYOUT_RANGE_Y = 3 * LAYOUT_CELL_Y / 2;
 

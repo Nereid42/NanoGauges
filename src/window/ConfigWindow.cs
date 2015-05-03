@@ -91,7 +91,7 @@ namespace Nereid
             }
             // layout gauges
             // autolayout will only work with a 100% scale
-            GUI.enabled = (NanoGauges.configuration.gaugeHeight == Configuration.DEFAULT_GAUGE_HEIGHT && NanoGauges.configuration.gaugeScaling==Configuration.GAUGE_SCALE_100);
+            GUI.enabled = (NanoGauges.configuration.verticalGaugeHeight == Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT && NanoGauges.configuration.gaugeScaling==Configuration.GAUGE_SCALE_100);
             if (GUILayout.Button("Automatic Layout", HighLogic.Skin.button))
             {
                gauges.AutoLayout();
@@ -224,6 +224,9 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATMTEMP, "Atmosphere temperature gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ORE, "Ore gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DRILLTEMP, "Drill temperature gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_BIOME, "Biome gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LATITUDE, "Latitude gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LONGITUDE, "Longitude gauge enabled");
             GUILayout.EndScrollView();
             
             GUILayout.EndVertical();

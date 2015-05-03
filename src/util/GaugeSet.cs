@@ -152,8 +152,8 @@ namespace Nereid
                   int yRight = posLeft.second;
                   //
 
-                  if (yLeft.In(yRight, yRight + NanoGauges.configuration.gaugeHeight)
-                     || yRight.In(yLeft, yLeft + NanoGauges.configuration.gaugeHeight))
+                  if (yLeft.In(yRight, yRight + NanoGauges.configuration.verticalGaugeHeight)
+                     || yRight.In(yLeft, yLeft + NanoGauges.configuration.verticalGaugeHeight))
                   {
                      return (xLeft.CompareTo(xRight));
                   }
@@ -174,8 +174,8 @@ namespace Nereid
                   int yRight = posLeft.second;
                   //
 
-                  if (yLeft.In(yRight, yRight + NanoGauges.configuration.gaugeHeight)
-                     || yRight.In(yLeft, yLeft + NanoGauges.configuration.gaugeHeight))
+                  if (yLeft.In(yRight, yRight + NanoGauges.configuration.verticalGaugeHeight)
+                     || yRight.In(yLeft, yLeft + NanoGauges.configuration.verticalGaugeHeight))
                   {
                      return (xLeft.CompareTo(xRight));
                   }

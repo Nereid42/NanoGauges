@@ -53,8 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\Gauges.cs" />
+    <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\LongitudeGauge.cs" />
+    <Compile Include="src\gauges\LatitudeGauge.cs" />
+    <Compile Include="src\gauges\BiomeGauge.cs" />
     <Compile Include="src\gauges\ExternalTempGauge.cs" />
     <Compile Include="src\gauges\AblatorGauge.cs" />
     <Compile Include="src\gauges\OreGauge.cs" />
@@ -121,6 +125,7 @@
     <Compile Include="src\gauges\WasteWaterGauge.cs" />
     <Compile Include="src\gauges\WaterGauge.cs" />
     <Compile Include="src\gauges\XenonGauge.cs" />
+    <Compile Include="src\inspecteurs\BiomeInspecteur.cs" />
     <Compile Include="src\inspecteurs\EngineInspecteur.cs" />
     <Compile Include="src\inspecteurs\Inspecteur.cs" />
     <Compile Include="src\inspecteurs\ResourceInspecteur.cs" />

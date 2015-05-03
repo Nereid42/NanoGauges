@@ -26,6 +26,16 @@ namespace Nereid
             return new Rect(5 * gaugeScale, top * gaugeScale, 9 * gaugeScale, 9 * gaugeScale);
          }
 
+         public override sealed int GetWidth()
+         {
+            return NanoGauges.configuration.verticalGaugeWidth;
+         }
+
+         public override sealed int GetHeight()
+         {
+            return NanoGauges.configuration.verticalGaugeHeight;
+         }
+
          public override string GetName()
          {
             return "Selector";
@@ -44,7 +54,7 @@ namespace Nereid
          private readonly Gauges gauges;
 
          private readonly Texture2D skin;
-         private Rect skinBounds = new Rect(0, 0, NanoGauges.configuration.gaugeWidth, NanoGauges.configuration.gaugeHeight);
+         private Rect skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
 
          public SelectorGauge(Gauges gauges)
             : base(Constants.WINDOW_ID_GAUGE_SETS)
