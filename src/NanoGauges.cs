@@ -16,8 +16,6 @@ namespace Nereid
          // cached configuration (needs a restart to take effect)
          private static readonly bool trimIndicatorsEnabled;
 
-         public static readonly FARAdapter farAdapter = new FARAdapter();
-
          private static readonly Gauges gauges;
 
          public static readonly SnapinManager snapinManager;
@@ -51,7 +49,6 @@ namespace Nereid
 
          public void Awake()
          {
-            farAdapter.Plugin();
             gauges.ShowGauges();
             // use of stock toolbar
             GameEvents.onGUIApplicationLauncherReady.Add(OnGUIAppLauncherReady);
@@ -198,7 +195,6 @@ namespace Nereid
             }
             gauges.SaveWindowPositions();
             configuration.Save();
-            farAdapter.Unplug();
          }
 
 

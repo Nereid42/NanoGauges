@@ -42,52 +42,5 @@ namespace Nereid
             SetInstalled(false);
          }
       }
-
-      public class FARAdapter : Adapter
-      {
-         private MethodInfo methodActiveVesselDynPres = null;
-
-         public override void Plugin()
-         {
-            try
-            {
-                Type typeFarApi = GetType ("FerramAerospaceResearch.FARAPI") ;
-                if (typeFarApi == null)
-                    return ;
-                Log.Detail ("FARAdapter plugin of type FerramAerospaceResearch.FARAPI successful.") ;
-
-                methodActiveVesselDynPres = typeFarApi.GetMethod ("ActiveVesselDynPres",
-                                                                  BindingFlags.Public | BindingFlags.Static,
-                                                                  null,
-                                                                  null,
-                                                                  null) ;
-                if (methodActiveVesselDynPres == null)
-                    return ;
-               Log.Detail("FARAdapter plugin of method ActiveVesselDynPres succesful");
-
-               Type typeControlSys = GetType("ferram4.FARControlSys");
-               if (typeControlSys == null) return;
-               Log.Detail("FARAdpater plugin of type ferram4.FARControlSys succesful");
-
-               SetInstalled(true);
-            }
-            catch(Exception e)
-            {
-               Log.Error("plugin of F.A.R failed; exception: " + e.GetType() + " - " + e.Message);
-               SetInstalled(false);
-            }
-         }
-
-         public double GetQ()
-         {
-            if (IsInstalled())
-            {
-               return (double) methodActiveVesselDynPres.Invoke (null, null) ;
-            }
-
-            return 0.0;
-         }
-      }
-
    }
 }
