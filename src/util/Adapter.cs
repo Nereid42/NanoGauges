@@ -45,33 +45,29 @@ namespace Nereid
 
       public class FARAdapter : Adapter
       {
-         private MethodInfo methodGetMachNumber = null;
-         private PropertyInfo instanceProp;
-         private FieldInfo fieldQ;
+         private MethodInfo methodActiveVesselDynPres = null;
 
          public override void Plugin()
          {
             try
             {
-               Type typeAeoUtil = GetType("ferram4.FARAeroUtil");
-               if (typeAeoUtil == null) return;
-               Log.Detail("FARAdpater plugin of type ferram4.FARAeroUtil succesful");
+                Type typeFarApi = GetType ("FerramAerospaceResearch.FARAPI") ;
+                if (typeFarApi == null)
+                    return ;
+                Log.Detail ("FARAdapter plugin of type FerramAerospaceResearch.FARAPI successful.") ;
 
-               methodGetMachNumber = typeAeoUtil.GetMethod("GetMachNumber", BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(CelestialBody), typeof(double), typeof(Vector3d) }, null);
-               if (methodGetMachNumber == null) return;
-               Log.Detail("FARAdpater plugin of method GetMachNumber succesful");
+                methodActiveVesselDynPres = typeFarApi.GetMethod ("ActiveVesselDynPres",
+                                                                  BindingFlags.Public | BindingFlags.Static,
+                                                                  null,
+                                                                  null,
+                                                                  null) ;
+                if (methodActiveVesselDynPres == null)
+                    return ;
+               Log.Detail("FARAdapter plugin of method ActiveVesselDynPres succesful");
 
                Type typeControlSys = GetType("ferram4.FARControlSys");
                if (typeControlSys == null) return;
                Log.Detail("FARAdpater plugin of type ferram4.FARControlSys succesful");
-
-               instanceProp = typeControlSys.GetProperty("ActiveControlSys", BindingFlags.Static | BindingFlags.Public);
-               if (instanceProp == null) return;
-               Log.Detail("FARAdpater plugin of instance ActiveControlSys succesful");
-
-               fieldQ = typeControlSys.GetField("q", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-               if (fieldQ == null) return;
-               Log.Detail("FARAdpater plugin of field ActiveControlSys.q succesful");
 
                SetInstalled(true);
             }
@@ -82,24 +78,11 @@ namespace Nereid
             }
          }
 
-
-         public double GetMachNumber(CelestialBody body, double altitude, Vector3d velocity)
-         {
-            if(IsInstalled())
-            {
-               return (double)methodGetMachNumber.Invoke(null, new object[] { body, altitude, velocity });
-            }
-            return 0.0;
-         }
-
          public double GetQ()
          {
             if (IsInstalled())
             {
-               object farControlSys = instanceProp.GetValue(null, null);
-
-               if (farControlSys != null)
-                  return (double)fieldQ.GetValue(farControlSys);
+               return (double) methodActiveVesselDynPres.Invoke (null, null) ;
             }
 
             return 0.0;

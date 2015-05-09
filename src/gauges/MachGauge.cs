@@ -44,10 +44,13 @@ namespace Nereid
 
          private double GetMachNumber(Vessel vessel)
          {
-            if(NanoGauges.farAdapter.IsInstalled())
-            {
-               return NanoGauges.farAdapter.GetMachNumber(vessel.mainBody, vessel.altitude, vessel.srf_velocity);
-            }
+            // convenient method for getting Mach number doesn't appear to exist in nuFAR - checking with ferram if vessel.mach will do
+
+            //if(NanoGauges.farAdapter.IsInstalled())
+            //{
+            //   return NanoGauges.farAdapter.GetMachNumber(vessel.mainBody, vessel.altitude, vessel.srf_velocity);
+            //}
+
             return vessel.mach;
          }
 
