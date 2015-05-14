@@ -22,7 +22,7 @@ namespace Nereid
          protected override void AutomaticOnOff()
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null && FlightGlobals.ActiveVessel.parts.Count > 0 && NanoGauges.farAdapter.IsInstalled())
+            if (vessel != null && FlightGlobals.ActiveVessel.parts.Count > 0)
             {
                 On();
                 return;
@@ -37,7 +37,7 @@ namespace Nereid
 
          public override string GetDescription()
          {
-            return "\n\nDynamic Pressure. Neads FAR to work.";
+            return "\n\nDynamic Pressure.";
          }
 
          protected override float GetScaleOffset()
@@ -45,9 +45,9 @@ namespace Nereid
             float b = GetLowerOffset();
             float y = b;
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null && NanoGauges.farAdapter.IsInstalled())
+            if (vessel != null)
             {
-               double q = NanoGauges.farAdapter.GetQ();
+               double q = vessel.dynamicPressurekPa * 1000;
                if (q > MAX_Q) q = MAX_Q;
                if (q < MIN_Q) q = MIN_Q;
                y = b + 60.0f * (float)Math.Log10(1+q) / 400.0f;

@@ -44,10 +44,6 @@ namespace Nereid
 
          private double GetMachNumber(Vessel vessel)
          {
-            if(NanoGauges.farAdapter.IsInstalled())
-            {
-               return NanoGauges.farAdapter.GetMachNumber(vessel.mainBody, vessel.altitude, vessel.srf_velocity);
-            }
             return vessel.mach;
          }
 
