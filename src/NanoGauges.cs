@@ -71,6 +71,14 @@ namespace Nereid
                Log.Info("stock toolbar button enabled");
                CreateStockToolbarButton();
             }
+
+            if(configuration.disableStockHeatIndicators)
+            {
+               TemperatureGagueSystem.Instance.showGagues = false;
+               TemperatureGagueSystem.Instance.enabled = false;
+               Log.Info("stock heat indicators disabled");
+            }
+
          }
 
          private void CreateStockToolbarButton()
@@ -210,6 +218,7 @@ namespace Nereid
             return gauges.GetCluster(gauge);
          }
 
+
          public void Update()
          {
             if (trimIndicatorsEnabled)
@@ -231,6 +240,17 @@ namespace Nereid
             }
 
             // Hotkeys for Gaugesets
+            if (Input.GetKeyDown(KeyCode.Numlock))
+            {
+               if (gauges.Hidden())
+               {
+                  gauges.Unhide();
+               }
+               else
+               {
+                  gauges.Hide();
+               }
+            }
             if(hotkeyPressed)
             {
                if(Input.GetKeyDown(KeyCode.Alpha1))
@@ -277,7 +297,7 @@ namespace Nereid
                {
                   gauges.ResetPositions();
                }
-               else if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Delete))
+               else if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.KeypadDivide))
                {
                   if(gauges.Hidden())
                   {
@@ -288,7 +308,7 @@ namespace Nereid
                      gauges.Hide();
                   }
                }
-               else if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Insert))
+               else if (Input.GetKeyDown(KeyCode.KeypadMultiply) || Input.GetKeyDown(KeyCode.Insert))
                {
                   gauges.AutoLayout();
                }

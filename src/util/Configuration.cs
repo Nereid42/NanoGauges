@@ -39,6 +39,7 @@ namespace Nereid
          public bool useStockToolbar { get; set; }
          public bool exactReadoutEnabled { get; set; }
          public double gaugeScaling { get; set; }
+         public bool disableStockHeatIndicators { get; set; }
          // need a restart to take effect
          public int verticalGaugeWidth { get; private set; }
          public int verticalGaugeHeight { get; private set; }
@@ -79,6 +80,8 @@ namespace Nereid
             verticalGaugeHeight   = UNSCALED_VERTICAL_GAUGE_HEIGHT;
             horizontalGaugeWidth  = UNSCALED_HORIZONTAL_GAUGE_WIDTH;
             horizontalGaugeHeight = UNSCALED_HORIZONTAL_GAUGE_HEIGHT;
+            //
+            disableStockHeatIndicators = false;
          }
 
          public void EnableAllGauges(Gauges gauges)
@@ -447,6 +450,8 @@ namespace Nereid
                   writer.Write(tooltipsEnabled);
                   //
                   writer.Write(gaugeScaling);
+                  //
+                  writer.Write(disableStockHeatIndicators);
                }
             }
             catch
@@ -506,8 +511,10 @@ namespace Nereid
                      gaugeScaling = reader.ReadDouble();
                      verticalGaugeWidth =    (int)(UNSCALED_VERTICAL_GAUGE_WIDTH    * gaugeScaling);
                      verticalGaugeHeight =   (int)(UNSCALED_VERTICAL_GAUGE_HEIGHT   * gaugeScaling);
-                     horizontalGaugeWidth =  (int)(UNSCALED_HORIZONTAL_GAUGE_WIDTH  * gaugeScaling); ;
-                     horizontalGaugeHeight = (int)(UNSCALED_HORIZONTAL_GAUGE_HEIGHT * gaugeScaling); ;
+                     horizontalGaugeWidth =  (int)(UNSCALED_HORIZONTAL_GAUGE_WIDTH  * gaugeScaling);
+                     horizontalGaugeHeight = (int)(UNSCALED_HORIZONTAL_GAUGE_HEIGHT * gaugeScaling);
+                     //
+                     disableStockHeatIndicators = reader.ReadBoolean();
                   }
                }
                else

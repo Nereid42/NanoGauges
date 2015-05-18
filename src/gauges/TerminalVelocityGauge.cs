@@ -65,7 +65,7 @@ namespace Nereid
                   //double vt = Math.Sqrt((250 * G * M) / (r * r * density * d));
                   double vt = Math.Sqrt((250 * G * M) / (r * r * d)) * Math.Sqrt(1 / density);
 
-                  double dvt = vessel.verticalSpeed - vt;
+                  double dvt = Math.Abs(vessel.verticalSpeed) - vt;
 
                   if (dvt > MAX_VT) dvt = MAX_VT;
                   if (dvt < MIN_VT) dvt = MIN_VT;

@@ -121,10 +121,22 @@ namespace Nereid
             GUILayout.EndHorizontal();
 
             GUILayout.Label("Settings:", STYLE_LABEL);
-            // Positions Locked
             GUILayout.BeginVertical();
-            config.gaugePositionsLocked = GUILayout.Toggle(config.gaugePositionsLocked, "Gauge positions locked", HighLogic.Skin.toggle);
-            config.gaugeMarkerEnabled = GUILayout.Toggle(config.gaugeMarkerEnabled, "Gauge marker enabled", HighLogic.Skin.toggle);
+            //
+            // Positions Locked & Snapin
+            GUILayout.BeginHorizontal();
+            config.gaugePositionsLocked = GUILayout.Toggle(config.gaugePositionsLocked, "Gauge positions locked", STYLE_TOGGLE_2_PER_ROW);
+            // Snapin
+            config.snapinEnabled = GUILayout.Toggle(config.snapinEnabled, "Snapin enabled", HighLogic.Skin.toggle);
+            GUILayout.EndHorizontal();
+            //
+            GUILayout.BeginHorizontal();
+            // Gauge marker
+            config.gaugeMarkerEnabled = GUILayout.Toggle(config.gaugeMarkerEnabled, "Gauge marker enabled", STYLE_TOGGLE_2_PER_ROW);
+            // heat indicators
+            config.disableStockHeatIndicators = GUILayout.Toggle(config.disableStockHeatIndicators, "Disable heat indicators", HighLogic.Skin.toggle);
+            GUILayout.EndHorizontal();
+            //
             // tooltips & exact readout
             GUILayout.BeginHorizontal();
             if (config.exactReadoutEnabled) config.tooltipsEnabled = false;
@@ -132,7 +144,8 @@ namespace Nereid
             if (config.tooltipsEnabled) config.exactReadoutEnabled = false;
             config.exactReadoutEnabled = GUILayout.Toggle(config.exactReadoutEnabled, "Exact readout enabled", STYLE_TOGGLE_2_PER_ROW);
             GUILayout.EndHorizontal();
-            config.snapinEnabled = GUILayout.Toggle(config.snapinEnabled, "Snapin enabled", HighLogic.Skin.toggle);
+            //
+            //
             // Stock Toolbar
             if (ToolbarManager.ToolbarAvailable)
             {
@@ -140,8 +153,10 @@ namespace Nereid
             }
             // Cam
             DrawCameraModeToggles();
+
             GUILayout.EndVertical();
             //
+            // -------------
             // GAUGES ON/OFF
             GUILayout.BeginHorizontal();
             GUILayout.Label("Gauges:", STYLE_LABEL);
