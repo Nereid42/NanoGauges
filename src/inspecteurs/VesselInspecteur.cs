@@ -44,7 +44,7 @@ namespace Nereid
             return this.dragCoefficent;
          }
 
-         protected void InspectVesselParts(Vessel vessel)
+         protected void ScanVesselParts(Vessel vessel)
          {
             foreach (Part part in vessel.Parts)
             {
@@ -93,7 +93,7 @@ namespace Nereid
                // inspect parts if present
                if (vessel != null && vessel.Parts != null)
                {
-                  InspectVesselParts(vessel);
+                  ScanVesselParts(vessel);
                }
             }
          }

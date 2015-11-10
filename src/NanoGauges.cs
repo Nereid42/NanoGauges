@@ -74,7 +74,6 @@ namespace Nereid
 
             if(configuration.disableStockHeatIndicators)
             {
-               TemperatureGagueSystem.Instance.showGagues = false;
                TemperatureGagueSystem.Instance.enabled = false;
                Log.Info("stock heat indicators disabled");
             }

@@ -172,6 +172,7 @@ namespace Nereid
             //
             this.currentCamMode = CameraManager.Instance.currentCameraMode;
             this.isEvaCam = IsEvaCamera();
+            this.hidden = false;
             //
             foreach (AbstractGauge gauge in gauges.Values)
             {
