@@ -63,10 +63,9 @@ namespace Nereid
 
          public Configuration()
          {
-            // default window positions
-            ResetAllWindowPositions();
 
             // Defaults
+            gaugeScaling = GAUGE_SCALE_100;
             gaugePositionsLocked = false;
             gaugeMarkerEnabled = true;
             tooltipsEnabled = true;
@@ -74,14 +73,14 @@ namespace Nereid
             trimIndicatorsEnabled = true;
             useStockToolbar = !ToolbarManager.ToolbarAvailable;
             exactReadoutEnabled = false;
-            //
-            gaugeScaling = GAUGE_SCALE_100;
             verticalGaugeWidth    = UNSCALED_VERTICAL_GAUGE_WIDTH;
             verticalGaugeHeight   = UNSCALED_VERTICAL_GAUGE_HEIGHT;
             horizontalGaugeWidth  = UNSCALED_HORIZONTAL_GAUGE_WIDTH;
             horizontalGaugeHeight = UNSCALED_HORIZONTAL_GAUGE_HEIGHT;
             //
             disableStockHeatIndicators = false;
+            // default window positions
+            ResetAllWindowPositions();
          }
 
          public void EnableAllGauges(Gauges gauges)
@@ -113,6 +112,7 @@ namespace Nereid
             int LAYOUT_RANGE_Y = 3 * LAYOUT_CELL_Y / 2;
 
 
+            Log.Info("reseting window positions (screen: " + Screen.width + "x" + Screen.height+")");
             int x0 = Screen.width - LAYOUT_CELL_X;
             int y0 = Screen.height-(int)(560*gaugeScaling);
             int vDX = LAYOUT_CELL_X;
@@ -500,7 +500,7 @@ namespace Nereid
                      //
                      snapinEnabled = reader.ReadBoolean();
                      //
-                     useStockToolbar = reader.ReadBoolean();
+                     useStockToolbar = reader.ReadBoolean()  || !ToolbarManager.ToolbarAvailable;
                      //
                      trimIndicatorsEnabled = reader.ReadBoolean();
                      //

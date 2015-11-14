@@ -292,6 +292,11 @@ namespace Nereid
                {
                   gauges.EnableAllGauges();
                }
+               else if (Input.GetKeyDown(KeyCode.KeypadEnter))
+               {
+                  createConfigOnce();
+                  toggleConfigVisibility();
+               }
                else if (Input.GetKeyDown(KeyCode.Backspace))
                {
                   gauges.ResetPositions();
