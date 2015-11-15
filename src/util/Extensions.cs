@@ -45,6 +45,14 @@ namespace Nereid
          }
 
 
+         public static bool IsLandingGear(this Part part)
+         {
+            List<ModuleLandingGear> landingGears = part.FindModulesImplementing<ModuleLandingGear>();
+            if (landingGears == null) return false;
+            return landingGears.Count > 0;
+         }
+
+
          public static bool In(this int x, int a, int b) 
          {
             if (x >= a && x <= b) return true;

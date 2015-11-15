@@ -35,7 +35,7 @@ namespace Nereid
          protected override void AutomaticOnOff()
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null && vessel.parts.Count > 0 && inspecteur.GetRunningEnginesCount()>0)
+            if (vessel != null && vessel.parts.Count > 0 && inspecteur.enginesRunningCount > 0)
             {
                On();
             }
@@ -64,7 +64,7 @@ namespace Nereid
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel != null)
             {
-               double isp = inspecteur.GetIspPerRunningEngine();
+               double isp = inspecteur.engineIspPerRunningEngine;
                if (isp > MAX_ISP)
                {
                   isp = MAX_ISP;

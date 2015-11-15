@@ -79,6 +79,8 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_BIOME = WINDOW_ID_BASE + 69;
          public const int WINDOW_ID_GAUGE_LATITUDE = WINDOW_ID_BASE + 70;
          public const int WINDOW_ID_GAUGE_LONGITUDE = WINDOW_ID_BASE + 71;
+         public const int WINDOW_ID_GAUGE_INDICATOR = WINDOW_ID_BASE + 72;
+         public const int WINDOW_ID_GAUGE_PROPELLANT = WINDOW_ID_BASE + 73;
 
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";

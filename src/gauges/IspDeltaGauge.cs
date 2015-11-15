@@ -35,7 +35,7 @@ namespace Nereid
          protected override void AutomaticOnOff()
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null && vessel.parts.Count > 0 && inspecteur.GetTotalEnginesCount() > 0)
+            if (vessel != null && vessel.parts.Count > 0 && inspecteur.enginesTotalCount > 0)
             {
                On();
             }

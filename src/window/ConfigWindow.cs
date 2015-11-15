@@ -178,8 +178,9 @@ namespace Nereid
             GUILayout.EndHorizontal();
             scrollPosGauges = GUILayout.BeginScrollView(scrollPosGauges, false, true, HighLogic.Skin.horizontalScrollbar, HighLogic.Skin.verticalScrollbar, STYLE_SCROLLVIEW, GUILayout.Height(GAUGES_HEIGHT));
             this.allGaugesEnables = true;
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SETS, "Gaugeset selector gauge enabled");
             config.trimIndicatorsEnabled = GUILayout.Toggle(config.trimIndicatorsEnabled, "Trim indicators enabled (restart required)", HighLogic.Skin.toggle);
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SETS, "Gaugeset selector gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_INDICATOR, "Indicator gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CAM, "Camera indicator gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ALTIMETER, "Altimeter gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, "Radar altimeter gauge enabled");
@@ -207,6 +208,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_APA, "Apoapsis gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AIRIN, "Absolute air-intake gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AIRPCT, "Relative air-intake gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_PROPELLANT, "Relative propellant requirement gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_THRUST, "Thrust gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TWR, "TWR gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ISPE, "ISP/E gauge enabled");

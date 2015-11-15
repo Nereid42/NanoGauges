@@ -38,7 +38,7 @@ namespace Nereid
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel != null)
             {
-               double thrust = inspecteur.GetTotalThrust();
+               double thrust = inspecteur.engineTotalThrust;
                if (thrust > MAX_THRUST)
                {
                   thrust = MAX_THRUST;

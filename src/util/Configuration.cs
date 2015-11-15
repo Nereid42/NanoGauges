@@ -123,10 +123,12 @@ namespace Nereid
             int n;
 
             //
-            n = 0;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SETS, x0 - 0 * vDX, y0 + n * vDY);
-            // Test
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SETS, 250 + 0*vDX, 10);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_INDICATOR, 250 + 1*vDX, 10);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CAM, 250+2*vDX, 10);
+            //
             // TAC life support
+            n = 0;
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_O2, x0 - 1 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CO2, x0 - 2 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_H2O, x0 - 3 * vDX, y0 + n * vDY);
@@ -137,9 +139,9 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KETHANE, x0 - 7 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KAIRIN, x0 - 8 * vDX, y0 + n * vDY);
             //
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VAI, x0 - 11 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VVI, x0 - 10 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_OSPD, x0 - 9 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VVI, x0 - 10 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VAI, x0 - 11 * vDX, y0 + n * vDY);
             //
             n = 1;
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, x0 - 11 * vDX, y0 +  n * vDY);
@@ -177,8 +179,8 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TEMP, x0 - 5 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_GRAV, x0 - 4 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SPD, x0 - 3 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CAM, x0 - 2 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MACH, x0 - 1 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MACH, x0 - 2 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_PROPELLANT, x0 - 1 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SHIELD, x0 - 0 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_ABOUT, 50, 50);
             set.SetWindowPosition(Constants.WINDOW_ID_CONFIG, 50, 50);

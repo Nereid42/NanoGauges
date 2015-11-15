@@ -11,14 +11,17 @@ namespace Nereid
       {
          private static readonly double MIN_INTERVAL = 0.2;
 
-         private double engineTotalThrust = 0.0;
-         private double engineIspPerRunningEngine = 0.0;
-         private int enginesRunning = 0;
-         private int enginesTotal = 0;
+         public double engineTotalThrust { get; private set; }
+         public double engineIspPerRunningEngine  { get; private set; }
+         public float propReqPerRunningEngine { get; private set; }
+         public int enginesRunningCount { get; private set; }
+         public int enginesTotalCount { get; private set; }
          private MovingAverage deltaIspPerSecond = new MovingAverage(5);
 
-         private readonly List<ModuleEnginesFX> enginesFX = new List<ModuleEnginesFX>();
+         public bool afterburnerInstalled { get; private set; }
+         public bool afterburnerEnabled { get; private set; }
          private readonly List<ModuleEngines> engines = new List<ModuleEngines>();
+         private readonly List<MultiModeEngine> afterburner = new List<MultiModeEngine>();         
 
          public EngineInspecteur()
             : base(10, MIN_INTERVAL)
@@ -30,31 +33,12 @@ namespace Nereid
          {
             this.engineTotalThrust = 0.0;
             this.engineIspPerRunningEngine = 0.0;
-            this.enginesRunning = 0;
+            this.propReqPerRunningEngine = 0.0f;
+            this.enginesRunningCount = 0;
             deltaIspPerSecond.Clear();
-            enginesFX.Clear();
             engines.Clear();
-         }
-
-         public double GetTotalThrust()
-         {
-            return engineTotalThrust;
-         }
-
-
-         public int GetRunningEnginesCount()
-         {
-            return enginesRunning;
-         }
-
-         public int GetTotalEnginesCount()
-         {
-            return enginesTotal;
-         }
-
-         public double GetIspPerRunningEngine()
-         {
-            return engineIspPerRunningEngine;
+            this.afterburnerEnabled = false;
+            this.afterburnerInstalled = false;
          }
 
          public double GetDeltaIspperSecond()
@@ -64,19 +48,28 @@ namespace Nereid
 
          protected override void ScanVessel(Vessel vessel)
          {
-            enginesFX.Clear();
             engines.Clear();
+            enginesTotalCount = 0;
+            this.afterburnerInstalled = false;
             if (vessel == null || vessel.Parts == null) return;
             foreach (Part part in vessel.Parts)
             {
                if(part.packed) part.Unpack();
-               foreach (ModuleEnginesFX engine in part.Modules.OfType<ModuleEnginesFX>())
-               {
-                  enginesFX.Add(engine);
-               }
+               int moduleCount = 0;
                foreach (ModuleEngines engine in part.Modules.OfType<ModuleEngines>())
                {
                   engines.Add(engine);
+                  moduleCount++;
+               }
+
+               foreach (MultiModeEngine afterburner in part.Modules.OfType<MultiModeEngine>())
+               {
+                  this.afterburner.Add(afterburner);
+                  this.afterburnerInstalled = true;
+               }
+               if(moduleCount>0)
+               {
+                  enginesTotalCount++;
                }
             }
          }
@@ -86,42 +79,49 @@ namespace Nereid
             double previousIspPerRunningEngine = engineIspPerRunningEngine;
             engineTotalThrust = 0.0;
             engineIspPerRunningEngine = 0.0;
-            enginesRunning = 0;
-            enginesTotal = 0;
+            propReqPerRunningEngine = 0.0f;
+            enginesRunningCount = 0;
+            enginesTotalCount = 0;
             deltaIspPerSecond.Clear();;
-            foreach (ModuleEnginesFX engine in enginesFX)
-            {
-               enginesTotal++;
-               double thrust = engine.finalThrust;
-               engineTotalThrust += thrust;
-               if (thrust > 0.0)
-               {
-                  engineIspPerRunningEngine += engine.realIsp;
-                  enginesRunning++;
-               }
-            }
             foreach (ModuleEngines engine in engines)
             {
-               enginesTotal++;
+               enginesTotalCount++;
                double thrust = engine.finalThrust;
                engineTotalThrust += thrust;
-               if (thrust > 0.0)
+               if (engine.isEnabled && thrust > 0.0)
                {
                   engineIspPerRunningEngine += engine.realIsp;
-                  enginesRunning++;
+                  propReqPerRunningEngine += engine.propellantReqMet;
+                  enginesRunningCount++;
                }
             }
-            if (enginesRunning > 0)
+            this.afterburnerEnabled = false;
+            if (enginesRunningCount > 0)
             {
                // ISP per engine
-               engineIspPerRunningEngine = engineIspPerRunningEngine / enginesRunning;
+               engineIspPerRunningEngine = engineIspPerRunningEngine / enginesRunningCount;
+               // propellant requirements per running engine
+               propReqPerRunningEngine = propReqPerRunningEngine / enginesRunningCount;
                // Delta ISP
-               double interval = Planetarium.GetUniversalTime()-GetLastInspectTime();
-               if(interval>0.0)
+               double interval = Planetarium.GetUniversalTime() - GetLastInspectTime();
+               if (interval > 0.0)
                {
-                  deltaIspPerSecond.AddValue( (engineIspPerRunningEngine - previousIspPerRunningEngine) * (1 / interval) );
+                  deltaIspPerSecond.AddValue((engineIspPerRunningEngine - previousIspPerRunningEngine) * (1 / interval));
                }
-              
+               // afterbruner
+               foreach (MultiModeEngine afterburner in this.afterburner)
+               {
+                  if (afterburner.isEnabled && !afterburner.runningPrimary)
+                  {
+                     this.afterburnerEnabled = true;
+                     break;
+                  }
+               }
+            }
+            else
+            {
+               engineIspPerRunningEngine = 0;
+               propReqPerRunningEngine = 0;
             }
          }
       }

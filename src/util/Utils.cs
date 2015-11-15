@@ -24,6 +24,15 @@ namespace Nereid
             }
          }
 
+         public static Texture2D CreateColorTexture(Color color)
+         {
+            Log.Detail("creating texture of color " + color);
+            Texture2D texture = new Texture2D(1, 1);
+            texture.SetPixel(0, 0, color);
+            texture.Apply();
+            return texture;
+         }
+
          public static String GetRootPath()
          {
             String path = KSPUtil.ApplicationRootPath;

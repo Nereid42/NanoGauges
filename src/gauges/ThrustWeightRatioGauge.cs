@@ -60,7 +60,7 @@ namespace Nereid
             {
                if(vessel.mainBody!=null)
                {
-                  double thrust = inspecteur.GetTotalThrust();
+                  double thrust = inspecteur.engineTotalThrust;
                   double g = vessel.mainBody.GeeASL*Constants.GEE_KERBIN;
                   double m = vessel.GetTotalMass(); 
                   if(m>0)
