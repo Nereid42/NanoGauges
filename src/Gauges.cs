@@ -87,8 +87,6 @@ namespace Nereid
             AddGauge(new LatitudeGauge());
             AddGauge(new LongitudeGauge());
 
-
-
             // TAC life support (only added if TAC installed)
             AddOptionalResourceGauge(new OxygenGauge(resourceInspecteur));
             AddOptionalResourceGauge(new CarbonDioxideGauge(resourceInspecteur));
@@ -99,7 +97,9 @@ namespace Nereid
             AddOptionalResourceGauge(new KethaneGauge(resourceInspecteur));
             AddOptionalResourceGauge(new KethaneAirIntakeGauge(resourceInspecteur));
             AddOptionalResourceGauge(new ShieldGauge(resourceInspecteur));
-
+            
+            // Real Fuels
+            AddOptionalResourceGauge(new KarboniteGauge(resourceInspecteur));
          }
 
          public AbstractGauge GetGauge(int id)

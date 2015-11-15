@@ -81,6 +81,7 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_LONGITUDE = WINDOW_ID_BASE + 71;
          public const int WINDOW_ID_GAUGE_INDICATOR = WINDOW_ID_BASE + 72;
          public const int WINDOW_ID_GAUGE_PROPELLANT = WINDOW_ID_BASE + 73;
+         public const int WINDOW_ID_GAUGE_KARBONITE = WINDOW_ID_BASE + 74;
 
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";
@@ -104,6 +105,8 @@ namespace Nereid
          public const String RESOURCE_NAME_KINTAKE_AIR = "KIntakeAir";
          // Deadly Reentry
          public const String RESOURCE_NAME_ABLATIVE_SHIELDING = "AblativeShielding";
+         // Real Fuels
+         public const String RESOURCE_NAME_KARBONITE = "Karbonite";
 
 
          public const double GEE_KERBIN = 9.81;

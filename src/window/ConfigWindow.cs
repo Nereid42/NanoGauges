@@ -228,6 +228,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_WASTE, "Waste gauge enabled (TAC life suppord required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_KETHANE, "Kethane gauge enabled (Kethane plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_KAIRIN, "Kethane air intake gauge enabled (Kethane plugin required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_KARBONITE, "Karbonite gauge enabled (Real Fuels plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MACH, "Mach gauge enabled (FAR plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_Q, "Dynamic pressure (Q) gauge enabled (FAR plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SHIELD, "Ablative shielding gauge enabled (Deadly Reentry plugin required)");

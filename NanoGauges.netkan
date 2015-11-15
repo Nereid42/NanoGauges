@@ -1,0 +1,14 @@
+{
+    "spec_version" : 1,
+    "identifier"   : "NanoGauges",
+    "$kref"        : "#/ckan/kerbalstuff/429",
+	"$vref"        : "#/ckan/ksp-avc",
+    "x_netkan_license_ok": true,
+	
+    "install": [
+        {
+            "file"       : "GameData/Nereid/NanoGauges",
+            "install_to" : "GameData/Nereid"
+        }
+    ]	
+}

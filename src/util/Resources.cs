@@ -34,7 +34,8 @@ namespace Nereid
          public static readonly PartResourceDefinition KINTAKE_AIR;
          // Deadly Reentry
          public static readonly PartResourceDefinition ABLATIVE_SHIELDING;
-
+         // Real Fuels
+         public static readonly PartResourceDefinition KARBONITE;
 
          static Resources()
          {
@@ -65,6 +66,8 @@ namespace Nereid
                KINTAKE_AIR = OptionalResource(Constants.RESOURCE_NAME_KINTAKE_AIR);
                Log.Info("defining Deadly Reentry resources");
                ABLATIVE_SHIELDING = OptionalResource(Constants.RESOURCE_NAME_ABLATIVE_SHIELDING);
+               Log.Info("defining Real Fuels resources");
+               KARBONITE = OptionalResource(Constants.RESOURCE_NAME_KARBONITE);
                Log.Info("resources completely defined");
             }
             catch

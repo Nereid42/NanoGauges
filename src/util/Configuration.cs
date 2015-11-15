@@ -129,6 +129,7 @@ namespace Nereid
             //
             // TAC life support
             n = 0;
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KARBONITE, x0 - 0 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_O2, x0 - 1 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CO2, x0 - 2 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_H2O, x0 - 3 * vDX, y0 + n * vDY);
