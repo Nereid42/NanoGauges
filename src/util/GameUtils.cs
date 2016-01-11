@@ -9,24 +9,25 @@ namespace Nereid
    {
       public static class GameUtils
       {
-
-         public static double GetThrust(Vessel vessel)
+         static public double TerminalVelocity(CelestialBody body, double m, double altitude, double cw)
          {
-            if(vessel==null) return 0.0;
-            double result = 0.0;
-            foreach(Part part in vessel.Parts)
+            double G = Constants.G;
+            double M = body.Mass;
+            // TODO: check if this call works like FlightGlobals.getAtmDensity(FlightGlobals.getStaticPressure(alt, body))
+            double density = FlightGlobals.getAtmDensity(FlightGlobals.getStaticPressure(altitude, body), FlightGlobals.getExternalTemperature(), body);
+            //double d0 = FlightGlobals.getAtmDensity(FlightGlobals.getStaticPressure(0, body), FlightGlobals.getExternalTemperature(), body);
+            if (density > 0 && cw > 0)
             {
-               foreach (ModuleEnginesFX engine in part.Modules.OfType<ModuleEnginesFX>())
-               {
-                  result += engine.CalculateThrust();
-               }
-               foreach (ModuleEngines engine in part.Modules.OfType<ModuleEngines>())
-               {
-                  result += engine.CalculateThrust();
-               }
+               double r = altitude + body.Radius;
+               double vt =  Math.Sqrt((2 * m * G * M)) * Math.Sqrt( 1.0 / (r * r * cw * density));
+               //Log.Test(body.name+" cw: " + cw + " alt "+altitude.ToString("0.0")+"  =>> vt = " + vt+"            // density="+density+"  // mass="+m);
+               return vt;
             }
-            return result;
+
+
+            return double.NaN;
          }
+
       }
    }
 }

@@ -53,32 +53,43 @@ namespace Nereid
             if (vessel != null && vessel.mainBody!=null)
             {
                CelestialBody body = vessel.mainBody;
-               double d = 0.2; // inspecteur.GetDragCoefficent(); // 
-               double alt = vessel.altitude;
-               double G = Constants.G;
-               double M = body.Mass;
-               // TODO: check if this call works like FlightGlobals.getAtmDensity(FlightGlobals.getStaticPressure(alt, body))
-               double density = FlightGlobals.getAtmDensity(FlightGlobals.getStaticPressure(alt, body), FlightGlobals.getExternalTemperature(), body);
-               if(density>0 && d >0)
+
+               //double cw = 0.00765;
+               double cw = 0.000135;
+               double m = 0.05;
+               double vt = GameUtils.TerminalVelocity(body, m, vessel.altitude, cw);
+               //GameUtils.TerminalVelocity(body, 5, 10000, cw);
+               //GameUtils.TerminalVelocity(body, 5, 1000, cw);
+               //GameUtils.TerminalVelocity(body, 5, 100, cw);
+               //GameUtils.TerminalVelocity(body, 5, 0, cw);               
+
+               if( double.IsNaN(vt) )
                {
-                  double r = alt + body.Radius;
-                  //double vt = Math.Sqrt((250 * G * M) / (r * r * density * d));
-                  double vt = Math.Sqrt((250 * G * M) / (r * r * d)) * Math.Sqrt(1 / density);
-
-                  double dvt = Math.Abs(vessel.verticalSpeed) - vt;
-
-                  if (dvt > MAX_VT) dvt = MAX_VT;
-                  if (dvt < MIN_VT) dvt = MIN_VT;
-
-                  if (dvt >= 0)
-                  {
-                     y = c + 37.5f * (float)Math.Log10(1 + dvt) / 400.0f;
-                  }
-                  else
-                  {
-                     y = c - 37.5f * (float)Math.Log10(1 - dvt) / 400.0f;
-                  }
+                  OutOfLimits();
+                  return y;
                }
+               //
+               double dvt = Math.Abs(vessel.verticalSpeed) - vt;
+               if (double.IsNaN(dvt))
+               {
+                  OutOfLimits();
+                  return y;
+               }
+
+               InLimits();
+
+               if (dvt > MAX_VT) dvt = MAX_VT;
+               if (dvt < MIN_VT) dvt = MIN_VT;
+
+               if (dvt >= 0)
+               {
+                  y = c + 37.5f * (float)Math.Log10(1 + dvt) / 400.0f;
+               }
+               else
+               {
+                  y = c - 37.5f * (float)Math.Log10(1 - dvt) / 400.0f;
+               }
+   
             }
             return y;
          }
