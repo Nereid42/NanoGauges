@@ -55,7 +55,7 @@ namespace Nereid
 
             public override string GetDescription()
             {
-                return "\n\nTime till impact.";
+                return "\n\nTime until impact.";
             }
 
             protected override float GetScaleOffset()

@@ -127,6 +127,10 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_INDICATOR, 250 + 1*vDX, 10);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CAM, 250+2*vDX, 10);
             //
+            n = -1;
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TIMETOAPA, x0 - 11 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TIMETOPEA, x0 - 10 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TIMETOTRANS, x0 - 9 * vDX, y0 + n * vDY);
             // TAC life support
             n = 0;
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KARBONITE, x0 - 0 * vDX, y0 + n * vDY);

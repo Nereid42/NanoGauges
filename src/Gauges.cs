@@ -81,6 +81,9 @@ namespace Nereid
             AddGauge(new DrillTempGauge(vesselInspecteur));
             AddGauge(new IndicatorGauge(vesselInspecteur,engineInspecteur));
             AddGauge(new PropellantPctGauge(engineInspecteur));
+            AddGauge(new TimeToApoapsisGauge());
+            AddGauge(new TimeToPeriapsisGauge());
+            //AddGauge(new TimeToTransistionGauge());
 
             // horizontal gauges
             AddGauge(new BiomeGauge(biomeInspecteur));

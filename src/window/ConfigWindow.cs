@@ -245,6 +245,9 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_BIOME, "Biome gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LATITUDE, "Latitude gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LONGITUDE, "Longitude gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOAPA, "Time to apoapsis gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOPEA, "Time to periapsis gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOTRANS, "Time to next transition gauge enabled");
             GUILayout.EndScrollView();
             
             GUILayout.EndVertical();
@@ -321,7 +324,6 @@ namespace Nereid
                bool enabled =gauges.IsGaugeEnabled(windowId);
                gauges.SetGaugeEnabled(windowId, GUILayout.Toggle(enabled, text, STYLE_TOGGLE_4_PER_ROW));
                this.allGaugesEnables = this.allGaugesEnables && enabled;
-
             }
             catch
             {
