@@ -10,9 +10,9 @@ namespace Nereid
       public class TempGauge : VerticalGauge
       {
          private static readonly Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/TEMP-skin");
-         private static readonly Texture2D SCALE = Utils.GetTexture("Nereid/NanoGauges/Resource/TEMP-scale");
-         private static readonly double MAX_TEMP = 2000;
-         private const double MIN_TEMP = -273;
+         private static readonly Texture2D SCALE = Utils.GetTexture("Nereid/NanoGauges/Resource/KELVIN-scale");
+         private static readonly double MAX_TEMP = 2500;
+         private const double MIN_TEMP = 0;
 
          private readonly SensorInspecteur inspecteur;
 
@@ -29,7 +29,7 @@ namespace Nereid
 
          public override string GetDescription()
          {
-            return "Average of all temperature readings (if any) on the vessel.";
+            return "Average of all temperature readings (if any) on the vessel in Kelvin.";
          }
 
          protected override void AutomaticOnOff()
@@ -48,27 +48,27 @@ namespace Nereid
 
          protected override float GetScaleOffset()
          {
-            float m = GetOffset(250);
-            float p50 = GetOffset(200);
-            float n50 = GetOffset(300);
-            float y = m; 
+            float k0 = GetOffset(0);
+            float k250 = GetOffset(250);
+            float k350 = GetOffset(150);
+            float y = k0;
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel != null && IsOn())
             {
                double temp = inspecteur.GetTemperature();
                if (temp > MAX_TEMP) temp = MAX_TEMP;
                if (temp < MIN_TEMP) temp = MIN_TEMP;
-               if(temp<=50.0 && temp>=-50.0)
+               if (temp <= 250.0)
                {
-                  y = m + (float)(temp/ 400.0f);
+                  y = k250 - 140.2110808f * (float)Math.Log10(1 + (250 - temp) / 60.0) / 400.0f;
                }
-               else if (temp>50)
+               else if (temp>250 && temp<350)
                {
-                  y = p50 + 88.5f * (float)Math.Log10(1 + (temp-50.0)/40.0) / 400.0f;
+                  y = k250 + (float)(temp - 250.0f) / 400.0f;
                }
                else
                {
-                  y = n50 - 45.0f * (float)Math.Log10(1 - (temp + 50.0) / 20.0) / 400.0f;
+                  y = k350 + 48.5f * (float)Math.Log10(1 + (temp-350) / 40.0) / 400.0f;
                }
             }
             return y;

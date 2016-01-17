@@ -83,6 +83,7 @@ namespace Nereid
             AddGauge(new PropellantPctGauge(engineInspecteur));
             AddGauge(new TimeToApoapsisGauge());
             AddGauge(new TimeToPeriapsisGauge());
+            // not working
             //AddGauge(new TimeToTransistionGauge());
 
             // horizontal gauges

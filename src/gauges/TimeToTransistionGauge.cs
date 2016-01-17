@@ -19,7 +19,7 @@ namespace Nereid
 {
     namespace NanoGauges
     {
-
+       // not working
        public class TimeToTransistionGauge : AbstractTimeGauge
         {
             private static readonly Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/TTRANS-skin");
