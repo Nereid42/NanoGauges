@@ -16,7 +16,7 @@ namespace Nereid
          // cached configuration (needs a restart to take effect)
          private static readonly bool trimIndicatorsEnabled;
 
-         private static readonly Gauges gauges;
+         public static readonly Gauges gauges;
 
          public static readonly SnapinManager snapinManager;
 
@@ -299,7 +299,7 @@ namespace Nereid
                }
                else if (Input.GetKeyDown(KeyCode.Backspace))
                {
-                  gauges.ResetPositions();
+                  gauges.LayoutCurrentGaugeSet(new StandardLayout(configuration));
                }
                else if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.KeypadDivide))
                {

@@ -10,7 +10,7 @@ namespace Nereid
 {
    namespace NanoGauges
    {
-      public class GaugeSet
+      public class GaugeSet : IEnumerable<int>
       {
          private static readonly Pair<int, int> ORIGIN = new Pair<int, int>(0, 0);
 
@@ -222,6 +222,11 @@ namespace Nereid
             }
          }
 
+         public override string ToString()
+         {
+            return id.ToString();
+         }
+
          public int Count()
          {
             return Math.Max(windowPositions.Count, gaugesEnabled.Count);
@@ -231,6 +236,17 @@ namespace Nereid
          {
             return gaugeIds;
          }
+
+         public System.Collections.IEnumerator GetEnumerator()
+         {
+            return gaugeIds.GetEnumerator();
+         }
+
+         IEnumerator<int> IEnumerable<int>.GetEnumerator()
+         {
+            return gaugeIds.GetEnumerator();
+         }
+
       }
    }
 }

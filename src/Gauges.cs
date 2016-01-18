@@ -215,10 +215,10 @@ namespace Nereid
             }
          }
 
-         public void ResetPositions()
+         public void LayoutCurrentGaugeSet(GaugeLayout layout)
          {
             Log.Info("reset of gauge screen positions");
-            NanoGauges.configuration.ResetWindowPositions();
+            NanoGauges.configuration.LayoutCurrentGaugeSet(layout);
             foreach (AbstractGauge gauge in gauges.Values)
             {
                Pair<int,int> position = NanoGauges.configuration.GetWindowPosition(gauge.GetWindowId());

@@ -15,6 +15,7 @@ namespace Nereid
          private static readonly GUIStyle STYLE_TOGGLE_4_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
          private static readonly GUIStyle STYLE_LABEL = new GUIStyle(HighLogic.Skin.label);
          private static readonly GUIStyle STYLE_SCROLLVIEW = new GUIStyle(HighLogic.Skin.scrollView);
+         private static readonly GUIStyle STYLE_LINE = new GUIStyle(HighLogic.Skin.label);
 
          static ConfigWindow()
          {
@@ -26,6 +27,12 @@ namespace Nereid
             STYLE_TOGGLE_4_PER_ROW.margin = new RectOffset(0, 50, 0, 0);
             STYLE_LABEL.stretchWidth = true;
             STYLE_SCROLLVIEW.stretchWidth = true;
+            STYLE_LINE.stretchWidth = true;
+            STYLE_LINE.stretchHeight = false;
+            STYLE_LINE.fixedHeight = 2;
+            // a generice skin; TODO: dedicated texture
+            STYLE_LINE.normal.background = Utils.GetTexture("Nereid/NanoGauges/Resource/ATM-skin");
+
          }
 
 
@@ -85,9 +92,13 @@ namespace Nereid
 
             GUILayout.BeginHorizontal();
             // Reset Window Postions
-            if (GUILayout.Button("Reset Gauge Positions", HighLogic.Skin.button))
+            if (GUILayout.Button("Standard Gauge Positions", HighLogic.Skin.button))
             {
-               gauges.ResetPositions();
+               gauges.LayoutCurrentGaugeSet(new StandardLayout(config));
+            }
+            if (GUILayout.Button("Reset Gauge Cluster", HighLogic.Skin.button))
+            {
+               gauges.LayoutCurrentGaugeSet(new ClusterLayout(config));
             }
             // layout gauges
             // autolayout will only work with a 100% scale
@@ -182,72 +193,74 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SETS, "Gaugeset selector gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_INDICATOR, "Indicator gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CAM, "Camera indicator gauge enabled");
+            GUILayout.Label("", STYLE_LINE);
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ALTIMETER, "Altimeter gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, "Radar altimeter gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VSI, "VSI (vertical speed indicator) gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VT, "Terminal velocity deviation gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HSPD, "Horizontal speed gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SPD, "Speed gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MASS, "Vessel mass gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_OSPD, "Orbital speed gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FUEL, "Fuel gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FLOW, "Fuel flow gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CHARGE, "Electric charge gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AMP, "Amperemeter gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SRB, "Solid fuel gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_G, "Accelerometer gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MAXG, "Max g gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ORBIT, "Orbit gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_INCL, "Orbit inclination gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MONO, "Monopropellant gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_EVAMP, "EVA monopropellant gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_XENON, "Xenon gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_OXID, "Oxidizer gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATM, "Atmosphere gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_PEA, "Periapsis gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_APA, "Apoapsis gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AIRIN, "Absolute air-intake gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AIRPCT, "Relative air-intake gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_PROPELLANT, "Relative propellant requirement gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_THRUST, "Thrust gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TWR, "TWR gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ISPE, "ISP/E gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DISP, "ISP rate gauge (Delta Isp/s) enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AOA, "AoA (angle of attack) gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VAI, "VAI (vertical attidute indicator) gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VVI, "VVI (vertical velocity indicator) gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DTGT, "Distance to target gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VTGT, "Velocity to target gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TEMP, "Temperature gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_GRAV, "Gravity gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_O2, "Oxygen gauge enabled (TAC life suppord required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CO2, "CO2 gauge enabled (TAC life suppord required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_H2O, "Water gauge enabled (TAC life suppord required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FOOD, "Food gauge enabled (TAC life suppord required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_WH2O, "Wastewater gauge enabled (TAC life suppord required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_WASTE, "Waste gauge enabled (TAC life suppord required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_KETHANE, "Kethane gauge enabled (Kethane plugin required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_KAIRIN, "Kethane air intake gauge enabled (Kethane plugin required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_KARBONITE, "Karbonite gauge enabled (Real Fuels plugin required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MACH, "Mach gauge enabled (FAR plugin required)");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_Q, "Dynamic pressure (Q) gauge enabled (FAR plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SHIELD, "Ablative shielding gauge enabled (Deadly Reentry plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ABLAT, "Ablator gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HEAT, "Heat shield temperatur gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_IMPACT, "Impact gauge");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AIRIN, "Absolute air-intake gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ACCL, "Acceleration gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Horizontal acceleration gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VACCL, "Vertical acceleration gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_EXTTEMP, "External temperature gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_G, "Accelerometer gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AOA, "AoA (angle of attack) gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AMP, "Amperemeter gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_APA, "Apoapsis gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATM, "Atmosphere gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATMTEMP, "Atmosphere temperature gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ORE, "Ore gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CO2, "CO2 gauge enabled (TAC life suppord required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DTGT, "Distance to target gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DRILLTEMP, "Drill temperature gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_Q, "Dynamic pressure (Q) gauge enabled (FAR plugin required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CHARGE, "Electric charge gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_EVAMP, "EVA monopropellant gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_EXTTEMP, "External temperature gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FOOD, "Food gauge enabled (TAC life suppord required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FLOW, "Fuel flow gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FUEL, "Fuel gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_GRAV, "Gravity gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HEAT, "Heat shield temperatur gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Horizontal acceleration gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HSPD, "Horizontal speed gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_IMPACT, "Impact gauge");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DISP, "ISP rate gauge (Delta Isp/s) enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ISPE, "ISP/E gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_KARBONITE, "Karbonite gauge enabled (Real Fuels plugin required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_KAIRIN, "Kethane air intake gauge enabled (Kethane plugin required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_KETHANE, "Kethane gauge enabled (Kethane plugin required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MACH, "Mach gauge enabled (FAR plugin required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MAXG, "Max g gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MONO, "Monopropellant gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_INCL, "Orbit inclination gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ORBIT, "Orbit gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_OSPD, "Orbital speed gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ORE, "Ore gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_OXID, "Oxidizer gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_O2, "Oxygen gauge enabled (TAC life suppord required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_PEA, "Periapsis gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, "Radar altimeter gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AIRPCT, "Relative air-intake gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_PROPELLANT, "Relative propellant requirement gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SRB, "Solid fuel gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SPD, "Speed gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TEMP, "Temperature gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VT, "Terminal velocity deviation gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOAPA, "Time to apoapsis gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOTRANS, "Time to next transition gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOPEA, "Time to periapsis gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_THRUST, "Thrust gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TWR, "TWR gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VAI, "VAI (vertical attidute indicator) gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VTGT, "Velocity to target gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VACCL, "Vertical acceleration gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MASS, "Vessel mass gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VSI, "VSI (vertical speed indicator) gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VVI, "VVI (vertical velocity indicator) gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_WASTE, "Waste gauge enabled (TAC life suppord required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_WH2O, "Wastewater gauge enabled (TAC life suppord required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_H2O, "Water gauge enabled (TAC life suppord required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_XENON, "Xenon gauge enabled");
+            GUILayout.Label("", STYLE_LINE);
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_BIOME, "Biome gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LATITUDE, "Latitude gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LONGITUDE, "Longitude gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOAPA, "Time to apoapsis gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOPEA, "Time to periapsis gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOTRANS, "Time to next transition gauge enabled");
             GUILayout.EndScrollView();
             
             GUILayout.EndVertical();

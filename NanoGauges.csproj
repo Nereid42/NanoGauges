@@ -55,6 +55,9 @@
     <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\layout\StandardLayout.cs" />
+    <Compile Include="src\gauges\layout\ClusterLayout.cs" />
+    <Compile Include="src\gauges\layout\GaugeLayout.cs" />
     <Compile Include="src\gauges\TimeToTransistionGauge.cs" />
     <Compile Include="src\gauges\TimeToPeriapsisGauge.cs" />
     <Compile Include="src\gauges\TimeToApoapsisGauge.cs" />
