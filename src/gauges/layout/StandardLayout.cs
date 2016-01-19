@@ -9,127 +9,91 @@ namespace Nereid
       public class StandardLayout : GaugeLayout
       {
 
-         public StandardLayout(Configuration configuration)
-            : base(configuration)
+         public StandardLayout(Gauges gauges, Configuration configuration)
+            : base(gauges, configuration)
          {
 
          }
 
-         public override void Reset(GaugeSet set)
-         {
-            GaugeSet.ID id = set.GetId();
-            switch(id)
-            {
-               case GaugeSet.ID.STANDARD:
-                  ResetStandardLayout(set);
-                  return;
-               case GaugeSet.ID.DOCK:
-                  break;
-               case GaugeSet.ID.FLIGHT:
-                  break;
-               case GaugeSet.ID.ORBIT:
-                  break;
-               case GaugeSet.ID.LAND:
-                  break;
-               case GaugeSet.ID.LAUNCH:
-                  break;
-               case GaugeSet.ID.SET1:
-                  break;
-               case GaugeSet.ID.SET2:
-                  break;
-               case GaugeSet.ID.SET3:
-                  break;
-               default:
-                  Log.Warning("unknown gauge sewt ID for layout: "+id);
-                  break;
-            }
-         }
 
-         private void ResetStandardLayout(GaugeSet set)
+         protected override void DoLayout(GaugeSet set)
          {
             Log.Info("reset of standard layout for set "+set);
             int LAYOUT_CELL_X = verticalGaugeWidth + Gauges.LAYOUT_GAP;
             int LAYOUT_CELL_Y = verticalGaugeHeight + Gauges.LAYOUT_GAP;
 
-            int i = 0;
 
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SETS, TopBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_INDICATOR, TopBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CAM, TopBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ORBIT, TopBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_INCL, TopBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_PEA, TopBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_APA, TopBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TIMETOPEA, TopBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TIMETOAPA, TopBlock(i++));
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_SETS);
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_INDICATOR);
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_CAM);
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_ORBIT);
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_INCL);
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_PEA);
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_APA);
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_TIMETOPEA);
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_TIMETOAPA);
 
-            i = 0;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_DTGT, LeftBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VTGT, LeftBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_IMPACT, LeftBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TEMP, LeftBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_GRAV, LeftBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HEAT, LeftBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_EXTTEMP, LeftBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ATMTEMP, LeftBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_DRILLTEMP, LeftBlock(i++));
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_DTGT);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_VTGT);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_IMPACT);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_TEMP);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_GRAV);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_HEAT);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_EXTTEMP);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_ATMTEMP);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_DRILLTEMP);
 
-            i = 0;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_G, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MAXG, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VACCL, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HACCL, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ACCL, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ATM, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ISPE, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_DISP, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TWR, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_THRUST, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MASS, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AOA, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VAI, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VVI, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_OSPD, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_HSPD, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MACH, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SPD, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VSI, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ALTIMETER, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VT, LeftNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, LeftNavballBlock(i++));
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_G);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MAXG);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VACCL);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_HACCL);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ACCL);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ATM);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ISPE);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_DISP);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_THRUST);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_TWR);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MASS);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_AOA);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VAI);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VVI);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_OSPD);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_HSPD);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MACH);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_SPD);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VSI);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ALTIMETER);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VT);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER);
 
 
-            i = 0;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FUEL, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_OXID, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FLOW, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_MONO, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SRB, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_XENON, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CHARGE, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AMP, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AIRIN, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AIRPCT, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_PROPELLANT, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_EVAMP, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ABLAT, RightNavballBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_Q, RightNavballBlock(i++));
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FUEL);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_OXID);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FLOW);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_MONO);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_SRB);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_XENON);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_CHARGE);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AMP);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AIRIN);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AIRPCT);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_PROPELLANT);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_EVAMP);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_ABLAT);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_Q);
 
 
-            i = 0;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ORE, RightBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_O2, RightBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CO2, RightBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FOOD, RightBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_H2O, RightBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_WH2O, RightBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KARBONITE, RightBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_WASTE, RightBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KETHANE, RightBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KAIRIN, RightBlock(i++));
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SHIELD, RightBlock(i++));
-
-
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_ORE);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_O2);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_CO2);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_FOOD);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_H2O);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_WH2O);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_KARBONITE);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_WASTE);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_KETHANE);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_KAIRIN);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_SHIELD);
 
             // horizontal gauges
             int hDY = (int)(verticalGaugeWidth * gaugeScaling) + Gauges.LAYOUT_GAP;
@@ -138,17 +102,13 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 10, 60 + 2 * hDY);
          }
 
+
          public override void Enable(GaugeSet set)
          {
             foreach (int id in set)
             {
                set.SetGaugeEnabled(id, true);
             }
-         }
-
-         public override string ToString()
-         {
-            return "standard layout";
          }
 
       }

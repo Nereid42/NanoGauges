@@ -30,6 +30,7 @@ namespace Nereid
          protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 160;
 
 
+         protected Gauges gauges { get; private set; }
          protected Configuration configuration { get; private set; }
          protected int verticalGaugeWidth { get; private set; }
          protected int verticalGaugeHeight { get; private set; }
@@ -38,8 +39,18 @@ namespace Nereid
          protected readonly int centerX = Screen.width / 2;
          protected readonly int centerY = Screen.height / 2;
 
-         protected GaugeLayout(Configuration configuration)
+         // gauges counter/indexes
+         int topBlockIndex = 0;
+         int leftBlockIndex = 0;
+         int rightBlockIndex = 0;
+         int leftNavBlockIndex = 0;
+         int rightNavBlockIndex = 0;
+         int spareIndex = 0;
+         int spareRow = 0;
+
+         protected GaugeLayout(Gauges gauges, Configuration configuration)
          {
+            this.gauges = gauges;
             this.configuration = configuration;
             this.verticalGaugeWidth = configuration.verticalGaugeWidth;
             this.verticalGaugeHeight = configuration.verticalGaugeHeight;
@@ -57,7 +68,7 @@ namespace Nereid
             return MARGIN_Y_LEFT_BLOCK + (verticalGaugeHeight + Gauges.LAYOUT_GAP) * (index / COLUMNS_LEFT_BLOCK);
          }
 
-         protected Pair<int, int> LeftBlock(int index)
+         private Pair<int, int> LeftBlock(int index)
          {
             return new Pair<int, int>(XLeftBlock(index), YLeftBlock(index));
          }
@@ -72,7 +83,7 @@ namespace Nereid
             return MARGIN_Y_RIGHT_BLOCK + (verticalGaugeHeight + Gauges.LAYOUT_GAP) * (index / COLUMNS_RIGHT_BLOCK);
          }
 
-         protected Pair<int, int> RightBlock(int index)
+         private Pair<int, int> RightBlock(int index)
          {
             return new Pair<int, int>(XRightBlock(index), YRightBlock(index));
          }
@@ -87,7 +98,7 @@ namespace Nereid
             return MARGIN_Y_TOP_BLOCK + (verticalGaugeHeight + Gauges.LAYOUT_GAP) * (index / COLUMNS_TOP_BLOCK);
          }
 
-         protected Pair<int, int> TopBlock(int index)
+         private Pair<int, int> TopBlock(int index)
          {
             return new Pair<int, int>(XTopBlock(index), YTopBlock(index));
          }
@@ -102,7 +113,7 @@ namespace Nereid
             return Screen.height - MARGIN_Y_LEFT_NAVBALL_BLOCK - (verticalGaugeHeight + Gauges.LAYOUT_GAP) * (index % ROWS_LEFT_NAVBALL_BLOCK + 1);
          }
 
-         protected Pair<int, int> LeftNavballBlock(int index)
+         private Pair<int, int> LeftNavballBlock(int index)
          {
             return new Pair<int, int>(XLeftNavballBlock(index), YLeftNavballBlock(index));
          }
@@ -117,12 +128,113 @@ namespace Nereid
             return Screen.height - MARGIN_Y_LEFT_NAVBALL_BLOCK - (verticalGaugeHeight + Gauges.LAYOUT_GAP) * (index % ROWS_LEFT_NAVBALL_BLOCK + 1);
          }
 
-         protected Pair<int, int> RightNavballBlock(int index)
+         private Pair<int, int> RightNavballBlock(int index)
          {
             return new Pair<int, int>(XRightNavballBlock(index), YRightNavballBlock(index));
          }
 
-         public abstract void Reset(GaugeSet set);
+         protected void AddToRightNavballBlock(GaugeSet set, int windowId)
+         {
+            if(gauges.ContainsId(windowId))
+            {
+               set.SetWindowPosition(windowId, RightNavballBlock(rightNavBlockIndex++));
+            }
+         }
+
+         protected void AddToLeftNavballBlock(GaugeSet set, int windowId)
+         {
+            if (gauges.ContainsId(windowId))
+            {
+               set.SetWindowPosition(windowId, LeftNavballBlock(leftNavBlockIndex++));
+            }
+         }
+
+         protected void AddToLeftBlock(GaugeSet set, int windowId)
+         {
+            if (gauges.ContainsId(windowId))
+            {
+               set.SetWindowPosition(windowId, LeftBlock(leftBlockIndex++));
+            }
+         }
+
+         protected void AddToRightBlock(GaugeSet set, int windowId)
+         {
+            if (gauges.ContainsId(windowId))
+            {
+               set.SetWindowPosition(windowId, RightBlock(rightBlockIndex++));
+            }
+         }
+
+         protected void AddToTopBlock(GaugeSet set, int windowId)
+         {
+            if (gauges.ContainsId(windowId))
+            {
+               set.SetWindowPosition(windowId, TopBlock(topBlockIndex++));
+            }
+         }
+
+         protected void AddToSpare(GaugeSet set, int windowId)
+         {
+            if (gauges.ContainsId(windowId))
+            {
+               int MARGIN_X_SPARE = Screen.width / 2;
+               int MARGIN_Y_SPARE = 100;
+               int x = MARGIN_X_SPARE + spareIndex * (verticalGaugeWidth);
+               int y = MARGIN_Y_SPARE + spareRow * (verticalGaugeHeight + Gauges.LAYOUT_GAP);
+               // next line ?
+               if (x + verticalGaugeWidth > Screen.width)
+               {
+                  spareIndex = 0;
+                  x = MARGIN_X_SPARE;
+                  spareRow++;
+                  y = MARGIN_Y_SPARE + spareRow * (verticalGaugeHeight + Gauges.LAYOUT_GAP);
+               }
+               Log.Detail("adding gauge id " + windowId + " to spare layout at " + x + "/" + y);
+               set.SetWindowPosition(windowId, x, y);
+               spareIndex++;
+            }
+            else
+            {
+               Log.Test("*** SPARE id not found " + windowId);
+
+            }
+         }
+
+         public void Reset(GaugeSet set)
+         {
+            Pair<int, int> NO_POSITION = new Pair<int, int>(0, 0);
+            foreach (int id in set)
+            {
+               set.SetWindowPosition(id, NO_POSITION);
+            }
+            //
+            Log.Info("Do Layout");
+            DoLayout(set);
+            //
+            Enable(set);
+            //
+            // TODO: Constants
+
+            foreach (int id in set)
+            {
+               Pair<int, int> p = set.GetWindowPosition(id);
+               if(NO_POSITION.Equals(p))
+               {
+                  Log.Test("*** SPARE "+id);
+                  AddToSpare(set, id);
+               }
+            }
+         }
+
+
+
+         public override string ToString()
+         {
+            return GetType().Name;
+         }
+
+
+         protected abstract void DoLayout(GaugeSet set);
 
          public abstract void Enable(GaugeSet set);
       }

@@ -94,11 +94,11 @@ namespace Nereid
             // Reset Window Postions
             if (GUILayout.Button("Standard Gauge Positions", HighLogic.Skin.button))
             {
-               gauges.LayoutCurrentGaugeSet(new StandardLayout(config));
+               gauges.LayoutCurrentGaugeSet(new DefaultLayout(gauges, config));
             }
             if (GUILayout.Button("Reset Gauge Cluster", HighLogic.Skin.button))
             {
-               gauges.LayoutCurrentGaugeSet(new ClusterLayout(config));
+               gauges.LayoutCurrentGaugeSet(new ClusterLayout(gauges, config));
             }
             // layout gauges
             // autolayout will only work with a 100% scale

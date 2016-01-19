@@ -12,11 +12,11 @@ namespace Nereid
       {
          public static readonly String RESOURCE_PATH = "Nereid/NanoGauges/Resource/";
 
+         public static readonly Gauges gauges;
          public static readonly Configuration configuration = new Configuration();
          // cached configuration (needs a restart to take effect)
          private static readonly bool trimIndicatorsEnabled;
 
-         public static readonly Gauges gauges;
 
          public static readonly SnapinManager snapinManager;
 
@@ -39,6 +39,11 @@ namespace Nereid
             snapinManager = new SnapinManager(gauges);
             Log.SetLevel(configuration.GetLogLevel());
             trimIndicatorsEnabled = configuration.trimIndicatorsEnabled;
+
+            // default window positions
+            configuration.ResetAllWindowPositions(gauges);
+            // default Gauge visibily per gauge set
+            configuration.EnableAllDefaultGauges(gauges);
          }
 
          public NanoGauges()
@@ -299,7 +304,7 @@ namespace Nereid
                }
                else if (Input.GetKeyDown(KeyCode.Backspace))
                {
-                  gauges.LayoutCurrentGaugeSet(new StandardLayout(configuration));
+                  gauges.LayoutCurrentGaugeSet(new StandardLayout(NanoGauges.gauges,configuration));
                }
                else if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.KeypadDivide))
                {

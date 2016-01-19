@@ -12,12 +12,12 @@ namespace Nereid
    {
       public class ClusterLayout : GaugeLayout
       {
-         public ClusterLayout(Configuration configuration)
-            : base(configuration)
+         public ClusterLayout(Gauges gauges, Configuration configuration)
+            : base(gauges, configuration)
          {
          }
 
-         public override void Reset(GaugeSet set)
+         protected override void DoLayout(GaugeSet set)
          {
             int verticalGaugeWidth = configuration.verticalGaugeWidth;
             int verticalGaugeHeight = configuration.verticalGaugeHeight;
@@ -134,16 +134,10 @@ namespace Nereid
 
          public override void Enable(GaugeSet set)
          {
-            foreach(int id in set)
+            foreach (int id in set)
             {
-               set.SetGaugeEnabled(id,true);
+               set.SetGaugeEnabled(id, true);
             }
-         }
-
-
-         public override string ToString()
-         {
-            return "cluster layout";
          }
       }
    }

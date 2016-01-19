@@ -55,6 +55,10 @@
     <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\layout\DefaultLayout.cs" />
+    <Compile Include="src\gauges\layout\LandingLayout.cs" />
+    <Compile Include="src\gauges\layout\FlightLayout.cs" />
+    <Compile Include="src\gauges\layout\LaunchLayout.cs" />
     <Compile Include="src\gauges\layout\StandardLayout.cs" />
     <Compile Include="src\gauges\layout\ClusterLayout.cs" />
     <Compile Include="src\gauges\layout\GaugeLayout.cs" />

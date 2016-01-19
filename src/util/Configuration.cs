@@ -78,10 +78,6 @@ namespace Nereid
             horizontalGaugeHeight = UNSCALED_HORIZONTAL_GAUGE_HEIGHT;
             //
             disableStockHeatIndicators = false;
-            // default window positions
-            ResetAllWindowPositions();
-            // default Gauge visibily per gauge set
-            EnableAllDefaultGauges();
          }
 
          public void EnableAllGauges(Gauges gauges)
@@ -92,27 +88,27 @@ namespace Nereid
             }
          }
 
-         public void EnableAllDefaultGauges()
+         public void EnableAllDefaultGauges(Gauges gauges)
          {
-            GaugeLayout layout = new StandardLayout(this);
+            GaugeLayout layout = new StandardLayout(gauges, this);
             foreach (GaugeSet set in GaugeSetPool.instance)
             {
                layout.Enable(set);
             }
          }
 
-         public void ResetAllWindowPositions()
+         public void ResetAllWindowPositions(Gauges gauges)
          {
-            ClusterLayout layout = new ClusterLayout(this);
+            ClusterLayout layout = new ClusterLayout(gauges, this);
             foreach(GaugeSet set in GaugeSetPool.instance)
             {
                LayoutGaugeSet(set, layout);
             }
          }
 
-         public void ResetWindowPositions()
+         public void ResetWindowPositions(Gauges gauges)
          {
-            LayoutGaugeSet(currentGaugeSet, new ClusterLayout(this));
+            LayoutGaugeSet(currentGaugeSet, new ClusterLayout(gauges, this));
          }
 
          public void LayoutCurrentGaugeSet(GaugeLayout layout)
