@@ -33,17 +33,22 @@ namespace Nereid
          {
             Log.SetLevel(Log.LEVEL.INFO);
             Log.Info("static init of NanoGauges");
-            configuration.Load();
-            Log.Info("log level is " + Log.GetLogLevel());
             gauges = new Gauges();
-            snapinManager = new SnapinManager(gauges);
-            Log.SetLevel(configuration.GetLogLevel());
-            trimIndicatorsEnabled = configuration.trimIndicatorsEnabled;
-
+            //
             // default window positions
             configuration.ResetAllWindowPositions(gauges);
             // default Gauge visibily per gauge set
             configuration.EnableAllDefaultGauges(gauges);
+            //
+            configuration.SetGaugeSet(GaugeSet.ID.STANDARD);
+            gauges.ReflectGaugeSetChange();
+            //
+            configuration.Load();
+            Log.Info("log level is " + Log.GetLogLevel());
+            //
+            snapinManager = new SnapinManager(gauges);
+            Log.SetLevel(configuration.GetLogLevel());
+            trimIndicatorsEnabled = configuration.trimIndicatorsEnabled;
          }
 
          public NanoGauges()

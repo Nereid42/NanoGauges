@@ -6,10 +6,10 @@ namespace Nereid
 {
    namespace NanoGauges
    {
-      public class LandingLayout : GaugeLayout
+      public class OrbitingLayout : GaugeLayout
       {
 
-         public LandingLayout(Gauges gauges, Configuration configuration)
+         public OrbitingLayout(Gauges gauges, Configuration configuration)
             : base(gauges, configuration)
          {
 
@@ -52,12 +52,12 @@ namespace Nereid
            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_PROPELLANT);
            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_Q);
 
+
            // horizontal gauges
            int hDY = (int)(configuration.horizontalGaugeHeight * gaugeScaling) + Gauges.LAYOUT_GAP;
            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 10, 60 + 0 * hDY);
            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 10, 60 + 1 * hDY);
            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 10, 60 + 2 * hDY);
-
          }
 
 

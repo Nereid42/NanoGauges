@@ -6,10 +6,10 @@ namespace Nereid
 {
    namespace NanoGauges
    {
-      public class LandingLayout : GaugeLayout
+      public class DockingLayout : GaugeLayout
       {
 
-         public LandingLayout(Gauges gauges, Configuration configuration)
+         public DockingLayout(Gauges gauges, Configuration configuration)
             : base(gauges, configuration)
          {
 
@@ -57,7 +57,6 @@ namespace Nereid
            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 10, 60 + 0 * hDY);
            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 10, 60 + 1 * hDY);
            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 10, 60 + 2 * hDY);
-
          }
 
 

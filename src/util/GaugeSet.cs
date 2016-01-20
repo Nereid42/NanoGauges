@@ -183,8 +183,6 @@ namespace Nereid
                }
             );
 
-
-
             for (int i = 0; i < sourceCnt && i < thisCnt; i++)
             {
                SetWindowPosition(thisSortedByPosition[i], source.GetWindowPosition(sourceSortedByPosition[i]));

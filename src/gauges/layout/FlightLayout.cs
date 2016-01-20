@@ -18,7 +18,6 @@ namespace Nereid
 
          protected override void DoLayout(GaugeSet set)
          {
-            Log.Info("reset of launch layout for set "+set);
             int LAYOUT_CELL_X = verticalGaugeWidth + Gauges.LAYOUT_GAP;
             int LAYOUT_CELL_Y = verticalGaugeHeight + Gauges.LAYOUT_GAP;
 
@@ -56,12 +55,11 @@ namespace Nereid
            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_PROPELLANT);
            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_Q);
 
-
-            // horizontal gauges
-            int hDY = (int)(verticalGaugeWidth * gaugeScaling) + Gauges.LAYOUT_GAP;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 10, 60 + 0 * hDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 10, 60 + 1 * hDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 10, 60 + 2 * hDY);
+           // horizontal gauges
+           int hDY = (int)(configuration.horizontalGaugeHeight * gaugeScaling) + Gauges.LAYOUT_GAP;
+           set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 10, 60 + 0 * hDY);
+           set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 10, 60 + 1 * hDY);
+           set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 10, 60 + 2 * hDY);
          }
 
 

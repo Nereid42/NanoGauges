@@ -90,7 +90,7 @@ namespace Nereid
 
          public void EnableAllDefaultGauges(Gauges gauges)
          {
-            GaugeLayout layout = new StandardLayout(gauges, this);
+            GaugeLayout layout = new DefaultLayout(gauges, this);
             foreach (GaugeSet set in GaugeSetPool.instance)
             {
                layout.Enable(set);
@@ -99,15 +99,19 @@ namespace Nereid
 
          public void ResetAllWindowPositions(Gauges gauges)
          {
-            ClusterLayout layout = new ClusterLayout(gauges, this);
+            Log.Test("**** ResetAllWindowPositions");
+            GaugeLayout layout = new DefaultLayout(gauges, this);
             foreach(GaugeSet set in GaugeSetPool.instance)
             {
                LayoutGaugeSet(set, layout);
             }
+            Log.Test("**** ResetAllWindowPositions DONE");
          }
 
          public void ResetWindowPositions(Gauges gauges)
          {
+            currentGaugeSet.SetWindowPosition(Constants.WINDOW_ID_ABOUT, 50, 50);
+            currentGaugeSet.SetWindowPosition(Constants.WINDOW_ID_CONFIG, 50, 50); 
             LayoutGaugeSet(currentGaugeSet, new ClusterLayout(gauges, this));
          }
 
@@ -118,44 +122,9 @@ namespace Nereid
 
          public void LayoutGaugeSet(GaugeSet set, GaugeLayout layout)
          {
-            Log.Info("layout of window positions (screen: " + Screen.width + "x" + Screen.height + ") with "+layout);
+            Log.Info("layout of gauges in set "+set+" (screen: " + Screen.width + "x" + Screen.height + ") with "+layout);
 
-            // TEST
-            if (NanoGauges.gauges!=null)
-            {
-               foreach (AbstractGauge g in NanoGauges.gauges)
-               {
-                  set.SetWindowPosition(g.GetWindowId(), 0, 0);
-               }
-            }
-
-
-            set.SetWindowPosition(Constants.WINDOW_ID_ABOUT, 50, 50);
-            set.SetWindowPosition(Constants.WINDOW_ID_CONFIG, 50, 50);
-
-            layout.Reset(set);
-
-            // TEST
-            if (NanoGauges.gauges != null)
-            {
-               foreach (AbstractGauge g in NanoGauges.gauges)
-               {
-                   Pair<int, int> p = set.GetWindowPosition(g.GetWindowId());
-                   foreach (AbstractGauge x in NanoGauges.gauges)
-                   {
-                      if(x.GetWindowId()!=g.GetWindowId())
-                      {
-                         if(p.Equals( set.GetWindowPosition(x.GetWindowId()) ) )
-                         {
-                            Log.Error("******* Gauges OVERLAP ****");
-                            Log.Error("ID1 = " + (g.GetWindowId() - 19280) + ", ID2 = " + (x.GetWindowId()-19280));
-                            Log.Error(g + " and = " + x);
-                            Log.Error(p + " = " + set.GetWindowPosition(x.GetWindowId()));
-                         }
-                      }
-                   }
-               }
-            }
+            layout.Layout(set);
          }
 
 
@@ -418,6 +387,8 @@ namespace Nereid
 
          public void Load()
          {
+            Log.Test("**** LOAD CONFIG");
+
             String filename = CONFIG_BASE_FOLDER+FILE_NAME;
             try
             {

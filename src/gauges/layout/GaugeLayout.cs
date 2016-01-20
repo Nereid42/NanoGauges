@@ -36,6 +36,7 @@ namespace Nereid
          protected int verticalGaugeHeight { get; private set; }
          protected double gaugeScaling { get; private set; }
          protected int horizontalGaugeWidth { get; private set; }
+         protected int horizontalGaugeHeight { get; private set; }
          protected readonly int centerX = Screen.width / 2;
          protected readonly int centerY = Screen.height / 2;
 
@@ -56,6 +57,7 @@ namespace Nereid
             this.verticalGaugeHeight = configuration.verticalGaugeHeight;
             this.gaugeScaling = configuration.gaugeScaling;
             this.horizontalGaugeWidth = configuration.horizontalGaugeWidth;
+            this.horizontalGaugeHeight = configuration.horizontalGaugeHeight;
          }
 
          private int XLeftBlock(int index)
@@ -137,6 +139,7 @@ namespace Nereid
          {
             if(gauges.ContainsId(windowId))
             {
+               Log.Test("AddToRightNavballBlock set " + set + " id " + windowId + " at " + TopBlock(topBlockIndex));
                set.SetWindowPosition(windowId, RightNavballBlock(rightNavBlockIndex++));
             }
          }
@@ -145,6 +148,7 @@ namespace Nereid
          {
             if (gauges.ContainsId(windowId))
             {
+               Log.Test("AddToLeftNavballBlock set " + set + " id " + windowId + " at " + TopBlock(topBlockIndex));
                set.SetWindowPosition(windowId, LeftNavballBlock(leftNavBlockIndex++));
             }
          }
@@ -153,6 +157,7 @@ namespace Nereid
          {
             if (gauges.ContainsId(windowId))
             {
+               Log.Test("AddToLeftBlock set " + set + " id " + windowId + " at " + TopBlock(topBlockIndex));
                set.SetWindowPosition(windowId, LeftBlock(leftBlockIndex++));
             }
          }
@@ -161,6 +166,7 @@ namespace Nereid
          {
             if (gauges.ContainsId(windowId))
             {
+               Log.Test("AddToRightBlock set " + set + " id " + windowId + " at " + TopBlock(topBlockIndex));
                set.SetWindowPosition(windowId, RightBlock(rightBlockIndex++));
             }
          }
@@ -169,6 +175,7 @@ namespace Nereid
          {
             if (gauges.ContainsId(windowId))
             {
+               Log.Test("AddToTopBlock set " + set + " id " + windowId + " at " + TopBlock(topBlockIndex));
                set.SetWindowPosition(windowId, TopBlock(topBlockIndex++));
             }
          }
@@ -200,7 +207,7 @@ namespace Nereid
             }
          }
 
-         public void Reset(GaugeSet set)
+         public void Layout(GaugeSet set)
          {
             Pair<int, int> NO_POSITION = new Pair<int, int>(0, 0);
             foreach (int id in set)
@@ -208,7 +215,7 @@ namespace Nereid
                set.SetWindowPosition(id, NO_POSITION);
             }
             //
-            Log.Info("Do Layout");
+            Log.Info("do layout "+GetType()+", set "+set);
             DoLayout(set);
             //
             Enable(set);
@@ -224,6 +231,25 @@ namespace Nereid
                   AddToSpare(set, id);
                }
             }
+
+            // TEST
+            foreach (int id in set)
+            {
+               Pair<int, int> p = set.GetWindowPosition(id);
+               foreach (int x in set)
+               {
+                  if (x != id)
+                  {
+                     if (p.Equals(set.GetWindowPosition(x)))
+                     {
+                        Log.Error("******* Gauges OVERLAP in "+set+" ****");
+                        Log.Error("ID1 = " + (id - 19280) + ", ID2 = " + (x - 19280));
+                        Log.Error(p + " = " + set.GetWindowPosition(x));
+                     }
+                  }
+               }
+            }
+
          }
 
 

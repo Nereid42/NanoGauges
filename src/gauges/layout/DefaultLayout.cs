@@ -12,6 +12,9 @@ namespace Nereid
          private readonly GaugeLayout launch;
          private readonly GaugeLayout flight;
          private readonly GaugeLayout landing;
+         private readonly GaugeLayout docking;
+         private readonly GaugeLayout orbiting;
+         private readonly GaugeLayout cluster;
 
          public DefaultLayout(Gauges gauges, Configuration configuration)
             : base(gauges, configuration)
@@ -20,31 +23,39 @@ namespace Nereid
             launch = new LaunchLayout(gauges,configuration);
             flight = new FlightLayout(gauges, configuration);
             landing = new LandingLayout(gauges, configuration);
+            docking= new DockingLayout(gauges, configuration);
+            orbiting = new OrbitingLayout(gauges, configuration);
+            cluster = new ClusterLayout(gauges, configuration);
          }
 
          protected override void DoLayout(GaugeSet set)
          {
-            Log.Info("DoLayout for "+set);
             GaugeSet.ID id = set.GetId();
             switch(id)
             {
                case GaugeSet.ID.STANDARD:
-                  standard.Reset(set);
+                  standard.Layout(set);
                   return;
                case GaugeSet.ID.LAUNCH:
-                  launch.Reset(set);
+                  launch.Layout(set);
                   return;
                case GaugeSet.ID.FLIGHT:
-                  flight.Reset(set);
+                  flight.Layout(set);
                   return;
                case GaugeSet.ID.LAND:
-                  landing.Reset(set);
+                  landing.Layout(set);
                   return;
                case GaugeSet.ID.DOCK:
+                  docking.Layout(set);
+                  return;
                case GaugeSet.ID.ORBIT:
+                  orbiting.Layout(set);
+                  return;
                case GaugeSet.ID.SET1:
                case GaugeSet.ID.SET2:
                case GaugeSet.ID.SET3:
+                  cluster.Layout(set);
+                  return;
                default:
                   Log.Warning("unknown gauge sewt ID for layout: "+id);
                   break;

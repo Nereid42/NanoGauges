@@ -56,6 +56,8 @@
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
     <Compile Include="src\gauges\layout\DefaultLayout.cs" />
+    <Compile Include="src\gauges\layout\DockingLayout.cs" />
+    <Compile Include="src\gauges\layout\OrbitingLayout.cs" />
     <Compile Include="src\gauges\layout\LandingLayout.cs" />
     <Compile Include="src\gauges\layout\FlightLayout.cs" />
     <Compile Include="src\gauges\layout\LaunchLayout.cs" />
