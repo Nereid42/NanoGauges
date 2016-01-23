@@ -121,6 +121,9 @@ namespace Nereid
          public const long SECONDS_PER_MINUTE = 60;
          public const long MINUTES_PER_HOUR = 60;
          public const long SECONDS_PER_HOUR = MINUTES_PER_HOUR * SECONDS_PER_MINUTE;
+
+         public static readonly  Pair<int, int> ORIGIN = new Pair<int, int>(0, 0);
+
       }
    }
 }

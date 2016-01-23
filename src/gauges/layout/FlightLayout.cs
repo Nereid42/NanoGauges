@@ -16,54 +16,50 @@ namespace Nereid
          }
 
 
-         protected override void DoLayout(GaugeSet set)
+         public override void DoLayout(GaugeSet set)
          {
-            int LAYOUT_CELL_X = verticalGaugeWidth + Gauges.LAYOUT_GAP;
-            int LAYOUT_CELL_Y = verticalGaugeHeight + Gauges.LAYOUT_GAP;
+            Reset();
 
-            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_SETS);
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_SETS);
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_INDICATOR);
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_CAM);
 
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_G);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MAXG);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ACCL);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VACCL);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_HACCL);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MASS);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ATM);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_TWR);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_THRUST);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ISPE);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_DISP);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_AOA);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VAI);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VVI);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MACH);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_SPD);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VSI);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ALTIMETER);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_G);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MAXG);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ACCL);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VACCL);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_HACCL);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ATM);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_TWR);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_THRUST);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ISPE);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_DISP);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_AOA);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VAI);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VVI);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MACH);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_SPD);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VSI);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ALTIMETER);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER);
 
 
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FUEL);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_OXID);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FLOW);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AIRIN);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AIRPCT);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_PROPELLANT);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_Q);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FUEL);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FLOW);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AIRIN);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AIRPCT);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_PROPELLANT);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_Q);
 
-           // horizontal gauges
-           int hDY = (int)(configuration.horizontalGaugeHeight * gaugeScaling) + Gauges.LAYOUT_GAP;
-           set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 10, 60 + 0 * hDY);
-           set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 10, 60 + 1 * hDY);
-           set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 10, 60 + 2 * hDY);
+            // horizontal gauges
+            int hDY = (int)(configuration.horizontalGaugeHeight * gaugeScaling) + Gauges.LAYOUT_GAP;
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 10, 60 + 0 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 10, 60 + 1 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 10, 60 + 2 * hDY);
          }
 
 
-         public override void Enable(GaugeSet set)
+         public override void EnableGauges(GaugeSet set)
          {
             foreach (int id in set)
             {
@@ -87,7 +83,6 @@ namespace Nereid
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_DISP, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_TWR, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_THRUST, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_MASS, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_AOA, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_VAI, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_VVI, true);

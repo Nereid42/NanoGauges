@@ -92,6 +92,8 @@ namespace Nereid
 
          private int XTopBlock(int index)
          {
+            Log.Test("XTopBlock " + index + ": " + (MARGIN_X_TOP_BLOCK + (verticalGaugeWidth + Gauges.LAYOUT_GAP) * (index % COLUMNS_TOP_BLOCK)));
+
             return MARGIN_X_TOP_BLOCK + (verticalGaugeWidth + Gauges.LAYOUT_GAP) * (index % COLUMNS_TOP_BLOCK);
          }
 
@@ -135,12 +137,16 @@ namespace Nereid
             return new Pair<int, int>(XRightNavballBlock(index), YRightNavballBlock(index));
          }
 
+         private void SetGaugePosition(GaugeSet set, int windowId, Pair<int,int> position)
+         {
+            set.SetWindowPosition(windowId, position);
+         }
+
          protected void AddToRightNavballBlock(GaugeSet set, int windowId)
          {
             if(gauges.ContainsId(windowId))
             {
-               Log.Test("AddToRightNavballBlock set " + set + " id " + windowId + " at " + TopBlock(topBlockIndex));
-               set.SetWindowPosition(windowId, RightNavballBlock(rightNavBlockIndex++));
+               SetGaugePosition(set, windowId, RightNavballBlock(rightNavBlockIndex++));
             }
          }
 
@@ -148,8 +154,7 @@ namespace Nereid
          {
             if (gauges.ContainsId(windowId))
             {
-               Log.Test("AddToLeftNavballBlock set " + set + " id " + windowId + " at " + TopBlock(topBlockIndex));
-               set.SetWindowPosition(windowId, LeftNavballBlock(leftNavBlockIndex++));
+               SetGaugePosition(set, windowId, LeftNavballBlock(leftNavBlockIndex++));
             }
          }
 
@@ -157,8 +162,7 @@ namespace Nereid
          {
             if (gauges.ContainsId(windowId))
             {
-               Log.Test("AddToLeftBlock set " + set + " id " + windowId + " at " + TopBlock(topBlockIndex));
-               set.SetWindowPosition(windowId, LeftBlock(leftBlockIndex++));
+               SetGaugePosition(set, windowId, LeftBlock(leftBlockIndex++));
             }
          }
 
@@ -166,8 +170,7 @@ namespace Nereid
          {
             if (gauges.ContainsId(windowId))
             {
-               Log.Test("AddToRightBlock set " + set + " id " + windowId + " at " + TopBlock(topBlockIndex));
-               set.SetWindowPosition(windowId, RightBlock(rightBlockIndex++));
+               SetGaugePosition(set, windowId, RightBlock(rightBlockIndex++));
             }
          }
 
@@ -175,8 +178,7 @@ namespace Nereid
          {
             if (gauges.ContainsId(windowId))
             {
-               Log.Test("AddToTopBlock set " + set + " id " + windowId + " at " + TopBlock(topBlockIndex));
-               set.SetWindowPosition(windowId, TopBlock(topBlockIndex++));
+               SetGaugePosition(set, windowId, TopBlock(topBlockIndex++));
             }
          }
 
@@ -196,43 +198,41 @@ namespace Nereid
                   spareRow++;
                   y = MARGIN_Y_SPARE + spareRow * (verticalGaugeHeight + Gauges.LAYOUT_GAP);
                }
-               Log.Detail("adding gauge id " + windowId + " to spare layout at " + x + "/" + y);
+               Log.Test("adding gauge id " + windowId + " to spare layout at " + x + "/" + y);
                set.SetWindowPosition(windowId, x, y);
                spareIndex++;
             }
             else
             {
                Log.Test("*** SPARE id not found " + windowId);
-
             }
          }
 
          public void Layout(GaugeSet set)
          {
-            Pair<int, int> NO_POSITION = new Pair<int, int>(0, 0);
-            foreach (int id in set)
+            Log.Info(">>>> layout " + GetType() + ", set " + set);
+            //
+            // move all gauges to 0/0 to find gauges that are unaffected by layout
+            foreach(int id in set)
             {
-               set.SetWindowPosition(id, NO_POSITION);
+               set.SetWindowPosition(id, Constants.ORIGIN);
             }
             //
-            Log.Info("do layout "+GetType()+", set "+set);
             DoLayout(set);
             //
-            Enable(set);
-            //
-            // TODO: Constants
+            EnableGauges(set);
+
 
             foreach (int id in set)
             {
-               Pair<int, int> p = set.GetWindowPosition(id);
-               if(NO_POSITION.Equals(p))
+               if(set.GetWindowPosition(id).Equals(Constants.ORIGIN))
                {
-                  Log.Test("*** SPARE "+id);
                   AddToSpare(set, id);
                }
             }
 
             // TEST
+            int overlapCnt = 0;
             foreach (int id in set)
             {
                Pair<int, int> p = set.GetWindowPosition(id);
@@ -245,24 +245,39 @@ namespace Nereid
                         Log.Error("******* Gauges OVERLAP in "+set+" ****");
                         Log.Error("ID1 = " + (id - 19280) + ", ID2 = " + (x - 19280));
                         Log.Error(p + " = " + set.GetWindowPosition(x));
+                        overlapCnt++;
                      }
                   }
                }
             }
+            Log.Detail(overlapCnt+" overlaping gauges");
+            //gauges.ReflectGaugeSetChange();
+            Log.Info("<<<< layout done for " + set);
 
          }
 
 
 
-         public override string ToString()
+         public sealed override string ToString()
          {
             return GetType().Name;
          }
 
+         protected void Reset()
+         {
+            topBlockIndex = 0;
+            leftBlockIndex = 0;
+            rightBlockIndex = 0;
+            leftNavBlockIndex = 0;
+            rightNavBlockIndex = 0;
+            spareIndex = 0;
+            spareRow = 0;
+         }
 
-         protected abstract void DoLayout(GaugeSet set);
 
-         public abstract void Enable(GaugeSet set);
+         public abstract void DoLayout(GaugeSet set);
+
+         public abstract void EnableGauges(GaugeSet set);
       }
 
 

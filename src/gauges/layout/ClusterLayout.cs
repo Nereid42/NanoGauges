@@ -17,8 +17,10 @@ namespace Nereid
          {
          }
 
-         protected override void DoLayout(GaugeSet set)
+         public override void DoLayout(GaugeSet set)
          {
+            Reset();
+
             int LAYOUT_CELL_X = verticalGaugeWidth + Gauges.LAYOUT_GAP;
             int LAYOUT_CELL_Y = verticalGaugeHeight + Gauges.LAYOUT_GAP;
             int LAYOUT_RANGE_X = 3 * LAYOUT_CELL_X / 2;
@@ -29,14 +31,11 @@ namespace Nereid
             int y0 = Screen.height - (int)(670 * gaugeScaling);
             int vDX = LAYOUT_CELL_X;
             int vDY = LAYOUT_CELL_Y;
-            int hDX = (int)(horizontalGaugeWidth * gaugeScaling) + Gauges.LAYOUT_GAP;
-            int hDY = (int)(horizontalGaugeHeight * gaugeScaling) + Gauges.LAYOUT_GAP;
 
-            //
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SETS, 250 + 0 * vDX, 10);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_INDICATOR, 250 + 1 * vDX, 10);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CAM, 250 + 2 * vDX, 10);
-            //
+
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_SETS);
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_INDICATOR);
+            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_CAM);
 
             int n = 0;
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_Q, x0 - 11 * vDX, y0 + n * vDY);
@@ -114,13 +113,14 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ATM, x0 - 0 * vDX, y0 + n * vDY);
 
             // horizontal gauges
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 50, 100 + 0 * hDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 50, 100 + 1 * hDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 50, 100 + 2 * hDY);
+            int hDY = (int)(configuration.horizontalGaugeHeight * gaugeScaling) + Gauges.LAYOUT_GAP;
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 10, 60 + 0 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 10, 60 + 1 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 10, 60 + 2 * hDY);
 
          }
 
-         public override void Enable(GaugeSet set)
+         public override void EnableGauges(GaugeSet set)
          {
             foreach (int id in set)
             {

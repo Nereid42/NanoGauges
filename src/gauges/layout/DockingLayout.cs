@@ -16,12 +16,10 @@ namespace Nereid
          }
 
 
-         protected override void DoLayout(GaugeSet set)
+         public override void DoLayout(GaugeSet set)
          {
-            int LAYOUT_CELL_X = verticalGaugeWidth + Gauges.LAYOUT_GAP;
-            int LAYOUT_CELL_Y = verticalGaugeHeight + Gauges.LAYOUT_GAP;
+            Reset();
 
-            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_SETS);
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_SETS);
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_INDICATOR);
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_CAM);
@@ -60,7 +58,7 @@ namespace Nereid
          }
 
 
-         public override void Enable(GaugeSet set)
+         public override void EnableGauges(GaugeSet set)
          {
             foreach (int id in set)
             {

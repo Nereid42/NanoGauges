@@ -45,7 +45,6 @@ namespace Nereid
             }
             catch (KeyNotFoundException)
             {
-               Log.Warning("no initial position found for window " + windowId+" in gauge set");
                return ORIGIN;
             }
          }

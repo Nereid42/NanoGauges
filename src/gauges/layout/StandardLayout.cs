@@ -16,13 +16,9 @@ namespace Nereid
          }
 
 
-         protected override void DoLayout(GaugeSet set)
+         public override void DoLayout(GaugeSet set)
          {
-            int LAYOUT_CELL_X = verticalGaugeWidth + Gauges.LAYOUT_GAP;
-            int LAYOUT_CELL_Y = verticalGaugeHeight + Gauges.LAYOUT_GAP;
-
-            Log.Test("*** StandardLayout::DoLayout " + LAYOUT_CELL_X + "/" + LAYOUT_CELL_Y);
-
+            Reset();
 
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_SETS);
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_INDICATOR);
@@ -104,10 +100,11 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 10, 60 + 0 * hDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 10, 60 + 1 * hDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 10, 60 + 2 * hDY);
+            Log.Test("StandardLayout finished");
          }
 
 
-         public override void Enable(GaugeSet set)
+         public override void EnableGauges(GaugeSet set)
          {
             foreach (int id in set)
             {

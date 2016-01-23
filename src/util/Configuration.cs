@@ -93,7 +93,7 @@ namespace Nereid
             GaugeLayout layout = new DefaultLayout(gauges, this);
             foreach (GaugeSet set in GaugeSetPool.instance)
             {
-               layout.Enable(set);
+               layout.EnableGauges(set);
             }
          }
 
@@ -111,8 +111,8 @@ namespace Nereid
          public void ResetWindowPositions(Gauges gauges)
          {
             currentGaugeSet.SetWindowPosition(Constants.WINDOW_ID_ABOUT, 50, 50);
-            currentGaugeSet.SetWindowPosition(Constants.WINDOW_ID_CONFIG, 50, 50); 
-            LayoutGaugeSet(currentGaugeSet, new ClusterLayout(gauges, this));
+            currentGaugeSet.SetWindowPosition(Constants.WINDOW_ID_CONFIG, 50, 50);
+            LayoutGaugeSet(currentGaugeSet, new DefaultLayout(gauges, this));
          }
 
          public void LayoutCurrentGaugeSet(GaugeLayout layout)
