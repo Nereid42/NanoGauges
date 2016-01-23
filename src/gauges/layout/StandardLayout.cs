@@ -94,13 +94,9 @@ namespace Nereid
 
             // horizontal gauges
             int hDY = (int)(horizontalGaugeHeight * gaugeScaling) + Gauges.LAYOUT_GAP;
-            Log.Test("+++++++ hDY=" + hDY);
-            Log.Test("+++++++ horizontalGaugeHeight=" + horizontalGaugeHeight);
-            Log.Test("+++++++ gaugeScaling=" + configuration.gaugeScaling);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, 10, 60 + 0 * hDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, 10, 60 + 1 * hDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, 10, 60 + 2 * hDY);
-            Log.Test("StandardLayout finished");
          }
 
 

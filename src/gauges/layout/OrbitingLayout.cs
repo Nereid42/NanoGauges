@@ -23,32 +23,21 @@ namespace Nereid
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_SETS);
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_INDICATOR);
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_CAM);
-            AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_IMPACT);
 
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_G);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MAXG);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ACCL);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VACCL);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MASS);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ATM);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_TWR);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_THRUST);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_AOA);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VAI);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VVI);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_SPD);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VSI);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ALTIMETER);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ORBIT);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_INCL);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_TIMETOPEA);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_TIMETOAPA);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_PEA);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_APA);
 
 
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FUEL);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_OXID);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FLOW);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AIRIN);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AIRPCT);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_PROPELLANT);
-           AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_Q);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FUEL);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_OXID);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_EVAMP);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_MONO);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AMP);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_CHARGE);
 
 
            // horizontal gauges
@@ -66,39 +55,26 @@ namespace Nereid
                set.SetGaugeEnabled(id, false);
             }
             //
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_BIOME, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_LATITUDE, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_LONGITUDE, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_SETS, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_INDICATOR, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_CAM, true);
             //
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_BIOME, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_LATITUDE, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_LONGITUDE, true);
-            //
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_G, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_VACCL, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_HACCL, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_ACCL, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_ATM, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_ISPE, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_DISP, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_TWR, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_THRUST, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_MASS, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_AOA, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_VAI, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_VVI, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_MACH, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_SPD, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_VSI, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_ALTIMETER, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_ORBIT, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_INCL, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_TIMETOPEA, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_TIMETOAPA, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_APA, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_PEA, true);
             //
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_FUEL, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_FLOW, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_AIRIN, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_AIRPCT, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_PROPELLANT, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_Q, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_OXID, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_EVAMP, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_MONO, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_AMP, true);
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_CHARGE, true);
          }
 
       }

@@ -88,24 +88,14 @@ namespace Nereid
             }
          }
 
-         public void EnableAllDefaultGauges(Gauges gauges)
-         {
-            GaugeLayout layout = new DefaultLayout(gauges, this);
-            foreach (GaugeSet set in GaugeSetPool.instance)
-            {
-               layout.EnableGauges(set);
-            }
-         }
 
          public void ResetAllWindowPositions(Gauges gauges)
          {
-            Log.Test("**** ResetAllWindowPositions");
             GaugeLayout layout = new DefaultLayout(gauges, this);
             foreach(GaugeSet set in GaugeSetPool.instance)
             {
                LayoutGaugeSet(set, layout);
             }
-            Log.Test("**** ResetAllWindowPositions DONE");
          }
 
          public void ResetWindowPositions(Gauges gauges)
@@ -387,8 +377,6 @@ namespace Nereid
 
          public void Load()
          {
-            Log.Test("**** LOAD CONFIG");
-
             String filename = CONFIG_BASE_FOLDER+FILE_NAME;
             try
             {

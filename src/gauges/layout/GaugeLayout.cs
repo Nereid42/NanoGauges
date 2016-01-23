@@ -24,10 +24,10 @@ namespace Nereid
          protected const int MARGIN_Y_RIGHT_BLOCK = 150;
          protected const int MARGIN_X_RIGHT_BLOCK = 10;
 
-         protected const int MARGIN_Y_LEFT_NAVBALL_BLOCK = 10;
+         protected const int MARGIN_Y_LEFT_NAVBALL_BLOCK = 12;
          protected const int MARGIN_X_LEFT_NAVBALL_BLOCK = 110;
          protected const int MARGIN_Y_RIGHT_NAVBALL_BLOCK = MARGIN_Y_LEFT_NAVBALL_BLOCK;
-         protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 160;
+         protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 190;
 
 
          protected Gauges gauges { get; private set; }
@@ -92,8 +92,6 @@ namespace Nereid
 
          private int XTopBlock(int index)
          {
-            Log.Test("XTopBlock " + index + ": " + (MARGIN_X_TOP_BLOCK + (verticalGaugeWidth + Gauges.LAYOUT_GAP) * (index % COLUMNS_TOP_BLOCK)));
-
             return MARGIN_X_TOP_BLOCK + (verticalGaugeWidth + Gauges.LAYOUT_GAP) * (index % COLUMNS_TOP_BLOCK);
          }
 
@@ -198,23 +196,19 @@ namespace Nereid
                   spareRow++;
                   y = MARGIN_Y_SPARE + spareRow * (verticalGaugeHeight + Gauges.LAYOUT_GAP);
                }
-               Log.Test("adding gauge id " + windowId + " to spare layout at " + x + "/" + y);
                set.SetWindowPosition(windowId, x, y);
                spareIndex++;
-            }
-            else
-            {
-               Log.Test("*** SPARE id not found " + windowId);
             }
          }
 
          public void Layout(GaugeSet set)
          {
-            Log.Info(">>>> layout " + GetType() + ", set " + set);
+            Log.Info("layout " + GetType() + ", set " + set);
             //
             // move all gauges to 0/0 to find gauges that are unaffected by layout
-            foreach(int id in set)
+            foreach(AbstractGauge g in gauges)
             {
+               int id = g.GetWindowId();
                set.SetWindowPosition(id, Constants.ORIGIN);
             }
             //
@@ -222,38 +216,17 @@ namespace Nereid
             //
             EnableGauges(set);
 
-
-            foreach (int id in set)
+            Reset();
+            foreach (AbstractGauge g in gauges)
             {
+               int id = g.GetWindowId();
                if(set.GetWindowPosition(id).Equals(Constants.ORIGIN))
                {
                   AddToSpare(set, id);
                }
             }
 
-            // TEST
-            int overlapCnt = 0;
-            foreach (int id in set)
-            {
-               Pair<int, int> p = set.GetWindowPosition(id);
-               foreach (int x in set)
-               {
-                  if (x != id)
-                  {
-                     if (p.Equals(set.GetWindowPosition(x)))
-                     {
-                        Log.Error("******* Gauges OVERLAP in "+set+" ****");
-                        Log.Error("ID1 = " + (id - 19280) + ", ID2 = " + (x - 19280));
-                        Log.Error(p + " = " + set.GetWindowPosition(x));
-                        overlapCnt++;
-                     }
-                  }
-               }
-            }
-            Log.Detail(overlapCnt+" overlaping gauges");
-            //gauges.ReflectGaugeSetChange();
-            Log.Info("<<<< layout done for " + set);
-
+            Log.Detail("layout done for " + set);
          }
 
 

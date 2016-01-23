@@ -37,8 +37,6 @@ namespace Nereid
             //
             // default window positions
             configuration.ResetAllWindowPositions(gauges);
-            // default Gauge visibily per gauge set
-            configuration.EnableAllDefaultGauges(gauges);
             //
             configuration.SetGaugeSet(GaugeSet.ID.STANDARD);
             gauges.ReflectGaugeSetChange();

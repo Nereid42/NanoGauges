@@ -200,7 +200,7 @@ namespace Nereid
             {
                gaugeIds.Add(windowId);
             }
-            return true;
+            return false;
          }
 
          public void SetGaugeEnabled(int windowId, bool enabled)

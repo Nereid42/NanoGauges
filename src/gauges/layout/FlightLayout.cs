@@ -74,6 +74,7 @@ namespace Nereid
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_LATITUDE, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_LONGITUDE, true);
             //
+            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_MAXG, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_G, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_VACCL, true);
             set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_HACCL, true);

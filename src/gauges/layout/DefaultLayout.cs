@@ -39,39 +39,30 @@ namespace Nereid
             {
                case GaugeSet.ID.STANDARD:
                   standard.DoLayout(set);
-                  standard.EnableGauges(set);
                   return;
                case GaugeSet.ID.LAUNCH:
                   launch.DoLayout(set);
-                  launch.EnableGauges(set);
                   return;
                case GaugeSet.ID.FLIGHT:
                   flight.DoLayout(set);
-                  flight.EnableGauges(set);
                   return;
                case GaugeSet.ID.LAND:
                   landing.DoLayout(set);
-                  landing.EnableGauges(set);
                   return;
                case GaugeSet.ID.DOCK:
                   docking.DoLayout(set);
-                  docking.EnableGauges(set);
                   return;
                case GaugeSet.ID.ORBIT:
                   orbiting.DoLayout(set);
-                  orbiting.EnableGauges(set);
                   return;
                case GaugeSet.ID.SET1:
                   set1.DoLayout(set);
-                  set1.EnableGauges(set);
                   return;
                case GaugeSet.ID.SET2:
                   set2.DoLayout(set);
-                  set2.EnableGauges(set);
                   return;
                case GaugeSet.ID.SET3:
                   set3.DoLayout(set);
-                  set3.EnableGauges(set);
                   return;
                default:
                   Log.Warning("unknown gauge sewt ID for layout: "+id);
@@ -89,23 +80,30 @@ namespace Nereid
                case GaugeSet.ID.STANDARD:
                   standard.EnableGauges(set);
                   return;
-               case GaugeSet.ID.DOCK:
+               case GaugeSet.ID.LAUNCH:
                   launch.EnableGauges(set);
                   return;
                case GaugeSet.ID.FLIGHT:
-                  break;
-               case GaugeSet.ID.ORBIT:
-                  break;
+                  flight.EnableGauges(set);
+                  return;
                case GaugeSet.ID.LAND:
-                  break;
-               case GaugeSet.ID.LAUNCH:
-                  break;
+                  landing.EnableGauges(set);
+                  return;
+               case GaugeSet.ID.DOCK:
+                  docking.EnableGauges(set);
+                  return;
+               case GaugeSet.ID.ORBIT:
+                  orbiting.EnableGauges(set);
+                  return;
                case GaugeSet.ID.SET1:
-                  break;
+                  set1.EnableGauges(set);
+                  return;
                case GaugeSet.ID.SET2:
-                  break;
+                  set2.EnableGauges(set);
+                  return;
                case GaugeSet.ID.SET3:
-                  break;
+                  set3.EnableGauges(set);
+                  return;
                default:
                   Log.Warning("unknown gauge sewt ID for layout: " + id);
                   break;
