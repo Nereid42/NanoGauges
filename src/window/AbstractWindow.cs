@@ -26,16 +26,12 @@ namespace Nereid
             Log.Detail("creating window "+id+" with title '"+title+"'");
             this.id = id;
             this.title = title;
-
-            try
-            {
-               RenderingManager.AddToPostDrawQueue(0, OnDraw);
-            }
-            catch
-            {
-               Log.Error("error creating window "+id+" "+title);
-            }
          }
+        
+         //protected virtual void OnGUI ()
+         //{
+         //   OnDraw();
+         //}
 
          public int GetWindowId()
          {
@@ -55,7 +51,7 @@ namespace Nereid
          {
          }
 
-         private void OnDraw()
+         internal void OnDraw()
          {
             if (visible)
             {

@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using KSP.UI.Screens ;
+using KSP.UI.Screens.Flight ;
+
 using UnityEngine;
 using NanoGaugesAdapter;
 
@@ -82,10 +86,9 @@ namespace Nereid
 
             if(configuration.disableStockHeatIndicators)
             {
-               TemperatureGagueSystem.Instance.enabled = false;
+               TemperatureGaugeSystem.Instance.enabled = false;
                Log.Info("stock heat indicators disabled");
             }
-
          }
 
          private void CreateStockToolbarButton()
@@ -124,6 +127,7 @@ namespace Nereid
                }
 
             }
+
          }
 
          void OnAppLaunchToggleOn()
@@ -326,6 +330,14 @@ namespace Nereid
                }
             }
          }
+
+          private void OnGUI ()
+          {
+              if (configWindow?.IsVisible() == true)
+                    configWindow.OnDraw();
+
+              gauges.DrawGauges () ;
+          }
       }
    }
 }

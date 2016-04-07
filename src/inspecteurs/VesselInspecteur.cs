@@ -4,6 +4,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+using ModuleWheels ;
+
 
 namespace Nereid
 {
@@ -50,8 +52,8 @@ namespace Nereid
 
          private readonly List<Part> heatshieldParts = new List<Part>();
          private readonly List<Part> drillParts = new List<Part>();
-         private readonly List<ModuleLandingGear> landingGears = new List<ModuleLandingGear>();
-         private readonly List<ModuleLandingGearFixed> landingGearsFixed = new List<ModuleLandingGearFixed>();
+         private readonly List<ModuleWheelDeployment> wheelDeployments = new List<ModuleWheelDeployment> () ;
+         private readonly List<ModuleWheelBrakes> wheelBrakes = new List<ModuleWheelBrakes> () ;
          private readonly List<ModuleControlSurface> airBrakes = new List<ModuleControlSurface>();
          private readonly List<ModuleControlSurface> flaps = new List<ModuleControlSurface>();
 
@@ -69,7 +71,8 @@ namespace Nereid
             this.drillParts.Clear();
             this.drillInstalled = false;
             this.heatshieldParts.Clear();
-            this.landingGears.Clear();
+            this.wheelDeployments.Clear();
+            this.wheelBrakes.Clear();
             this.airBrakes.Clear();
             this.flaps.Clear();
             this.totalMass = 0.0;
@@ -122,13 +125,14 @@ namespace Nereid
                }
 
                // landing gears and brakes
-               foreach(ModuleLandingGear g in part.Modules.OfType<ModuleLandingGear>())
+               foreach (ModuleWheelDeployment g in part.Modules.OfType<ModuleWheelDeployment> ())
                {
-                  landingGears.Add(g);
+                   wheelDeployments.Add(g);
                }
-               foreach (ModuleLandingGearFixed g in part.Modules.OfType<ModuleLandingGearFixed>())
+
+               foreach (ModuleWheelBrakes g in part.Modules.OfType<ModuleWheelBrakes> ())
                {
-                  landingGearsFixed.Add(g);
+                   wheelBrakes.Add(g);
                }
 
                foreach (ModuleControlSurface s in part.Modules.OfType<ModuleControlSurface>())
@@ -154,6 +158,7 @@ namespace Nereid
                   }
                }
             }
+            
             this.landingGearState = InspectLandingGear();
             this.brakeState = InspectBrakes();
             this.airBrakeState = InspectAirBrakes();
@@ -261,64 +266,62 @@ namespace Nereid
          }
 
 
-         private GEARSTATES InspectLandingGear()
-         {
-            if (landingGears.Count == 0) return GEARSTATES.NOT_INSTALLED;
-            int deployed = 0;
-            foreach (ModuleLandingGear g in landingGears)
+            private GEARSTATES InspectLandingGear()
             {
-               switch (g.gearState)
-               {
-                  case ModuleLandingGear.GearStates.DEPLOYED: 
-                     deployed++;
-                     break;
-                  case ModuleLandingGear.GearStates.RETRACTING:
-                     return GEARSTATES.RETRACTING;
-                  case ModuleLandingGear.GearStates.DEPLOYING:
-                     return GEARSTATES.DEPLOYING;
-               }
+                if (wheelDeployments.Count == 0) return GEARSTATES.NOT_INSTALLED;
+                int deployed = 0;
+                foreach (ModuleWheelDeployment g in wheelDeployments)
+                {
+                    if (g.position - g.deployedPosition < 0.01f)
+                    {
+                        deployed++ ;
+                    }
+                    //switch (g.)
+                    //{
+                    //    case ModuleLandingGear.GearStates.DEPLOYED:
+                    //        deployed++;
+                    //        break;
+                    //    case ModuleLandingGear.GearStates.RETRACTING:
+                    //        return GEARSTATES.RETRACTING;
+                    //    case ModuleLandingGear.GearStates.DEPLOYING:
+                    //        return GEARSTATES.DEPLOYING;
+                    //}
+                }
+                if (deployed == 0)
+                {
+                    return GEARSTATES.RETRACTED;
+                }
+                if (deployed < wheelDeployments.Count)
+                {
+                    return GEARSTATES.PARTIAL_DEPLOYED;
+                }
+                return GEARSTATES.DEPLOYED;
             }
-            if(deployed == 0)
-            {
-               return GEARSTATES.RETRACTED;
-            }
-            if(deployed < landingGears.Count)
-            {
-               return GEARSTATES.PARTIAL_DEPLOYED;
-            }
-            return GEARSTATES.DEPLOYED;
-         }
 
-         private BRAKESTATES InspectBrakes()
-         {
-            if (landingGears.Count == 0 && landingGearsFixed.Count == 0) return BRAKESTATES.NOT_INSTALLED;
-            int engaged = 0;
-            foreach (ModuleLandingGear g in landingGears)
+            private BRAKESTATES InspectBrakes()
             {
-               if (g.brakesEngaged && g.BrakeTorque>0)
-               {
-                  engaged++;
-               }
+                if (wheelBrakes.Count == 0) return BRAKESTATES.NOT_INSTALLED;
+                int engaged = 0;
+                foreach (ModuleWheelBrakes g in wheelBrakes)
+                {
+                    if (g.brakeInput > 0)
+                    {
+                        engaged++;
+                    }
+                }
+                
+                if (engaged == 0)
+                {
+                    return BRAKESTATES.NOT_ENGAGED;
+                }
+                if (engaged < (wheelBrakes.Count))
+                {
+                    return BRAKESTATES.PARTIAL_ENGAGED;
+                }
+                return BRAKESTATES.ENGAGED;
             }
-            foreach (ModuleLandingGearFixed g in landingGearsFixed)
-            {
-               if (g.brakesEngaged && g.BrakeTorque > 0)
-               {
-                  engaged++;
-               }
-            }
-            if (engaged == 0)
-            {
-               return BRAKESTATES.NOT_ENGAGED;
-            }
-            if (engaged < (landingGears.Count+landingGearsFixed.Count))
-            {
-               return BRAKESTATES.PARTIAL_ENGAGED;
-            }
-            return BRAKESTATES.ENGAGED;
-         }
 
-         protected override void Inspect(Vessel vessel)
+            protected override void Inspect(Vessel vessel)
          {
             if(vessel==null)
             {
@@ -347,10 +350,10 @@ namespace Nereid
                      drillTemp = p.temperature;
                   }
                }
-               // landing gears
-               this.landingGearState = InspectLandingGear();
-               // brakes
-               this.brakeState = InspectBrakes();
+               //// landing gears
+               //this.landingGearState = InspectLandingGear();
+               //// brakes
+               //this.brakeState = InspectBrakes();
                // air brakes
                this.airBrakeState = InspectAirBrakes();
                // flaps
