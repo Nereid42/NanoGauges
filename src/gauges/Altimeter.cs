@@ -11,7 +11,7 @@ namespace Nereid
       {
          private static readonly Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/ALT-skin");
          private static readonly Texture2D SCALE = Utils.GetTexture("Nereid/NanoGauges/Resource/ALT-scale");
-         private const double MAX_ALTITUDE = 500000;
+         private const double MAX_ALTITUDE = 100000;
          private const double MIN_ALTITUDE = 0;
 
          public Altimeter()

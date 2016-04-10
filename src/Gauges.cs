@@ -111,7 +111,7 @@ namespace Nereid
             return gauges[id];
          }
 
-         private void DrawGauges()
+         internal void DrawGauges()
          {
             foreach (AbstractGauge gauge in gauges.Values)
             {
@@ -188,15 +188,12 @@ namespace Nereid
                   gauge.SetVisible(true);
                }
             }
-            try
-            {
-               RenderingManager.AddToPostDrawQueue(int.MinValue, DrawGauges);
-            }
-            catch
-            {
-               Log.Error("adding gauges to drawing queue failed");
-            }
          }
+
+         //protected virtual void OnGUI ()
+         //{
+         //    DrawGauges();
+         //}
 
          private bool IsEvaCamera()
          {
