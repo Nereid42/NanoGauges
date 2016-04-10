@@ -35,6 +35,8 @@ namespace Nereid
 
          private readonly TrimIndicators trimIndicators;
 
+          private bool firstOnGuiCall = true ;
+
          static NanoGauges()
          {
             Log.SetLevel(Log.LEVEL.INFO);
@@ -338,6 +340,12 @@ namespace Nereid
               foreach (var aw in drawableWindows)
                     if (aw.IsVisible())
                         aw.OnDraw();
+
+              if (firstOnGuiCall)
+              {
+                  gauges.ReflectGaugeSetChange ();
+                  firstOnGuiCall = false ;
+              }
 
               gauges.DrawGauges () ;
           }
