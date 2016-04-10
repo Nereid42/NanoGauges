@@ -24,6 +24,8 @@ namespace Nereid
 
          public static readonly SnapinManager snapinManager;
 
+         public static readonly List<AbstractWindow> drawableWindows = new List<AbstractWindow> ();
+
          private IButton toolbarButton;
          private ApplicationLauncherButton stockToolbarButton = null;
 
@@ -333,8 +335,9 @@ namespace Nereid
 
           private void OnGUI ()
           {
-              if (configWindow?.IsVisible() == true)
-                    configWindow.OnDraw();
+              foreach (var aw in drawableWindows)
+                    if (aw.IsVisible())
+                        aw.OnDraw();
 
               gauges.DrawGauges () ;
           }

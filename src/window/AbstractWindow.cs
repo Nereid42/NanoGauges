@@ -43,13 +43,9 @@ namespace Nereid
                GUI.DragWindow();
          }
 
-         protected virtual void OnOpen()
-         {
-         }
+         protected virtual void OnOpen() => NanoGauges.drawableWindows.Add(this) ;
 
-         protected virtual void OnClose()
-         {
-         }
+         protected virtual void OnClose() => NanoGauges.drawableWindows.Remove (this) ;
 
          internal void OnDraw()
          {
