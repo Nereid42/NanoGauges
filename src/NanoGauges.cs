@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using KSP.UI.Screens;
 using NanoGaugesAdapter;
 
 namespace Nereid
@@ -62,6 +63,12 @@ namespace Nereid
             GameEvents.onGUIApplicationLauncherReady.Add(OnGUIAppLauncherReady);
          }
 
+         private void OnGUI()
+         {
+            gauges.DrawGauges();
+            WindowManager.instance.OnGUI();
+         }
+
          public void Start()
          {
             Log.Info("starting NanoGauges");
@@ -79,13 +86,6 @@ namespace Nereid
                Log.Info("stock toolbar button enabled");
                CreateStockToolbarButton();
             }
-
-            if(configuration.disableStockHeatIndicators)
-            {
-               TemperatureGagueSystem.Instance.enabled = false;
-               Log.Info("stock heat indicators disabled");
-            }
-
          }
 
          private void CreateStockToolbarButton()
@@ -128,6 +128,7 @@ namespace Nereid
 
          void OnAppLaunchToggleOn()
          {
+            Log.Test("OnAppLaunchToggleOn");
             createConfigOnce();
             if (configWindow != null)
             {
@@ -181,12 +182,11 @@ namespace Nereid
             if (configWindow == null)
             {
                configWindow = new ConfigWindow(gauges);
-               configWindow.CallOnWindowClose(OnBrowserClose);
-
+               configWindow.CallOnWindowClose(OnConfigClose);
             }
          }
 
-         public void OnBrowserClose()
+         public void OnConfigClose()
          {
             if (stockToolbarButton != null)
             {
@@ -298,7 +298,7 @@ namespace Nereid
                }
                else if (Input.GetKeyDown(KeyCode.Alpha0))
                {
-                  gauges.EnableAllGauges();
+                  configuration.EnableAllGauges(gauges);
                }
                else if (Input.GetKeyDown(KeyCode.KeypadEnter))
                {

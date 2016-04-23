@@ -244,6 +244,11 @@ namespace Nereid
             return gaugeIds.GetEnumerator();
          }
 
+         public bool IsCurrentGaugeSet()
+         {
+            return NanoGauges.configuration.IsCurrentGaugeSet(this);
+         }
+
       }
    }
 }

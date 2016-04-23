@@ -27,14 +27,7 @@ namespace Nereid
             this.id = id;
             this.title = title;
 
-            try
-            {
-               RenderingManager.AddToPostDrawQueue(0, OnDraw);
-            }
-            catch
-            {
-               Log.Error("error creating window "+id+" "+title);
-            }
+            WindowManager.instance.AddWindow(this);
          }
 
          public int GetWindowId()
@@ -55,7 +48,7 @@ namespace Nereid
          {
          }
 
-         private void OnDraw()
+         public void OnGUI()
          {
             if (visible)
             {
@@ -76,9 +69,9 @@ namespace Nereid
             {
                OnWindow(id);
             }
-            catch
+            catch(Exception ex)
             {
-               Log.Error("Exception in window "+GetType()+", id:"+id);
+               Log.Error("Exception in window "+GetType()+", id "+id+" : "+ex.GetType()+", "+ex.Message);
             }
             Event e = Event.current;
             if (e.type == EventType.MouseDown && e.button == 0)

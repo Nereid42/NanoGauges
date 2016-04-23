@@ -39,7 +39,6 @@ namespace Nereid
          public bool useStockToolbar { get; set; }
          public bool exactReadoutEnabled { get; set; }
          public double gaugeScaling { get; set; }
-         public bool disableStockHeatIndicators { get; set; }
          // need a restart to take effect
          public int verticalGaugeWidth { get; private set; }
          public int verticalGaugeHeight { get; private set; }
@@ -76,8 +75,6 @@ namespace Nereid
             verticalGaugeHeight   = UNSCALED_VERTICAL_GAUGE_HEIGHT;
             horizontalGaugeWidth  = UNSCALED_HORIZONTAL_GAUGE_WIDTH;
             horizontalGaugeHeight = UNSCALED_HORIZONTAL_GAUGE_HEIGHT;
-            //
-            disableStockHeatIndicators = false;
          }
 
          public void EnableAllGauges(Gauges gauges)
@@ -88,6 +85,23 @@ namespace Nereid
             }
          }
 
+         public void DisableAllGauges(Gauges gauges)
+         {
+            foreach (AbstractGauge gauge in gauges)
+            {
+               SetGaugeEnabled(gauge.GetWindowId(), false);
+            }
+         }
+
+         public bool IsCurrentGaugeSet(GaugeSet set)
+         {
+            return IsCurrentGaugeSet(set.GetId());
+         }
+
+         public bool IsCurrentGaugeSet(GaugeSet.ID id)
+         {
+            return currentGaugeSet.GetId() == id;
+         }
 
          public void ResetAllWindowPositions(Gauges gauges)
          {
@@ -185,6 +199,7 @@ namespace Nereid
             currentGaugeSet.SetGaugeEnabled(id, enabled);
          }
 
+
          public Pair<int, int> GetWindowPosition(AbstractWindow window)
          {
             return currentGaugeSet.GetWindowPosition(window.GetWindowId());
@@ -274,9 +289,9 @@ namespace Nereid
 
          private void WriteGaugesEnabled(BinaryWriter writer, GaugeSet set)
          {
-            Log.Info("storing gauges enabled/disabled states");
+            Log.Info("storing gauges enabled/disabled states for gauge set "+set);
             writer.Write((Int16)set.Count());
-            Log.Info("writing " + set.Count() + " gauge states");
+            Log.Detail("writing " + set.Count() + " gauge states");
             foreach (int id in set.Keys())
             {
                writer.Write((Int32)id);
@@ -288,7 +303,7 @@ namespace Nereid
 
          private void ReadGaugesEnabled(BinaryReader reader, GaugeSet set)
          {
-            Log.Info("loading window enabled/disabled states");
+            Log.Info("loading window enabled/disabled states for gauge set "+set);
             int count = reader.ReadInt16();
             Log.Detail("loading "+count + " gauge states");
             for (int i = 0; i < count; i++)
@@ -316,7 +331,7 @@ namespace Nereid
 
          private void ReadWindowPositions(BinaryReader reader, GaugeSet set)
          {
-            Log.Info("loading window positions");
+            Log.Info("loading window positions for gauge set "+set);
             int count = reader.ReadInt16();
             Log.Detail("loading "+count + " window positions");
             for(int i=0; i<count; i++)
@@ -365,13 +380,16 @@ namespace Nereid
                   writer.Write(tooltipsEnabled);
                   //
                   writer.Write(gaugeScaling);
-                  //
-                  writer.Write(disableStockHeatIndicators);
                }
             }
             catch
             {
                Log.Error("saving configuration failed");
+            }
+            finally
+            {
+               Log.Detail("storing of configuration done");
+
             }
          }
 
@@ -428,8 +446,6 @@ namespace Nereid
                      verticalGaugeHeight =   (int)(UNSCALED_VERTICAL_GAUGE_HEIGHT   * gaugeScaling);
                      horizontalGaugeWidth =  (int)(UNSCALED_HORIZONTAL_GAUGE_WIDTH  * gaugeScaling);
                      horizontalGaugeHeight = (int)(UNSCALED_HORIZONTAL_GAUGE_HEIGHT * gaugeScaling);
-                     //
-                     disableStockHeatIndicators = reader.ReadBoolean();
                   }
                }
                else
@@ -448,6 +464,7 @@ namespace Nereid
                {
                   exactReadoutEnabled = false;
                }
+               Log.Detail("loading of configuration done");
             }
          }
       }

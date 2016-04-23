@@ -94,6 +94,7 @@ namespace Nereid
             // Reset Window Postions
             if (GUILayout.Button("Standard Gauge Positions", HighLogic.Skin.button))
             {
+               Log.Test("Standard Gauge Positions pressed");
                gauges.LayoutCurrentGaugeSet(new DefaultLayout(gauges, config));
             }
             if (GUILayout.Button("Reset Gauge Cluster", HighLogic.Skin.button))
@@ -144,8 +145,6 @@ namespace Nereid
             GUILayout.BeginHorizontal();
             // Gauge marker
             config.gaugeMarkerEnabled = GUILayout.Toggle(config.gaugeMarkerEnabled, "Gauge marker enabled", STYLE_TOGGLE_2_PER_ROW);
-            // heat indicators
-            config.disableStockHeatIndicators = GUILayout.Toggle(config.disableStockHeatIndicators, "Disable heat indicators", HighLogic.Skin.toggle);
             GUILayout.EndHorizontal();
             //
             // tooltips & exact readout
@@ -189,7 +188,7 @@ namespace Nereid
             GUILayout.EndHorizontal();
             scrollPosGauges = GUILayout.BeginScrollView(scrollPosGauges, false, true, HighLogic.Skin.horizontalScrollbar, HighLogic.Skin.verticalScrollbar, STYLE_SCROLLVIEW, GUILayout.Height(GAUGES_HEIGHT));
             this.allGaugesEnables = true;
-            config.trimIndicatorsEnabled = GUILayout.Toggle(config.trimIndicatorsEnabled, "Trim indicators enabled (restart required)", HighLogic.Skin.toggle);
+            //config.trimIndicatorsEnabled = GUILayout.Toggle(config.trimIndicatorsEnabled, "Trim indicators enabled (restart required)", HighLogic.Skin.toggle);
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SETS, "Gaugeset selector gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_INDICATOR, "Indicator gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CAM, "Camera indicator gauge enabled");
@@ -319,11 +318,11 @@ namespace Nereid
             {
                if (allGaugesEnables)
                {
-                  gauges.DisableAllGauges();
+                  NanoGauges.configuration.DisableAllGauges(gauges);
                }
                else
                {
-                  gauges.EnableAllGauges();
+                  NanoGauges.configuration.EnableAllGauges(gauges);
                }
             }
          }
@@ -334,8 +333,9 @@ namespace Nereid
             try
             {
                Configuration config = NanoGauges.configuration;
-               bool enabled =gauges.IsGaugeEnabled(windowId);
-               gauges.SetGaugeEnabled(windowId, GUILayout.Toggle(enabled, text, STYLE_TOGGLE_4_PER_ROW));
+               bool enabled = config.IsGaugeEnabled(windowId); // gauges.IsGaugeEnabled(windowId);
+               //gauges.SetGaugeEnabled(windowId, GUILayout.Toggle(enabled, text, STYLE_TOGGLE_4_PER_ROW));
+               config.SetGaugeEnabled(windowId, GUILayout.Toggle(enabled, text, STYLE_TOGGLE_4_PER_ROW));
                this.allGaugesEnables = this.allGaugesEnables && enabled;
             }
             catch

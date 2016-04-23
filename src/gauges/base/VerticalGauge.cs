@@ -132,7 +132,8 @@ namespace Nereid
          {
             if(NanoGauges.configuration.exactReadoutEnabled)
             {
-               zoom.Draw();
+               // FIXME
+               //zoom.Draw();
             }
          }
 

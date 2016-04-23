@@ -51,29 +51,29 @@ namespace Nereid
          {
             foreach (int id in set)
             {
-               set.SetGaugeEnabled(id, false);
+               SetGaugeEnabled(set, id, false);
             }
             //
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_BIOME, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_LATITUDE, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_LONGITUDE, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_SETS, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_INDICATOR, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_CAM, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_BIOME, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_LATITUDE, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_LONGITUDE, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_SETS, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_INDICATOR, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_CAM, true);
             //
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_ORBIT, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_INCL, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_DTGT, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_VTGT, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_TIMETOPEA, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_TIMETOAPA, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_APA, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_PEA, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_ORBIT, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_INCL, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_DTGT, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_VTGT, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_TIMETOPEA, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_TIMETOAPA, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_APA, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_PEA, true);
             //
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_FUEL, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_OXID, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_MONO, true);
-            set.SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_AMP, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_FUEL, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_OXID, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_MONO, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_AMP, true);
          }
 
       }

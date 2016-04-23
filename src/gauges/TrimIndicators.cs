@@ -72,21 +72,35 @@ namespace Nereid
             try
             {
                // get the original control input gauges
-               GameObject stagingQuadrant = GameObject.Find(STAGING_QUADRANT_NAME);
-               GameObject roll = stagingQuadrant.transform.FindChild(COMPONENT_ROLL_NAME).gameObject;
-               GameObject pitch = stagingQuadrant.transform.FindChild(COMPONENT_PITCH_NAME).gameObject;
-               GameObject yaw = stagingQuadrant.transform.FindChild(COMPONENT_YAW_NAME).gameObject;
+               /*GameObject stagingQuadrant = GameObject.Find(STAGING_QUADRANT_NAME);
+
+               // TEST
+               UnityEngine.Object[] objs = GameObject.FindObjectsOfType(typeof(GameObject));
+               foreach(GameObject o in objs)
+               {
+                  if (o.transform.FindChild(COMPONENT_ROLL_NAME) != null) Log.Test("QUDARANT:  ***********************"); 
+                  Log.Test("GAMEOBJECT " + o.GetType() + " : " + o.name);
+               }*/
+
+               //GameObject roll = stagingQuadrant.transform.FindChild(COMPONENT_ROLL_NAME).gameObject;
+               //GameObject pitch = stagingQuadrant.transform.FindChild(COMPONENT_PITCH_NAME).gameObject;
+               //GameObject yaw = stagingQuadrant.transform.FindChild(COMPONENT_YAW_NAME).gameObject;
+
+               GameObject roll = GameObject.Find("AxisIndicatorRoll");
+               GameObject pitch = GameObject.Find("AxisIndicatorPitch");
+               GameObject yaw = GameObject.Find("AxisIndicatorYaw");
 
                // create gauges
                this.trimRollGauge = CreateGauge("Roll Trim", roll, LIMIT_SCALE_ROLL);
                this.trimPitchGauge = CreateGauge("Pitch Trim", pitch, LIMIT_SCALE_PITCH);
                this.trimYawGauge = CreateGauge("Yaw Trim", yaw, LIMIT_SCALE_YAW);
             }
-            catch
+            catch(Exception e)
             {
                Log.Warning("exception caught in trim indicator init");
                disabled = true;
                NanoGauges.configuration.trimIndicatorsEnabled = false;
+               throw e;
             }
          }
 

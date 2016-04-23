@@ -105,7 +105,7 @@ namespace Nereid
                   set3.EnableGauges(set);
                   return;
                default:
-                  Log.Warning("unknown gauge sewt ID for layout: " + id);
+                  Log.Warning("unknown gauge set ID for layout: " + id);
                   break;
             }
 

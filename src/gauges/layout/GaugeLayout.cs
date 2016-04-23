@@ -25,9 +25,9 @@ namespace Nereid
          protected const int MARGIN_X_RIGHT_BLOCK = 10;
 
          protected const int MARGIN_Y_LEFT_NAVBALL_BLOCK = 12;
-         protected const int MARGIN_X_LEFT_NAVBALL_BLOCK = 110;
+         protected const int MARGIN_X_LEFT_NAVBALL_BLOCK = 160;
          protected const int MARGIN_Y_RIGHT_NAVBALL_BLOCK = MARGIN_Y_LEFT_NAVBALL_BLOCK;
-         protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 190;
+         protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 195;
 
 
          protected Gauges gauges { get; private set; }
@@ -135,9 +135,18 @@ namespace Nereid
             return new Pair<int, int>(XRightNavballBlock(index), YRightNavballBlock(index));
          }
 
-         private void SetGaugePosition(GaugeSet set, int windowId, Pair<int,int> position)
+         protected void SetGaugePosition(GaugeSet set, int windowId, Pair<int, int> position)
          {
             set.SetWindowPosition(windowId, position);
+         }
+
+         protected void SetGaugeEnabled(GaugeSet set, int windowId, bool enabled)
+         {
+            set.SetGaugeEnabled(windowId, enabled);
+            if(set.IsCurrentGaugeSet())
+            {
+               gauges.SetGaugeEnabled(windowId, enabled);
+            }
          }
 
          protected void AddToRightNavballBlock(GaugeSet set, int windowId)
@@ -212,11 +221,15 @@ namespace Nereid
                set.SetWindowPosition(id, Constants.ORIGIN);
             }
             //
+            Log.Test("Layout DOLAYOUT");
             DoLayout(set);
             //
+            Log.Test("Layout ENABLE");
             EnableGauges(set);
 
+            Log.Test("Layout RESET");
             Reset();
+            Log.Test("Layout for each");
             foreach (AbstractGauge g in gauges)
             {
                int id = g.GetWindowId();

@@ -104,7 +104,7 @@ namespace Nereid
          {
             foreach (int id in set)
             {
-               set.SetGaugeEnabled(id, true);
+               SetGaugeEnabled(set, id, true);
             }
          }
 
