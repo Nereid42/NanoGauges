@@ -64,7 +64,7 @@ namespace Nereid
          {
             // Defaults
             gaugeScaling = GAUGE_SCALE_100;
-            gaugePositionsLocked = false;
+            gaugePositionsLocked = true;
             gaugeMarkerEnabled = true;
             tooltipsEnabled = true;
             snapinEnabled = true;
@@ -105,19 +105,25 @@ namespace Nereid
 
          public void ResetAllWindowPositions(Gauges gauges)
          {
-            GaugeLayout layout = new DefaultLayout(gauges, this);
+            // The default layout only works well in screen width above 1900 pixels
+            if(Screen.width >1900)
+            {
+               ResetAllWindowPositions(gauges, new DefaultLayout(gauges, this));
+            }
+            else
+            {
+               ResetAllWindowPositions(gauges, new ClusterLayout(gauges, this));
+            }
+         }
+
+         private void ResetAllWindowPositions(Gauges gauges, GaugeLayout layout)
+         {
             foreach(GaugeSet set in GaugeSetPool.instance)
             {
                LayoutGaugeSet(set, layout);
             }
          }
 
-         public void ResetWindowPositions(Gauges gauges)
-         {
-            currentGaugeSet.SetWindowPosition(Constants.WINDOW_ID_ABOUT, 50, 50);
-            currentGaugeSet.SetWindowPosition(Constants.WINDOW_ID_CONFIG, 50, 50);
-            LayoutGaugeSet(currentGaugeSet, new DefaultLayout(gauges, this));
-         }
 
          public void LayoutCurrentGaugeSet(GaugeLayout layout)
          {

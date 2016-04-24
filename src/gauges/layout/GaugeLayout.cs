@@ -17,17 +17,21 @@ namespace Nereid
          protected const int ROWS_RIGHT_NAVBALL_BLOCK = 2;
 
          protected const int MARGIN_Y_TOP_BLOCK = 10;
-         protected const int MARGIN_X_TOP_BLOCK = 160;
+         protected const int MARGIN_X_TOP_BLOCK = 210;
 
-         protected const int MARGIN_Y_LEFT_BLOCK = 210;
+         protected const int MARGIN_X_TOP_LEFT_BLOCK = 10;
+         protected const int MARGIN_Y_TOP_LEFT_BLOCK = 90;
+
+
          protected const int MARGIN_X_LEFT_BLOCK = 60;
+         protected const int MARGIN_Y_LEFT_BLOCK = 250;
+         protected const int MARGIN_X_RIGHT_BLOCK = 50;
          protected const int MARGIN_Y_RIGHT_BLOCK = 150;
-         protected const int MARGIN_X_RIGHT_BLOCK = 10;
 
          protected const int MARGIN_Y_LEFT_NAVBALL_BLOCK = 12;
-         protected const int MARGIN_X_LEFT_NAVBALL_BLOCK = 160;
+         protected const int MARGIN_X_LEFT_NAVBALL_BLOCK = 200;
          protected const int MARGIN_Y_RIGHT_NAVBALL_BLOCK = MARGIN_Y_LEFT_NAVBALL_BLOCK;
-         protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 195;
+         protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 220;
 
 
          protected Gauges gauges { get; private set; }
@@ -221,15 +225,11 @@ namespace Nereid
                set.SetWindowPosition(id, Constants.ORIGIN);
             }
             //
-            Log.Test("Layout DOLAYOUT");
             DoLayout(set);
             //
-            Log.Test("Layout ENABLE");
             EnableGauges(set);
 
-            Log.Test("Layout RESET");
             Reset();
-            Log.Test("Layout for each");
             foreach (AbstractGauge g in gauges)
             {
                int id = g.GetWindowId();

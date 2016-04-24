@@ -66,23 +66,23 @@ namespace Nereid
             AddGauge(new TerminalVelocityGauge(vesselInspecteur));
             AddGauge(new VelocityToTargetGauge());
             AddGauge(new CameraGauge());
-            // (untested) AddGauge(new MachGauge());
-            // (untested) AddGauge(new QGauge());
-            // (untested) AddGauge(new HeatGauge(vesselInspecteur));
-            // (untested) AddGauge(new ImpactTimeGauge());
-            // (untested) AddGauge(new Altimeter());
-            // (untested) AddGauge(new AccelerationGauge(velocityInspecteur));
-            // (untested) AddGauge(new HorizontalAccelerationGauge(velocityInspecteur));
-            // (untested) AddGauge(new VerticalAccelerationGauge(velocityInspecteur));
-            // (untested) AddGauge(new ExternalTempGauge());
-            // (untested) AddGauge(new AtmosphereTempGauge());
+            AddGauge(new MachGauge());
+            AddGauge(new QGauge());
+            AddGauge(new HeatGauge(vesselInspecteur));
+            AddGauge(new ImpactTimeGauge());
+            AddGauge(new Altimeter());
+            AddGauge(new AccelerationGauge(velocityInspecteur));
+            AddGauge(new HorizontalAccelerationGauge(velocityInspecteur));
+            AddGauge(new VerticalAccelerationGauge(velocityInspecteur));
+            AddGauge(new ExternalTempGauge()); 
+            AddGauge(new AtmosphereTempGauge());
             // (untested) AddGauge(new AblatorGauge(resourceInspecteur));
             // (untested) AddGauge(new OreGauge(resourceInspecteur));
             // (untested)  AddGauge(new DrillTempGauge(vesselInspecteur));
-            // (untested) AddGauge(new IndicatorGauge(vesselInspecteur,engineInspecteur));
-            // (untested) AddGauge(new PropellantPctGauge(engineInspecteur));
-            // (untested) AddGauge(new TimeToApoapsisGauge());
-            // (untested) AddGauge(new TimeToPeriapsisGauge());
+            // NOT WORKING in KSP1.1.0: AddGauge(new IndicatorGauge(vesselInspecteur,engineInspecteur));
+            AddGauge(new PropellantPctGauge(engineInspecteur));
+            AddGauge(new TimeToApoapsisGauge());
+            AddGauge(new TimeToPeriapsisGauge());
             // not working
             //AddGauge(new TimeToTransistionGauge());
 
@@ -92,18 +92,18 @@ namespace Nereid
             AddGauge(new LongitudeGauge());
 
             // TAC life support (only added if TAC installed)
-            // (untested) AddOptionalResourceGauge(new OxygenGauge(resourceInspecteur));
-            // (untested) AddOptionalResourceGauge(new CarbonDioxideGauge(resourceInspecteur));
-            // (untested) AddOptionalResourceGauge(new WaterGauge(resourceInspecteur));
-            // (untested) AddOptionalResourceGauge(new WasteWaterGauge(resourceInspecteur));
-            // (untested) AddOptionalResourceGauge(new WasteGauge(resourceInspecteur));
-            // (untested) AddOptionalResourceGauge(new FoodGauge(resourceInspecteur));
-            // (untested) AddOptionalResourceGauge(new KethaneGauge(resourceInspecteur));
-            // (untested) AddOptionalResourceGauge(new KethaneAirIntakeGauge(resourceInspecteur));
-            // (untested) AddOptionalResourceGauge(new ShieldGauge(resourceInspecteur));
+            AddOptionalResourceGauge(new OxygenGauge(resourceInspecteur));
+            AddOptionalResourceGauge(new CarbonDioxideGauge(resourceInspecteur));
+            AddOptionalResourceGauge(new WaterGauge(resourceInspecteur));
+            AddOptionalResourceGauge(new WasteWaterGauge(resourceInspecteur));
+            AddOptionalResourceGauge(new WasteGauge(resourceInspecteur));
+            AddOptionalResourceGauge(new FoodGauge(resourceInspecteur));
+            AddOptionalResourceGauge(new KethaneGauge(resourceInspecteur));
+            AddOptionalResourceGauge(new KethaneAirIntakeGauge(resourceInspecteur));
+            AddOptionalResourceGauge(new ShieldGauge(resourceInspecteur));
             
             // Real Fuels
-            // (untested) AddOptionalResourceGauge(new KarboniteGauge(resourceInspecteur));
+            AddOptionalResourceGauge(new KarboniteGauge(resourceInspecteur));
          }
 
          public AbstractGauge GetGauge(int id)
@@ -212,15 +212,12 @@ namespace Nereid
 
          public void LayoutCurrentGaugeSet(GaugeLayout layout)
          {
-            Log.Test("Layouting for " + layout.GetType() + ", " + gauges.Values.Count+" gauges");
             Log.Info("reset of gauge screen positions");
             NanoGauges.configuration.LayoutCurrentGaugeSet(layout);
-            Log.Test("foreach (AbstractGauge gauge in gauges.Values)");
             foreach (AbstractGauge gauge in gauges.Values)
             {
                try
                {
-                  Log.Test("Layouting gauge " + gauge.GetWindowId());
                   Pair<int, int> position = NanoGauges.configuration.GetWindowPosition(gauge.GetWindowId());
                   gauge.SetPosition(position);
                }

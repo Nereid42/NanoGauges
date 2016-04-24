@@ -50,8 +50,7 @@ namespace Nereid
 
          private readonly List<Part> heatshieldParts = new List<Part>();
          private readonly List<Part> drillParts = new List<Part>();
-         private readonly List<ModuleLandingGear> landingGears = new List<ModuleLandingGear>();
-         private readonly List<ModuleLandingGearFixed> landingGearsFixed = new List<ModuleLandingGearFixed>();
+         private readonly List<ModuleWheelBase> landingGears = new List<ModuleWheelBase>();
          private readonly List<ModuleControlSurface> airBrakes = new List<ModuleControlSurface>();
          private readonly List<ModuleControlSurface> flaps = new List<ModuleControlSurface>();
 
@@ -122,13 +121,9 @@ namespace Nereid
                }
 
                // landing gears and brakes
-               foreach(ModuleLandingGear g in part.Modules.OfType<ModuleLandingGear>())
+               foreach (ModuleWheelBase g in part.Modules.OfType<ModuleWheelBase>())
                {
                   landingGears.Add(g);
-               }
-               foreach (ModuleLandingGearFixed g in part.Modules.OfType<ModuleLandingGearFixed>())
-               {
-                  landingGearsFixed.Add(g);
                }
 
                foreach (ModuleControlSurface s in part.Modules.OfType<ModuleControlSurface>())
@@ -265,9 +260,12 @@ namespace Nereid
          {
             if (landingGears.Count == 0) return GEARSTATES.NOT_INSTALLED;
             int deployed = 0;
-            foreach (ModuleLandingGear g in landingGears)
+            foreach (ModuleWheelBase g in landingGears)
             {
-               switch (g.gearState)
+               
+               KSPWheelController controller = g.Wheel;
+               /* BROKEN controller.
+               switch (controller.wheelState gearState)
                {
                   case ModuleLandingGear.GearStates.DEPLOYED: 
                      deployed++;
@@ -276,7 +274,7 @@ namespace Nereid
                      return GEARSTATES.RETRACTING;
                   case ModuleLandingGear.GearStates.DEPLOYING:
                      return GEARSTATES.DEPLOYING;
-               }
+               }*/
             }
             if(deployed == 0)
             {
@@ -291,27 +289,23 @@ namespace Nereid
 
          private BRAKESTATES InspectBrakes()
          {
-            if (landingGears.Count == 0 && landingGearsFixed.Count == 0) return BRAKESTATES.NOT_INSTALLED;
+            if (landingGears.Count == 0) return BRAKESTATES.NOT_INSTALLED;
             int engaged = 0;
-            foreach (ModuleLandingGear g in landingGears)
+            foreach (ModuleWheelBase g in landingGears)
             {
-               if (g.brakesEngaged && g.BrakeTorque>0)
+               /* BROKEN
+               if (g.brakesEngaged && g.brakeTorque>0)
                {
                   engaged++;
                }
+                */
             }
-            foreach (ModuleLandingGearFixed g in landingGearsFixed)
-            {
-               if (g.brakesEngaged && g.BrakeTorque > 0)
-               {
-                  engaged++;
-               }
-            }
+
             if (engaged == 0)
             {
                return BRAKESTATES.NOT_ENGAGED;
             }
-            if (engaged < (landingGears.Count+landingGearsFixed.Count))
+            if (engaged < (landingGears.Count))
             {
                return BRAKESTATES.PARTIAL_ENGAGED;
             }

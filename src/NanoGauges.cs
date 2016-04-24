@@ -128,7 +128,6 @@ namespace Nereid
 
          void OnAppLaunchToggleOn()
          {
-            Log.Test("OnAppLaunchToggleOn");
             createConfigOnce();
             if (configWindow != null)
             {

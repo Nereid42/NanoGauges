@@ -94,7 +94,6 @@ namespace Nereid
             // Reset Window Postions
             if (GUILayout.Button("Standard Gauge Positions", HighLogic.Skin.button))
             {
-               Log.Test("Standard Gauge Positions pressed");
                gauges.LayoutCurrentGaugeSet(new DefaultLayout(gauges, config));
             }
             if (GUILayout.Button("Reset Gauge Cluster", HighLogic.Skin.button))
@@ -152,7 +151,7 @@ namespace Nereid
             if (config.exactReadoutEnabled) config.tooltipsEnabled = false;
             config.tooltipsEnabled = GUILayout.Toggle(config.tooltipsEnabled, "Tooltips enabled", STYLE_TOGGLE_2_PER_ROW);
             if (config.tooltipsEnabled) config.exactReadoutEnabled = false;
-            config.exactReadoutEnabled = GUILayout.Toggle(config.exactReadoutEnabled, "Exact readout enabled", STYLE_TOGGLE_2_PER_ROW);
+            //config.exactReadoutEnabled = GUILayout.Toggle(config.exactReadoutEnabled, "Exact readout enabled", STYLE_TOGGLE_2_PER_ROW);
             GUILayout.EndHorizontal();
             //
             //
@@ -333,9 +332,9 @@ namespace Nereid
             try
             {
                Configuration config = NanoGauges.configuration;
-               bool enabled = config.IsGaugeEnabled(windowId); // gauges.IsGaugeEnabled(windowId);
-               //gauges.SetGaugeEnabled(windowId, GUILayout.Toggle(enabled, text, STYLE_TOGGLE_4_PER_ROW));
-               config.SetGaugeEnabled(windowId, GUILayout.Toggle(enabled, text, STYLE_TOGGLE_4_PER_ROW));
+               bool enabled = GUILayout.Toggle(config.IsGaugeEnabled(windowId), text, STYLE_TOGGLE_4_PER_ROW);
+               config.SetGaugeEnabled(windowId, enabled);
+               gauges.SetGaugeEnabled(gauges.GetGauge(windowId), enabled);
                this.allGaugesEnables = this.allGaugesEnables && enabled;
             }
             catch
