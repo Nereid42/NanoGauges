@@ -106,10 +106,16 @@ namespace Nereid
             if (!Input.GetKey(NanoGauges.configuration.GetKeyCodeForHotkey()))
             {
                cluster = null;
+
+               // don't draw tooltips or exact readout (zoom) if hotkey is pressed!
+               DrawTooltip();
+               DrawExactReadout();
+            }
+            else
+            {
+               HideTooltip();
             }
 
-            DrawTooltip();
-            DrawExactReadout();
 
             Event e = Event.current;
             if (e.type == EventType.MouseDown && e.button == 0)
@@ -149,8 +155,13 @@ namespace Nereid
             }
             else
             {
-               this.tooltip.SetVisible(false);
+               HideTooltip();
             }
+         }
+
+         protected void HideTooltip()
+         {
+            this.tooltip.SetVisible(false);
          }
 
          protected void DrawExactReadout()
