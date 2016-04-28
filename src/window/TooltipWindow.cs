@@ -38,15 +38,18 @@ namespace Nereid
 
          private void AlignToGauge()
          {
-            int x = gauge.GetX();
-            int y = gauge.GetY();
-            if(x+TOOLTIP_WIDTH+10<Screen.width)
+            if (gauge != null)
             {
-               SetPosition(x + gauge.GetWidth(), y);
-            }
-            else
-            {
-               SetPosition(x - TOOLTIP_WIDTH, y);
+               int x = gauge.GetX();
+               int y = gauge.GetY();
+               if (x + TOOLTIP_WIDTH + 10 < Screen.width)
+               {
+                  SetPosition(x + gauge.GetWidth(), y);
+               }
+               else
+               {
+                  SetPosition(x - TOOLTIP_WIDTH, y);
+               }
             }
          }
 

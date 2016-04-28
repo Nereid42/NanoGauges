@@ -85,6 +85,7 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_TIMETOAPA = WINDOW_ID_BASE + 75;
          public const int WINDOW_ID_GAUGE_TIMETOPEA = WINDOW_ID_BASE + 76;
          public const int WINDOW_ID_GAUGE_TIMETOTRANS = WINDOW_ID_BASE + 77;
+         public const int WINDOW_ID_GAUGE_BAROMETER = WINDOW_ID_BASE + 78;
 
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";

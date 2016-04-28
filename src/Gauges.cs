@@ -59,6 +59,7 @@ namespace Nereid
             AddGauge(new IspPerEngineGauge(engineInspecteur));
             AddGauge(new TempGauge(sensorInspecteur));
             AddGauge(new GravGauge(sensorInspecteur));
+            AddGauge(new BarometricGauge(sensorInspecteur));
             AddGauge(new EvaMonopropellantGauge(resourceInspecteur));
             AddGauge(new MaxGeeGauge());
             AddGauge(new SolidFuelGauge(resourceInspecteur));
@@ -76,9 +77,9 @@ namespace Nereid
             AddGauge(new VerticalAccelerationGauge(velocityInspecteur));
             AddGauge(new ExternalTempGauge()); 
             AddGauge(new AtmosphereTempGauge());
-            // (untested) AddGauge(new AblatorGauge(resourceInspecteur));
-            // (untested) AddGauge(new OreGauge(resourceInspecteur));
-            // (untested)  AddGauge(new DrillTempGauge(vesselInspecteur));
+            AddGauge(new AblatorGauge(resourceInspecteur));
+            AddGauge(new OreGauge(resourceInspecteur));
+            AddGauge(new DrillTempGauge(vesselInspecteur));
             // NOT WORKING in KSP1.1.0: AddGauge(new IndicatorGauge(vesselInspecteur,engineInspecteur));
             AddGauge(new PropellantPctGauge(engineInspecteur));
             AddGauge(new TimeToApoapsisGauge());

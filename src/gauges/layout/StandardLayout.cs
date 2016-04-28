@@ -36,6 +36,7 @@ namespace Nereid
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_TEMP);
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_GRAV);
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_HEAT);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_BAROMETER);
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_EXTTEMP);
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_ATMTEMP);
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_DRILLTEMP);

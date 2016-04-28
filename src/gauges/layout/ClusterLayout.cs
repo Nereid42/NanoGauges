@@ -41,7 +41,8 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_Q, x0 - 11 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_TEMP, x0 - 10 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_GRAV, x0 - 9 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SHIELD, x0 - 8 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BAROMETER, x0 - 8 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_SHIELD, x0 - 7 * vDX, y0 + n * vDY);
             n = 1;
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KARBONITE, x0 - 11 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_O2, x0 - 10 * vDX, y0 + n * vDY);

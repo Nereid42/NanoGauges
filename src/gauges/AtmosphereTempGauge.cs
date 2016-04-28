@@ -10,7 +10,7 @@ namespace Nereid
       public class AtmosphereTempGauge : VerticalGauge
       {
          private static readonly Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/ATMTEMP-skin");
-         private static readonly Texture2D SCALE = Utils.GetTexture("Nereid/NanoGauges/Resource/TEMP-scale");
+         private static readonly Texture2D SCALE = Utils.GetTexture("Nereid/NanoGauges/Resource/CELSIUS-scale");
          private static readonly double MAX_TEMP = 2000;
          private const double MIN_TEMP = -273;
 

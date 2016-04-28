@@ -10,19 +10,22 @@ namespace Nereid
    {
       public class SensorInspecteur : Inspecteur
       {
-         private static readonly double MIN_INTERVAL = 0.5;
+         private static readonly double MIN_INTERVAL = 0.2;
 
          private double temperature;
          private double gravity;
+         private double pressure;
          private bool sensorTempEnabled = false;
          private bool sensorGravEnabled = false;
+         private bool sensorPressureEnabled = false;
          private int sensorTempCount = 0;
          private int sensorGravCount = 0;
+         private int sensorPressureCnt = 0;
 
          private readonly List<ModuleEnviroSensor> sensors = new List<ModuleEnviroSensor>();
 
          public SensorInspecteur()
-            : base(20, MIN_INTERVAL)
+            : base(5, MIN_INTERVAL)
          {
             Reset();
          }
@@ -32,10 +35,12 @@ namespace Nereid
          {
             this.temperature = 0.0;
             this.gravity = 0.0;
+            this.pressure = 0.0;
             this.sensorTempEnabled = false;
             this.sensorTempCount = 0;
             this.sensorGravEnabled = false;
             this.sensorGravCount = 0;
+            this.sensorPressureCnt = 0;
          }
 
          protected override void ScanVessel(Vessel vessel)
@@ -50,7 +55,7 @@ namespace Nereid
                }
                if (part.name != null)
                {
-                  if (part.name.Equals("sensorThermometer") || part.name.Equals("sensorGravimeter"))
+                  if (part.name.StartsWith("sensor") )
                   {
                      foreach (PartModule m in part.Modules)
                      {
@@ -75,6 +80,11 @@ namespace Nereid
             return gravity;
          }
 
+         public double GetPressure()
+         {
+            return pressure;
+         }
+
          public bool IsTempSensorEnabled()
          {
             return sensorTempEnabled;
@@ -85,13 +95,20 @@ namespace Nereid
             return sensorGravEnabled;
          }
 
+         public bool IsPressureSensorEnable()
+         {
+            return sensorPressureEnabled;
+         }
+
+
          private void InspectSensor(ModuleEnviroSensor sensor)
          {
             if (sensor == null || sensor.sensorType == null) return;
+            if (!sensor.isEnabled) return;
             if (sensor.sensorType == "TEMP")
             {
                String readout = sensor.readoutInfo;
-               if (readout != null)
+               if (readout != null && readout != "Off")
                {
                   String temp = Regex.Replace(readout, "[^-.0-9]", "");
                   if(temp.Length>0)
@@ -115,7 +132,7 @@ namespace Nereid
             else if (sensor.sensorType == "GRAV")
             {
                String readout = sensor.readoutInfo;
-               if(readout!=null && readout.Length>5)
+               if (readout != null && readout.Length > 5 && readout != "Off")
                {
                   String grav = readout.Substring(0, readout.Length - 5);
                   try
@@ -123,6 +140,29 @@ namespace Nereid
                      gravity += double.Parse(grav);
                      sensorGravEnabled = true;
                      sensorGravCount++;
+                  }
+                  catch
+                  {
+                     if (Log.IsLogable(Log.LEVEL.DETAIL))
+                     {
+                        Log.Detail("invalid temp sensor value");
+                     }
+                  }
+
+               }
+            }
+            else if (sensor.sensorType == "PRES")
+            {
+               String readout = sensor.readoutInfo;
+               if (readout != null && readout!="Off")
+               {
+                  readout = Regex.Replace(readout, "[^-.0-9]", "");
+                  if (readout.Length == 0) readout = "0";
+                  try
+                  {
+                     pressure += double.Parse(readout);
+                     sensorPressureEnabled = true;
+                     sensorPressureCnt++;
                   }
                   catch
                   {
@@ -144,6 +184,10 @@ namespace Nereid
             gravity = 0.0;
             sensorGravEnabled = false;
             sensorGravCount = 0;
+            pressure = 0.0;
+            sensorPressureCnt = 0;
+            sensorPressureEnabled = false;
+
             foreach (ModuleEnviroSensor sensor in this.sensors)
             {
                InspectSensor(sensor);
@@ -157,6 +201,11 @@ namespace Nereid
             {
                gravity = gravity / sensorGravCount;
             }
+            if (sensorPressureCnt > 0)
+            {
+               pressure = pressure / sensorPressureCnt;
+            }
+            
 
          }
       }

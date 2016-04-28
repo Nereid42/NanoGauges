@@ -203,6 +203,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_APA, "Apoapsis gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATM, "Atmosphere gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATMTEMP, "Atmosphere temperature gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_BAROMETER, "Barometric gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CO2, "CO2 gauge enabled (TAC life suppord required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DTGT, "Distance to target gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DRILLTEMP, "Drill temperature gauge enabled");

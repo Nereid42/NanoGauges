@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Nereid
 {
@@ -27,11 +28,15 @@ namespace Nereid
 
          public void OnGUI()
          {
-            foreach(AbstractWindow window in windows)
+            if (Event.current.type == EventType.Layout)
             {
-               if(window.IsVisible())
+               foreach(AbstractWindow window in windows)
                {
-                  window.OnGUI();
+                  // draw a window only if its visible 
+                  if(window.IsVisible())
+                  {
+                     window.OnGUI();
+                  }
                }
             }
          }

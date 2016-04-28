@@ -105,7 +105,7 @@ namespace Nereid
 
                foreach (PartResource r in part.Resources)
                {
-                  if ((r.info != null && Resources.ABLATOR != null && r.info.id == Resources.ABLATOR.id)                          // Stock
+                  if ((r.info != null && Resources.ABLATOR != null && r.info.id == Resources.ABLATOR.id)                        // Stock
                   || (r.info != null && Resources.ABLATIVE_SHIELDING != null && r.info.id == Resources.ABLATIVE_SHIELDING.id))  // Deadly Reentry
                   {
                      heatshieldParts.Add(part);
