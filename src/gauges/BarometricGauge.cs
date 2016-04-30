@@ -37,7 +37,7 @@ namespace Nereid
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel != null && FlightGlobals.ActiveVessel.parts.Count > 0)
             {
-               if (inspecteur.IsPressureSensorEnable())
+               if (inspecteur.IsPressureSensorEnabled())
                {
                   On();
                   return;

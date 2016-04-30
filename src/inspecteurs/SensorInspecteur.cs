@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace Nereid
 {
@@ -10,22 +11,25 @@ namespace Nereid
    {
       public class SensorInspecteur : Inspecteur
       {
-         private static readonly double MIN_INTERVAL = 0.2;
+         private static readonly double MIN_INTERVAL = 0.05;
 
          private double temperature;
          private double gravity;
          private double pressure;
+         private double seismic;
          private bool sensorTempEnabled = false;
          private bool sensorGravEnabled = false;
          private bool sensorPressureEnabled = false;
+         private bool sensorSeismicEnabled = false;
          private int sensorTempCount = 0;
          private int sensorGravCount = 0;
          private int sensorPressureCnt = 0;
+         private int sensorSeismicCnt = 0;
 
          private readonly List<ModuleEnviroSensor> sensors = new List<ModuleEnviroSensor>();
 
          public SensorInspecteur()
-            : base(5, MIN_INTERVAL)
+            : base(1, MIN_INTERVAL)
          {
             Reset();
          }
@@ -46,6 +50,9 @@ namespace Nereid
          protected override void ScanVessel(Vessel vessel)
          {
             sensors.Clear();
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            if (Log.IsLogable(Log.LEVEL.DETAIL)) Log.Detail("scanning vessel "+vessel.name);
             if (vessel == null || vessel.Parts==null) return;
             foreach (Part part in vessel.Parts)
             {
@@ -55,7 +62,7 @@ namespace Nereid
                }
                if (part.name != null)
                {
-                  if (part.name.StartsWith("sensor") )
+                  //if (part.name.StartsWith("sensor") )
                   {
                      foreach (PartModule m in part.Modules)
                      {
@@ -63,11 +70,14 @@ namespace Nereid
                         {
                            ModuleEnviroSensor sensor = m as ModuleEnviroSensor;
                            sensors.Add(sensor);
+                           if(Log.IsLogable(Log.LEVEL.TRACE)) Log.Trace("Added sensor module of type "+sensor.sensorType);
                         }
                      }
                   }
                }
             }
+            sw.Stop();
+            if (Log.IsLogable(Log.LEVEL.DETAIL)) Log.Detail("vessel scanned in" + sw.ElapsedMilliseconds+"ms ("+sw.ElapsedTicks+" ticks)");
          }
 
          public double GetTemperature()
@@ -85,6 +95,11 @@ namespace Nereid
             return pressure;
          }
 
+         public double GetSeismic()
+         {
+            return seismic;
+         }
+
          public bool IsTempSensorEnabled()
          {
             return sensorTempEnabled;
@@ -95,84 +110,69 @@ namespace Nereid
             return sensorGravEnabled;
          }
 
-         public bool IsPressureSensorEnable()
+         public bool IsPressureSensorEnabled()
          {
             return sensorPressureEnabled;
          }
 
+         public bool IsSeismicSensorEnabled()
+         {
+            return sensorSeismicEnabled;
+         }
+
+         private double ParseReadout(String readout)
+         {
+            try
+            {
+               return double.Parse(Regex.Replace(readout, "[^-.0-9]", ""));
+            }
+            catch
+            {
+               if (Log.IsLogable(Log.LEVEL.DETAIL))
+               {
+                  Log.Detail("invalid readout '"+readout+"'");
+               }
+               return 0.0;
+            }
+
+         }
+
+         private bool IsOff(ModuleEnviroSensor sensor)
+         {
+            return sensor.readoutInfo == Constants.STRING_OFF;
+         }
 
          private void InspectSensor(ModuleEnviroSensor sensor)
          {
             if (sensor == null || sensor.sensorType == null) return;
+            if (IsOff(sensor)) return;
             if (!sensor.isEnabled) return;
-            if (sensor.sensorType == "TEMP")
-            {
-               String readout = sensor.readoutInfo;
-               if (readout != null && readout != "Off")
-               {
-                  String temp = Regex.Replace(readout, "[^-.0-9]", "");
-                  if(temp.Length>0)
-                  {
-                     try
-                     {
-                        temperature += double.Parse(temp);
-                        sensorTempEnabled = true;
-                        sensorTempCount++;
-                     }
-                     catch
-                     {
-                        if(Log.IsLogable(Log.LEVEL.DETAIL))
-                        {
-                           Log.Detail("invalid temp sensor value");
-                        }
-                     }
-                  }
-               }
-            }
-            else if (sensor.sensorType == "GRAV")
-            {
-               String readout = sensor.readoutInfo;
-               if (readout != null && readout.Length > 5 && readout != "Off")
-               {
-                  String grav = readout.Substring(0, readout.Length - 5);
-                  try
-                  {
-                     gravity += double.Parse(grav);
-                     sensorGravEnabled = true;
-                     sensorGravCount++;
-                  }
-                  catch
-                  {
-                     if (Log.IsLogable(Log.LEVEL.DETAIL))
-                     {
-                        Log.Detail("invalid temp sensor value");
-                     }
-                  }
+            String readout = sensor.readoutInfo;
+            if ( readout == null || readout == "" ) return;
 
-               }
-            }
-            else if (sensor.sensorType == "PRES")
+            if (sensor.sensorType == Constants.SENSOR_TEMPERATURE)
             {
-               String readout = sensor.readoutInfo;
-               if (readout != null && readout!="Off")
-               {
-                  readout = Regex.Replace(readout, "[^-.0-9]", "");
-                  if (readout.Length == 0) readout = "0";
-                  try
-                  {
-                     pressure += double.Parse(readout);
-                     sensorPressureEnabled = true;
-                     sensorPressureCnt++;
-                  }
-                  catch
-                  {
-                     if (Log.IsLogable(Log.LEVEL.DETAIL))
-                     {
-                        Log.Detail("invalid temp sensor value");
-                     }
-                  }
-
-               }
+               temperature += ParseReadout(readout);
+               sensorTempEnabled = true;
+               sensorTempCount++;
+            }
+            else if (sensor.sensorType == Constants.SENSOR_GRAVIMETRIC)
+            {
+               gravity += ParseReadout(readout);
+               sensorGravEnabled = true;
+               sensorGravCount++;
+            }
+            else if (sensor.sensorType == Constants.SENSOR_BAROMETRIC)
+            {
+               pressure += ParseReadout(readout);
+               sensorPressureEnabled = true;
+               sensorPressureCnt++;
+            }
+            else if (sensor.sensorType == Constants.SENSOR_SEISMIC)
+            {
+               seismic += ParseReadout(readout);
+               sensorSeismicEnabled = true;
+               sensorSeismicCnt++;
             }
          }
 
@@ -187,6 +187,9 @@ namespace Nereid
             pressure = 0.0;
             sensorPressureCnt = 0;
             sensorPressureEnabled = false;
+            seismic = 0.0;
+            sensorSeismicCnt = 0;
+            sensorSeismicEnabled = false;
 
             foreach (ModuleEnviroSensor sensor in this.sensors)
             {
@@ -205,8 +208,10 @@ namespace Nereid
             {
                pressure = pressure / sensorPressureCnt;
             }
-            
-
+            if (sensorSeismicCnt > 0)
+            {
+               seismic = seismic / sensorSeismicCnt;
+            }
          }
       }
    }

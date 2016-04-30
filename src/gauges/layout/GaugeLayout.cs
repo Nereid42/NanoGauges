@@ -146,10 +146,13 @@ namespace Nereid
 
          protected void SetGaugeEnabled(GaugeSet set, int windowId, bool enabled)
          {
-            set.SetGaugeEnabled(windowId, enabled);
-            if(set.IsCurrentGaugeSet())
+            if (gauges.ContainsId(windowId))
             {
-               gauges.SetGaugeEnabled(windowId, enabled);
+               set.SetGaugeEnabled(windowId, enabled);
+               if (set.IsCurrentGaugeSet())
+               {
+                  gauges.SetGaugeEnabled(windowId, enabled);
+               }
             }
          }
 

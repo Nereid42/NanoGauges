@@ -60,6 +60,7 @@ namespace Nereid
             AddGauge(new TempGauge(sensorInspecteur));
             AddGauge(new GravGauge(sensorInspecteur));
             AddGauge(new BarometricGauge(sensorInspecteur));
+            AddGauge(new SeismicGauge(sensorInspecteur));
             AddGauge(new EvaMonopropellantGauge(resourceInspecteur));
             AddGauge(new MaxGeeGauge());
             AddGauge(new SolidFuelGauge(resourceInspecteur));
@@ -527,7 +528,7 @@ namespace Nereid
             }
             catch(KeyNotFoundException)
             {
-               Log.Warning("gauge id "+id+" not found");
+               Log.Warning("cannot enbable gauge; id "+id+" not found");
             }
          }
 

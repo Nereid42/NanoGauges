@@ -214,7 +214,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FOOD, "Food gauge enabled (TAC life suppord required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FLOW, "Fuel flow gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FUEL, "Fuel gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_GRAV, "Gravity gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_GRAVIMETER, "Gravity gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HEAT, "Heat shield temperatur gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Horizontal acceleration gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HSPD, "Horizontal speed gauge enabled");

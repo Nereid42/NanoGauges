@@ -56,7 +56,7 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_MAXG = WINDOW_ID_BASE + 46;
          public const int WINDOW_ID_GAUGE_SRB = WINDOW_ID_BASE + 47;
          public const int WINDOW_ID_GAUGE_OSPD = WINDOW_ID_BASE + 48;
-         public const int WINDOW_ID_GAUGE_GRAV = WINDOW_ID_BASE + 49;
+         public const int WINDOW_ID_GAUGE_GRAVIMETER = WINDOW_ID_BASE + 49;
          public const int WINDOW_ID_GAUGE_VAI = WINDOW_ID_BASE + 50;
          public const int WINDOW_ID_GAUGE_VVI = WINDOW_ID_BASE + 51;
          public const int WINDOW_ID_GAUGE_VT = WINDOW_ID_BASE + 52;
@@ -86,6 +86,7 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_TIMETOPEA = WINDOW_ID_BASE + 76;
          public const int WINDOW_ID_GAUGE_TIMETOTRANS = WINDOW_ID_BASE + 77;
          public const int WINDOW_ID_GAUGE_BAROMETER = WINDOW_ID_BASE + 78;
+         public const int WINDOW_ID_GAUGE_SEISMOMETER = WINDOW_ID_BASE + 79;
 
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";
@@ -112,6 +113,15 @@ namespace Nereid
          // Real Fuels
          public const String RESOURCE_NAME_KARBONITE = "Karbonite";
 
+
+         // Sensors
+         public const String SENSOR_TEMPERATURE = "TEMP";
+         public const String SENSOR_GRAVIMETRIC = "GRAV";
+         public const String SENSOR_BAROMETRIC = "PRES";
+         public const String SENSOR_SEISMIC = "ACC";
+
+         // Simple Strings
+         public const String STRING_OFF = "Off";
 
          public const double GEE_KERBIN = 9.81;
 

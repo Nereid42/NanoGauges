@@ -34,7 +34,8 @@ namespace Nereid
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_VTGT);
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_IMPACT);
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_TEMP);
-            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_GRAV);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_GRAVIMETER);
+            AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_SEISMOMETER);
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_HEAT);
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_BAROMETER);
             AddToLeftBlock(set, Constants.WINDOW_ID_GAUGE_EXTTEMP);

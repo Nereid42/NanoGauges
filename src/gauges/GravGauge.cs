@@ -17,7 +17,7 @@ namespace Nereid
          private readonly SensorInspecteur inspecteur;
 
          public GravGauge(SensorInspecteur inspecteur)
-            : base(Constants.WINDOW_ID_GAUGE_GRAV, SKIN, SCALE, true, 0.00085f)
+            : base(Constants.WINDOW_ID_GAUGE_GRAVIMETER, SKIN, SCALE, true, 0.00085f)
          {
             this.inspecteur = inspecteur;
          }
