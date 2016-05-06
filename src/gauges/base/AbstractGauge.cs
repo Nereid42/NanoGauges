@@ -20,7 +20,7 @@ namespace Nereid
 
          public AbstractGauge(int id) 
          {
-            Log.Detail("creating gauge window for gauge id "+id);
+            Log.Detail("creating gauge window for gauge id "+id+" of size "+GetWidth()+"x"+GetHeight());
             this.id = id;
             this.bounds = new Rect(0, 0, GetWidth(), GetHeight());
 
@@ -208,14 +208,8 @@ namespace Nereid
          }
 
          public abstract int GetWidth();
-         /*{
-            return (int)bounds.width;
-         }*/
 
          public abstract int GetHeight();
-         /*{
-            return (int)bounds.height;
-         }*/
 
          public void SetPosition(Pair<int, int> coords)
          {

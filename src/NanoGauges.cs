@@ -42,6 +42,10 @@ namespace Nereid
          static NanoGauges()
          {
             Log.SetLevel(Log.LEVEL.INFO);
+            //
+            configuration.Load();
+            Log.Info("log level is " + Log.GetLogLevel());
+            //
             Log.Info("static init of NanoGauges");
             gauges = new Gauges();
             //
@@ -50,9 +54,6 @@ namespace Nereid
             //
             configuration.SetGaugeSet(GaugeSet.ID.STANDARD);
             gauges.ReflectGaugeSetChange();
-            //
-            configuration.Load();
-            Log.Info("log level is " + Log.GetLogLevel());
             //
             snapinManager = new SnapinManager(gauges);
             Log.SetLevel(configuration.GetLogLevel());

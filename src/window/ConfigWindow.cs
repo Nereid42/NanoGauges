@@ -131,7 +131,7 @@ namespace Nereid
             GaugeScaleToggle("110%", Configuration.GAUGE_SCALE_110);
             GaugeScaleToggle("120%", Configuration.GAUGE_SCALE_120);
             GaugeScaleToggle("150%", Configuration.GAUGE_SCALE_150);
-            GaugeScaleToggle("200%", Configuration.GAUGE_SCALE_150);
+            GaugeScaleToggle("200%", Configuration.GAUGE_SCALE_200);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
