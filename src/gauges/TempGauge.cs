@@ -48,7 +48,7 @@ namespace Nereid
 
          protected override float GetScaleOffset()
          {
-            float k0 = GetOffset(0);
+            float k0 = GetOffset(350);
             float k250 = GetOffset(250);
             float k350 = GetOffset(150);
             float y = k0;

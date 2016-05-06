@@ -12,8 +12,10 @@ namespace Nereid
       {
          public static readonly WindowManager instance = new WindowManager();
 
-
          private readonly List<AbstractWindow> windows = new List<AbstractWindow>();
+
+         // debug
+         private readonly TimedStatistics.Timer windowTimer = TimedStatistics.instance.GetTimer("Windows");
 
          public void AddWindow(AbstractWindow window)
          {
@@ -28,6 +30,7 @@ namespace Nereid
 
          public void OnGUI()
          {
+            windowTimer.Start();
             if (Event.current.type == EventType.Layout)
             {
                foreach(AbstractWindow window in windows)
@@ -39,6 +42,7 @@ namespace Nereid
                   }
                }
             }
+            windowTimer.Stop();
          }
       }
    }

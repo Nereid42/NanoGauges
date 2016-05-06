@@ -78,8 +78,11 @@ namespace Nereid
             LogLevelButton(Log.LEVEL.DETAIL, "DETAIL");
             LogLevelButton(Log.LEVEL.TRACE, "TRACE");
             GUILayout.EndHorizontal();
-
+            GUILayout.BeginHorizontal();
             GUILayout.Label("Hotkey:", STYLE_LABEL);
+            GUILayout.FlexibleSpace();
+            config.performanceStatisticsEnabled = GUILayout.Toggle(config.performanceStatisticsEnabled, "performance statistics", STYLE_TOGGLE_2_PER_ROW);
+            GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             KeyCodeButton(KeyCode.LeftControl, "LEFT CTRL");
             KeyCodeButton(KeyCode.RightControl, "RIGHT CTRL");
@@ -128,6 +131,7 @@ namespace Nereid
             GaugeScaleToggle("110%", Configuration.GAUGE_SCALE_110);
             GaugeScaleToggle("120%", Configuration.GAUGE_SCALE_120);
             GaugeScaleToggle("150%", Configuration.GAUGE_SCALE_150);
+            GaugeScaleToggle("200%", Configuration.GAUGE_SCALE_150);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
@@ -237,6 +241,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, "Radar altimeter gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AIRPCT, "Relative air-intake gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_PROPELLANT, "Relative propellant requirement gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SEISMOMETER, "Seismometer gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SRB, "Solid fuel gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SPD, "Speed gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TEMP, "Temperature gauge enabled");

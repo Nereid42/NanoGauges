@@ -9,8 +9,6 @@ namespace Nereid
    {
       public class EngineInspecteur : Inspecteur 
       {
-         private static readonly double MIN_INTERVAL = 0.2;
-
          public double engineTotalThrust { get; private set; }
          public double engineIspPerRunningEngine  { get; private set; }
          public float propReqPerRunningEngine { get; private set; }
@@ -24,7 +22,7 @@ namespace Nereid
          private readonly List<MultiModeEngine> afterburner = new List<MultiModeEngine>();         
 
          public EngineInspecteur()
-            : base(10, MIN_INTERVAL)
+            : base(2)
          {
             Reset();
          }
@@ -46,6 +44,38 @@ namespace Nereid
             return deltaIspPerSecond.GetValue();
          }
 
+
+         private void ScanPart(Part part)
+         {
+            int moduleCount = 0;
+            foreach (ModuleEngines engine in part.Modules.OfType<ModuleEngines>())
+            {
+               if(!this.engines.Contains(engine))
+               {
+                  this.engines.Add(engine);
+                  moduleCount++;
+               }
+            }
+
+            foreach (MultiModeEngine afterburner in part.Modules.OfType<MultiModeEngine>())
+            {
+               if (!this.afterburner.Contains(afterburner))
+               {
+                  this.afterburner.Add(afterburner);
+                  this.afterburnerInstalled = true;
+               }
+            }
+            if (moduleCount > 0)
+            {
+               enginesTotalCount++;
+            }
+         }
+
+         protected override void PartUnpacked(Part part)
+         {
+            ScanPart(part);
+         }
+
          protected override void ScanVessel(Vessel vessel)
          {
             engines.Clear();
@@ -54,23 +84,7 @@ namespace Nereid
             if (vessel == null || vessel.Parts == null) return;
             foreach (Part part in vessel.Parts)
             {
-               if(part.packed) part.Unpack();
-               int moduleCount = 0;
-               foreach (ModuleEngines engine in part.Modules.OfType<ModuleEngines>())
-               {
-                  engines.Add(engine);
-                  moduleCount++;
-               }
-
-               foreach (MultiModeEngine afterburner in part.Modules.OfType<MultiModeEngine>())
-               {
-                  this.afterburner.Add(afterburner);
-                  this.afterburnerInstalled = true;
-               }
-               if(moduleCount>0)
-               {
-                  enginesTotalCount++;
-               }
+               if (!part.packed)  ScanPart(part);
             }
          }
 
@@ -109,14 +123,15 @@ namespace Nereid
                   deltaIspPerSecond.AddValue((engineIspPerRunningEngine - previousIspPerRunningEngine) * (1 / interval));
                }
                // afterbruner
-               foreach (MultiModeEngine afterburner in this.afterburner)
+               // doesnt work
+               /*foreach (MultiModeEngine afterburner in this.afterburner)
                {
                   if (afterburner.isEnabled && !afterburner.runningPrimary)
                   {
                      this.afterburnerEnabled = true;
                      break;
                   }
-               }
+               }*/
             }
             else
             {

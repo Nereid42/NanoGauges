@@ -28,6 +28,7 @@ namespace Nereid
          public const double GAUGE_SCALE_110 = 1.1;
          public const double GAUGE_SCALE_120 = 1.2;
          public const double GAUGE_SCALE_150 = 1.5;
+         public const double GAUGE_SCALE_200 = 2.0;
 
          private Log.LEVEL logLevel = Log.LEVEL.INFO;
 
@@ -38,8 +39,9 @@ namespace Nereid
          public bool trimIndicatorsEnabled { get; set; }
          public bool useStockToolbar { get; set; }
          public bool exactReadoutEnabled { get; set; }
-         public double gaugeScaling { get; set; }
+         public bool performanceStatisticsEnabled { get; set; }
          // need a restart to take effect
+         public double gaugeScaling { get; set; }
          public int verticalGaugeWidth { get; private set; }
          public int verticalGaugeHeight { get; private set; }
          public int horizontalGaugeWidth { get; private set; }
@@ -71,6 +73,7 @@ namespace Nereid
             trimIndicatorsEnabled = true;
             useStockToolbar = !ToolbarManager.ToolbarAvailable;
             exactReadoutEnabled = false;
+            performanceStatisticsEnabled = false;
             verticalGaugeWidth    = UNSCALED_VERTICAL_GAUGE_WIDTH;
             verticalGaugeHeight   = UNSCALED_VERTICAL_GAUGE_HEIGHT;
             horizontalGaugeWidth  = UNSCALED_HORIZONTAL_GAUGE_WIDTH;
@@ -303,7 +306,7 @@ namespace Nereid
                writer.Write((Int32)id);
                bool enabled = set.IsGaugeEnabled(id);
                writer.Write(enabled);
-               Log.Detail("window state written for window id " + id + ": " + enabled);
+               Log.Trace("window state written for window id " + id + ": " + enabled);
             }
          }
 
@@ -386,6 +389,8 @@ namespace Nereid
                   writer.Write(tooltipsEnabled);
                   //
                   writer.Write(gaugeScaling);
+                  //
+                  writer.Write(performanceStatisticsEnabled);
                }
             }
             catch
@@ -452,6 +457,8 @@ namespace Nereid
                      verticalGaugeHeight =   (int)(UNSCALED_VERTICAL_GAUGE_HEIGHT   * gaugeScaling);
                      horizontalGaugeWidth =  (int)(UNSCALED_HORIZONTAL_GAUGE_WIDTH  * gaugeScaling);
                      horizontalGaugeHeight = (int)(UNSCALED_HORIZONTAL_GAUGE_HEIGHT * gaugeScaling);
+                     //
+                     performanceStatisticsEnabled = reader.ReadBoolean();
                   }
                }
                else

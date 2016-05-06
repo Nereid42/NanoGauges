@@ -8,7 +8,6 @@ namespace Nereid
    {
       public class ResourceInspecteur : Inspecteur
       {
-         private static readonly double MIN_INTERVAL = 0.2;
 
          private Dictionary<int, double> previous = new Dictionary<int, double>();
          private Dictionary<int, double> amount = new Dictionary<int, double>();
@@ -18,7 +17,7 @@ namespace Nereid
          private readonly List<PartResource> resourceParts = new List<PartResource>();
 
          public ResourceInspecteur()
-            : base(10, MIN_INTERVAL)
+            : base(2)
          {
             Reset();
          }
@@ -32,17 +31,30 @@ namespace Nereid
             capacity.Clear();
          }
 
+         private void ScanPart(Part part)
+         {
+            foreach (PartResource r in part.Resources)
+            {
+               if(!resourceParts.Contains(r))
+               {
+                  resourceParts.Add(r);
+               }
+            }
+         }
+
+
+         protected override void PartUnpacked(Part part)
+         {
+            ScanPart(part);
+         }
+
          protected override void ScanVessel(Vessel vessel)
          {
             resourceParts.Clear();
             if (vessel == null || vessel.Parts == null) return;
             foreach (Part part in vessel.Parts)
             {
-               if (part.packed) part.Unpack();
-               foreach (PartResource r in part.Resources)
-               {
-                  resourceParts.Add(r);
-               }
+               if (!part.packed) ScanPart(part);
             }
          }
 

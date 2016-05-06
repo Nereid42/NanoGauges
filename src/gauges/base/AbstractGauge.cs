@@ -24,7 +24,7 @@ namespace Nereid
             this.id = id;
             this.bounds = new Rect(0, 0, GetWidth(), GetHeight());
 
-            Log.Info("position for gauge id "+id+": "+NanoGauges.configuration.GetWindowPosition(id));
+            Log.Detail("position for gauge id "+id+": "+NanoGauges.configuration.GetWindowPosition(id));
             SetPosition(NanoGauges.configuration.GetWindowPosition(id));
 
             this.tooltip = new TooltipWindow(this);

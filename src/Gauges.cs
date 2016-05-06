@@ -25,6 +25,12 @@ namespace Nereid
          private volatile CameraManager.CameraMode currentCamMode = CameraManager.CameraMode.Flight;
          private volatile bool isEvaCam = false;
 
+         private long updateCycle = 0;
+
+         // debug
+         private readonly TimedStatistics.Timer guiTimer = TimedStatistics.instance.GetTimer("GUI");
+
+
          public Gauges()
          {
             Log.Info("creating gaues");
@@ -115,20 +121,25 @@ namespace Nereid
 
          public void DrawGauges()
          {
-            foreach (AbstractGauge gauge in gauges.Values)
+            guiTimer.Start();
+            if (!hidden)
             {
-               try
+               foreach (AbstractGauge gauge in gauges.Values)
                {
-                  if(NanoGauges.configuration.IsGaugeEnabled(gauge.GetWindowId()))
+                  try
                   {
-                    gauge.OnDraw();
+                     if (NanoGauges.configuration.IsGaugeEnabled(gauge.GetWindowId()))
+                     {
+                        gauge.OnDraw();
+                     }
+                  }
+                  catch
+                  {
+                     Log.Error("Exception in OnDraw() in " + gauge.GetType());
                   }
                }
-               catch
-               {
-                  Log.Error("Exception in OnDraw() in " + gauge.GetType());
-               }
             }
+            guiTimer.Stop();
          }
 
 
@@ -266,15 +277,21 @@ namespace Nereid
             }
          }
 
+         // called about 50 times per second
          public void Update()
          {
-            CheckCamera();
-            resourceInspecteur.Update();
-            engineInspecteur.Update();
-            sensorInspecteur.Update();
-            vesselInspecteur.Update();
-            velocityInspecteur.Update();
-            biomeInspecteur.Update();
+            // check camera not that often
+            if (updateCycle % 10 == 0) CheckCamera();
+            //
+            // try to spread updates
+            if ( updateCycle % 5 == 0 ) biomeInspecteur.Update();
+            if ( updateCycle % 5 == 0 ) resourceInspecteur.Update();
+            if ( updateCycle % 5 == 1 ) engineInspecteur.Update();
+            if ( updateCycle % 5 == 2 ) sensorInspecteur.Update();
+            if ( updateCycle % 5 == 3 ) vesselInspecteur.Update();
+            if ( updateCycle % 5 == 4 ) velocityInspecteur.Update();
+            //
+            updateCycle++;
          }
 
          public void ResetInspecteurs()

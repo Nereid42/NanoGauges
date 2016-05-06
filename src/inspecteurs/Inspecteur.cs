@@ -17,22 +17,28 @@ namespace Nereid
          private volatile bool forceRescan = false;
 
          private double lastInspectTime;
-         private readonly double inspectInterval;
          private readonly long cycleInterval;
 
          public abstract void Reset();
          protected abstract void Inspect(Vessel vessel);
          protected abstract void ScanVessel(Vessel vessel);
+         
+         protected virtual void PartUnpacked(Part part)
+         {
+            // do nothing by default
+         }
 
          // for debugging
          private long cnt;
          Stopwatch sw = new Stopwatch();
+         //
+         private readonly TimedStatistics.Timer inspectTimer = TimedStatistics.instance.GetTimer("Inspect");
+         private readonly TimedStatistics.Timer scanTimer = TimedStatistics.instance.GetTimer("Scan");
+         private readonly TimedStatistics.Timer unpackTimer = TimedStatistics.instance.GetTimer("Unpack");
 
-
-         protected Inspecteur(long cycleInterval, double inspectInterval)
+         protected Inspecteur(long cycleInterval)
          {
             this.cycleInterval = cycleInterval;
-            this.inspectInterval = inspectInterval;
             GameEvents.onVesselChange.Add(this.OnVesselChange);
             GameEvents.onPartCouple.Add(this.OnPartCouple);
             GameEvents.onPartUndock.Add(this.OnPartUndock);
@@ -41,6 +47,7 @@ namespace Nereid
             GameEvents.onVesselWasModified.Add(this.OnVesselWasModified);
             GameEvents.onJointBreak.Add(this.OnJointBreak);
             GameEvents.onGameStateCreated.Add(OnGameStateCreated);
+            GameEvents.onPartUnpack.Add(this.OnPartUnpack);
          }
 
          private void OnPartDestroyed(Part part)
@@ -66,6 +73,28 @@ namespace Nereid
             VesselModified();
          }
 
+         private void OnPartUnpack(Part part)
+         {
+            unpackTimer.Start();
+            try
+            {
+               Vessel vessel = FlightGlobals.ActiveVessel;
+               if (vessel == null) return;
+               if (part != null && part.vessel == vessel)
+               {
+                  if (Log.IsLogable(Log.LEVEL.DETAIL))
+                  {
+                     Log.Detail("part unpacked " + part.name);
+                  }
+                  PartUnpacked(part);
+               }
+            }
+            finally
+            {
+               unpackTimer.Stop();
+            }
+         }
+
          private void OnGameStateCreated(Game game)
          {
             VesselModified();
@@ -81,6 +110,7 @@ namespace Nereid
             if(Log.IsLogable(Log.LEVEL.INFO)) Log.Info("Vessel changed");
             if (vessel == null || vessel!=FlightGlobals.ActiveVessel) return;
             VesselModified();
+            
          }
 
          private void OnJointBreak(EventReport report)
@@ -115,7 +145,7 @@ namespace Nereid
                if (Log.IsLogable(Log.LEVEL.DETAIL)) sw.Stop();
                if (Log.IsLogable(Log.LEVEL.DETAIL)) Log.Detail("elapsed scan time in " + this.GetType() + ": " + sw.ElapsedMilliseconds + " ms (" + cnt + " times)");
             }
-            if (Log.IsLogable(Log.LEVEL.DETAIL)) Log.Detail("vessel rescan finished (scanned " + cnt + " times)");
+            if (Log.IsLogable(Log.LEVEL.INFO)) Log.Info("vessel rescan finished (scanned " + cnt + " times)");
          }
 
          protected double GetLastInspectTime()
@@ -137,9 +167,6 @@ namespace Nereid
                Vessel active = FlightGlobals.ActiveVessel;
                if (active != null)
                {
-                 double now = Planetarium.GetUniversalTime();
-                 if (forceRescan || lastInspectTime <= 0 || now - lastInspectTime >= inspectInterval)
-                 {
                     if (forceRescan || vessel == null || active!=vessel || CountParts(vessel) != partCount)
                     {
                        // rescan when physics are in place only
@@ -147,17 +174,21 @@ namespace Nereid
                        {
                           partCount = CountParts(active);
                           vessel = active;
+                          scanTimer.Start();
                           ReScanVessel();
+                          scanTimer.Stop();
                        }
                     }
 
                     // don't update anything if the game is paused 
                     if (!Planetarium.Pause)
                     {
+                       inspectTimer.Start();
                        Inspect(vessel);
-                       lastInspectTime = now;
+                       inspectTimer.Stop();
+                       //
+                       lastInspectTime = Planetarium.GetUniversalTime();
                     }
-                 }
                }
                else
                {

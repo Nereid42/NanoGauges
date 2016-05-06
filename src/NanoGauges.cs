@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using KSP.UI.Screens;
 using NanoGaugesAdapter;
+using System.Diagnostics;
 
 namespace Nereid
 {
@@ -18,7 +19,6 @@ namespace Nereid
          // cached configuration (needs a restart to take effect)
          private static readonly bool trimIndicatorsEnabled;
 
-
          public static readonly SnapinManager snapinManager;
 
          private IButton toolbarButton;
@@ -29,6 +29,15 @@ namespace Nereid
          private volatile bool destroyed = false;
 
          private readonly TrimIndicators trimIndicators;
+
+         // for timed logging
+         private readonly Stopwatch timer = new Stopwatch();
+         private long lastPerformanceLog = 0;
+
+         // debug
+         private readonly TimedStatistics.Timer updateTimer = TimedStatistics.instance.GetTimer("Update");
+         private readonly TimedStatistics.Timer fixedUpdateTimer = TimedStatistics.instance.GetTimer("Fixed update");
+
 
          static NanoGauges()
          {
@@ -48,12 +57,16 @@ namespace Nereid
             snapinManager = new SnapinManager(gauges);
             Log.SetLevel(configuration.GetLogLevel());
             trimIndicatorsEnabled = configuration.trimIndicatorsEnabled;
+
          }
 
          public NanoGauges()
          {
             Log.Info("new instance of NanoGauges");
             this.trimIndicators = new TrimIndicators();
+
+            // 
+            timer.Start();
          }
 
          public void Awake()
@@ -224,26 +237,43 @@ namespace Nereid
             return gauges.GetCluster(gauge);
          }
 
-
-         public void Update()
+         public void FixedUpdate()
          {
+            fixedUpdateTimer.Start();
+
             if (trimIndicatorsEnabled)
             {
-               trimIndicators.Update();
+               // not working
+               //trimIndicators.Update();
             }
 
             gauges.Update();
+
+            fixedUpdateTimer.Stop();
+         }
+
+
+         public void Update()
+         {
+            updateTimer.Start();
+
+            // if log level is at least INFO and performance statistics are enabled 
+            // write statistical data in the log every 10 seconds
+            if(configuration.performanceStatisticsEnabled && Log.IsLogable(Log.LEVEL.INFO) && HighLogic.LoadedSceneIsFlight)
+            {
+               if (lastPerformanceLog + 10000 < timer.ElapsedMilliseconds)
+               {
+                  lastPerformanceLog = timer.ElapsedMilliseconds;
+                  Log.Info("Nanogauges performance statistics:\n"+TimedStatistics.instance.ToString());
+               }
+            }
+
 
             // check for keys
             //
             KeyCode hotkey = configuration.GetKeyCodeForHotkey();
             bool hotkeyPressed = Input.GetKey(hotkey);
             gauges.ShowCloseButtons(hotkeyPressed);
-
-            if(hotkeyPressed)
-            {
-               AbstractGauge g = gauges.GetGauge(Constants.WINDOW_ID_GAUGE_AOA);
-            }
 
             // Hotkeys for Gaugesets
             if (Input.GetKeyDown(KeyCode.Numlock))
@@ -324,6 +354,8 @@ namespace Nereid
                   gauges.AutoLayout();
                }
             }
+
+            updateTimer.Stop();
          }
       }
    }

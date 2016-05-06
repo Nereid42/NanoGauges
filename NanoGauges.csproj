@@ -190,6 +190,7 @@
     <Compile Include="src\util\Pair.cs" />
     <Compile Include="src\util\Resources.cs" />
     <Compile Include="src\util\SnapinManager.cs" />
+    <Compile Include="src\util\TimedStatistics.cs" />
     <Compile Include="src\util\ToolbarWrapper.cs" />
     <Compile Include="src\util\Utils.cs" />
     <Compile Include="src\window\AboutWindow.cs" />

@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-
+using System.Diagnostics;
 
 namespace Nereid
 {
@@ -11,8 +11,6 @@ namespace Nereid
    {
       public class VesselInspecteur : Inspecteur
       {
-         private static readonly double MIN_INTERVAL = 0.15;
-
          public enum GEARSTATES {      
             RETRACTED = 0,
             DEPLOYED = 1,
@@ -57,7 +55,7 @@ namespace Nereid
 
 
          public VesselInspecteur()
-            : base(10, MIN_INTERVAL)
+            : base(3)
          {
             Reset();
          }
@@ -86,73 +84,85 @@ namespace Nereid
             return this.dragCoefficent;
          }
 
+         private void ScanPart(Part part)
+         {
+            foreach (PartResource r in part.Resources)
+            {
+               if ((r.info != null && Resources.ABLATOR != null && r.info.id == Resources.ABLATOR.id)                        // Stock
+               || (r.info != null && Resources.ABLATIVE_SHIELDING != null && r.info.id == Resources.ABLATIVE_SHIELDING.id))  // Deadly Reentry
+               {
+                  if(!heatshieldParts.Contains(part))
+                  {
+                     heatshieldParts.Add(part);
+                     this.heatshieldInstalled = true;
+                  }
+                  break;
+               }
+            }
+
+            if (part.IsDrill())
+            {
+               if(!drillParts.Contains(part))
+               {
+                  drillParts.Add(part);
+                  this.drillInstalled = true;
+               }
+            }
+
+            // landing gears and brakes
+            // not working at the moment
+            /*foreach (ModuleWheelBase g in part.Modules.OfType<ModuleWheelBase>())
+            {
+               landingGears.Add(g);
+            }*/
+
+            // not working at the moment
+            /*
+            foreach (ModuleControlSurface s in part.Modules.OfType<ModuleControlSurface>())
+            {
+               bool isAirBrake = false;
+               // 
+               if (s.ignoreRoll && s.ignoreYaw && s.ignorePitch)
+               {
+                  foreach (BaseAction a in s.Actions)
+                  {
+                     if (a.name.Equals("ActionToggleBrakes"))
+                     {
+                        airBrakes.Add(s);
+                        isAirBrake = true;
+                        break;
+                     }
+                  }
+                  // no airbrake => flap
+                  if (!isAirBrake)
+                  {
+                     flaps.Add(s);
+                  }
+               }
+            }
+             * */
+
+         }
+
+
+         protected override void PartUnpacked(Part part)
+         {
+            ScanPart(part);
+         }
+
          protected void ScanVesselParts(Vessel vessel)
          {
             Reset();
             foreach (Part part in vessel.Parts)
             {
-               if (part.packed) part.Unpack();
-
-               // Debug
-               if(Log.IsLogable(Log.LEVEL.DETAIL))
-               {
-                  Log.Detail("scanning vessel part "+part.name);
-                  foreach(PartModule module in part.Modules)
-                  {
-                     Log.Detail(" module " + module.GetType());
-                  }
-               }
-
-               foreach (PartResource r in part.Resources)
-               {
-                  if ((r.info != null && Resources.ABLATOR != null && r.info.id == Resources.ABLATOR.id)                        // Stock
-                  || (r.info != null && Resources.ABLATIVE_SHIELDING != null && r.info.id == Resources.ABLATIVE_SHIELDING.id))  // Deadly Reentry
-                  {
-                     heatshieldParts.Add(part);
-                     this.heatshieldInstalled = true;
-                     break;
-                  }
-               }
-
-               if (part.IsDrill())
-               {
-                  drillParts.Add(part);
-                  this.drillInstalled = true;
-               }
-
-               // landing gears and brakes
-               foreach (ModuleWheelBase g in part.Modules.OfType<ModuleWheelBase>())
-               {
-                  landingGears.Add(g);
-               }
-
-               foreach (ModuleControlSurface s in part.Modules.OfType<ModuleControlSurface>())
-               {
-                  bool isAirBrake = false;
-                  // 
-                  if (s.ignoreRoll && s.ignoreYaw && s.ignorePitch)
-                  {
-                     foreach (BaseAction a in s.Actions)
-                     {
-                        if (a.name.Equals("ActionToggleBrakes"))
-                        {
-                           airBrakes.Add(s);
-                           isAirBrake = true;
-                           break;
-                        }
-                     }
-                     // no airbrake => flap
-                     if (!isAirBrake)
-                     {
-                        flaps.Add(s);
-                     }
-                  }
-               }
+               if (!part.packed) ScanPart(part);
             }
-            this.landingGearState = InspectLandingGear();
-            this.brakeState = InspectBrakes();
-            this.airBrakeState = InspectAirBrakes();
-            this.flapState = InspectFlaps();
+            // not working at the moment
+            //this.landingGearState = InspectLandingGear();
+            //this.brakeState = InspectBrakes();
+            //this.airBrakeState = InspectAirBrakes();
+            //this.flapState = InspectFlaps();
+
          }
 
          protected override void ScanVessel(Vessel vessel)
@@ -164,7 +174,6 @@ namespace Nereid
                this.dragCoefficent = 0.0;
                this.heatshieldTemp = 0.0;
                this.heatshieldInstalled = false;
-
             }
             else
             {
@@ -341,6 +350,9 @@ namespace Nereid
                      drillTemp = p.temperature;
                   }
                }
+
+               // not working at the moment
+               /*
                // landing gears
                this.landingGearState = InspectLandingGear();
                // brakes
@@ -349,6 +361,7 @@ namespace Nereid
                this.airBrakeState = InspectAirBrakes();
                // flaps
                this.flapState = InspectFlaps();
+                * */
             }
          }
       }

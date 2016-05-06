@@ -11,8 +11,6 @@ namespace Nereid
    {
       public class SensorInspecteur : Inspecteur
       {
-         private static readonly double MIN_INTERVAL = 0.05;
-
          private double temperature;
          private double gravity;
          private double pressure;
@@ -29,7 +27,7 @@ namespace Nereid
          private readonly List<ModuleEnviroSensor> sensors = new List<ModuleEnviroSensor>();
 
          public SensorInspecteur()
-            : base(1, MIN_INTERVAL)
+            : base(3)
          {
             Reset();
          }
@@ -47,6 +45,33 @@ namespace Nereid
             this.sensorPressureCnt = 0;
          }
 
+         private void ScanPart(Part part)
+         {
+            if (part.name != null)
+            {
+               //if (part.name.StartsWith("sensor") )
+               {
+                  foreach (PartModule m in part.Modules)
+                  {
+                     if (m is ModuleEnviroSensor)
+                     {
+                        ModuleEnviroSensor sensor = m as ModuleEnviroSensor;
+                        if(!sensors.Contains(sensor))
+                        {
+                           sensors.Add(sensor);
+                           if (Log.IsLogable(Log.LEVEL.TRACE)) Log.Trace("Added sensor module of type " + sensor.sensorType);
+                        }
+                     }
+                  }
+               }
+            }
+         }
+
+         protected override void PartUnpacked(Part part)
+         {
+            ScanPart(part);
+         }
+
          protected override void ScanVessel(Vessel vessel)
          {
             sensors.Clear();
@@ -56,25 +81,7 @@ namespace Nereid
             if (vessel == null || vessel.Parts==null) return;
             foreach (Part part in vessel.Parts)
             {
-               if (part.packed)
-               {
-                  part.Unpack();
-               }
-               if (part.name != null)
-               {
-                  //if (part.name.StartsWith("sensor") )
-                  {
-                     foreach (PartModule m in part.Modules)
-                     {
-                        if (m is ModuleEnviroSensor)
-                        {
-                           ModuleEnviroSensor sensor = m as ModuleEnviroSensor;
-                           sensors.Add(sensor);
-                           if(Log.IsLogable(Log.LEVEL.TRACE)) Log.Trace("Added sensor module of type "+sensor.sensorType);
-                        }
-                     }
-                  }
-               }
+               if (!part.packed) ScanPart(part);
             }
             sw.Stop();
             if (Log.IsLogable(Log.LEVEL.DETAIL)) Log.Detail("vessel scanned in" + sw.ElapsedMilliseconds+"ms ("+sw.ElapsedTicks+" ticks)");
@@ -124,7 +131,14 @@ namespace Nereid
          {
             try
             {
-               return double.Parse(Regex.Replace(readout, "[^-.0-9]", ""));
+               for (int i = 0; i < readout.Length; i++)
+               {
+                  if(!char.IsDigit(readout[i]) && readout[i]!='.')
+                  {
+                     return double.Parse(readout.Substring(0,i));
+                  }
+               }
+               return double.Parse(readout);
             }
             catch
             {
@@ -134,7 +148,6 @@ namespace Nereid
                }
                return 0.0;
             }
-
          }
 
          private bool IsOff(ModuleEnviroSensor sensor)

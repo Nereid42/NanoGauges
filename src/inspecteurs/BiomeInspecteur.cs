@@ -10,12 +10,11 @@ namespace Nereid
    {
       class BiomeInspecteur : Inspecteur
       {
-         private static readonly double MIN_INTERVAL = 0.25;
 
          CBAttributeMapSO.MapAttribute mapAttribute;
 
          public BiomeInspecteur()
-            : base(8, MIN_INTERVAL)
+            : base(6)
          {
             Reset();
          }
@@ -26,6 +25,7 @@ namespace Nereid
 
          protected override void ScanVessel(Vessel vessel)
          {
+            // nothing to scan
          }
 
          protected override void Inspect(Vessel vessel)

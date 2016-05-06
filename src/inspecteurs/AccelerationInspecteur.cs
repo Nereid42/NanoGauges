@@ -11,15 +11,13 @@ namespace Nereid
    {
       public class AccelerationInspecteur : Inspecteur
       {
-         private static readonly double MIN_INTERVAL = 0.10;
-
          // acceleration
          private readonly Measurement velocity = new Measurement(1);
          private readonly Measurement horizontalVelocity = new Measurement(1);
          private readonly Measurement verticalVelocity = new Measurement(1);
 
          public AccelerationInspecteur()
-            : base(2, MIN_INTERVAL)
+            : base(2)
          {
             Reset();
          }
