@@ -82,6 +82,7 @@
     <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\CO2Gauge.cs" />
     <Compile Include="src\gauges\SeismicGauge.cs" />
     <Compile Include="src\gauges\layout\DefaultLayout.cs" />
     <Compile Include="src\gauges\layout\DockingLayout.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="src\gauges\VerticalAttitudeIndicatorGauge.cs" />
     <Compile Include="src\gauges\VerticalVelocityIndicatorGauge.cs" />
     <Compile Include="src\gauges\VsiGauge.cs" />
+    <Compile Include="src\gauges\CrapGauge.cs" />
     <Compile Include="src\gauges\WasteGauge.cs" />
     <Compile Include="src\gauges\WasteWaterGauge.cs" />
     <Compile Include="src\gauges\WaterGauge.cs" />

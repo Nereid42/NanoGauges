@@ -84,7 +84,7 @@ namespace Nereid
 
             AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_ORE);
             AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_O2);
-            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_CO2);
+            AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_CARBONDIOXIDE);
             AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_FOOD);
             AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_H2O);
             AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_WH2O);

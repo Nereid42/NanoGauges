@@ -48,13 +48,15 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KARBONITE, x0 - 11 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_O2, x0 - 10 * vDX, y0 + n * vDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CO2, x0 - 9 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_H2O, x0 - 8 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_WH2O, x0 - 7 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_WASTE, x0 - 6 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FOOD, x0 - 5 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ORE, x0 - 4 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KETHANE, x0 - 3 * vDX, y0 + n * vDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KAIRIN, x0 - 2 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CARBONDIOXIDE, x0 - 8 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_H2O, x0 - 7 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_WH2O, x0 - 6 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_WASTE, x0 - 5 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_FOOD, x0 - 4 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ORE, x0 - 3 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KETHANE, x0 - 2 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_KAIRIN, x0 - 1 * vDX, y0 + n * vDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CRAP, x0 - 0 * vDX, y0 + n * vDY);
             //
             //
             n = 2;

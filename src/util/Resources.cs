@@ -36,6 +36,10 @@ namespace Nereid
          public static readonly PartResourceDefinition ABLATIVE_SHIELDING;
          // Real Fuels
          public static readonly PartResourceDefinition KARBONITE;
+         // Kerbalism
+         public static readonly PartResourceDefinition CO2;  
+         public static readonly PartResourceDefinition CRAP;
+
 
          static Resources()
          {
@@ -68,6 +72,9 @@ namespace Nereid
                ABLATIVE_SHIELDING = OptionalResource(Constants.RESOURCE_NAME_ABLATIVE_SHIELDING);
                Log.Info("defining Real Fuels resources");
                KARBONITE = OptionalResource(Constants.RESOURCE_NAME_KARBONITE);
+               Log.Info("defining Kerbalism resources");
+               WASTE = OptionalResource(Constants.RESOURCE_NAME_CRAP);
+               CO2 = OptionalResource(Constants.RESOURCE_NAME_CO2);
                Log.Info("resources completely defined");
             }
             catch

@@ -208,14 +208,16 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATM, "Atmosphere gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ATMTEMP, "Atmosphere temperature gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_BAROMETER, "Barometric gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CO2, "CO2 gauge enabled (TAC life suppord required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CARBONDIOXIDE, "Carbon dioxide gauge enabled (TAC life suppord required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CO2, "CO2 gauge enabled (Kerbalism required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CRAP, "Crap gauge enabled (Kerbalism required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DTGT, "Distance to target gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DRILLTEMP, "Drill temperature gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_Q, "Dynamic pressure (Q) gauge enabled (FAR plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CHARGE, "Electric charge gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_EVAMP, "EVA monopropellant gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_EXTTEMP, "External temperature gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FOOD, "Food gauge enabled (TAC life suppord required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FOOD, "Food gauge enabled (TAC life suppord or Kerbalism required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FLOW, "Fuel flow gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_FUEL, "Fuel gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_GRAVIMETER, "Gravity gauge enabled");
@@ -236,7 +238,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_OSPD, "Orbital speed gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ORE, "Ore gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_OXID, "Oxidizer gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_O2, "Oxygen gauge enabled (TAC life suppord required)");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_O2, "Oxygen gauge enabled (TAC life suppord or Kerbalism required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_PEA, "Periapsis gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER, "Radar altimeter gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AIRPCT, "Relative air-intake gauge enabled");
