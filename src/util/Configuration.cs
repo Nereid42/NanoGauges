@@ -415,6 +415,7 @@ namespace Nereid
                   using (BinaryReader reader = new BinaryReader(File.OpenRead(filename)))
                   {
                      logLevel = (Log.LEVEL) reader.ReadInt16();
+                     Log.SetLevel(logLevel);
                      Log.Info("log level loaded: "+logLevel);
                      // File Version
                      Int16 marker = reader.ReadInt16();

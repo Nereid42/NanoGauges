@@ -49,14 +49,10 @@ namespace Nereid
             Log.Info("static init of NanoGauges");
             gauges = new Gauges();
             //
-            // default window positions
-            configuration.ResetAllWindowPositions(gauges);
-            //
             configuration.SetGaugeSet(GaugeSet.ID.STANDARD);
             gauges.ReflectGaugeSetChange();
             //
             snapinManager = new SnapinManager(gauges);
-            Log.SetLevel(configuration.GetLogLevel());
             trimIndicatorsEnabled = configuration.trimIndicatorsEnabled;
 
          }
