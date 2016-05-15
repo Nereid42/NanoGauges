@@ -73,7 +73,7 @@ namespace Nereid
                Log.Info("defining Real Fuels resources");
                KARBONITE = OptionalResource(Constants.RESOURCE_NAME_KARBONITE);
                Log.Info("defining Kerbalism resources");
-               WASTE = OptionalResource(Constants.RESOURCE_NAME_CRAP);
+               CRAP = OptionalResource(Constants.RESOURCE_NAME_CRAP);
                CO2 = OptionalResource(Constants.RESOURCE_NAME_CO2);
                Log.Info("resources completely defined");
             }

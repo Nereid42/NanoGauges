@@ -28,8 +28,6 @@ namespace Nereid
 
          private volatile bool destroyed = false;
 
-         private readonly TrimIndicators trimIndicators;
-
          // for timed logging
          private readonly Stopwatch timer = new Stopwatch();
          private long lastPerformanceLog = 0;
@@ -62,8 +60,6 @@ namespace Nereid
          public NanoGauges()
          {
             Log.Info("new instance of NanoGauges");
-            this.trimIndicators = new TrimIndicators();
-
             // 
             timer.Start();
          }
@@ -84,10 +80,7 @@ namespace Nereid
          public void Start()
          {
             Log.Info("starting NanoGauges");
-            if (trimIndicatorsEnabled)
-            {
-               trimIndicators.Init();
-            }
+
             if (!configuration.useStockToolbar)
             {
                Log.Info("stock toolbar button disabled");

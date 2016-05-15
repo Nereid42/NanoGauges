@@ -158,7 +158,6 @@
     <Compile Include="src\gauges\TerminalVelocityGauge.cs" />
     <Compile Include="src\gauges\ThrustGauge.cs" />
     <Compile Include="src\gauges\ThrustWeightRatioGauge.cs" />
-    <Compile Include="src\gauges\TrimIndicators.cs" />
     <Compile Include="src\gauges\VelocityGauge.cs" />
     <Compile Include="src\gauges\VelocityToTargetGauge.cs" />
     <Compile Include="src\gauges\VerticalAttitudeIndicatorGauge.cs" />
