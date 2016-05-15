@@ -14,8 +14,8 @@ namespace Nereid
          private const int MAX_CHARS = 13;
          private readonly Texture2D back;
          private readonly Texture2D skin;
-         private readonly Rect skinBounds;
-         private readonly Rect textBounds;
+         private Rect skinBounds;
+         private Rect textBounds;
 
          private GUIStyle SKIN_TEXT = null; 
 
@@ -34,14 +34,19 @@ namespace Nereid
             if (skin == null) Log.Error("no skin for gauge " + id + " defined");
          }
 
-         protected override void OnWindow(int id)
+         protected void SetFontSize(int size)
          {
             // init
-            if(SKIN_TEXT == null)
+            if (SKIN_TEXT == null)
             {
                SKIN_TEXT = new GUIStyle(GUI.skin.label);
-               SKIN_TEXT.fontSize = (int)(FONT_SIZE * NanoGauges.configuration.gaugeScaling);
             }
+            SKIN_TEXT.fontSize = size;
+         }
+
+         protected override void OnWindow(int id)
+         {
+            SetFontSize((int)(FONT_SIZE * NanoGauges.configuration.gaugeScaling));
             //
             // back
             GUI.DrawTexture(skinBounds, back);
@@ -104,6 +109,26 @@ namespace Nereid
          }
 
          protected abstract String GetText();
+
+         public override void OnGaugeScalingChanged()
+         {
+            // change dimensions of window
+            bounds.width = NanoGauges.configuration.horizontalGaugeWidth;
+            bounds.height = NanoGauges.configuration.horizontalGaugeHeight;
+            //
+            //change dimensions of skin
+            skinBounds.width = NanoGauges.configuration.horizontalGaugeWidth;
+            skinBounds.height = NanoGauges.configuration.horizontalGaugeHeight;
+            //
+            // change text bounds and font
+            double scale = NanoGauges.configuration.gaugeScaling;
+            float margin_vert = (float)(MARGIN_VERTICAL * scale);
+            float margin_hori = (float)(MARGIN_HORIZONTAL * scale);
+            textBounds.x = margin_hori;
+            textBounds.y = margin_vert;
+            textBounds.width = GetWidth() - 2 * margin_hori;
+            textBounds.height = GetHeight() - margin_vert;
+         }
       }
    }
 }

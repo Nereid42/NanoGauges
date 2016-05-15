@@ -65,7 +65,6 @@ namespace Nereid
          public Configuration()
          {
             // Defaults
-            gaugeScaling = GAUGE_SCALE_100;
             gaugePositionsLocked = true;
             gaugeMarkerEnabled = true;
             tooltipsEnabled = true;
@@ -74,7 +73,8 @@ namespace Nereid
             useStockToolbar = !ToolbarManager.ToolbarAvailable;
             exactReadoutEnabled = false;
             performanceStatisticsEnabled = false;
-            verticalGaugeWidth    = UNSCALED_VERTICAL_GAUGE_WIDTH;
+            gaugeScaling = GAUGE_SCALE_100;
+            verticalGaugeWidth = UNSCALED_VERTICAL_GAUGE_WIDTH;
             verticalGaugeHeight   = UNSCALED_VERTICAL_GAUGE_HEIGHT;
             horizontalGaugeWidth  = UNSCALED_HORIZONTAL_GAUGE_WIDTH;
             horizontalGaugeHeight = UNSCALED_HORIZONTAL_GAUGE_HEIGHT;
@@ -237,6 +237,16 @@ namespace Nereid
          public void SetWindowPosition(AbstractGauge gauge, int x, int y)
          {
             currentGaugeSet.SetWindowPosition(gauge.GetWindowId(), x, y);
+         }
+
+         public void ChangeGaugeScaling(double scaling)
+         {
+            Log.Detail("ChangeGaugeScaling on configuration called with scacle " + scaling);
+            gaugeScaling = scaling;
+            verticalGaugeWidth = (int)(UNSCALED_VERTICAL_GAUGE_WIDTH * gaugeScaling);
+            verticalGaugeHeight = (int)(UNSCALED_VERTICAL_GAUGE_HEIGHT * gaugeScaling);
+            horizontalGaugeWidth = (int)(UNSCALED_HORIZONTAL_GAUGE_WIDTH * gaugeScaling);
+            horizontalGaugeHeight = (int)(UNSCALED_HORIZONTAL_GAUGE_HEIGHT * gaugeScaling);
          }
 
 
@@ -453,11 +463,7 @@ namespace Nereid
                      //
                      tooltipsEnabled = reader.ReadBoolean();
                      //
-                     gaugeScaling = reader.ReadDouble();
-                     verticalGaugeWidth =    (int)(UNSCALED_VERTICAL_GAUGE_WIDTH    * gaugeScaling);
-                     verticalGaugeHeight =   (int)(UNSCALED_VERTICAL_GAUGE_HEIGHT   * gaugeScaling);
-                     horizontalGaugeWidth =  (int)(UNSCALED_HORIZONTAL_GAUGE_WIDTH  * gaugeScaling);
-                     horizontalGaugeHeight = (int)(UNSCALED_HORIZONTAL_GAUGE_HEIGHT * gaugeScaling);
+                     ChangeGaugeScaling(reader.ReadDouble());
                      //
                      performanceStatisticsEnabled = reader.ReadBoolean();
                   }

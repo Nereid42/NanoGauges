@@ -43,14 +43,16 @@ namespace Nereid
          {
             Log.SetLevel(Log.LEVEL.INFO);
             //
+            Log.Info("static init of NanoGauges");
+            gauges = new Gauges();
+            configuration.ResetAllWindowPositions(gauges);
+            configuration.SetGaugeSet(GaugeSet.ID.STANDARD);
+            //
             configuration.Load();
             Log.Info("log level is " + Log.GetLogLevel());
             //
-            Log.Info("static init of NanoGauges");
-            gauges = new Gauges();
-            //
-            configuration.SetGaugeSet(GaugeSet.ID.STANDARD);
             gauges.ReflectGaugeSetChange();
+            gauges.UpdateGaugeScaling();
             //
             snapinManager = new SnapinManager(gauges);
             trimIndicatorsEnabled = configuration.trimIndicatorsEnabled;

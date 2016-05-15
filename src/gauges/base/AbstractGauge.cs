@@ -211,6 +211,8 @@ namespace Nereid
 
          public abstract int GetHeight();
 
+         public abstract void OnGaugeScalingChanged();
+
          public void SetPosition(Pair<int, int> coords)
          {
             SetPosition(coords.first, coords.second);

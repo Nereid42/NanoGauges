@@ -14,7 +14,13 @@ namespace Nereid
          private static readonly Texture2D RESET_BUTTON_OFF_SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/BUTTON-off");
          private static readonly Texture2D RESET_BUTTON_ON_SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/BUTTON-on");
 
-         private static readonly Rect BOUNDS_RESET_BUTTON = new Rect(5, 86, 9, 9);
+         const int RESET_BUTTON_X = 5;
+         const int RESET_BUTTON_Y = 86;
+         const int RESET_BUTTON_WIDTH = 9;
+         const int RESET_BUTTON_HEIGHT = 9;
+         //
+         private static Rect BOUNDS_RESET_BUTTON;
+
          private const double MAX_G = 10;
 
          private double maxg = 0;
@@ -30,6 +36,17 @@ namespace Nereid
             : base(Constants.WINDOW_ID_GAUGE_MAXG, SKIN, SCALE)
          {
             GameEvents.onVesselChange.Add(this.OnVesselChange);
+            BOUNDS_RESET_BUTTON = CreateButton();
+         }
+
+         private Rect CreateButton()
+         {
+            double scaling = NanoGauges.configuration.gaugeScaling;
+            return new Rect(
+               (int)(RESET_BUTTON_X * scaling), 
+               (int)(RESET_BUTTON_Y * scaling), 
+               (int)(RESET_BUTTON_WIDTH * scaling), 
+               (int)(RESET_BUTTON_HEIGHT * scaling) );
          }
 
          public override string GetName()
@@ -191,6 +208,12 @@ namespace Nereid
          public override string ToString()
          {
             return "Gauge:MAXG";
+         }
+
+         public override void OnGaugeScalingChanged()
+         {
+            base.OnGaugeScalingChanged();
+            BOUNDS_RESET_BUTTON = CreateButton();
          }
 
       }

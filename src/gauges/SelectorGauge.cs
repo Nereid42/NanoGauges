@@ -10,15 +10,15 @@ namespace Nereid
       {
          private static readonly Texture2D INDICATOR__ON_SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/INDICATOR-on");
 
-         private static readonly Rect BOUNDS_INDICATOR_STD = ButtonRect( 6 ); // new Rect(5, 6, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_LAU = ButtonRect(16); //  new Rect(5, 16, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_LAN = ButtonRect(26); //  new Rect(5, 26, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_DCK = ButtonRect(36); //  new Rect(5, 36, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_ORB = ButtonRect(46); //  new Rect(5, 46, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_FLT = ButtonRect(56); //  new Rect(5, 56, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_S_1 = ButtonRect(66); //  new Rect(5, 66, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_S_2 = ButtonRect(76); //  new Rect(5, 76, 9, 9);
-         private static readonly Rect BOUNDS_INDICATOR_S_3 = ButtonRect(86); //  new Rect(5, 86, 9, 9);
+         private static Rect BOUNDS_INDICATOR_STD; 
+         private static Rect BOUNDS_INDICATOR_LAU; 
+         private static Rect BOUNDS_INDICATOR_LAN; 
+         private static Rect BOUNDS_INDICATOR_DCK; 
+         private static Rect BOUNDS_INDICATOR_ORB; 
+         private static Rect BOUNDS_INDICATOR_FLT; 
+         private static Rect BOUNDS_INDICATOR_S_1; 
+         private static Rect BOUNDS_INDICATOR_S_2; 
+         private static Rect BOUNDS_INDICATOR_S_3; 
 
          private static Rect ButtonRect(int top)
          {
@@ -61,6 +61,7 @@ namespace Nereid
          {
             this.gauges = gauges;
             this.skin = Utils.GetTexture("Nereid/NanoGauges/Resource/SETS-skin");
+            CreateButtons();
          }
 
 
@@ -154,6 +155,33 @@ namespace Nereid
          public override bool IsInLimits()
          {
             return true;
+         }
+
+         public override void OnGaugeScalingChanged()
+         {
+            // change dimensions of window
+            bounds.width = NanoGauges.configuration.verticalGaugeWidth;
+            bounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            //
+            //change dimensions of skin
+            skinBounds.width = NanoGauges.configuration.verticalGaugeWidth;
+            skinBounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            //
+            // buttons
+            CreateButtons();
+         }
+
+         private void CreateButtons()
+         {
+            BOUNDS_INDICATOR_STD = ButtonRect(6);
+            BOUNDS_INDICATOR_LAU = ButtonRect(16);
+            BOUNDS_INDICATOR_LAN = ButtonRect(26);
+            BOUNDS_INDICATOR_DCK = ButtonRect(36);
+            BOUNDS_INDICATOR_ORB = ButtonRect(46);
+            BOUNDS_INDICATOR_FLT = ButtonRect(56);
+            BOUNDS_INDICATOR_S_1 = ButtonRect(66);
+            BOUNDS_INDICATOR_S_2 = ButtonRect(76);
+            BOUNDS_INDICATOR_S_3 = ButtonRect(86); 
          }
       }
    }

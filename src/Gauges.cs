@@ -624,6 +624,16 @@ namespace Nereid
                gauge.SetVisible(NanoGauges.configuration.IsGaugeEnabled(id));
             }
          }
+
+
+         public void UpdateGaugeScaling()
+         {
+            Log.Detail("UpdateGaugeScaling on gauges called");
+            foreach (AbstractGauge gauge in gauges.Values)
+            {
+               gauge.OnGaugeScalingChanged();
+            }
+         }
       }
    }
 }

@@ -13,10 +13,10 @@ namespace Nereid
          //
 
          private readonly Texture2D skin;
-         private readonly Rect skinBounds;
          private readonly Texture2D scale;
-         private readonly Rect scaleBounds;
-
+         private Rect scaleBounds;
+         private Rect skinBounds;
+         
          private Damper damper;
          private bool autoLimiterEnabled = false;
 
@@ -203,6 +203,19 @@ namespace Nereid
          protected void SetAutoLimiterEnabled(bool enabled)
          {
             this.autoLimiterEnabled = enabled;
+         }
+
+         public override void OnGaugeScalingChanged()
+         {
+            // change dimensions of window
+            bounds.width = NanoGauges.configuration.verticalGaugeWidth;
+            bounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            //
+            //change dimensions of skin and scale
+            skinBounds.width = NanoGauges.configuration.verticalGaugeWidth;
+            skinBounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            scaleBounds.width = NanoGauges.configuration.verticalGaugeWidth;
+            scaleBounds.height = NanoGauges.configuration.verticalGaugeHeight;
          }
 
       }

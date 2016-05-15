@@ -242,6 +242,17 @@ namespace Nereid
          {
             return true;
          }
+
+         public override void OnGaugeScalingChanged()
+         {
+            // change dimensions of window
+            bounds.width = NanoGauges.configuration.verticalGaugeWidth;
+            bounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            //
+            //change dimensions of skin
+            skinBounds.width = NanoGauges.configuration.verticalGaugeWidth;
+            skinBounds.height = NanoGauges.configuration.verticalGaugeHeight;
+         }
       }
    }
 }

@@ -126,7 +126,7 @@ namespace Nereid
             }
             // gauge sizes
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Size (restart required):", STYLE_LABEL);
+            GUILayout.Label("Size of gauges:", STYLE_LABEL);
             GaugeScaleToggle("100%", Configuration.GAUGE_SCALE_100);
             GaugeScaleToggle("110%", Configuration.GAUGE_SCALE_110);
             GaugeScaleToggle("120%", Configuration.GAUGE_SCALE_120);
@@ -279,7 +279,11 @@ namespace Nereid
             Configuration config = NanoGauges.configuration;
             if( result = GUILayout.Toggle(config.gaugeScaling==scale, text, STYLE_TOGGLE_4_PER_ROW))
             {
-               config.gaugeScaling = scale;
+               if (config.gaugeScaling != scale)
+               {
+                  config.ChangeGaugeScaling(scale);
+                  gauges.UpdateGaugeScaling();
+               }
             }
             return result;
          }
