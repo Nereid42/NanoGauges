@@ -52,6 +52,10 @@ namespace Nereid
             GUILayout.FlexibleSpace();
             //
             GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Reset to defaults", HighLogic.Skin.button))
+            {
+               manager.ResetDefaults();
+            }
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Save", HighLogic.Skin.button))
             {
@@ -98,9 +102,10 @@ namespace Nereid
             GUILayout.EndHorizontal();
          }
 
+
          private KeyCode DrawHotKeyButton(KeyCode keycode, ref bool input)
          {
-            String text = input ? "press" : keycode.ToString();
+            String text = input ? "press" : keycode.ToString().Limit(6);
             if (GUILayout.Button(text, STYLE_HOTKEY_BUTTON))
             {
                if(input)
@@ -123,6 +128,8 @@ namespace Nereid
                   {
                      keycode = keys[0];
                   }
+                  // do not recognize this input as a hotkey
+                  NanoGauges.profileManager.IgnoreHotkeyInFrame();
                }
             }
 

@@ -53,6 +53,12 @@ namespace Nereid
             if (x >= a && x <= b) return true;
             return false;
          }
+
+         public static String Limit(this String s, int maxlength)
+         {
+            if (s.Length <= maxlength) return s;
+            return s.Substring(0, maxlength);
+         }
       }
    }
 }

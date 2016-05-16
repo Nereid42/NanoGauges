@@ -32,12 +32,16 @@ namespace Nereid
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_TIMETOAPA);
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_PEA);
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_APA);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_SPD);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_OSPD);
 
 
             AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FUEL);
             AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_OXID);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FLOW);
             AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_MONO);
             AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AMP);
+            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_CHARGE);
 
             // horizontal gauges
             int hDY = (int)(configuration.horizontalGaugeHeight * gaugeScaling) + Gauges.LAYOUT_GAP;
@@ -69,11 +73,15 @@ namespace Nereid
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_TIMETOAPA, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_APA, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_PEA, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_SPD, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_OSPD, true);
             //
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_FUEL, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_OXID, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_MONO, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_AMP, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_CHARGE, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_FLOW, true);
          }
 
       }

@@ -13,7 +13,7 @@ namespace Nereid
       {
          public readonly Profile LAUNCH = new Profile("Launch");
          public readonly Profile FLIGHT = new Profile("Flight");
-         public readonly Profile LAND = new Profile("Land");
+         public readonly Profile LAND = new Profile("Land/Suborbital");
          public readonly Profile LANDED = new Profile("Landed");
          public readonly Profile ORBIT = new Profile("Orbit");
          public readonly Profile DOCKED = new Profile("Docked");
@@ -25,12 +25,24 @@ namespace Nereid
          public readonly Profile HOTKEY3 = new Profile("Hotkey 3");
 
          public bool enabled = true;
+         // ignore hotkeys in the current UI frame
+         private bool ignoreHotkeysInFrame = false;
 
          public KeyCode Hotkey1 = KeyCode.P;
          public KeyCode Hotkey2 = KeyCode.None;
          public KeyCode Hotkey3 = KeyCode.None;
 
          public ProfileManager()
+         {
+            SetDefaults();
+
+            GameEvents.onVesselSituationChange.Add(this.OnVesselSituationChange);
+            GameEvents.onVesselChange.Add(this.OnVesselChange);
+            GameEvents.onCrewOnEva.Add(this.OnCrewOnEva);
+            GameEvents.OnFlightUIModeChanged.Add(this.OnFlightUIModeChanged);
+         }
+
+         private void SetDefaults()
          {
             LAUNCH.SetBehaviour(ProfileBehaviour.LAUNCH);
             FLIGHT.SetBehaviour(ProfileBehaviour.NOTHING);
@@ -44,11 +56,20 @@ namespace Nereid
             HOTKEY1.SetBehaviour(ProfileBehaviour.FLIGHT);
             HOTKEY2.SetBehaviour(ProfileBehaviour.NOTHING);
             HOTKEY3.SetBehaviour(ProfileBehaviour.NOTHING);
+            Hotkey1 = KeyCode.None;
+            Hotkey2 = KeyCode.None;
+            Hotkey3 = KeyCode.None;
+         }
 
-            GameEvents.onVesselSituationChange.Add(this.OnVesselSituationChange);
-            GameEvents.onVesselChange.Add(this.OnVesselChange);
-            GameEvents.onCrewOnEva.Add(this.OnCrewOnEva);
-            GameEvents.OnFlightUIModeChanged.Add(this.OnFlightUIModeChanged);
+         public void ResetDefaults()
+         {
+            Log.Info("resetting profiles to defaults");
+            SetDefaults();
+         }
+
+         public void IgnoreHotkeyInFrame()
+         {
+            ignoreHotkeysInFrame = true;
          }
 
          private void SwitchProfile(Profile profile)
@@ -158,18 +179,22 @@ namespace Nereid
 
          public void Update()
          {
-            if (Hotkey1!=KeyCode.None && Input.GetKeyDown(Hotkey1))
+            if(!ignoreHotkeysInFrame)
             {
-               SwitchProfile(HOTKEY1);
+               if (Hotkey1 != KeyCode.None && Input.GetKeyDown(Hotkey1))
+               {
+                  SwitchProfile(HOTKEY1);
+               }
+               else if (Hotkey2 != KeyCode.None && Input.GetKeyDown(Hotkey2))
+               {
+                  SwitchProfile(HOTKEY2);
+               }
+               else if (Hotkey3 != KeyCode.None && Input.GetKeyDown(Hotkey3))
+               {
+                  SwitchProfile(HOTKEY3);
+               }
             }
-            else if (Hotkey2 != KeyCode.None && Input.GetKeyDown(Hotkey2))
-            {
-               SwitchProfile(HOTKEY2);
-            }
-            else if (Hotkey3 != KeyCode.None && Input.GetKeyDown(Hotkey3))
-            {
-               SwitchProfile(HOTKEY3);
-            }
+            ignoreHotkeysInFrame = false;
          }
 
          public void Read(BinaryReader reader)
