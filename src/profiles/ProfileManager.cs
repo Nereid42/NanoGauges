@@ -24,7 +24,7 @@ namespace Nereid
          public readonly Profile HOTKEY2 = new Profile("Hotkey 2");
          public readonly Profile HOTKEY3 = new Profile("Hotkey 3");
 
-         public bool enabled = true;
+         public bool enabled = false;
          // ignore hotkeys in the current UI frame
          private bool ignoreHotkeysInFrame = false;
 
