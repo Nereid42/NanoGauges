@@ -42,6 +42,22 @@ namespace Nereid
             return path;
          }
 
+         public static KeyCode[] GetPressedKeys()
+         {
+            List<KeyCode> pressed = new List<KeyCode>();
+            KeyCode[] keycodes = (KeyCode[])Enum.GetValues(typeof(KeyCode));
+            foreach (KeyCode key in keycodes)
+            {
+               if (Input.GetKeyDown(key))
+               {
+                  pressed.Add(key);
+               }
+            }
+            KeyCode[] result = new KeyCode[pressed.Count];
+            pressed.CopyTo(result);
+            return result;
+         }
+
          public static String ToString(this Vector3d v, String format)
          {
             return "(" + v[0].ToString(format) + "," + v[1].ToString(format) + "," + v[2].ToString(format) + ")";

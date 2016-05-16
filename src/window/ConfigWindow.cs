@@ -11,11 +11,13 @@ namespace Nereid
          private static readonly int GAUGES_HEIGHT = 270;
          private static readonly GUIStyle STYLE_ENABLE_DISABLE_ALL_TOGGLE = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_COPYPASTE_BUTTONS = new GUIStyle(HighLogic.Skin.button);
+         private static readonly GUIStyle STYLE_PROFILES_BUTTON = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_TOGGLE_2_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
          private static readonly GUIStyle STYLE_TOGGLE_4_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
          private static readonly GUIStyle STYLE_LABEL = new GUIStyle(HighLogic.Skin.label);
          private static readonly GUIStyle STYLE_SCROLLVIEW = new GUIStyle(HighLogic.Skin.scrollView);
          private static readonly GUIStyle STYLE_LINE = new GUIStyle(HighLogic.Skin.label);
+
 
          static ConfigWindow()
          {
@@ -30,11 +32,12 @@ namespace Nereid
             STYLE_LINE.stretchWidth = true;
             STYLE_LINE.stretchHeight = false;
             STYLE_LINE.fixedHeight = 2;
+            STYLE_PROFILES_BUTTON.fixedWidth = 100;
             // a generice skin; TODO: dedicated texture
             STYLE_LINE.normal.background = Utils.GetTexture("Nereid/NanoGauges/Resource/ATM-skin");
-
          }
 
+         private readonly ProfilesWindow profilesWindow;
 
          private IButton toolbarButton;
          private String toolbarButtonTextureOn;
@@ -52,7 +55,9 @@ namespace Nereid
             : base(Constants.WINDOW_ID_CONFIG, "NanoGauges Configuration")
          {
             this.gauges = gauges;
-
+            //
+            profilesWindow = new ProfilesWindow();
+            //
             SetSize(350, 300);
             CenterWindow();
          }
@@ -143,6 +148,19 @@ namespace Nereid
             config.gaugePositionsLocked = GUILayout.Toggle(config.gaugePositionsLocked, "Gauge positions locked", STYLE_TOGGLE_2_PER_ROW);
             // Snapin
             config.snapinEnabled = GUILayout.Toggle(config.snapinEnabled, "Snapin enabled", HighLogic.Skin.toggle);
+            // Profiles
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Profiles", STYLE_PROFILES_BUTTON))
+            {
+               int px = (int)bounds.x + (int)bounds.width;
+               int py = (int)bounds.y + 335;
+               if(px+ProfilesWindow.WIDTH>Screen.width)
+               {
+                  px = (int)bounds.x - ProfilesWindow.WIDTH;
+               }
+               profilesWindow.SetPosition(px, py);               
+               profilesWindow.SetVisible(!profilesWindow.IsVisible());
+            }
             GUILayout.EndHorizontal();
             //
             GUILayout.BeginHorizontal();
@@ -369,9 +387,9 @@ namespace Nereid
          private void KeyCodeButton(KeyCode code, String text)
          {
             Configuration config = NanoGauges.configuration;
-            if (GUILayout.Toggle(config.GetKeyCodeForHotkey() == code, text, HighLogic.Skin.button) )
+            if (GUILayout.Toggle(config.hotkey == code, text, HighLogic.Skin.button))
             {
-               config.SetKeyCodeForHotkey(code);
+               config.hotkey = code;
             }
          }
 

@@ -49,7 +49,7 @@ namespace Nereid
 
          private const int snapinRange = Gauges.LAYOUT_GAP; // todo: remove constant and make configurable
 
-         private KeyCode hotkeyCloseButtons = KeyCode.RightControl;
+         public KeyCode hotkey  { get; set; }
 
          // this class manages the default gauge positions realtive to sceen objects, navball, ...
          private readonly DefaultGaugePositionManager defaultGaugePositionManager = new DefaultGaugePositionManager();
@@ -65,6 +65,7 @@ namespace Nereid
          public Configuration()
          {
             // Defaults
+            hotkey = KeyCode.RightControl;
             gaugePositionsLocked = true;
             gaugeMarkerEnabled = true;
             tooltipsEnabled = true;
@@ -249,17 +250,6 @@ namespace Nereid
             horizontalGaugeHeight = (int)(UNSCALED_HORIZONTAL_GAUGE_HEIGHT * gaugeScaling);
          }
 
-
-         public KeyCode GetKeyCodeForHotkey()
-         {
-            return hotkeyCloseButtons;
-         }
-
-         public void SetKeyCodeForHotkey(KeyCode code)
-         {
-            hotkeyCloseButtons = code;
-         }
-
          public Log.LEVEL GetLogLevel()
          {
             return logLevel;
@@ -381,7 +371,7 @@ namespace Nereid
                   //
                   writer.Write(gaugeMarkerEnabled);
                   //
-                  writer.Write((UInt16)hotkeyCloseButtons);
+                  writer.Write((UInt16)hotkey);
                   //
                   writer.Write(gaugesInFlightEnabled);
                   writer.Write(gaugesInMapEnabled);
@@ -401,6 +391,9 @@ namespace Nereid
                   writer.Write(gaugeScaling);
                   //
                   writer.Write(performanceStatisticsEnabled);
+                  //
+                  // ProfileManager
+                  NanoGauges.profileManager.Write(writer);
                }
             }
             catch
@@ -446,7 +439,7 @@ namespace Nereid
                      //
                      gaugeMarkerEnabled = reader.ReadBoolean();
                      //
-                     hotkeyCloseButtons = (KeyCode)reader.ReadUInt16();
+                     hotkey = (KeyCode)reader.ReadUInt16();
                      //
                      gaugesInFlightEnabled = reader.ReadBoolean();
                      gaugesInMapEnabled = reader.ReadBoolean();
@@ -457,6 +450,7 @@ namespace Nereid
                      //
                      useStockToolbar = reader.ReadBoolean()  || !ToolbarManager.ToolbarAvailable;
                      //
+                     // currently not used
                      trimIndicatorsEnabled = reader.ReadBoolean();
                      //
                      exactReadoutEnabled = reader.ReadBoolean();
@@ -466,6 +460,9 @@ namespace Nereid
                      ChangeGaugeScaling(reader.ReadDouble());
                      //
                      performanceStatisticsEnabled = reader.ReadBoolean();
+                     //
+                     // ProfileManager
+                     NanoGauges.profileManager.Read(reader);
                   }
                }
                else

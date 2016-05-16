@@ -14,6 +14,8 @@ namespace Nereid
          public const int WINDOW_ID_TOOLTIP = WINDOW_ID_BASE + 1;
          public const int WINDOW_ID_ABOUT = WINDOW_ID_BASE + 3;
          public const int WINDOW_ID_CONFIG = WINDOW_ID_BASE + 4;
+         public const int WINDOW_ID_PROFILES = WINDOW_ID_BASE + 5;
+         public const int WINDOW_ID_PROFILECHOOSER = WINDOW_ID_BASE + 6;
          //
          public const int WINDOW_ID_GAUGE_VSI = WINDOW_ID_BASE + 8;
          public const int WINDOW_ID_GAUGE_RADAR_ALTIMETER = WINDOW_ID_BASE + 9;

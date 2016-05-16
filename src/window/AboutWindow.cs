@@ -8,14 +8,13 @@ namespace Nereid
    {
       class AboutWindow : AbstractWindow
       {
-         private IButton toolbarButton;
-         private String toolbarButtonTextureOn;
-         private String toolbarButtonTextureOff;
+         public const int WIDTH = 350;
+         public const int HEIGHT = 300;
 
          public AboutWindow()
             : base(Constants.WINDOW_ID_ABOUT, "About")
          {
-            SetSize(350, 300);
+            SetSize(WIDTH, HEIGHT);
          }
 
          protected override void OnWindow(int id)
@@ -38,39 +37,14 @@ namespace Nereid
             DragWindow();
          }
 
-         protected override void OnOpen()
-         {
-            base.OnOpen();
-            if (toolbarButton != null)
-            {
-               toolbarButton.TexturePath = toolbarButtonTextureOn;
-            }
-         }
-
-         protected override void OnClose()
-         {
-            base.OnClose();
-            if (toolbarButton != null)
-            {
-               toolbarButton.TexturePath = toolbarButtonTextureOff;
-            }
-         }
-
          public override int GetInitialWidth()
          {
-            return 350;
+            return WIDTH;
          }
 
          protected override int GetInitialHeight()
          {
-            return 300;
-         }
-
-         public void registerToolbarButton(IButton button, String textureOn, String textureOff)
-         {
-            this.toolbarButton = button;
-            this.toolbarButtonTextureOn = textureOn;
-            this.toolbarButtonTextureOff = textureOff;
+            return HEIGHT;
          }
       }
 

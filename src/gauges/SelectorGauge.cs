@@ -51,7 +51,6 @@ namespace Nereid
             // nothing todo
          }
 
-         private readonly Gauges gauges;
 
          private readonly Texture2D skin;
          private Rect skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
@@ -59,7 +58,6 @@ namespace Nereid
          public SelectorGauge(Gauges gauges)
             : base(Constants.WINDOW_ID_GAUGE_SETS)
          {
-            this.gauges = gauges;
             this.skin = Utils.GetTexture("Nereid/NanoGauges/Resource/SETS-skin");
             CreateButtons();
          }
@@ -127,7 +125,7 @@ namespace Nereid
             if(x>=bounds.x && x<bounds.x+bounds.width && y>=bounds.y && y<bounds.y+bounds.height)
             {
                NanoGauges.configuration.SetGaugeSet(id);
-               this.gauges.ReflectGaugeSetChange();
+               NanoGauges.gauges.ReflectGaugeSetChange();
             }
          }
 

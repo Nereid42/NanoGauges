@@ -16,10 +16,11 @@ namespace Nereid
 
          public static readonly Gauges gauges;
          public static readonly Configuration configuration = new Configuration();
-         // cached configuration (needs a restart to take effect)
-         private static readonly bool trimIndicatorsEnabled;
 
          public static readonly SnapinManager snapinManager;
+
+         // Profiles
+         public static readonly ProfileManager profileManager;
 
          private IButton toolbarButton;
          private ApplicationLauncherButton stockToolbarButton = null;
@@ -46,6 +47,8 @@ namespace Nereid
             configuration.ResetAllWindowPositions(gauges);
             configuration.SetGaugeSet(GaugeSet.ID.STANDARD);
             //
+            profileManager = new ProfileManager();
+            //
             configuration.Load();
             Log.Info("log level is " + Log.GetLogLevel());
             //
@@ -53,7 +56,6 @@ namespace Nereid
             gauges.UpdateGaugeScaling();
             //
             snapinManager = new SnapinManager(gauges);
-            trimIndicatorsEnabled = configuration.trimIndicatorsEnabled;
 
          }
 
@@ -233,12 +235,6 @@ namespace Nereid
          {
             fixedUpdateTimer.Start();
 
-            if (trimIndicatorsEnabled)
-            {
-               // not working
-               //trimIndicators.Update();
-            }
-
             gauges.Update();
 
             fixedUpdateTimer.Stop();
@@ -260,10 +256,12 @@ namespace Nereid
                }
             }
 
+            // check for Profile Hotkeys
+            profileManager.Update();
 
             // check for keys
             //
-            KeyCode hotkey = configuration.GetKeyCodeForHotkey();
+            KeyCode hotkey = configuration.hotkey;
             bool hotkeyPressed = Input.GetKey(hotkey);
             gauges.ShowCloseButtons(hotkeyPressed);
 
