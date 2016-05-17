@@ -106,6 +106,7 @@
     <Compile Include="src\gauges\DrillTempGauge.cs" />
     <Compile Include="src\gauges\IndicatorGauge.cs" />
     <Compile Include="src\gauges\PropellantPctGauge.cs" />
+    <Compile Include="src\gauges\IndicatedAirspeedGauge.cs" />
     <Compile Include="src\gauges\VerticalAccelerationGauge.cs" />
     <Compile Include="src\gauges\HorizontalAccelerationGauge.cs" />
     <Compile Include="src\gauges\AccelerationGauge.cs" />

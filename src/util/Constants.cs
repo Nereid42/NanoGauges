@@ -91,6 +91,7 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_SEISMOMETER = WINDOW_ID_BASE + 79;
          public const int WINDOW_ID_GAUGE_CO2 = WINDOW_ID_BASE + 80;
          public const int WINDOW_ID_GAUGE_CRAP = WINDOW_ID_BASE + 81;
+         public const int WINDOW_ID_GAUGE_IAS = WINDOW_ID_BASE + 82;
          
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";

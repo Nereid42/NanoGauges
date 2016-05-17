@@ -77,7 +77,7 @@ namespace Nereid
             // noi gauges, no profile...
             if (NanoGauges.gauges == null) return;
             //
-            Log.Detail("switching to profile "+profile.name);
+            Log.Info("switching to profile "+profile.name);
             if (enabled && profile.enabled)
             {
                ProfileBehaviour behaviour = profile.GetBehaviour();

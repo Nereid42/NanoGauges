@@ -145,13 +145,12 @@ namespace Nereid
                     Vector3d rad = QuaternionD.AngleAxis(impactLongitude, Vector3d.down) * QuaternionD.AngleAxis(impactLatitude, Vector3d.forward) * Vector3d.right;
                     impactAltitude = FlightGlobals.ActiveVessel.mainBody.pqsController.GetSurfaceHeight(rad) - FlightGlobals.ActiveVessel.mainBody.pqsController.radius;
                     
-                    /*
                     if ((impactAltitude < 0) && FlightGlobals.ActiveVessel.mainBody.ocean)
                     {
-                        //When hitting sea level. Disabled to match the behaviour of the radar altitude gauge.
+                        //When hitting sea level. 
                         impactAltitude = 0;
                     }
-                    */
+                   
                 }
                 return (float)impactTime;
             }

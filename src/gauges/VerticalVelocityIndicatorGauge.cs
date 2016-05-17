@@ -28,7 +28,7 @@ namespace Nereid
 
          public override string GetDescription()
          {
-            return "Vertical velocity Indicator. Vertical direction of the vessels movement in relation to the horizon.";
+            return "Vertical Velocity Indicator. Vertical direction of the vessels movement in relation to the horizon.";
          }
 
 
