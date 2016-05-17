@@ -166,7 +166,10 @@ namespace Nereid
             // no change, no profile
             if (to == from) return;
 
-            SwitchToSituation(vessel.situation);
+            if (!vessel.isEVA)
+            {
+               SwitchToSituation(vessel.situation);
+            }
          }
 
 
@@ -174,7 +177,14 @@ namespace Nereid
          {
             if (vessel == null || vessel != FlightGlobals.ActiveVessel) return;
 
-            SwitchToSituation(vessel.situation);
+            if(vessel.isEVA)
+            {
+               SwitchProfile(EVA);
+            }
+            else
+            {
+               SwitchToSituation(vessel.situation);
+            }
          }
 
          public void Update()
