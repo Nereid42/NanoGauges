@@ -157,31 +157,30 @@ namespace Nereid
 
          private void InspectSensor(ModuleEnviroSensor sensor)
          {
-            if (sensor == null || sensor.sensorType == null) return;
             if (IsOff(sensor)) return;
             if (!sensor.isEnabled) return;
             String readout = sensor.readoutInfo;
             if ( readout == null || readout == "" ) return;
 
-            if (sensor.sensorType == Constants.SENSOR_TEMPERATURE)
+            if (sensor.sensorType == ModuleEnviroSensor.SensorType.TEMP)
             {
                temperature += ParseReadout(readout);
                sensorTempEnabled = true;
                sensorTempCount++;
             }
-            else if (sensor.sensorType == Constants.SENSOR_GRAVIMETRIC)
+            else if (sensor.sensorType == ModuleEnviroSensor.SensorType.GRAV)
             {
                gravity += ParseReadout(readout);
                sensorGravEnabled = true;
                sensorGravCount++;
             }
-            else if (sensor.sensorType == Constants.SENSOR_BAROMETRIC)
+            else if (sensor.sensorType == ModuleEnviroSensor.SensorType.PRES)
             {
                pressure += ParseReadout(readout);
                sensorPressureEnabled = true;
                sensorPressureCnt++;
             }
-            else if (sensor.sensorType == Constants.SENSOR_SEISMIC)
+            else if (sensor.sensorType == ModuleEnviroSensor.SensorType.ACC)
             {
                seismic += ParseReadout(readout);
                sensorSeismicEnabled = true;
