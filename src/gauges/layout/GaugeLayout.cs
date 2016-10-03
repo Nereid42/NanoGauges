@@ -16,7 +16,7 @@ namespace Nereid
          protected const int ROWS_LEFT_NAVBALL_BLOCK = 2;
          protected const int ROWS_RIGHT_NAVBALL_BLOCK = 2;
 
-         protected const int MARGIN_Y_TOP_BLOCK = 10;
+         protected const int MARGIN_Y_TOP_BLOCK = 40;
          protected const int MARGIN_X_TOP_BLOCK = 210;
 
          protected const int MARGIN_X_TOP_LEFT_BLOCK = 10;

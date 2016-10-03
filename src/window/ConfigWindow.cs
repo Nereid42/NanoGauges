@@ -11,6 +11,7 @@ namespace Nereid
          private static readonly int GAUGES_HEIGHT = 270;
          private static readonly GUIStyle STYLE_ENABLE_DISABLE_ALL_TOGGLE = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_COPYPASTE_BUTTONS = new GUIStyle(HighLogic.Skin.button);
+         private static readonly GUIStyle STYLE_DEFAULT_BUTTON = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_PROFILES_BUTTON = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_TOGGLE_2_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
          private static readonly GUIStyle STYLE_TOGGLE_4_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
@@ -194,6 +195,11 @@ namespace Nereid
             GUILayout.FlexibleSpace();
             DrawCopyPasteButtons();
             DrawEnableDisableAllButton();
+            if (GUILayout.Button("Default", STYLE_DEFAULT_BUTTON))
+            {
+               GaugeLayout layout = new DefaultLayout(gauges, config);
+               layout.EnableGauges(GaugeSetPool.instance.GetGaugeSet(config.GetGaugeSetId()));
+            }
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();

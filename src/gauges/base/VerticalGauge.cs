@@ -94,6 +94,20 @@ namespace Nereid
             return ((float)scale.height - (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT) / (float)scale.height;
          }
 
+
+         private double GetInternalScaleOffset()
+         {
+            try 
+            {
+               return GetScaleOffset();
+            }
+            catch(Exception e)
+            {
+               Log.Error("Exception in gauge " + this.GetType() + " detected: " + e.GetType());
+               return GetLowerOffset();
+            }
+         }
+
          protected override void OnWindow(int id)
          {
             // check for on/off

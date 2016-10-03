@@ -68,9 +68,11 @@ namespace Nereid
 
          public void Awake()
          {
+            Log.Info("awaking NanoGauges");
             gauges.ShowGauges();
             // use of stock toolbar
             GameEvents.onGUIApplicationLauncherReady.Add(OnGUIAppLauncherReady);
+            Log.Info("NanoGauges is awake");
          }
 
          private void OnGUI()
@@ -93,6 +95,7 @@ namespace Nereid
                Log.Info("stock toolbar button enabled");
                CreateStockToolbarButton();
             }
+            Log.Info("NanoGauges started");
          }
 
          private void CreateStockToolbarButton()

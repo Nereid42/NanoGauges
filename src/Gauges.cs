@@ -57,6 +57,8 @@ namespace Nereid
             AddGauge(new ThrustWeightRatioGauge(engineInspecteur));
             AddGauge(new VelocityGauge());
             AddGauge(new AngleOfAttackGauge());
+
+            // NaN below ?
             AddGauge(new VerticalAttitudeIndicatorGauge());
             AddGauge(new VerticalVelocityIndicatorGauge());
             AddGauge(new DistanceToTargetGauge());
@@ -76,6 +78,8 @@ namespace Nereid
             AddGauge(new CameraGauge());
             AddGauge(new MachGauge());
             AddGauge(new QGauge());
+            // NaN above?
+
             AddGauge(new HeatGauge(vesselInspecteur));
             AddGauge(new ImpactTimeGauge());
             AddGauge(new Altimeter());
