@@ -100,6 +100,7 @@ namespace Nereid
             //AddGauge(new TimeToTransistionGauge());
 
             // horizontal gauges
+            AddGauge(new VesselGauge());
             AddGauge(new BiomeGauge(biomeInspecteur));
             AddGauge(new LatitudeGauge());
             AddGauge(new LongitudeGauge());

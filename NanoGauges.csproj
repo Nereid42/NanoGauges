@@ -66,6 +66,7 @@
     <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\VesselGauge.cs" />
     <Compile Include="src\gauges\CO2Gauge.cs" />
     <Compile Include="src\gauges\SeismicGauge.cs" />
     <Compile Include="src\gauges\layout\DefaultLayout.cs" />
