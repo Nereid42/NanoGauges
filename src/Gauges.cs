@@ -91,7 +91,7 @@ namespace Nereid
             AddGauge(new AblatorGauge(resourceInspecteur));
             AddGauge(new OreGauge(resourceInspecteur));
             AddGauge(new DrillTempGauge(vesselInspecteur));
-            // NOT WORKING in KSP1.1.0: AddGauge(new IndicatorGauge(vesselInspecteur,engineInspecteur));
+            AddGauge(new IndicatorGauge(vesselInspecteur,engineInspecteur));
             AddGauge(new PropellantPctGauge(engineInspecteur));
             AddGauge(new TimeToApoapsisGauge());
             AddGauge(new TimeToPeriapsisGauge());

@@ -11,6 +11,12 @@ namespace Nereid
          private readonly VesselInspecteur vesselInspecteur;
          private readonly EngineInspecteur engineInspecteur;
 
+         private const int INDICATOR_GEAR = 0;
+         private const int INDICATOR_BRAKE = 1;
+         private const int INDICATOR_AIRBRAKES = 2;
+         private const int INDICATOR_FLAPS = 3;
+         private const int INDICATOR_AFTERBURNER = 4;
+
          private const int INDICATOR_TOP_OFFSET = 7;
          private const int INDICATOR_HEIGHT = 14;
          private const float BLINKING_INTERVAL = 0.6f;
@@ -66,23 +72,23 @@ namespace Nereid
             switch(vesselInspecteur.landingGearState)
             {
                case VesselInspecteur.GEARSTATES.NOT_INSTALLED:
-                  drawLight(0, noLight);
+                  drawLight(INDICATOR_GEAR, noLight);
                   break;
                case VesselInspecteur.GEARSTATES.DEPLOYED:
-                  drawLight(0, greenLight);
+                  drawLight(INDICATOR_GEAR, greenLight);
                   break;
                case VesselInspecteur.GEARSTATES.RETRACTED:
-                  drawLight(0, redLight);
+                  drawLight(INDICATOR_GEAR, redLight);
                   break;
                case VesselInspecteur.GEARSTATES.RETRACTING:
                case VesselInspecteur.GEARSTATES.DEPLOYING:
-                  drawBlinkingLight(0, noLight, redLight);
+                  drawBlinkingLight(INDICATOR_GEAR, noLight, redLight);
                   break;
                case VesselInspecteur.GEARSTATES.PARTIAL_DEPLOYED:
-                  drawLight(0, yellowLight);
+                  drawLight(INDICATOR_GEAR, yellowLight);
                   break;
                default:
-                  drawLight(0, noLight);
+                  drawLight(INDICATOR_GEAR, noLight);
                   break;
             }
          }
@@ -92,19 +98,19 @@ namespace Nereid
             switch (vesselInspecteur.brakeState)
             {
                case VesselInspecteur.BRAKESTATES.NOT_INSTALLED:
-                  drawLight(1, noLight);
+                  drawLight(INDICATOR_BRAKE, noLight);
                   break;
                case VesselInspecteur.BRAKESTATES.NOT_ENGAGED:
-                  drawLight(1, greenLight);
+                  drawLight(INDICATOR_BRAKE, greenLight);
                   break;
                case VesselInspecteur.BRAKESTATES.ENGAGED:
-                  drawLight(1, redLight);
+                  drawLight(INDICATOR_BRAKE, redLight);
                   break;
                case VesselInspecteur.BRAKESTATES.PARTIAL_ENGAGED:
-                  drawLight(1, yellowLight);
+                  drawLight(INDICATOR_BRAKE, yellowLight);
                   break;
                default:
-                  drawLight(1, noLight);
+                  drawLight(INDICATOR_BRAKE, noLight);
                   break;
             }
          }
@@ -114,19 +120,19 @@ namespace Nereid
             switch (vesselInspecteur.airBrakeState)
             {
                case VesselInspecteur.BRAKESTATES.NOT_INSTALLED:
-                  drawLight(2, noLight);
+                  drawLight(INDICATOR_AIRBRAKES, noLight);
                   break;
                case VesselInspecteur.BRAKESTATES.NOT_ENGAGED:
-                  drawLight(2, greenLight);
+                  drawLight(INDICATOR_AIRBRAKES, greenLight);
                   break;
                case VesselInspecteur.BRAKESTATES.ENGAGED:
-                  drawLight(2, redLight);
+                  drawLight(INDICATOR_AIRBRAKES, redLight);
                   break;
                case VesselInspecteur.BRAKESTATES.PARTIAL_ENGAGED:
-                  drawLight(2, yellowLight);
+                  drawLight(INDICATOR_AIRBRAKES, yellowLight);
                   break;
                default:
-                  drawLight(2, noLight);
+                  drawLight(INDICATOR_AIRBRAKES, noLight);
                   break;
             }
          }
@@ -136,19 +142,19 @@ namespace Nereid
             switch (vesselInspecteur.flapState)
             {
                case VesselInspecteur.FPLAPSTATES.NOT_INSTALLED:
-                  drawLight(3, noLight);
+                  drawLight(INDICATOR_FLAPS, noLight);
                   break;
                case VesselInspecteur.FPLAPSTATES.NOT_ENGAGED:
-                  drawLight(3, greenLight);
+                  drawLight(INDICATOR_FLAPS, greenLight);
                   break;
                case VesselInspecteur.FPLAPSTATES.ENGAGED:
-                  drawLight(3, redLight);
+                  drawLight(INDICATOR_FLAPS, redLight);
                   break;
                case VesselInspecteur.FPLAPSTATES.PARTIAL_ENGAGED:
-                  drawLight(3, yellowLight);
+                  drawLight(INDICATOR_FLAPS, yellowLight);
                   break;
                default:
-                  drawLight(3, noLight);
+                  drawLight(INDICATOR_FLAPS, noLight);
                   break;
             }
          }
@@ -157,18 +163,25 @@ namespace Nereid
          {
             if (engineInspecteur.afterburnerInstalled)
             {
-               if (engineInspecteur.afterburnerEnabled)
+               if (engineInspecteur.afterburnerRunning)
                {
-                  drawLight(4, redLight);
+                  drawLight(INDICATOR_AFTERBURNER, redLight);
                }
                else
                {
-                  drawLight(4, greenLight);
+                  if(engineInspecteur.afterburnerOperational)
+                  {
+                     drawLight(INDICATOR_AFTERBURNER, greenLight);
+                  }
+                  else
+                  {
+                     drawLight(INDICATOR_AFTERBURNER, yellowLight);
+                  }
                }
             }
             else
             {
-               drawLight(4, noLight);
+               drawLight(INDICATOR_AFTERBURNER, noLight);
             }
          }
 

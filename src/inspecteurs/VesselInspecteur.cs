@@ -36,6 +36,7 @@ namespace Nereid
          }
 
          private double totalMass = 0;
+         private double dryMass = 0;
          private double dragCoefficent = 0;
          private double heatshieldTemp = 0;
          private bool heatshieldInstalled = false;
@@ -48,7 +49,8 @@ namespace Nereid
 
          private readonly List<Part> heatshieldParts = new List<Part>();
          private readonly List<Part> drillParts = new List<Part>();
-         private readonly List<ModuleWheelBase> landingGears = new List<ModuleWheelBase>();
+         private readonly List<ModuleWheels.ModuleWheelBrakes> wheelBrakes = new List<ModuleWheels.ModuleWheelBrakes>();
+         private readonly List<ModuleWheels.ModuleWheelDeployment> wheelDeployment = new List<ModuleWheels.ModuleWheelDeployment>();
          private readonly List<ModuleControlSurface> airBrakes = new List<ModuleControlSurface>();
          private readonly List<ModuleControlSurface> flaps = new List<ModuleControlSurface>();
 
@@ -66,10 +68,11 @@ namespace Nereid
             this.drillParts.Clear();
             this.drillInstalled = false;
             this.heatshieldParts.Clear();
-            this.landingGears.Clear();
+            this.wheelBrakes.Clear();
             this.airBrakes.Clear();
             this.flaps.Clear();
             this.totalMass = 0.0;
+            this.dryMass = 0.0;
             this.dragCoefficent = 0.0;
             this.heatshieldTemp = 0.0;
             this.heatshieldInstalled = false;
@@ -111,13 +114,17 @@ namespace Nereid
 
             // landing gears and brakes
             // not working at the moment
-            /*foreach (ModuleWheelBase g in part.Modules.OfType<ModuleWheelBase>())
+            Log.Test("PART "+part.name+" type "+part.GetType().Name);
+            foreach (ModuleWheels.ModuleWheelBrakes brake in part.Modules.GetModules<ModuleWheels.ModuleWheelBrakes>())
             {
-               landingGears.Add(g);
-            }*/
+               wheelBrakes.Add(brake);
+            }
+            foreach (ModuleWheels.ModuleWheelDeployment deployment in part.Modules.GetModules<ModuleWheels.ModuleWheelDeployment>())
+            {
+               wheelDeployment.Add(deployment);
+            }
 
             // not working at the moment
-            /*
             foreach (ModuleControlSurface s in part.Modules.OfType<ModuleControlSurface>())
             {
                bool isAirBrake = false;
@@ -126,7 +133,7 @@ namespace Nereid
                {
                   foreach (BaseAction a in s.Actions)
                   {
-                     if (a.name.Equals("ActionToggleBrakes"))
+                     if (a.defaultActionGroup == KSPActionGroup.Brakes)
                      {
                         airBrakes.Add(s);
                         isAirBrake = true;
@@ -140,7 +147,6 @@ namespace Nereid
                   }
                }
             }
-             * */
 
          }
 
@@ -198,6 +204,11 @@ namespace Nereid
          public double GetTotalMass()
          {
             return totalMass;
+         }
+
+         public double GetDryMass()
+         {
+            return dryMass;
          }
 
          public double GetHeatshieldTemp()
@@ -267,29 +278,24 @@ namespace Nereid
 
          private GEARSTATES InspectLandingGear()
          {
-            if (landingGears.Count == 0) return GEARSTATES.NOT_INSTALLED;
-            int deployed = 0;
-            foreach (ModuleWheelBase g in landingGears)
+            if (wheelDeployment.Count == 0) return GEARSTATES.NOT_INSTALLED;
+            int deployedCnt = 0;
+            foreach (ModuleWheels.ModuleWheelDeployment deployment in wheelDeployment)
             {
-               
-               KSPWheelController controller = g.Wheel;
-               /* BROKEN controller.
-               switch (controller.wheelState gearState)
+               double position = deployment.position;
+               double rectracted = deployment.retractedPosition;
+               double deployed = deployment.deployedPosition;
+               if(position != rectracted && position != deployed) return GEARSTATES.DEPLOYING;
+               if (position == deployed)
                {
-                  case ModuleLandingGear.GearStates.DEPLOYED: 
-                     deployed++;
-                     break;
-                  case ModuleLandingGear.GearStates.RETRACTING:
-                     return GEARSTATES.RETRACTING;
-                  case ModuleLandingGear.GearStates.DEPLOYING:
-                     return GEARSTATES.DEPLOYING;
-               }*/
+                  deployedCnt++;
+               }
             }
-            if(deployed == 0)
+            if(deployedCnt == 0)
             {
                return GEARSTATES.RETRACTED;
             }
-            if(deployed < landingGears.Count)
+            if(deployedCnt < wheelBrakes.Count)
             {
                return GEARSTATES.PARTIAL_DEPLOYED;
             }
@@ -298,23 +304,21 @@ namespace Nereid
 
          private BRAKESTATES InspectBrakes()
          {
-            if (landingGears.Count == 0) return BRAKESTATES.NOT_INSTALLED;
+            if (wheelBrakes.Count == 0) return BRAKESTATES.NOT_INSTALLED;
             int engaged = 0;
-            foreach (ModuleWheelBase g in landingGears)
+            foreach (ModuleWheels.ModuleWheelBrakes brake in wheelBrakes)
             {
-               /* BROKEN
-               if (g.brakesEngaged && g.brakeTorque>0)
+               if (brake.brakeInput > 0 && brake.brakeResponse>0)
                {
                   engaged++;
                }
-                */
             }
 
             if (engaged == 0)
             {
                return BRAKESTATES.NOT_ENGAGED;
             }
-            if (engaged < (landingGears.Count))
+            if (engaged < (wheelBrakes.Count))
             {
                return BRAKESTATES.PARTIAL_ENGAGED;
             }
@@ -326,12 +330,14 @@ namespace Nereid
             if(vessel==null)
             {
                totalMass = 0.0;
+               dryMass = 0.0;
                heatshieldTemp = 0.0;
             }
             else
             {
                // mass
                totalMass = vessel.GetTotalMass();
+               dryMass = vessel.GetDeltaV();
                // heat shields
                heatshieldTemp = Constants.MIN_TEMP;
                foreach(Part p in heatshieldParts)
@@ -351,17 +357,16 @@ namespace Nereid
                   }
                }
 
-               // not working at the moment
-               /*
+               
                // landing gears
                this.landingGearState = InspectLandingGear();
                // brakes
-               this.brakeState = InspectBrakes();
+               this.brakeState = InspectBrakes();            
                // air brakes
-               this.airBrakeState = InspectAirBrakes();
+               this.airBrakeState = InspectAirBrakes();              
                // flaps
                this.flapState = InspectFlaps();
-                * */
+               
             }
          }
       }

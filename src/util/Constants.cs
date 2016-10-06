@@ -93,6 +93,7 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_CRAP = WINDOW_ID_BASE + 81;
          public const int WINDOW_ID_GAUGE_IAS = WINDOW_ID_BASE + 82;
          public const int WINDOW_ID_GAUGE_VESSEL = WINDOW_ID_BASE + 83;
+         public const int WINDOW_ID_GAUGE_DELTAV = WINDOW_ID_BASE + 84;
          
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";
