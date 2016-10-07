@@ -50,6 +50,41 @@ namespace Nereid
             if (s.Length <= maxlength) return s;
             return s.Substring(0, maxlength);
          }
+
+         // STANDARD=0, LAUNCH=1, LAND=2, DOCK=3, ORBIT=4, FLIGHT=5, SET1=101, SET2=102, SET3=103
+         public static GaugeSet.ID increment( this GaugeSet.ID id )
+         {
+            switch(id)
+            {
+               case GaugeSet.ID.STANDARD: return GaugeSet.ID.LAUNCH;
+               case GaugeSet.ID.LAUNCH: return GaugeSet.ID.LAND;
+               case GaugeSet.ID.LAND: return GaugeSet.ID.DOCK;
+               case GaugeSet.ID.DOCK: return GaugeSet.ID.ORBIT;
+               case GaugeSet.ID.ORBIT: return GaugeSet.ID.FLIGHT;
+               case GaugeSet.ID.FLIGHT: return GaugeSet.ID.SET1;
+               case GaugeSet.ID.SET1: return GaugeSet.ID.SET2;
+               case GaugeSet.ID.SET2: return GaugeSet.ID.SET3;
+               case GaugeSet.ID.SET3: return GaugeSet.ID.STANDARD;
+               default: return GaugeSet.ID.CLIPBOARD;
+            }            
+         }
+
+         public static GaugeSet.ID decrement(this GaugeSet.ID id)
+         {
+            switch (id)
+            {
+               case GaugeSet.ID.STANDARD: return GaugeSet.ID.SET3;
+               case GaugeSet.ID.LAUNCH: return GaugeSet.ID.STANDARD;
+               case GaugeSet.ID.LAND: return GaugeSet.ID.LAUNCH;
+               case GaugeSet.ID.DOCK: return GaugeSet.ID.LAND;
+               case GaugeSet.ID.ORBIT: return GaugeSet.ID.DOCK;
+               case GaugeSet.ID.FLIGHT: return GaugeSet.ID.ORBIT;
+               case GaugeSet.ID.SET1: return GaugeSet.ID.FLIGHT;
+               case GaugeSet.ID.SET2: return GaugeSet.ID.SET1;
+               case GaugeSet.ID.SET3: return GaugeSet.ID.SET2;
+               default: return GaugeSet.ID.CLIPBOARD;
+            }
+         }
       }
    }
 }

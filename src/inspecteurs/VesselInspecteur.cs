@@ -11,6 +11,15 @@ namespace Nereid
    {
       public class VesselInspecteur : Inspecteur
       {
+
+         public enum WHEELDAMAGE
+         {
+            OPERATIONAL = 0,
+            PARTIAL_DAMAGED = 1,
+            DAMAGED = 2,
+            NOT_INSTALLED = 3
+         }
+
          public enum GEARSTATES {      
             RETRACTED = 0,
             DEPLOYED = 1,
@@ -46,11 +55,13 @@ namespace Nereid
          public BRAKESTATES brakeState { get; private set; }
          public BRAKESTATES airBrakeState { get; private set; }
          public FPLAPSTATES flapState { get; private set; }
+         public WHEELDAMAGE wheelState { get; private set; }
 
          private readonly List<Part> heatshieldParts = new List<Part>();
          private readonly List<Part> drillParts = new List<Part>();
          private readonly List<ModuleWheels.ModuleWheelBrakes> wheelBrakes = new List<ModuleWheels.ModuleWheelBrakes>();
          private readonly List<ModuleWheels.ModuleWheelDeployment> wheelDeployment = new List<ModuleWheels.ModuleWheelDeployment>();
+         private readonly List<ModuleWheels.ModuleWheelDamage> wheelDamage = new List<ModuleWheels.ModuleWheelDamage>();
          private readonly List<ModuleControlSurface> airBrakes = new List<ModuleControlSurface>();
          private readonly List<ModuleControlSurface> flaps = new List<ModuleControlSurface>();
 
@@ -70,6 +81,8 @@ namespace Nereid
             this.heatshieldParts.Clear();
             this.wheelBrakes.Clear();
             this.airBrakes.Clear();
+            this.wheelDeployment.Clear();
+            this.wheelDamage.Clear();
             this.flaps.Clear();
             this.totalMass = 0.0;
             this.dryMass = 0.0;
@@ -80,6 +93,7 @@ namespace Nereid
             this.brakeState = BRAKESTATES.NOT_INSTALLED;
             this.airBrakeState = BRAKESTATES.NOT_INSTALLED;
             this.flapState = FPLAPSTATES.NOT_INSTALLED;
+            this.wheelState = WHEELDAMAGE.NOT_INSTALLED;
          }
 
          public double GetDragCoefficent()
@@ -113,8 +127,6 @@ namespace Nereid
             }
 
             // landing gears and brakes
-            // not working at the moment
-            Log.Test("PART "+part.name+" type "+part.GetType().Name);
             foreach (ModuleWheels.ModuleWheelBrakes brake in part.Modules.GetModules<ModuleWheels.ModuleWheelBrakes>())
             {
                wheelBrakes.Add(brake);
@@ -123,8 +135,12 @@ namespace Nereid
             {
                wheelDeployment.Add(deployment);
             }
+            foreach (ModuleWheels.ModuleWheelDamage damage in part.Modules.GetModules<ModuleWheels.ModuleWheelDamage>())
+            {
+               wheelDamage.Add(damage);
+            }
+            
 
-            // not working at the moment
             foreach (ModuleControlSurface s in part.Modules.OfType<ModuleControlSurface>())
             {
                bool isAirBrake = false;
@@ -163,11 +179,10 @@ namespace Nereid
             {
                if (!part.packed) ScanPart(part);
             }
-            // not working at the moment
-            //this.landingGearState = InspectLandingGear();
-            //this.brakeState = InspectBrakes();
-            //this.airBrakeState = InspectAirBrakes();
-            //this.flapState = InspectFlaps();
+            this.landingGearState = InspectLandingGear();
+            this.brakeState = InspectBrakes();
+            this.airBrakeState = InspectAirBrakes();
+            this.flapState = InspectFlaps();
 
          }
 
@@ -280,11 +295,11 @@ namespace Nereid
          {
             if (wheelDeployment.Count == 0) return GEARSTATES.NOT_INSTALLED;
             int deployedCnt = 0;
-            foreach (ModuleWheels.ModuleWheelDeployment deployment in wheelDeployment)
+            foreach (ModuleWheels.ModuleWheelDeployment wheel in wheelDeployment)
             {
-               double position = deployment.position;
-               double rectracted = deployment.retractedPosition;
-               double deployed = deployment.deployedPosition;
+               double position = wheel.position;
+               double rectracted = wheel.retractedPosition;
+               double deployed = wheel.deployedPosition;
                if(position != rectracted && position != deployed) return GEARSTATES.DEPLOYING;
                if (position == deployed)
                {
@@ -306,9 +321,9 @@ namespace Nereid
          {
             if (wheelBrakes.Count == 0) return BRAKESTATES.NOT_INSTALLED;
             int engaged = 0;
-            foreach (ModuleWheels.ModuleWheelBrakes brake in wheelBrakes)
+            foreach (ModuleWheels.ModuleWheelBrakes wheel in wheelBrakes)
             {
-               if (brake.brakeInput > 0 && brake.brakeResponse>0)
+               if (wheel.brakeInput > 0 && wheel.brakeResponse>0)
                {
                   engaged++;
                }
@@ -323,6 +338,24 @@ namespace Nereid
                return BRAKESTATES.PARTIAL_ENGAGED;
             }
             return BRAKESTATES.ENGAGED;
+         }
+
+         private WHEELDAMAGE InspectWheelDamage()
+         {
+            int cnt = 0;
+            if (wheelDamage.Count == 0) return WHEELDAMAGE.NOT_INSTALLED;
+            //
+            foreach (ModuleWheels.ModuleWheelDamage wheel in wheelDamage)
+            {
+               if(wheel.isDamaged)
+               {
+                  cnt++;
+               }
+            }
+            //
+            if (cnt == 0) return WHEELDAMAGE.OPERATIONAL;
+            if (cnt < wheelDamage.Count) return WHEELDAMAGE.PARTIAL_DAMAGED;
+            return WHEELDAMAGE.DAMAGED;
          }
 
          protected override void Inspect(Vessel vessel)
@@ -366,7 +399,8 @@ namespace Nereid
                this.airBrakeState = InspectAirBrakes();              
                // flaps
                this.flapState = InspectFlaps();
-               
+               // wheels
+               this.wheelState = InspectWheelDamage();
             }
          }
       }

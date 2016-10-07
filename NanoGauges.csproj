@@ -183,6 +183,7 @@
     <Compile Include="src\util\TimedStatistics.cs" />
     <Compile Include="src\util\ToolbarWrapper.cs" />
     <Compile Include="src\util\Utils.cs" />
+    <Compile Include="src\window\HotkeysWindow.cs" />
     <Compile Include="src\window\ProfilesWindow.cs" />
     <Compile Include="src\window\AboutWindow.cs" />
     <Compile Include="src\window\AbstractWindow.cs" />

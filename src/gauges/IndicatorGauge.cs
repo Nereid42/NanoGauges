@@ -16,6 +16,7 @@ namespace Nereid
          private const int INDICATOR_AIRBRAKES = 2;
          private const int INDICATOR_FLAPS = 3;
          private const int INDICATOR_AFTERBURNER = 4;
+         private const int INDICATOR_WHEELS = 5;
 
          private const int INDICATOR_TOP_OFFSET = 7;
          private const int INDICATOR_HEIGHT = 14;
@@ -159,6 +160,7 @@ namespace Nereid
             }
          }
 
+
          private void drawAfterburnerState()
          {
             if (engineInspecteur.afterburnerInstalled)
@@ -185,6 +187,27 @@ namespace Nereid
             }
          }
 
+         private void drawWheelState()
+         {
+            switch (vesselInspecteur.wheelState)
+            {
+
+               case VesselInspecteur.WHEELDAMAGE.OPERATIONAL:
+                  drawLight(INDICATOR_WHEELS, greenLight);
+                  break;
+               case VesselInspecteur.WHEELDAMAGE.PARTIAL_DAMAGED:
+                  drawLight(INDICATOR_WHEELS, yellowLight);
+                  break;
+               case VesselInspecteur.WHEELDAMAGE.DAMAGED:
+                  drawLight(INDICATOR_WHEELS, redLight);
+                  break;
+               case VesselInspecteur.WHEELDAMAGE.NOT_INSTALLED:
+               default:
+                  drawLight(INDICATOR_WHEELS, noLight);
+                  break;
+            }
+         }
+
          protected override void OnWindow(int id)
          {
             if (Time.time-blinkTime > BLINKING_INTERVAL)
@@ -200,7 +223,8 @@ namespace Nereid
             drawAirBrakeState();
             drawFlapState();
             drawAfterburnerState();
-            drawLight(5, noLight);
+            drawWheelState();
+            //drawLight(5, noLight);
             // skin
             GUI.DrawTexture(skinBounds, skin);
          }

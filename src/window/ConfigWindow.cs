@@ -12,7 +12,7 @@ namespace Nereid
          private static readonly GUIStyle STYLE_ENABLE_DISABLE_ALL_TOGGLE = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_COPYPASTE_BUTTONS = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_DEFAULT_BUTTON = new GUIStyle(HighLogic.Skin.button);
-         private static readonly GUIStyle STYLE_PROFILES_BUTTON = new GUIStyle(HighLogic.Skin.button);
+         private static readonly GUIStyle STYLE_SIDE_BUTTON = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_TOGGLE_2_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
          private static readonly GUIStyle STYLE_TOGGLE_4_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
          private static readonly GUIStyle STYLE_LABEL = new GUIStyle(HighLogic.Skin.label);
@@ -33,12 +33,13 @@ namespace Nereid
             STYLE_LINE.stretchWidth = true;
             STYLE_LINE.stretchHeight = false;
             STYLE_LINE.fixedHeight = 2;
-            STYLE_PROFILES_BUTTON.fixedWidth = 100;
+            STYLE_SIDE_BUTTON.fixedWidth = 100;
             // a generice skin; TODO: dedicated texture
             STYLE_LINE.normal.background = Utils.GetTexture("Nereid/NanoGauges/Resource/ATM-skin");
          }
 
          private readonly ProfilesWindow profilesWindow;
+         private readonly HotkeysWindow hotkeysWindow;
 
          private IButton toolbarButton;
          private String toolbarButtonTextureOn;
@@ -58,6 +59,7 @@ namespace Nereid
             this.gauges = gauges;
             //
             profilesWindow = new ProfilesWindow();
+            hotkeysWindow = new HotkeysWindow();
             //
             SetSize(350, 300);
             CenterWindow();
@@ -151,7 +153,7 @@ namespace Nereid
             config.snapinEnabled = GUILayout.Toggle(config.snapinEnabled, "Snapin enabled", HighLogic.Skin.toggle);
             // Profiles
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Profiles", STYLE_PROFILES_BUTTON))
+            if (GUILayout.Button("Profiles", STYLE_SIDE_BUTTON))
             {
                int px = (int)bounds.x + (int)bounds.width;
                int py = (int)bounds.y + 335;
@@ -167,6 +169,18 @@ namespace Nereid
             GUILayout.BeginHorizontal();
             // Gauge marker
             config.gaugeMarkerEnabled = GUILayout.Toggle(config.gaugeMarkerEnabled, "Gauge marker enabled", STYLE_TOGGLE_2_PER_ROW);
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Hotkeys", STYLE_SIDE_BUTTON))
+            {
+               int px = (int)bounds.x + (int)bounds.width;
+               int py = (int)bounds.y + 365;
+               if (px + HotkeysWindow.WIDTH > Screen.width)
+               {
+                  px = (int)bounds.x - HotkeysWindow.WIDTH;
+               }
+               hotkeysWindow.SetPosition(px, py);
+               hotkeysWindow.SetVisible(!hotkeysWindow.IsVisible());
+            }
             GUILayout.EndHorizontal();
             //
             // tooltips & exact readout

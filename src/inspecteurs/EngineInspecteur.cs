@@ -30,7 +30,6 @@ namespace Nereid
 
          public override void Reset()
          {
-            Log.Test("RESET");
             this.engineTotalThrust = 0.0;
             this.engineIspPerRunningEngine = 0.0;
             this.propReqPerRunningEngine = 0.0f;
@@ -51,7 +50,6 @@ namespace Nereid
 
          private void ScanPart(Part part)
          {
-            Log.Test("PART " + part);
             int moduleCount = 0;
             foreach (ModuleEngines engine in part.Modules.OfType<ModuleEngines>())
             {
