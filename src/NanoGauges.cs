@@ -21,6 +21,8 @@ namespace Nereid
 
          // Profiles
          public static readonly ProfileManager profileManager;
+         // HotKeys
+         public static readonly HotkeyManager hotkeyManager;
 
          private IButton toolbarButton;
          private ApplicationLauncherButton stockToolbarButton = null;
@@ -48,6 +50,8 @@ namespace Nereid
             configuration.SetGaugeSet(GaugeSet.ID.STANDARD);
             //
             profileManager = new ProfileManager();
+            //
+            hotkeyManager = new HotkeyManager();
             //
             configuration.Load();
             Log.Info("log level is " + Log.GetLogLevel());
@@ -269,12 +273,11 @@ namespace Nereid
 
                // check for keys
                //
-               KeyCode hotkey = configuration.hotkey;
-               bool hotkeyPressed = Input.GetKey(hotkey);
+               bool hotkeyPressed = hotkeyManager.GetKey(HotkeyManager.HOTKEY_MAIN); // Input.GetKey(hotkey);
                gauges.ShowCloseButtons(hotkeyPressed);
 
                // Hotkeys for Gaugesets
-               if (Input.GetKeyDown(KeyCode.Numlock))
+               if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_HIDE))
                {
                   if (gauges.Hidden())
                   {
@@ -285,63 +288,63 @@ namespace Nereid
                      gauges.Hide();
                   }
                }
-               if(Input.GetKeyDown(KeyCode.PageUp))
+               if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_PREVSET))
                {
                   SetGaugeSet(configuration.GetGaugeSetId().decrement());
                }
-               if (Input.GetKeyDown(KeyCode.PageDown))
+               if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_NEXTSET))
                {
                   SetGaugeSet(configuration.GetGaugeSetId().increment());
                }
 
                if (hotkeyPressed)
                {
-                  if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Keypad1))
+                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_STANDARD))
                   {
                      SetGaugeSet(GaugeSet.ID.STANDARD);
                   }
-                  else if (Input.GetKeyDown(KeyCode.Alpha2) || Input.GetKeyDown(KeyCode.Keypad2))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_LAUNCH))
                   {
                      SetGaugeSet(GaugeSet.ID.LAUNCH);
                   }
-                  else if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Keypad3))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_LAND))
                   {
                      SetGaugeSet(GaugeSet.ID.LAND);
                   }
-                  else if (Input.GetKeyDown(KeyCode.Alpha4) || Input.GetKeyDown(KeyCode.Keypad4))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_DOCK))
                   {
                      SetGaugeSet(GaugeSet.ID.DOCK);
                   }
-                  else if (Input.GetKeyDown(KeyCode.Alpha5) || Input.GetKeyDown(KeyCode.Keypad5))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_ORBIT))
                   {
                      SetGaugeSet(GaugeSet.ID.ORBIT);
                   }
-                  else if (Input.GetKeyDown(KeyCode.Alpha6) || Input.GetKeyDown(KeyCode.Keypad6))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_FLIGHT))
                   {
                      SetGaugeSet(GaugeSet.ID.FLIGHT);
                   }
-                  else if (Input.GetKeyDown(KeyCode.Alpha7) || Input.GetKeyDown(KeyCode.Keypad7))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_SET1))
                   {
                      SetGaugeSet(GaugeSet.ID.SET1);
                   }
-                  else if (Input.GetKeyDown(KeyCode.Alpha8) || Input.GetKeyDown(KeyCode.Keypad8))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_SET2))
                   {
                      SetGaugeSet(GaugeSet.ID.SET2);
                   }
-                  else if (Input.GetKeyDown(KeyCode.Alpha9) || Input.GetKeyDown(KeyCode.Keypad9))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_SET3))
                   {
                      SetGaugeSet(GaugeSet.ID.SET3);
                   }
-                  else if (Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_ENABLE_ALL))
                   {
                      configuration.EnableAllGauges(gauges);
                   }
-                  else if (Input.GetKeyDown(KeyCode.KeypadEnter))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_WINDOW_CONFIG))
                   {
                      createConfigOnce();
                      toggleConfigVisibility();
                   }
-                  else if (Input.GetKeyDown(KeyCode.Backspace))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_LAYOUT))
                   {
                      gauges.LayoutCurrentGaugeSet(new StandardLayout(NanoGauges.gauges, configuration));
                   }

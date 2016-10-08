@@ -408,9 +408,13 @@ namespace Nereid
          private void KeyCodeButton(KeyCode code, String text)
          {
             Configuration config = NanoGauges.configuration;
-            if (GUILayout.Toggle(config.hotkey == code, text, HighLogic.Skin.button))
+            KeyCode hotkey = NanoGauges.hotkeyManager.GetKeyCode(HotkeyManager.HOTKEY_MAIN);
+            if (GUILayout.Toggle(hotkey == code, text, HighLogic.Skin.button))
             {
-               config.hotkey = code;
+               if(hotkey!=code)
+               {
+                  NanoGauges.hotkeyManager.SetKeyCode(HotkeyManager.HOTKEY_MAIN, code);
+               }
             }
          }
 

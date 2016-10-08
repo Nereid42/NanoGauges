@@ -49,7 +49,7 @@ namespace Nereid
 
          private const int snapinRange = Gauges.LAYOUT_GAP; // todo: remove constant and make configurable
 
-         public KeyCode hotkey  { get; set; }
+         //public KeyCode hotkey  { get; set; }
 
          // this class manages the default gauge positions realtive to sceen objects, navball, ...
          private readonly DefaultGaugePositionManager defaultGaugePositionManager = new DefaultGaugePositionManager();
@@ -65,7 +65,6 @@ namespace Nereid
          public Configuration()
          {
             // Defaults
-            hotkey = KeyCode.RightControl;
             gaugePositionsLocked = true;
             gaugeMarkerEnabled = true;
             tooltipsEnabled = true;
@@ -371,7 +370,8 @@ namespace Nereid
                   //
                   writer.Write(gaugeMarkerEnabled);
                   //
-                  writer.Write((UInt16)hotkey);
+                  // not used
+                  writer.Write((UInt16)0);
                   //
                   writer.Write(gaugesInFlightEnabled);
                   writer.Write(gaugesInMapEnabled);
@@ -439,7 +439,8 @@ namespace Nereid
                      //
                      gaugeMarkerEnabled = reader.ReadBoolean();
                      //
-                     hotkey = (KeyCode)reader.ReadUInt16();
+                     // not used
+                     reader.ReadUInt16();
                      //
                      gaugesInFlightEnabled = reader.ReadBoolean();
                      gaugesInMapEnabled = reader.ReadBoolean();

@@ -32,7 +32,7 @@ namespace Nereid
          {
             ProfileManager manager = NanoGauges.profileManager;
             GUILayout.BeginVertical();
-
+            GUILayout.FlexibleSpace();
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Reset to defaults", HighLogic.Skin.button))
             {
