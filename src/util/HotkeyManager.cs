@@ -14,17 +14,20 @@ namespace Nereid
          {
             public KeyCode code { get; set; }
             public bool enabled { get; set; }
+            public Reference<bool> input = new Reference<bool>();
 
             public Hotkey(KeyCode code, bool enabled)
             {
                this.code = code;
                this.enabled = enabled;
+               this.input.value = false;
             }
 
             public Hotkey(KeyCode code)
             {
                this.code = code;
                this.enabled = true;
+               this.input.value = false;
             }
          }
 
@@ -52,6 +55,9 @@ namespace Nereid
          private Hotkey[] hotkeys;
 
          public bool enabled { get; set; }
+
+         // temporary ignore hotkeys
+         public bool ignoring { get; set; }
 
          public HotkeyManager()
          {
@@ -91,8 +97,9 @@ namespace Nereid
          public bool GetKey(int id)
          {
             if (id >= Count() || id < 0) return false;
-            if (!enabled) return false;
+            if (!enabled || ignoring) return false;
             Hotkey hotkey = hotkeys[id];
+            //
             if (hotkey.enabled)
             {
                return Input.GetKey(hotkey.code);
@@ -103,9 +110,10 @@ namespace Nereid
          public bool GetKeyDown(int id)
          {
             if (id >= Count() || id <0) return false;
-            if (!enabled) return false;
+            if (!enabled || ignoring) return false;
             Hotkey hotkey = hotkeys[id];
-            if(hotkey.enabled)
+            //
+            if (hotkey.enabled)
             {
                return Input.GetKeyDown(hotkey.code);
             }
@@ -128,11 +136,24 @@ namespace Nereid
             hotkey.enabled = enabled;
          }
 
+         public bool IsEnabled(int id)
+         {
+            if (id >= Count() || id < 0) return false;
+            Hotkey hotkey = hotkeys[id];
+            return hotkey.enabled;
+         }
+
          public KeyCode GetKeyCode(int id)
          {
             if (id >= Count() || id < 0) return 0;
             Hotkey hotkey = hotkeys[id];
             return hotkey.code;
+         }
+
+         public Reference<bool> GetInput(int id)
+         {
+            Hotkey hotkey = hotkeys[id];
+            return hotkey.input;
          }
       }
    }

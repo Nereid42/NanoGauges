@@ -86,20 +86,6 @@ namespace Nereid
             LogLevelButton(Log.LEVEL.DETAIL, "DETAIL");
             LogLevelButton(Log.LEVEL.TRACE, "TRACE");
             GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Hotkey:", STYLE_LABEL);
-            GUILayout.FlexibleSpace();
-            config.performanceStatisticsEnabled = GUILayout.Toggle(config.performanceStatisticsEnabled, "performance statistics", STYLE_TOGGLE_2_PER_ROW);
-            GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            KeyCodeButton(KeyCode.LeftControl, "LEFT CTRL");
-            KeyCodeButton(KeyCode.RightControl, "RIGHT CTRL");
-            KeyCodeButton(KeyCode.LeftShift, "LEFT SHIFT");
-            KeyCodeButton(KeyCode.RightShift, "RIGHT SHIFT");
-            KeyCodeButton(KeyCode.LeftAlt, "LEFT ALT");
-            KeyCodeButton(KeyCode.RightAlt, "RIGHT ALT");
-            GUILayout.EndHorizontal();
-
 
             GUILayout.BeginHorizontal();
             // Reset Window Postions
@@ -143,7 +129,12 @@ namespace Nereid
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
+            GUILayout.BeginHorizontal();
             GUILayout.Label("Settings:", STYLE_LABEL);
+            GUILayout.FlexibleSpace();
+            config.performanceStatisticsEnabled = GUILayout.Toggle(config.performanceStatisticsEnabled, "performance statistics", STYLE_TOGGLE_2_PER_ROW);
+            GUILayout.EndHorizontal();
+
             GUILayout.BeginVertical();
             //
             // Positions Locked & Snapin
@@ -156,7 +147,7 @@ namespace Nereid
             if (GUILayout.Button("Profiles", STYLE_SIDE_BUTTON))
             {
                int px = (int)bounds.x + (int)bounds.width;
-               int py = (int)bounds.y + 335;
+               int py = (int)bounds.y + 270;
                if(px+ProfilesWindow.WIDTH>Screen.width)
                {
                   px = (int)bounds.x - ProfilesWindow.WIDTH;
@@ -173,7 +164,7 @@ namespace Nereid
             if (GUILayout.Button("Hotkeys", STYLE_SIDE_BUTTON))
             {
                int px = (int)bounds.x + (int)bounds.width;
-               int py = (int)bounds.y + 365;
+               int py = (int)bounds.y + 300; 
                if (px + HotkeysWindow.WIDTH > Screen.width)
                {
                   px = (int)bounds.x - HotkeysWindow.WIDTH;
@@ -402,19 +393,6 @@ namespace Nereid
             {
                NanoGauges.configuration.SetLogLevel(level);
                Log.SetLevel(level);
-            }
-         }
-
-         private void KeyCodeButton(KeyCode code, String text)
-         {
-            Configuration config = NanoGauges.configuration;
-            KeyCode hotkey = NanoGauges.hotkeyManager.GetKeyCode(HotkeyManager.HOTKEY_MAIN);
-            if (GUILayout.Toggle(hotkey == code, text, HighLogic.Skin.button))
-            {
-               if(hotkey!=code)
-               {
-                  NanoGauges.hotkeyManager.SetKeyCode(HotkeyManager.HOTKEY_MAIN, code);
-               }
             }
          }
 

@@ -8,7 +8,7 @@ namespace Nereid
    {
       class ProfilesWindow : AbstractWindow
       {
-         public const int WIDTH = 320;
+         public const int WIDTH = 350;
          public const int HEIGHT = 462;
 
          private static readonly GUIStyle STYLE_PROFILE_BUTTON = new GUIStyle(HighLogic.Skin.button);
@@ -21,7 +21,8 @@ namespace Nereid
          static ProfilesWindow()
          {
             STYLE_PROFILE_BUTTON.fixedWidth = 160;
-            STYLE_HOTKEY_BUTTON.fixedWidth = 50;
+            STYLE_HOTKEY_BUTTON.fixedWidth = 80;
+            STYLE_HOTKEY_BUTTON.clipping = TextClipping.Clip;
          }
 
 
@@ -105,7 +106,7 @@ namespace Nereid
 
          private KeyCode DrawHotKeyButton(KeyCode keycode, ref bool input)
          {
-            String text = input ? "press" : keycode.ToString().Limit(6);
+            String text = input ? "press" : keycode.ToString().Limit(10);
             if (GUILayout.Button(text, STYLE_HOTKEY_BUTTON))
             {
                if(input)

@@ -371,6 +371,7 @@ namespace Nereid
             {
                updateTimer.Stop();
             }
+            hotkeyManager.ignoring = false;
          }
       }
    }

@@ -179,6 +179,7 @@
     <Compile Include="src\util\MovingAverage.cs" />
     <Compile Include="src\util\Pair.cs" />
     <Compile Include="src\util\HotkeyManager.cs" />
+    <Compile Include="src\util\Reference.cs" />
     <Compile Include="src\util\Resources.cs" />
     <Compile Include="src\util\SnapinManager.cs" />
     <Compile Include="src\util\TimedStatistics.cs" />
