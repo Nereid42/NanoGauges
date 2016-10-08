@@ -273,8 +273,10 @@ namespace Nereid
 
                // check for keys
                //
+               gauges.ShowCloseButtons(hotkeyManager.GetKey(HotkeyManager.HOTKEY_CLOSE_AND_DRAG));
+
+               //
                bool hotkeyPressed = hotkeyManager.GetKey(HotkeyManager.HOTKEY_MAIN); // Input.GetKey(hotkey);
-               gauges.ShowCloseButtons(hotkeyPressed);
 
                // Hotkeys for Gaugesets
                if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_HIDE))
@@ -344,11 +346,11 @@ namespace Nereid
                      createConfigOnce();
                      toggleConfigVisibility();
                   }
-                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_LAYOUT))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_STANDARDLAYOUT))
                   {
                      gauges.LayoutCurrentGaugeSet(new StandardLayout(NanoGauges.gauges, configuration));
                   }
-                  else if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.KeypadDivide))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_ALT_HIDE))
                   {
                      if (gauges.Hidden())
                      {
@@ -359,7 +361,7 @@ namespace Nereid
                         gauges.Hide();
                      }
                   }
-                  else if (Input.GetKeyDown(KeyCode.KeypadMultiply) || Input.GetKeyDown(KeyCode.Insert))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_AUTOLAYOUT))
                   {
                      gauges.AutoLayout();
                   }

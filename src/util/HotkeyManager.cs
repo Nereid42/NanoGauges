@@ -29,28 +29,34 @@ namespace Nereid
          }
 
          public const int HOTKEY_MAIN    = 0;
-         public const int HOTKEY_HIDE    = 1;
-         public const int HOTKEY_NEXTSET = 2;
-         public const int HOTKEY_PREVSET = 3;
-         public const int HOTKEY_SET_STANDARD = 4;
-         public const int HOTKEY_SET_LAUNCH = 5;
-         public const int HOTKEY_SET_LAND = 6;
-         public const int HOTKEY_SET_DOCK = 7;
-         public const int HOTKEY_SET_ORBIT = 8;
-         public const int HOTKEY_SET_FLIGHT = 9;
-         public const int HOTKEY_SET_SET1 = 10;
-         public const int HOTKEY_SET_SET2 = 11;
-         public const int HOTKEY_SET_SET3 = 12;
-         public const int HOTKEY_SET_ENABLE_ALL = 13;
-         public const int HOTKEY_WINDOW_CONFIG = 14;
-         public const int HOTKEY_LAYOUT = 15;
-         private const int HOTKEY_COUNT = 16;
+         public const int HOTKEY_CLOSE_AND_DRAG = 1;
+         public const int HOTKEY_HIDE = 2;
+         public const int HOTKEY_NEXTSET = 3;
+         public const int HOTKEY_PREVSET = 4;
+         public const int HOTKEY_SET_STANDARD = 5;
+         public const int HOTKEY_SET_LAUNCH = 6;
+         public const int HOTKEY_SET_LAND = 7;
+         public const int HOTKEY_SET_DOCK = 8;
+         public const int HOTKEY_SET_ORBIT = 9;
+         public const int HOTKEY_SET_FLIGHT = 10;
+         public const int HOTKEY_SET_SET1 = 11;
+         public const int HOTKEY_SET_SET2 = 12;
+         public const int HOTKEY_SET_SET3 = 13;
+         public const int HOTKEY_SET_ENABLE_ALL = 14;
+         public const int HOTKEY_WINDOW_CONFIG = 15;
+         public const int HOTKEY_STANDARDLAYOUT = 16;
+         public const int HOTKEY_AUTOLAYOUT = 17;
+         public const int HOTKEY_ALT_HIDE = 18;
+         private const int HOTKEY_COUNT = 19;
 
          private Hotkey[] hotkeys;
+
+         public bool enabled { get; set; }
 
          public HotkeyManager()
          {
             hotkeys = new Hotkey[Count()];
+            enabled = true;
             SetDefaultHotkeys();
          }
 
@@ -62,6 +68,7 @@ namespace Nereid
          public void SetDefaultHotkeys()
          {
             hotkeys[HOTKEY_MAIN] = new Hotkey(KeyCode.RightControl);
+            hotkeys[HOTKEY_CLOSE_AND_DRAG] = new Hotkey(KeyCode.RightControl);
             hotkeys[HOTKEY_HIDE] = new Hotkey(KeyCode.Numlock);
             hotkeys[HOTKEY_NEXTSET] = new Hotkey(KeyCode.PageDown);
             hotkeys[HOTKEY_PREVSET] = new Hotkey(KeyCode.PageUp);
@@ -76,12 +83,15 @@ namespace Nereid
             hotkeys[HOTKEY_SET_SET3] = new Hotkey(KeyCode.Keypad9);
             hotkeys[HOTKEY_SET_ENABLE_ALL] = new Hotkey(KeyCode.Keypad0);
             hotkeys[HOTKEY_WINDOW_CONFIG] = new Hotkey(KeyCode.KeypadEnter);
-            hotkeys[HOTKEY_LAYOUT] = new Hotkey(KeyCode.Backspace);
+            hotkeys[HOTKEY_STANDARDLAYOUT] = new Hotkey(KeyCode.Backspace);
+            hotkeys[HOTKEY_AUTOLAYOUT] = new Hotkey(KeyCode.KeypadMultiply);
+            hotkeys[HOTKEY_ALT_HIDE] = new Hotkey(KeyCode.KeypadDivide);            
          }
 
          public bool GetKey(int id)
          {
             if (id >= Count() || id < 0) return false;
+            if (!enabled) return false;
             Hotkey hotkey = hotkeys[id];
             if (hotkey.enabled)
             {
@@ -93,6 +103,7 @@ namespace Nereid
          public bool GetKeyDown(int id)
          {
             if (id >= Count() || id <0) return false;
+            if (!enabled) return false;
             Hotkey hotkey = hotkeys[id];
             if(hotkey.enabled)
             {

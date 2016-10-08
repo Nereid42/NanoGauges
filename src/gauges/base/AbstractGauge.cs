@@ -93,7 +93,7 @@ namespace Nereid
                   }
                   NanoGauges.configuration.SetWindowPosition(this);
                   //
-                  if (NanoGauges.hotkeyManager.GetKey(HotkeyManager.HOTKEY_MAIN))
+                  if (NanoGauges.hotkeyManager.GetKey(HotkeyManager.HOTKEY_CLOSE_AND_DRAG))
                   {
                      DragClusterOfGauges((int)(bounds.x - this.x), (int)(bounds.y - this.y));
                   }
@@ -103,7 +103,7 @@ namespace Nereid
                }
             }
             //
-            if (!NanoGauges.hotkeyManager.GetKey(HotkeyManager.HOTKEY_MAIN))
+            if (!NanoGauges.hotkeyManager.GetKey(HotkeyManager.HOTKEY_CLOSE_AND_DRAG))
             {
                cluster = null;
 
