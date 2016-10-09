@@ -81,19 +81,19 @@ namespace Nereid
             GUILayout.EndHorizontal();
             //
             GUILayout.BeginHorizontal();
-            DrawHotkey("Docking", HotkeyManager.HOTKEY_SET_DOCK, main_hotkey);
+            DrawHotkey("Land", HotkeyManager.HOTKEY_SET_LAND, main_hotkey);
             GUILayout.FlexibleSpace();
             DrawHotkey("Hide gauges", HotkeyManager.HOTKEY_HIDE);
             GUILayout.EndHorizontal();
             //
             GUILayout.BeginHorizontal();
-            DrawHotkey("Orbit", HotkeyManager.HOTKEY_SET_ORBIT, main_hotkey);
+            DrawHotkey("Docking", HotkeyManager.HOTKEY_SET_DOCK, main_hotkey);
             GUILayout.FlexibleSpace();
             DrawHotkey("Hide gauges", HotkeyManager.HOTKEY_ALT_HIDE, main_hotkey);
             GUILayout.EndHorizontal();
             //
             GUILayout.BeginHorizontal();
-            DrawHotkey("Land", HotkeyManager.HOTKEY_SET_LAND, main_hotkey);
+            DrawHotkey("Orbit", HotkeyManager.HOTKEY_SET_ORBIT, main_hotkey);
             GUILayout.FlexibleSpace();
             DrawHotkey("Reset layout", HotkeyManager.HOTKEY_STANDARDLAYOUT, main_hotkey);
             GUILayout.EndHorizontal();
@@ -124,7 +124,7 @@ namespace Nereid
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("Reset to defaults", HighLogic.Skin.button))
             {
-               //               TODO
+               manager.SetDefaultHotkeys();
             }
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Save", HighLogic.Skin.button))
@@ -186,6 +186,7 @@ namespace Nereid
             }
 
             String text = input.value ? "press" : keycode.ToString().Limit(10);
+            Utils.SetTextColor(STYLE_HOTKEY_BUTTON, input.value ? Constants.ORANGE : Color.white);
             if (GUILayout.Button(text, STYLE_HOTKEY_BUTTON))
             {
                if (input.value)
@@ -210,7 +211,10 @@ namespace Nereid
                   if (keys != null && keys.Length > 0)
                   {
                      keycode = keys[0];
-                     manager.SetKeyCode(id, keycode);
+                     if(HotkeyManager.ValidKeyCode(keys[0]))
+                     {
+                        manager.SetKeyCode(id, keycode);
+                     }
                   }
                }
             }

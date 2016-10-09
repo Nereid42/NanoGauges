@@ -58,7 +58,6 @@ namespace Nereid
             AddGauge(new VelocityGauge());
             AddGauge(new AngleOfAttackGauge());
 
-            // NaN below ?
             AddGauge(new VerticalAttitudeIndicatorGauge());
             AddGauge(new VerticalVelocityIndicatorGauge());
             AddGauge(new DistanceToTargetGauge());
@@ -78,7 +77,6 @@ namespace Nereid
             AddGauge(new CameraGauge());
             AddGauge(new MachGauge());
             AddGauge(new QGauge());
-            // NaN above?
 
             AddGauge(new HeatGauge(vesselInspecteur));
             AddGauge(new ImpactTimeGauge());
@@ -235,7 +233,7 @@ namespace Nereid
 
          public void LayoutCurrentGaugeSet(GaugeLayout layout)
          {
-            Log.Info("reset of gauge screen positions");
+            Log.Detail("reset of gauge screen positions");
             NanoGauges.configuration.LayoutCurrentGaugeSet(layout);
             foreach (AbstractGauge gauge in gauges.Values)
             {

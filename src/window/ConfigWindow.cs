@@ -285,7 +285,6 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VAI, "VAI (vertical attidute indicator) gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VTGT, "Velocity to target gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VACCL, "Vertical acceleration gauge enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VESSEL, "Vessel gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_MASS, "Vessel mass gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VSI, "VSI (vertical speed indicator) gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VVI, "VVI (vertical velocity indicator) gauge enabled");
@@ -297,6 +296,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_BIOME, "Biome gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LATITUDE, "Latitude gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LONGITUDE, "Longitude gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VESSEL, "Vessel gauge enabled");
             GUILayout.EndScrollView();
             
             GUILayout.EndVertical();

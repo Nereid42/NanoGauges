@@ -118,12 +118,7 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_ATM, x0 - 0 * vDX, y0 + n * vDY);
 
             // horizontal gauges
-            int hDY = (int)(configuration.horizontalGaugeHeight * gaugeScaling) + Gauges.LAYOUT_GAP;
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VESSEL, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 0 * hDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 1 * hDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 2 * hDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 3 * hDY);
-
+            LayoutHorizontalGauges(set);
          }
 
          public override void EnableGauges(GaugeSet set)

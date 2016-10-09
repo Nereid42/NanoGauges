@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using System.IO;
 
 namespace Nereid
 {
@@ -10,10 +11,13 @@ namespace Nereid
    {
       public class HotkeyManager
       {
+         private const String CONFIGFILE_MARK = "HOTKEYS";
+
          private class Hotkey
          {
             public KeyCode code { get; set; }
             public bool enabled { get; set; }
+            // this will be set to true, if the hotkey defined (pressed) by the user in the config window
             public Reference<bool> input = new Reference<bool>();
 
             public Hotkey(KeyCode code, bool enabled)
@@ -24,10 +28,13 @@ namespace Nereid
             }
 
             public Hotkey(KeyCode code)
+               : this(code, true)
             {
-               this.code = code;
-               this.enabled = true;
-               this.input.value = false;
+            }
+
+            public override String ToString()
+            {
+               return code.ToString() + " (" + (enabled?"enabled":"disabled") + ")";
             }
          }
 
@@ -75,7 +82,7 @@ namespace Nereid
          {
             hotkeys[HOTKEY_MAIN] = new Hotkey(KeyCode.RightControl);
             hotkeys[HOTKEY_CLOSE_AND_DRAG] = new Hotkey(KeyCode.RightControl);
-            hotkeys[HOTKEY_HIDE] = new Hotkey(KeyCode.Numlock);
+            hotkeys[HOTKEY_HIDE] = new Hotkey(KeyCode.KeypadEnter);
             hotkeys[HOTKEY_NEXTSET] = new Hotkey(KeyCode.PageDown);
             hotkeys[HOTKEY_PREVSET] = new Hotkey(KeyCode.PageUp);
             hotkeys[HOTKEY_SET_STANDARD] = new Hotkey(KeyCode.Keypad1);
@@ -123,16 +130,18 @@ namespace Nereid
          public void SetKeyCode(int id, KeyCode code)
          {
             if (id >= Count() || id < 0) return;
-            Log.Info("set keycode for hotkey "+id+" to "+(int)code);
             Hotkey hotkey = hotkeys[id];
+            if (code == hotkey.code) return;
+            Log.Info("set keycode for hotkey " + id + " to " + (int)code);
             hotkey.code = code;
          }
 
          public void SetEnabled(int id, bool enabled)
          {
             if (id >= Count() || id < 0) return;
-            Log.Info("set hotkey " + id + " to " + (enabled?"enabled":"disabled"));
             Hotkey hotkey = hotkeys[id];
+            if (enabled == hotkey.enabled) return;
+            Log.Info("set hotkey " + id + " to " + (enabled ? "enabled" : "disabled"));
             hotkey.enabled = enabled;
          }
 
@@ -154,6 +163,66 @@ namespace Nereid
          {
             Hotkey hotkey = hotkeys[id];
             return hotkey.input;
+         }
+
+         private void WriteHotkey(BinaryWriter writer, Hotkey hotkey)
+         {
+            writer.Write((UInt16)hotkey.code);
+            writer.Write(hotkey.enabled);
+            Log.Detail("hotkey written: " + hotkey);
+         }
+
+         private void ReadHotkey(BinaryReader reader, Hotkey hotkey)
+         {
+            hotkey.code = (KeyCode)reader.ReadInt16();
+            hotkey.enabled = reader.ReadBoolean();
+            Log.Detail("hotkey read: " + hotkey);
+         }
+
+         public void Read(BinaryReader reader)
+         {
+            Log.Info("reading hotkeys");
+            //
+            String marker = reader.ReadString();
+            if(marker!=CONFIGFILE_MARK)
+            {
+               throw new IOException("config file structure corrupt: missing hotkey marker");
+            }
+            //
+            foreach (Hotkey hotkey in hotkeys)
+            {
+               ReadHotkey(reader, hotkey);
+            }
+         }
+
+         public void Write(BinaryWriter writer)
+         {
+            Log.Info("writing hotkeys");
+            //
+            // marker
+            writer.Write(CONFIGFILE_MARK);
+            //
+            foreach (Hotkey hotkey in hotkeys)
+            {
+               WriteHotkey(writer, hotkey);
+            }
+         }
+
+         public static bool ValidKeyCode(KeyCode keycode)
+         {
+            switch (keycode)
+            {
+               case KeyCode.Mouse0:
+               case KeyCode.Mouse1:
+               case KeyCode.Mouse2:
+               case KeyCode.Mouse3:
+               case KeyCode.Mouse4:
+               case KeyCode.Mouse5:
+               case KeyCode.Mouse6:
+               case KeyCode.Escape: return false;
+               default:
+                  return true;
+            }
          }
       }
    }

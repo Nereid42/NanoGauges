@@ -146,6 +146,8 @@ namespace Nereid
 
          public static readonly  Pair<int, int> ORIGIN = new Pair<int, int>(0, 0);
 
+         public static readonly UnityEngine.Color ORANGE = new UnityEngine.Color(250, 100, 0);
+
       }
    }
 }

@@ -13,7 +13,7 @@ namespace Nereid
 
 
          public VesselGauge()
-            : base(Constants.WINDOW_ID_GAUGE_BIOME,SKIN,BACK)
+            : base(Constants.WINDOW_ID_GAUGE_VESSEL,SKIN,BACK)
          {
          }
 

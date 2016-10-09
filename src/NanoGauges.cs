@@ -279,28 +279,34 @@ namespace Nereid
                bool hotkeyPressed = hotkeyManager.GetKey(HotkeyManager.HOTKEY_MAIN); // Input.GetKey(hotkey);
 
                // Hotkeys for Gaugesets
-               if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_HIDE))
+               if (!hotkeyPressed)
                {
-                  if (gauges.Hidden())
-                  {
-                     gauges.Unhide();
-                  }
-                  else
-                  {
-                     gauges.Hide();
-                  }
-               }
-               if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_PREVSET))
-               {
-                  SetGaugeSet(configuration.GetGaugeSetId().decrement());
-               }
-               if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_NEXTSET))
-               {
-                  SetGaugeSet(configuration.GetGaugeSetId().increment());
-               }
+                  // simple Hotkeys 
 
-               if (hotkeyPressed)
+                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_HIDE))
+                  {
+                     if (gauges.Hidden())
+                     {
+                        gauges.Unhide();
+                     }
+                     else
+                     {
+                        gauges.Hide();
+                     }
+                  }
+                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_PREVSET))
+                  {
+                     SetGaugeSet(configuration.GetGaugeSetId().decrement());
+                  }
+                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_NEXTSET))
+                  {
+                     SetGaugeSet(configuration.GetGaugeSetId().increment());
+                  }
+               }
+               else
                {
+                  // Hotkeys in chord with main hotkey
+
                   if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_STANDARD))
                   {
                      SetGaugeSet(GaugeSet.ID.STANDARD);

@@ -108,13 +108,14 @@ namespace Nereid
 
          public void ResetAllWindowPositions(Gauges gauges)
          {
-            // The default layout only works well in screen width above 1900 pixels
-            if(Screen.width >1900)
+            // The default layout only works well in screen width at 1900 pixels or above
+            if(Screen.width>=1900)
             {
                ResetAllWindowPositions(gauges, new DefaultLayout(gauges, this));
             }
             else
             {
+               // Screen is tiny, so prefer a clusterlayout at first
                ResetAllWindowPositions(gauges, new ClusterLayout(gauges, this));
             }
          }
@@ -135,8 +136,7 @@ namespace Nereid
 
          public void LayoutGaugeSet(GaugeSet set, GaugeLayout layout)
          {
-            Log.Info("layout of gauges in set "+set+" (screen: " + Screen.width + "x" + Screen.height + ") with "+layout);
-
+            Log.Detail("layout of gauges in set "+set+" (screen: " + Screen.width + "x" + Screen.height + ") with "+layout);
             layout.Layout(set);
          }
 
@@ -394,6 +394,9 @@ namespace Nereid
                   //
                   // ProfileManager
                   NanoGauges.profileManager.Write(writer);
+                  //
+                  // HotkeyManager
+                  NanoGauges.hotkeyManager.Write(writer);
                }
             }
             catch
@@ -464,6 +467,9 @@ namespace Nereid
                      //
                      // ProfileManager
                      NanoGauges.profileManager.Read(reader);
+                     //
+                     // HotkeyManager
+                     NanoGauges.hotkeyManager.Read(reader);
                   }
                }
                else

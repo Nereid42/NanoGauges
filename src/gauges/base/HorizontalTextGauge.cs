@@ -11,7 +11,7 @@ namespace Nereid
          private const int MARGIN_VERTICAL = 15;
          private const int MARGIN_HORIZONTAL = 5;
          private const int FONT_SIZE = 14;
-         private const int MAX_CHARS = 13;
+         //private const int MAX_CHARS = 13;
          private readonly Texture2D back;
          private readonly Texture2D skin;
          private Rect skinBounds;
@@ -32,20 +32,28 @@ namespace Nereid
             //
             if (back == null) Log.Error("no background for gauge " + id + " defined");
             if (skin == null) Log.Error("no skin for gauge " + id + " defined");
+
+         }
+
+         private void Init()
+         {
+            if (this.SKIN_TEXT != null) return;
+            //
+            this.SKIN_TEXT = new GUIStyle(GUI.skin.label);
+            this.SKIN_TEXT.clipping = TextClipping.Clip;
+            this.SKIN_TEXT.stretchHeight = false;
+            this.SKIN_TEXT.wordWrap = false;
          }
 
          protected void SetFontSize(int size)
          {
-            // init
-            if (SKIN_TEXT == null)
-            {
-               SKIN_TEXT = new GUIStyle(GUI.skin.label);
-            }
             SKIN_TEXT.fontSize = size;
          }
 
          protected override void OnWindow(int id)
          {
+            Init();
+            //
             SetFontSize((int)(FONT_SIZE * NanoGauges.configuration.gaugeScaling));
             //
             // back
@@ -55,13 +63,6 @@ namespace Nereid
             if(text==null)
             {
                text = "N/A";
-            }
-            else
-            {
-               if (text.Length > MAX_CHARS)
-               {
-                  text = text.Substring(0, MAX_CHARS);
-               }
             }
             GUI.Label(textBounds, text, SKIN_TEXT);
             // skin

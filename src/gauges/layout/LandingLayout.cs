@@ -42,7 +42,6 @@ namespace Nereid
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ALTIMETER);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_RADAR_ALTIMETER);
 
-
            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FUEL);
            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_OXID);
            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FLOW);
@@ -51,12 +50,7 @@ namespace Nereid
            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_PROPELLANT);
 
            // horizontal gauges
-           int hDY = (int)(configuration.horizontalGaugeHeight * gaugeScaling) + Gauges.LAYOUT_GAP;
-           set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_VESSEL, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 0 * hDY);
-           set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 1 * hDY);
-           set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 2 * hDY);
-           set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 3 * hDY);
-
+           LayoutHorizontalGauges(set);
          }
 
 
@@ -71,9 +65,7 @@ namespace Nereid
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_INDICATOR, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_CAM, true);
             //
-            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_BIOME, true);
-            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_LATITUDE, true);
-            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_LONGITUDE, true);
+            EnableAllHorizontalTextGauges(set);
             //
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_MAXG, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_G, true);
