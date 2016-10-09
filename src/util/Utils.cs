@@ -73,6 +73,14 @@ namespace Nereid
             }
             return result + " (" + list.Count + " entries)";
          }
+
+         public static void SetTextColor(GUIStyle style, Color color)
+         {
+            style.normal.textColor = color;
+            style.hover.textColor = color;
+            style.focused.textColor = color;
+            style.active.textColor = color;
+         }
       }
    }
 }

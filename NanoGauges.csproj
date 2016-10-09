@@ -153,6 +153,7 @@
     <Compile Include="src\gauges\VelocityToTargetGauge.cs" />
     <Compile Include="src\gauges\VerticalAttitudeIndicatorGauge.cs" />
     <Compile Include="src\gauges\VerticalVelocityIndicatorGauge.cs" />
+    <Compile Include="src\gauges\VesselGauge.cs" />
     <Compile Include="src\gauges\VsiGauge.cs" />
     <Compile Include="src\gauges\CrapGauge.cs" />
     <Compile Include="src\gauges\WasteGauge.cs" />
@@ -179,15 +180,18 @@
     <Compile Include="src\util\GameUtils.cs" />
     <Compile Include="src\util\GaugeSet.cs" />
     <Compile Include="src\util\GaugeSetPool.cs" />
+    <Compile Include="src\util\HotkeyManager.cs" />
     <Compile Include="src\util\Log.cs" />
     <Compile Include="src\util\Measurement.cs" />
     <Compile Include="src\util\MovingAverage.cs" />
     <Compile Include="src\util\Pair.cs" />
+    <Compile Include="src\util\Reference.cs" />
     <Compile Include="src\util\Resources.cs" />
     <Compile Include="src\util\SnapinManager.cs" />
     <Compile Include="src\util\TimedStatistics.cs" />
     <Compile Include="src\util\ToolbarWrapper.cs" />
     <Compile Include="src\util\Utils.cs" />
+    <Compile Include="src\window\HotkeysWindow.cs" />
     <Compile Include="src\window\ProfilesWindow.cs" />
     <Compile Include="src\window\AboutWindow.cs" />
     <Compile Include="src\window\AbstractWindow.cs" />

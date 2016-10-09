@@ -94,6 +94,33 @@ namespace Nereid
             return ((float)scale.height - (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT) / (float)scale.height;
          }
 
+
+         private double GetInternalScaleOffset()
+         {
+            try 
+            {
+               return GetScaleOffset();
+            }
+            catch(Exception e)
+            {
+               Log.Error("Exception (scale offset) in gauge " + this.GetType() + " detected: " + e.GetType());
+               return GetLowerOffset();
+            }
+         }
+
+         private float GetInternalValue()
+         {
+            try
+            {
+               return damper.GetValue();
+            }
+            catch (Exception e)
+            {
+               Log.Error("Exception (damper value) in gauge " + this.GetType() + " detected: " + e.GetType());
+               return 0;
+            }
+         }
+
          protected override void OnWindow(int id)
          {
             // check for on/off
@@ -107,7 +134,7 @@ namespace Nereid
             float verticalScaleratio = (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT / (float)SCALE_HEIGHT;
 
             // scale
-            float value = damper.GetValue();
+            float value = GetInternalValue();
             Rect off = new Rect(0, value, 1.0f, verticalScaleratio);
             GUI.DrawTextureWithTexCoords(skinBounds, scale, off, false);
             //

@@ -16,6 +16,7 @@ namespace Nereid
          public const int WINDOW_ID_CONFIG = WINDOW_ID_BASE + 4;
          public const int WINDOW_ID_PROFILES = WINDOW_ID_BASE + 5;
          public const int WINDOW_ID_PROFILECHOOSER = WINDOW_ID_BASE + 6;
+         public const int WINDOW_ID_HOTKEYS = WINDOW_ID_BASE + 7;
          //
          public const int WINDOW_ID_GAUGE_VSI = WINDOW_ID_BASE + 8;
          public const int WINDOW_ID_GAUGE_RADAR_ALTIMETER = WINDOW_ID_BASE + 9;
@@ -92,6 +93,8 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_CO2 = WINDOW_ID_BASE + 80;
          public const int WINDOW_ID_GAUGE_CRAP = WINDOW_ID_BASE + 81;
          public const int WINDOW_ID_GAUGE_IAS = WINDOW_ID_BASE + 82;
+         public const int WINDOW_ID_GAUGE_VESSEL = WINDOW_ID_BASE + 83;
+         public const int WINDOW_ID_GAUGE_DELTAV = WINDOW_ID_BASE + 84;
          
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";
@@ -142,6 +145,8 @@ namespace Nereid
          public const long SECONDS_PER_HOUR = MINUTES_PER_HOUR * SECONDS_PER_MINUTE;
 
          public static readonly  Pair<int, int> ORIGIN = new Pair<int, int>(0, 0);
+
+         public static readonly UnityEngine.Color ORANGE = new UnityEngine.Color(250, 100, 0);
 
       }
    }

@@ -21,6 +21,8 @@ namespace Nereid
 
          // Profiles
          public static readonly ProfileManager profileManager;
+         // HotKeys
+         public static readonly HotkeyManager hotkeyManager;
 
          private IButton toolbarButton;
          private ApplicationLauncherButton stockToolbarButton = null;
@@ -49,6 +51,8 @@ namespace Nereid
             //
             profileManager = new ProfileManager();
             //
+            hotkeyManager = new HotkeyManager();
+            //
             configuration.Load();
             Log.Info("log level is " + Log.GetLogLevel());
             //
@@ -68,16 +72,18 @@ namespace Nereid
 
          public void Awake()
          {
+            Log.Info("awaking NanoGauges");
             gauges.ShowGauges();
             // use of stock toolbar
             GameEvents.onGUIApplicationLauncherReady.Add(OnGUIAppLauncherReady);
+            Log.Info("NanoGauges is awake");
          }
 
          private void OnGUI()
          {
             gauges.DrawGauges();
             WindowManager.instance.OnGUI();
-         }
+        }
 
          public void Start()
          {
@@ -93,6 +99,7 @@ namespace Nereid
                Log.Info("stock toolbar button enabled");
                CreateStockToolbarButton();
             }
+            Log.Info("NanoGauges started");
          }
 
          private void CreateStockToolbarButton()
@@ -234,118 +241,143 @@ namespace Nereid
          public void FixedUpdate()
          {
             fixedUpdateTimer.Start();
+            try
+            {
+               gauges.Update();
+            }
+            finally
+            {
+               fixedUpdateTimer.Stop();
+            }
 
-            gauges.Update();
-
-            fixedUpdateTimer.Stop();
          }
-
 
          public void Update()
          {
             updateTimer.Start();
-
-            // if log level is at least INFO and performance statistics are enabled 
-            // write statistical data in the log every 10 seconds
-            if(configuration.performanceStatisticsEnabled && Log.IsLogable(Log.LEVEL.INFO) && HighLogic.LoadedSceneIsFlight)
+            try
             {
-               if (lastPerformanceLog + 10000 < timer.ElapsedMilliseconds)
+               // if log level is at least INFO and performance statistics are enabled 
+               // write statistical data in the log every 10 seconds
+               if (configuration.performanceStatisticsEnabled && Log.IsLogable(Log.LEVEL.INFO) && HighLogic.LoadedSceneIsFlight)
                {
-                  lastPerformanceLog = timer.ElapsedMilliseconds;
-                  Log.Info("Nanogauges performance statistics:\n"+TimedStatistics.instance.ToString());
+                  if (lastPerformanceLog + 10000 < timer.ElapsedMilliseconds)
+                  {
+                     lastPerformanceLog = timer.ElapsedMilliseconds;
+                     Log.Info("Nanogauges performance statistics:\n" + TimedStatistics.instance.ToString());
+                  }
                }
-            }
 
-            // check for Profile Hotkeys
-            profileManager.Update();
+               // check for Profile Hotkeys
+               profileManager.Update();
 
-            // check for keys
-            //
-            KeyCode hotkey = configuration.hotkey;
-            bool hotkeyPressed = Input.GetKey(hotkey);
-            gauges.ShowCloseButtons(hotkeyPressed);
+               // check for keys
+               //
+               gauges.ShowCloseButtons(hotkeyManager.GetKey(HotkeyManager.HOTKEY_CLOSE_AND_DRAG));
 
-            // Hotkeys for Gaugesets
-            if (Input.GetKeyDown(KeyCode.Numlock))
-            {
-               if (gauges.Hidden())
+               //
+               bool hotkeyPressed = hotkeyManager.GetKey(HotkeyManager.HOTKEY_MAIN); // Input.GetKey(hotkey);
+
+               // Hotkeys for Gaugesets
+               if (!hotkeyPressed)
                {
-                  gauges.Unhide();
+                  // simple Hotkeys 
+
+                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_HIDE))
+                  {
+                     if (gauges.Hidden())
+                     {
+                        gauges.Unhide();
+                     }
+                     else
+                     {
+                        gauges.Hide();
+                     }
+                  }
+                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_PREVSET))
+                  {
+                     SetGaugeSet(configuration.GetGaugeSetId().decrement());
+                  }
+                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_NEXTSET))
+                  {
+                     SetGaugeSet(configuration.GetGaugeSetId().increment());
+                  }
                }
                else
                {
-                  gauges.Hide();
-               }
-            }
-            if(hotkeyPressed)
-            {
-               if(Input.GetKeyDown(KeyCode.Alpha1))
-               {
-                  SetGaugeSet(GaugeSet.ID.STANDARD);
-               }
-               else if(Input.GetKeyDown(KeyCode.Alpha2))
-               {
-                  SetGaugeSet(GaugeSet.ID.LAUNCH);
-               }
-               else if (Input.GetKeyDown(KeyCode.Alpha3))
-               {
-                  SetGaugeSet(GaugeSet.ID.LAND);
-               }
-               else if (Input.GetKeyDown(KeyCode.Alpha4))
-               {
-                  SetGaugeSet(GaugeSet.ID.DOCK);
-               }
-               else if (Input.GetKeyDown(KeyCode.Alpha5))
-               {
-                  SetGaugeSet(GaugeSet.ID.ORBIT);
-               }
-               else if (Input.GetKeyDown(KeyCode.Alpha6))
-               {
-                  SetGaugeSet(GaugeSet.ID.FLIGHT);
-               }
-               else if (Input.GetKeyDown(KeyCode.Alpha7))
-               {
-                  SetGaugeSet(GaugeSet.ID.SET1);
-               }
-               else if (Input.GetKeyDown(KeyCode.Alpha8))
-               {
-                  SetGaugeSet(GaugeSet.ID.SET2);
-               }
-               else if (Input.GetKeyDown(KeyCode.Alpha9))
-               {
-                  SetGaugeSet(GaugeSet.ID.SET3);
-               }
-               else if (Input.GetKeyDown(KeyCode.Alpha0))
-               {
-                  configuration.EnableAllGauges(gauges);
-               }
-               else if (Input.GetKeyDown(KeyCode.KeypadEnter))
-               {
-                  createConfigOnce();
-                  toggleConfigVisibility();
-               }
-               else if (Input.GetKeyDown(KeyCode.Backspace))
-               {
-                  gauges.LayoutCurrentGaugeSet(new StandardLayout(NanoGauges.gauges,configuration));
-               }
-               else if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.KeypadDivide))
-               {
-                  if(gauges.Hidden())
-                  {
-                     gauges.Unhide();
-                  }
-                  else
-                  {
-                     gauges.Hide();
-                  }
-               }
-               else if (Input.GetKeyDown(KeyCode.KeypadMultiply) || Input.GetKeyDown(KeyCode.Insert))
-               {
-                  gauges.AutoLayout();
-               }
-            }
+                  // Hotkeys in chord with main hotkey
 
-            updateTimer.Stop();
+                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_STANDARD))
+                  {
+                     SetGaugeSet(GaugeSet.ID.STANDARD);
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_LAUNCH))
+                  {
+                     SetGaugeSet(GaugeSet.ID.LAUNCH);
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_LAND))
+                  {
+                     SetGaugeSet(GaugeSet.ID.LAND);
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_DOCK))
+                  {
+                     SetGaugeSet(GaugeSet.ID.DOCK);
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_ORBIT))
+                  {
+                     SetGaugeSet(GaugeSet.ID.ORBIT);
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_FLIGHT))
+                  {
+                     SetGaugeSet(GaugeSet.ID.FLIGHT);
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_SET1))
+                  {
+                     SetGaugeSet(GaugeSet.ID.SET1);
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_SET2))
+                  {
+                     SetGaugeSet(GaugeSet.ID.SET2);
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_SET3))
+                  {
+                     SetGaugeSet(GaugeSet.ID.SET3);
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_ENABLE_ALL))
+                  {
+                     configuration.EnableAllGauges(gauges);
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_WINDOW_CONFIG))
+                  {
+                     createConfigOnce();
+                     toggleConfigVisibility();
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_STANDARDLAYOUT))
+                  {
+                     gauges.LayoutCurrentGaugeSet(new StandardLayout(NanoGauges.gauges, configuration));
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_ALT_HIDE))
+                  {
+                     if (gauges.Hidden())
+                     {
+                        gauges.Unhide();
+                     }
+                     else
+                     {
+                        gauges.Hide();
+                     }
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_AUTOLAYOUT))
+                  {
+                     gauges.AutoLayout();
+                  }
+               }
+            }
+            finally
+            {
+               updateTimer.Stop();
+            }
+            hotkeyManager.ignoring = false;
          }
       }
    }

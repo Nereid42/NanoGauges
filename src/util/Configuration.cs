@@ -49,7 +49,7 @@ namespace Nereid
 
          private const int snapinRange = Gauges.LAYOUT_GAP; // todo: remove constant and make configurable
 
-         public KeyCode hotkey  { get; set; }
+         //public KeyCode hotkey  { get; set; }
 
          // this class manages the default gauge positions realtive to sceen objects, navball, ...
          private readonly DefaultGaugePositionManager defaultGaugePositionManager = new DefaultGaugePositionManager();
@@ -65,7 +65,6 @@ namespace Nereid
          public Configuration()
          {
             // Defaults
-            hotkey = KeyCode.RightControl;
             gaugePositionsLocked = true;
             gaugeMarkerEnabled = true;
             tooltipsEnabled = true;
@@ -109,13 +108,14 @@ namespace Nereid
 
          public void ResetAllWindowPositions(Gauges gauges)
          {
-            // The default layout only works well in screen width above 1900 pixels
-            if(Screen.width >1900)
+            // The default layout only works well in screen width at 1900 pixels or above
+            if(Screen.width>=1900)
             {
                ResetAllWindowPositions(gauges, new DefaultLayout(gauges, this));
             }
             else
             {
+               // Screen is tiny, so prefer a clusterlayout at first
                ResetAllWindowPositions(gauges, new ClusterLayout(gauges, this));
             }
          }
@@ -136,8 +136,7 @@ namespace Nereid
 
          public void LayoutGaugeSet(GaugeSet set, GaugeLayout layout)
          {
-            Log.Info("layout of gauges in set "+set+" (screen: " + Screen.width + "x" + Screen.height + ") with "+layout);
-
+            Log.Detail("layout of gauges in set "+set+" (screen: " + Screen.width + "x" + Screen.height + ") with "+layout);
             layout.Layout(set);
          }
 
@@ -371,7 +370,8 @@ namespace Nereid
                   //
                   writer.Write(gaugeMarkerEnabled);
                   //
-                  writer.Write((UInt16)hotkey);
+                  // not used
+                  writer.Write((UInt16)0);
                   //
                   writer.Write(gaugesInFlightEnabled);
                   writer.Write(gaugesInMapEnabled);
@@ -394,6 +394,9 @@ namespace Nereid
                   //
                   // ProfileManager
                   NanoGauges.profileManager.Write(writer);
+                  //
+                  // HotkeyManager
+                  NanoGauges.hotkeyManager.Write(writer);
                }
             }
             catch
@@ -439,7 +442,8 @@ namespace Nereid
                      //
                      gaugeMarkerEnabled = reader.ReadBoolean();
                      //
-                     hotkey = (KeyCode)reader.ReadUInt16();
+                     // not used
+                     reader.ReadUInt16();
                      //
                      gaugesInFlightEnabled = reader.ReadBoolean();
                      gaugesInMapEnabled = reader.ReadBoolean();
@@ -463,6 +467,9 @@ namespace Nereid
                      //
                      // ProfileManager
                      NanoGauges.profileManager.Read(reader);
+                     //
+                     // HotkeyManager
+                     NanoGauges.hotkeyManager.Read(reader);
                   }
                }
                else

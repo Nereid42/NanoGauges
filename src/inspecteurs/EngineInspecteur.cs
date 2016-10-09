@@ -17,7 +17,8 @@ namespace Nereid
          private MovingAverage deltaIspPerSecond = new MovingAverage(5);
 
          public bool afterburnerInstalled { get; private set; }
-         public bool afterburnerEnabled { get; private set; }
+         public bool afterburnerRunning { get; private set; }
+         public bool afterburnerOperational { get; private set; }
          private readonly List<ModuleEngines> engines = new List<ModuleEngines>();
          private readonly List<MultiModeEngine> afterburner = new List<MultiModeEngine>();         
 
@@ -35,8 +36,10 @@ namespace Nereid
             this.enginesRunningCount = 0;
             deltaIspPerSecond.Clear();
             engines.Clear();
-            this.afterburnerEnabled = false;
+            afterburner.Clear();
+            this.afterburnerRunning = false;
             this.afterburnerInstalled = false;
+            this.afterburnerOperational = false;
          }
 
          public double GetDeltaIspperSecond()
@@ -62,8 +65,8 @@ namespace Nereid
                if (!this.afterburner.Contains(afterburner))
                {
                   this.afterburner.Add(afterburner);
-                  this.afterburnerInstalled = true;
                }
+               this.afterburnerInstalled = true;
             }
             if (moduleCount > 0)
             {
@@ -109,7 +112,22 @@ namespace Nereid
                   enginesRunningCount++;
                }
             }
-            this.afterburnerEnabled = false;
+            // afterburner
+            afterburnerOperational = false;
+            this.afterburnerRunning = false;
+            foreach (MultiModeEngine afterburner in this.afterburner)
+            {
+               if (afterburner.isOperational)
+               {
+                  afterburnerOperational = true;
+                  if (afterburner.isEnabled && !afterburner.runningPrimary)
+                  {
+                     this.afterburnerRunning = true;
+                     break;
+                  }
+               }
+            }
+            // IST & running Engines
             if (enginesRunningCount > 0)
             {
                // ISP per engine
@@ -122,16 +140,6 @@ namespace Nereid
                {
                   deltaIspPerSecond.AddValue((engineIspPerRunningEngine - previousIspPerRunningEngine) * (1 / interval));
                }
-               // afterbruner
-               // doesnt work
-               /*foreach (MultiModeEngine afterburner in this.afterburner)
-               {
-                  if (afterburner.isEnabled && !afterburner.runningPrimary)
-                  {
-                     this.afterburnerEnabled = true;
-                     break;
-                  }
-               }*/
             }
             else
             {

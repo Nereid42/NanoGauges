@@ -20,12 +20,12 @@ namespace Nereid
 
          public override string GetName()
          {
-            return "Distance to Target";
+            return "Distance\nto Target";
          }
 
          public override string GetDescription()
          {
-            return "Distance to a selected target";
+            return "\n\nDistance to a selected target";
          }
 
          protected override void AutomaticOnOff()

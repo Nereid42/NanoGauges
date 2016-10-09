@@ -11,7 +11,8 @@ namespace Nereid
          private static readonly int GAUGES_HEIGHT = 270;
          private static readonly GUIStyle STYLE_ENABLE_DISABLE_ALL_TOGGLE = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_COPYPASTE_BUTTONS = new GUIStyle(HighLogic.Skin.button);
-         private static readonly GUIStyle STYLE_PROFILES_BUTTON = new GUIStyle(HighLogic.Skin.button);
+         private static readonly GUIStyle STYLE_DEFAULT_BUTTON = new GUIStyle(HighLogic.Skin.button);
+         private static readonly GUIStyle STYLE_SIDE_BUTTON = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_TOGGLE_2_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
          private static readonly GUIStyle STYLE_TOGGLE_4_PER_ROW = new GUIStyle(HighLogic.Skin.toggle);
          private static readonly GUIStyle STYLE_LABEL = new GUIStyle(HighLogic.Skin.label);
@@ -32,12 +33,13 @@ namespace Nereid
             STYLE_LINE.stretchWidth = true;
             STYLE_LINE.stretchHeight = false;
             STYLE_LINE.fixedHeight = 2;
-            STYLE_PROFILES_BUTTON.fixedWidth = 100;
+            STYLE_SIDE_BUTTON.fixedWidth = 100;
             // a generice skin; TODO: dedicated texture
             STYLE_LINE.normal.background = Utils.GetTexture("Nereid/NanoGauges/Resource/ATM-skin");
          }
 
          private readonly ProfilesWindow profilesWindow;
+         private readonly HotkeysWindow hotkeysWindow;
 
          private IButton toolbarButton;
          private String toolbarButtonTextureOn;
@@ -57,6 +59,7 @@ namespace Nereid
             this.gauges = gauges;
             //
             profilesWindow = new ProfilesWindow();
+            hotkeysWindow = new HotkeysWindow();
             //
             SetSize(350, 300);
             CenterWindow();
@@ -83,20 +86,6 @@ namespace Nereid
             LogLevelButton(Log.LEVEL.DETAIL, "DETAIL");
             LogLevelButton(Log.LEVEL.TRACE, "TRACE");
             GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Hotkey:", STYLE_LABEL);
-            GUILayout.FlexibleSpace();
-            config.performanceStatisticsEnabled = GUILayout.Toggle(config.performanceStatisticsEnabled, "performance statistics", STYLE_TOGGLE_2_PER_ROW);
-            GUILayout.EndHorizontal();
-            GUILayout.BeginHorizontal();
-            KeyCodeButton(KeyCode.LeftControl, "LEFT CTRL");
-            KeyCodeButton(KeyCode.RightControl, "RIGHT CTRL");
-            KeyCodeButton(KeyCode.LeftShift, "LEFT SHIFT");
-            KeyCodeButton(KeyCode.RightShift, "RIGHT SHIFT");
-            KeyCodeButton(KeyCode.LeftAlt, "LEFT ALT");
-            KeyCodeButton(KeyCode.RightAlt, "RIGHT ALT");
-            GUILayout.EndHorizontal();
-
 
             GUILayout.BeginHorizontal();
             // Reset Window Postions
@@ -140,7 +129,12 @@ namespace Nereid
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 
+            GUILayout.BeginHorizontal();
             GUILayout.Label("Settings:", STYLE_LABEL);
+            GUILayout.FlexibleSpace();
+            config.performanceStatisticsEnabled = GUILayout.Toggle(config.performanceStatisticsEnabled, "performance statistics", STYLE_TOGGLE_2_PER_ROW);
+            GUILayout.EndHorizontal();
+
             GUILayout.BeginVertical();
             //
             // Positions Locked & Snapin
@@ -150,10 +144,10 @@ namespace Nereid
             config.snapinEnabled = GUILayout.Toggle(config.snapinEnabled, "Snapin enabled", HighLogic.Skin.toggle);
             // Profiles
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Profiles", STYLE_PROFILES_BUTTON))
+            if (GUILayout.Button("Profiles", STYLE_SIDE_BUTTON))
             {
                int px = (int)bounds.x + (int)bounds.width;
-               int py = (int)bounds.y + 335;
+               int py = (int)bounds.y + 270;
                if(px+ProfilesWindow.WIDTH>Screen.width)
                {
                   px = (int)bounds.x - ProfilesWindow.WIDTH;
@@ -166,6 +160,18 @@ namespace Nereid
             GUILayout.BeginHorizontal();
             // Gauge marker
             config.gaugeMarkerEnabled = GUILayout.Toggle(config.gaugeMarkerEnabled, "Gauge marker enabled", STYLE_TOGGLE_2_PER_ROW);
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Hotkeys", STYLE_SIDE_BUTTON))
+            {
+               int px = (int)bounds.x + (int)bounds.width;
+               int py = (int)bounds.y + 300; 
+               if (px + HotkeysWindow.WIDTH > Screen.width)
+               {
+                  px = (int)bounds.x - HotkeysWindow.WIDTH;
+               }
+               hotkeysWindow.SetPosition(px, py);
+               hotkeysWindow.SetVisible(!hotkeysWindow.IsVisible());
+            }
             GUILayout.EndHorizontal();
             //
             // tooltips & exact readout
@@ -194,6 +200,11 @@ namespace Nereid
             GUILayout.FlexibleSpace();
             DrawCopyPasteButtons();
             DrawEnableDisableAllButton();
+            if (GUILayout.Button("Default", STYLE_DEFAULT_BUTTON))
+            {
+               GaugeLayout layout = new DefaultLayout(gauges, config);
+               layout.EnableGauges(GaugeSetPool.instance.GetGaugeSet(config.GetGaugeSetId()));
+            }
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
@@ -285,6 +296,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_BIOME, "Biome gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LATITUDE, "Latitude gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LONGITUDE, "Longitude gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VESSEL, "Vessel gauge enabled");
             GUILayout.EndScrollView();
             
             GUILayout.EndVertical();
@@ -381,15 +393,6 @@ namespace Nereid
             {
                NanoGauges.configuration.SetLogLevel(level);
                Log.SetLevel(level);
-            }
-         }
-
-         private void KeyCodeButton(KeyCode code, String text)
-         {
-            Configuration config = NanoGauges.configuration;
-            if (GUILayout.Toggle(config.hotkey == code, text, HighLogic.Skin.button))
-            {
-               config.hotkey = code;
             }
          }
 

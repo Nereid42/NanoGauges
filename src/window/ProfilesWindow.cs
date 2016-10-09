@@ -8,7 +8,7 @@ namespace Nereid
    {
       class ProfilesWindow : AbstractWindow
       {
-         public const int WIDTH = 320;
+         public const int WIDTH = 350;
          public const int HEIGHT = 462;
 
          private static readonly GUIStyle STYLE_PROFILE_BUTTON = new GUIStyle(HighLogic.Skin.button);
@@ -18,10 +18,13 @@ namespace Nereid
          private bool hotkeyInput2 = false;
          private bool hotkeyInput3 = false;
 
+
          static ProfilesWindow()
          {
             STYLE_PROFILE_BUTTON.fixedWidth = 160;
-            STYLE_HOTKEY_BUTTON.fixedWidth = 50;
+            STYLE_HOTKEY_BUTTON.fixedWidth = 80;
+            STYLE_HOTKEY_BUTTON.clipping = TextClipping.Clip;
+            STYLE_HOTKEY_BUTTON.normal.textColor = Color.white;
          }
 
 
@@ -105,7 +108,8 @@ namespace Nereid
 
          private KeyCode DrawHotKeyButton(KeyCode keycode, ref bool input)
          {
-            String text = input ? "press" : keycode.ToString().Limit(6);
+            String text = input ? "press" : keycode.ToString().Limit(10);
+            Utils.SetTextColor(STYLE_HOTKEY_BUTTON, input ? Constants.ORANGE : Color.white);
             if (GUILayout.Button(text, STYLE_HOTKEY_BUTTON))
             {
                if(input)
@@ -126,7 +130,10 @@ namespace Nereid
                   KeyCode[] keys = Utils.GetPressedKeys();
                   if (keys != null && keys.Length > 0)
                   {
-                     keycode = keys[0];
+                     if(HotkeyManager.ValidKeyCode(keys[0]))
+                     {
+                        keycode = keys[0];
+                     }
                   }
                   // do not recognize this input as a hotkey
                   NanoGauges.profileManager.IgnoreHotkeyInFrame();

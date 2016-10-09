@@ -57,6 +57,7 @@ namespace Nereid
             AddGauge(new ThrustWeightRatioGauge(engineInspecteur));
             AddGauge(new VelocityGauge());
             AddGauge(new AngleOfAttackGauge());
+
             AddGauge(new VerticalAttitudeIndicatorGauge());
             AddGauge(new VerticalVelocityIndicatorGauge());
             AddGauge(new DistanceToTargetGauge());
@@ -76,6 +77,7 @@ namespace Nereid
             AddGauge(new CameraGauge());
             AddGauge(new MachGauge());
             AddGauge(new QGauge());
+
             AddGauge(new HeatGauge(vesselInspecteur));
             AddGauge(new ImpactTimeGauge());
             AddGauge(new Altimeter());
@@ -87,7 +89,7 @@ namespace Nereid
             AddGauge(new AblatorGauge(resourceInspecteur));
             AddGauge(new OreGauge(resourceInspecteur));
             AddGauge(new DrillTempGauge(vesselInspecteur));
-            // NOT WORKING in KSP1.1.0: AddGauge(new IndicatorGauge(vesselInspecteur,engineInspecteur));
+            AddGauge(new IndicatorGauge(vesselInspecteur,engineInspecteur));
             AddGauge(new PropellantPctGauge(engineInspecteur));
             AddGauge(new TimeToApoapsisGauge());
             AddGauge(new TimeToPeriapsisGauge());
@@ -96,6 +98,7 @@ namespace Nereid
             //AddGauge(new TimeToTransistionGauge());
 
             // horizontal gauges
+            AddGauge(new VesselGauge());
             AddGauge(new BiomeGauge(biomeInspecteur));
             AddGauge(new LatitudeGauge());
             AddGauge(new LongitudeGauge());
@@ -230,7 +233,7 @@ namespace Nereid
 
          public void LayoutCurrentGaugeSet(GaugeLayout layout)
          {
-            Log.Info("reset of gauge screen positions");
+            Log.Detail("reset of gauge screen positions");
             NanoGauges.configuration.LayoutCurrentGaugeSet(layout);
             foreach (AbstractGauge gauge in gauges.Values)
             {
