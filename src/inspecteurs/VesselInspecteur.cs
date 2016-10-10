@@ -45,7 +45,6 @@ namespace Nereid
          }
 
          private double totalMass = 0;
-         private double dryMass = 0;
          private double dragCoefficent = 0;
          private double heatshieldTemp = 0;
          private bool heatshieldInstalled = false;
@@ -85,7 +84,6 @@ namespace Nereid
             this.wheelDamage.Clear();
             this.flaps.Clear();
             this.totalMass = 0.0;
-            this.dryMass = 0.0;
             this.dragCoefficent = 0.0;
             this.heatshieldTemp = 0.0;
             this.heatshieldInstalled = false;
@@ -219,11 +217,6 @@ namespace Nereid
          public double GetTotalMass()
          {
             return totalMass;
-         }
-
-         public double GetDryMass()
-         {
-            return dryMass;
          }
 
          public double GetHeatshieldTemp()
@@ -363,21 +356,19 @@ namespace Nereid
             if(vessel==null)
             {
                totalMass = 0.0;
-               dryMass = 0.0;
                heatshieldTemp = 0.0;
             }
             else
             {
                // mass
                totalMass = vessel.GetTotalMass();
-               dryMass = vessel.GetDeltaV();
                // heat shields
                heatshieldTemp = Constants.MIN_TEMP;
                foreach(Part p in heatshieldParts)
                {
-                  if(p.temperature > heatshieldTemp)
+                  if (p.skinTemperature > heatshieldTemp)
                   {
-                     heatshieldTemp = p.temperature;
+                     heatshieldTemp = p.skinTemperature;
                   }
                }
                // drills

@@ -37,7 +37,7 @@ namespace Nereid
 
          // debug
          private readonly TimedStatistics.Timer updateTimer = TimedStatistics.instance.GetTimer("Update");
-         private readonly TimedStatistics.Timer fixedUpdateTimer = TimedStatistics.instance.GetTimer("Fixed update");
+         private readonly TimedStatistics.Timer gaugeUpdateTimer = TimedStatistics.instance.GetTimer("Gauge updates");
 
 
          static NanoGauges()
@@ -238,22 +238,23 @@ namespace Nereid
             return gauges.GetCluster(gauge);
          }
 
-         public void FixedUpdate()
+         private void UpdateGauges()
          {
-            fixedUpdateTimer.Start();
+            gaugeUpdateTimer.Start();
             try
             {
                gauges.Update();
             }
             finally
             {
-               fixedUpdateTimer.Stop();
+               gaugeUpdateTimer.Stop();
             }
-
          }
 
          public void Update()
          {
+            UpdateGauges();
+
             updateTimer.Start();
             try
             {
