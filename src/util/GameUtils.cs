@@ -11,6 +11,8 @@ namespace Nereid
       {
          static public double TerminalVelocity(CelestialBody body, double m, double altitude, double cw)
          {
+            if (FlightGlobals.ActiveVessel == null) return 0;
+
             double G = Constants.G;
             double M = body.Mass;
             // TODO: check if this call works like FlightGlobals.getAtmDensity(FlightGlobals.getStaticPressure(alt, body))

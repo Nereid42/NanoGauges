@@ -58,10 +58,6 @@ namespace Nereid
                double cw = 0.000135;
                double m = 0.05;
                double vt = GameUtils.TerminalVelocity(body, m, vessel.altitude, cw);
-               //GameUtils.TerminalVelocity(body, 5, 10000, cw);
-               //GameUtils.TerminalVelocity(body, 5, 1000, cw);
-               //GameUtils.TerminalVelocity(body, 5, 100, cw);
-               //GameUtils.TerminalVelocity(body, 5, 0, cw);               
 
                if( double.IsNaN(vt) )
                {
