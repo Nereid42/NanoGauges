@@ -47,7 +47,7 @@ namespace Nereid
          public int horizontalGaugeWidth { get; private set; }
          public int horizontalGaugeHeight { get; private set; }
 
-         private const int snapinRange = Gauges.LAYOUT_GAP; // todo: remove constant and make configurable
+         public const int snapinRange = Gauges.LAYOUT_GAP; // todo: remove constant and make configurable
 
          //public KeyCode hotkey  { get; set; }
 
@@ -57,10 +57,10 @@ namespace Nereid
          private GaugeSet.ID gaugeSet = GaugeSet.ID.STANDARD;
          private GaugeSet currentGaugeSet = GaugeSetPool.instance.GetGaugeSet(GaugeSet.ID.STANDARD);
 
-         private bool gaugesInFlightEnabled = true;
-         private bool gaugesInIvaEnabled = true;
-         private bool gaugesInEvaEnabled = true;
-         private bool gaugesInMapEnabled = true;
+         public bool gaugesInFlightEnabled { get; set; }
+         public bool gaugesInIvaEnabled { get; set; }
+         public bool gaugesInEvaEnabled { get; set; }
+         public bool gaugesInMapEnabled { get; set; }
 
          public Configuration()
          {
@@ -78,6 +78,10 @@ namespace Nereid
             verticalGaugeHeight   = UNSCALED_VERTICAL_GAUGE_HEIGHT;
             horizontalGaugeWidth  = UNSCALED_HORIZONTAL_GAUGE_WIDTH;
             horizontalGaugeHeight = UNSCALED_HORIZONTAL_GAUGE_HEIGHT;
+            gaugesInFlightEnabled = true;
+            gaugesInIvaEnabled = true;
+            gaugesInEvaEnabled = true;
+            gaugesInMapEnabled = true;
          }
 
          public void EnableAllGauges(Gauges gauges)
@@ -138,53 +142,6 @@ namespace Nereid
          {
             Log.Detail("layout of gauges in set "+set+" (screen: " + Screen.width + "x" + Screen.height + ") with "+layout);
             layout.Layout(set);
-         }
-
-
-         public int GetSnapinRange()
-         {
-            return snapinRange;
-         }
-
-
-         public bool IsGaugesInFlightEnabled()
-         {
-            return gaugesInFlightEnabled;
-         }
-
-         public bool IsGaugesInIvaEnabled()
-         {
-            return gaugesInIvaEnabled;
-         }
-
-         public bool IsGaugesInEvaEnabled()
-         {
-            return gaugesInEvaEnabled;
-         }
-
-         public bool IsGaugesInMapEnabled()
-         {
-            return gaugesInMapEnabled;
-         }
-
-         public void SetGaugesInFlightEnabled(bool enabled)
-         {
-            this.gaugesInFlightEnabled = enabled;
-         }
-
-         public void SetGaugesInIvaEnabled(bool enabled)
-         {
-            this.gaugesInIvaEnabled = enabled;
-         }
-
-         public void SetGaugesInEvaEnabled(bool enabled)
-         {
-            this.gaugesInEvaEnabled = enabled;
-         }
-
-         public void SetGaugesInMapEnabled(bool enabled)
-         {
-            this.gaugesInMapEnabled = enabled;
          }
 
          public GaugeSet.ID GetGaugeSetId()

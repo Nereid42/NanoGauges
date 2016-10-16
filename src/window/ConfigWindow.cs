@@ -322,10 +322,10 @@ namespace Nereid
          {
             Configuration config = NanoGauges.configuration;
             GUILayout.BeginHorizontal();
-            gauges.SetEnabledInCamera(CameraManager.CameraMode.Flight, GUILayout.Toggle(config.IsGaugesInFlightEnabled(), "Flight", STYLE_TOGGLE_4_PER_ROW));
-            gauges.SetEnabledInCamera(CameraManager.CameraMode.Map, GUILayout.Toggle(config.IsGaugesInMapEnabled(), "Map", STYLE_TOGGLE_4_PER_ROW));
-            gauges.SetEnabledInCamera(CameraManager.CameraMode.IVA, GUILayout.Toggle(config.IsGaugesInIvaEnabled(), "IVA", STYLE_TOGGLE_4_PER_ROW));
-            gauges.SetEnabledInEva(GUILayout.Toggle(config.IsGaugesInEvaEnabled(), "EVA", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInCamera(CameraManager.CameraMode.Flight, GUILayout.Toggle(config.gaugesInFlightEnabled, "Flight", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInCamera(CameraManager.CameraMode.Map, GUILayout.Toggle(config.gaugesInMapEnabled, "Map", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInCamera(CameraManager.CameraMode.IVA, GUILayout.Toggle(config.gaugesInIvaEnabled, "IVA", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInEva(GUILayout.Toggle(config.gaugesInEvaEnabled, "EVA", STYLE_TOGGLE_4_PER_ROW));
             GUILayout.EndHorizontal();
          }
 

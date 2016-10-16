@@ -130,7 +130,8 @@ namespace Nereid
          public void DrawGauges()
          {
             guiTimer.Start();
-            if (!hidden)
+            CheckCamera();
+            if (!hidden && IsEnabledInCamera(this.currentCamMode,this.isEvaCam))
             {
                foreach (AbstractGauge gauge in gauges.Values)
                {
@@ -201,12 +202,11 @@ namespace Nereid
             ResetInspecteurs();
             //
             this.currentCamMode = CameraManager.Instance.currentCameraMode;
-            this.isEvaCam = IsEvaCamera();
             this.hidden = false;
             //
             foreach (AbstractGauge gauge in gauges.Values)
             {
-               if (NanoGauges.configuration.IsGaugeEnabled(gauge.GetWindowId()) && IsEnabledInCamera(this.currentCamMode,IsEvaCamera()))
+               if (NanoGauges.configuration.IsGaugeEnabled(gauge.GetWindowId()))
                {
                   gauge.Reset();
                   gauge.SetVisible(true);
@@ -319,12 +319,12 @@ namespace Nereid
             {
                case CameraManager.CameraMode.External:
                case CameraManager.CameraMode.Flight:
-                  if(!isEva) return config.IsGaugesInFlightEnabled();
-                  return config.IsGaugesInEvaEnabled();
+                  if (!isEva) return config.gaugesInFlightEnabled;
+                  return config.gaugesInEvaEnabled;
                case CameraManager.CameraMode.IVA:
-                  return config.IsGaugesInIvaEnabled();
+                  return config.gaugesInIvaEnabled;
                case CameraManager.CameraMode.Map:
-                  return config.IsGaugesInMapEnabled();
+                  return config.gaugesInMapEnabled;
             }
             return true;
          }
@@ -341,7 +341,7 @@ namespace Nereid
                {
                   if(camMode == CameraManager.CameraMode.Flight && evaCam)
                   {
-                     bool visible = NanoGauges.configuration.IsGaugesInEvaEnabled();
+                     bool visible = NanoGauges.configuration.gaugesInEvaEnabled;
                      Log.Detail("forced test if gauges visible in EVA, gauges visible: " + visible);
                      SetEnabledGaugesVisible(visible);
                   }
@@ -355,7 +355,7 @@ namespace Nereid
                else if(camMode == CameraManager.CameraMode.Flight && evaCam)
                {
                   // switch to EVA in flight
-                  bool visible = NanoGauges.configuration.IsGaugesInEvaEnabled();
+                  bool visible = NanoGauges.configuration.gaugesInEvaEnabled;
                   Log.Detail("camera changed to EVA, gauges visible: " + visible);
                   SetEnabledGaugesVisible(visible);
                }
@@ -385,23 +385,23 @@ namespace Nereid
             {
                case CameraManager.CameraMode.External:
                case CameraManager.CameraMode.Flight:
-                  if (config.IsGaugesInFlightEnabled() != enabled) 
+                  if (config.gaugesInFlightEnabled != enabled) 
                   {
-                     config.SetGaugesInFlightEnabled(enabled);
+                     config.gaugesInFlightEnabled=enabled;
                      CheckCamera(true);
                   }
                   break;
                case CameraManager.CameraMode.IVA:
-                  if (config.IsGaugesInIvaEnabled() != enabled)
+                  if (config.gaugesInIvaEnabled != enabled)
                   {
-                     config.SetGaugesInIvaEnabled(enabled);
+                     config.gaugesInIvaEnabled = enabled;
                      CheckCamera(true);
                   }
                   break;
                case CameraManager.CameraMode.Map:
-                  if (config.IsGaugesInMapEnabled() != enabled)
+                  if (config.gaugesInMapEnabled != enabled)
                   {
-                     config.SetGaugesInMapEnabled(enabled);
+                     config.gaugesInMapEnabled = enabled;
                      CheckCamera(true);
                   }
                   break;
@@ -411,9 +411,9 @@ namespace Nereid
          public void SetEnabledInEva( bool enabled )
          {
             Configuration config = NanoGauges.configuration;
-            if (config.IsGaugesInEvaEnabled() != enabled)
+            if (config.gaugesInEvaEnabled != enabled)
             {
-               config.SetGaugesInEvaEnabled(enabled);
+               config.gaugesInEvaEnabled = enabled;
                CheckCamera(true);
             }
 
