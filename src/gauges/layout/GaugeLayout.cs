@@ -31,7 +31,7 @@ namespace Nereid
          protected const int MARGIN_Y_LEFT_NAVBALL_BLOCK = 12;
          protected const int MARGIN_X_LEFT_NAVBALL_BLOCK = 200;
          protected const int MARGIN_Y_RIGHT_NAVBALL_BLOCK = MARGIN_Y_LEFT_NAVBALL_BLOCK;
-         protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 220;
+         protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 275;
 
 
          protected Gauges gauges { get; private set; }

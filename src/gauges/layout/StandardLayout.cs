@@ -78,8 +78,6 @@ namespace Nereid
             AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_AIRPCT);
             AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_PROPELLANT);
             AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_EVAMP);
-            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_ABLAT);
-            AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_Q);
 
 
             AddToRightBlock(set, Constants.WINDOW_ID_GAUGE_ORE);
@@ -105,6 +103,19 @@ namespace Nereid
             {
                SetGaugeEnabled(set, id, true);
             }
+            // we do not want to show those gauges
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_ABLAT, false);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_Q, false);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_ORE, false);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_CARBONDIOXIDE, false);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_FOOD, false);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_H2O, false);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_KARBONITE, false);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_WASTE, false);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_KETHANE, false);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_KAIRIN, false);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_SHIELD, false);
+
          }
 
       }
