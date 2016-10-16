@@ -13,7 +13,9 @@ namespace Nereid
       {
          public readonly Profile LAUNCH = new Profile("Launch");
          public readonly Profile FLIGHT = new Profile("Flight");
-         public readonly Profile LAND = new Profile("Land/Suborbital");
+         public readonly Profile ORBIT_TO_SUBORBITAL = new Profile("Orbit to Suborbital");
+         public readonly Profile FLIGHT_TO_SUBORBITAL = new Profile("Flight to Suborbital");
+         public readonly Profile OTHER_TO_SUBORBITAL = new Profile("Other to Suborbital");
          public readonly Profile LANDED = new Profile("Landed");
          public readonly Profile ORBIT = new Profile("Orbit");
          public readonly Profile DOCKED = new Profile("Docked");
@@ -32,6 +34,7 @@ namespace Nereid
          public KeyCode Hotkey2 = KeyCode.None;
          public KeyCode Hotkey3 = KeyCode.None;
 
+
          public ProfileManager()
          {
             SetDefaults();
@@ -46,7 +49,9 @@ namespace Nereid
          {
             LAUNCH.SetBehaviour(ProfileBehaviour.LAUNCH);
             FLIGHT.SetBehaviour(ProfileBehaviour.NOTHING);
-            LAND.SetBehaviour(ProfileBehaviour.LAND);
+            ORBIT_TO_SUBORBITAL.SetBehaviour(ProfileBehaviour.LAND);
+            FLIGHT_TO_SUBORBITAL.SetBehaviour(ProfileBehaviour.ORBIT);
+            OTHER_TO_SUBORBITAL.SetBehaviour(ProfileBehaviour.LAND);
             LANDED.SetBehaviour(ProfileBehaviour.LAUNCH);
             ORBIT.SetBehaviour(ProfileBehaviour.ORBIT);
             ESCAPE.SetBehaviour(ProfileBehaviour.FLIGHT);
@@ -87,7 +92,13 @@ namespace Nereid
 
          private void SwitchToSituation(Vessel.Situations situation)
          {
-            switch (situation)
+            SwitchSituation(situation, situation);
+         }
+
+         private void SwitchSituation(Vessel.Situations from, Vessel.Situations to)
+         {
+            Log.Info("switching profile from "+from+" to "+to);
+            switch (to)
             {
                case Vessel.Situations.DOCKED:
                   SwitchProfile(DOCKED);
@@ -106,7 +117,18 @@ namespace Nereid
                   SwitchProfile(ORBIT);
                   break;
                case Vessel.Situations.SUB_ORBITAL:
-                  SwitchProfile(LAND);
+                  if(from==Vessel.Situations.ORBITING)
+                  {
+                     SwitchProfile(ORBIT_TO_SUBORBITAL);
+                  }
+                  else if (from == Vessel.Situations.FLYING)
+                  {
+                     SwitchProfile(FLIGHT_TO_SUBORBITAL);
+                  }
+                  else 
+                  {
+                     SwitchProfile(OTHER_TO_SUBORBITAL);
+                  }
                   break;
                case Vessel.Situations.FLYING:
                   SwitchProfile(FLIGHT);
@@ -168,7 +190,7 @@ namespace Nereid
 
             if (!vessel.isEVA)
             {
-               SwitchToSituation(vessel.situation);
+               SwitchSituation(from,to);
             }
          }
 
@@ -211,27 +233,38 @@ namespace Nereid
          {
             Log.Info("reading profiles");
             //
-            enabled = reader.ReadBoolean();
-            //
-            Hotkey1 = (KeyCode)reader.ReadInt16();
-            Hotkey2 = (KeyCode)reader.ReadInt16();
-            Hotkey3 = (KeyCode)reader.ReadInt16();
-            // reserved
-            reader.ReadInt16();
-            reader.ReadInt16();
-            // profiles
-            LAUNCH.Read(reader);
-            FLIGHT.Read(reader);
-            LAND.Read(reader);
-            LANDED.Read(reader);
-            ORBIT.Read(reader);
-            DOCKED.Read(reader);
-            DOCKING.Read(reader);
-            ESCAPE.Read(reader);
-            EVA.Read(reader);
-            HOTKEY1.Read(reader);
-            HOTKEY2.Read(reader);
-            HOTKEY3.Read(reader);
+            try
+            {
+               enabled = reader.ReadBoolean();
+               //
+               Hotkey1 = (KeyCode)reader.ReadInt16();
+               Hotkey2 = (KeyCode)reader.ReadInt16();
+               Hotkey3 = (KeyCode)reader.ReadInt16();
+               // reserved
+               reader.ReadInt16();
+               reader.ReadInt16();
+               // profiles
+               LAUNCH.Read(reader);
+               FLIGHT.Read(reader);
+               ORBIT_TO_SUBORBITAL.Read(reader);
+               FLIGHT_TO_SUBORBITAL.Read(reader);
+               OTHER_TO_SUBORBITAL.Read(reader);
+               LANDED.Read(reader);
+               ORBIT.Read(reader);
+               DOCKED.Read(reader);
+               DOCKING.Read(reader);
+               ESCAPE.Read(reader);
+               EVA.Read(reader);
+               HOTKEY1.Read(reader);
+               HOTKEY2.Read(reader);
+               HOTKEY3.Read(reader);
+            }
+            catch(IOException e)
+            {
+               Log.Warning("error reading profiles from config");
+               SetDefaults();
+               throw e;
+            }
          }
 
          public void Write(BinaryWriter writer)
@@ -248,7 +281,9 @@ namespace Nereid
             // profiles
             LAUNCH.Write(writer);
             FLIGHT.Write(writer);
-            LAND.Write(writer);
+            ORBIT_TO_SUBORBITAL.Write(writer);
+            FLIGHT_TO_SUBORBITAL.Write(writer);
+            OTHER_TO_SUBORBITAL.Write(writer);
             LANDED.Write(writer);
             ORBIT.Write(writer);
             DOCKED.Write(writer);

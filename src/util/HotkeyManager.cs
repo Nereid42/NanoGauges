@@ -183,15 +183,26 @@ namespace Nereid
          {
             Log.Info("reading hotkeys");
             //
-            String marker = reader.ReadString();
-            if(marker!=CONFIGFILE_MARK)
+            try
             {
-               throw new IOException("config file structure corrupt: missing hotkey marker");
+               String marker = reader.ReadString();
+               if (marker != CONFIGFILE_MARK)
+               {
+                  throw new IOException("config file structure corrupt: missing hotkey marker");
+               }
+               Log.Info("hotkey marker successfully read from config");
+               //
+               this.enabled = reader.ReadBoolean();
+               //
+               foreach (Hotkey hotkey in hotkeys)
+               {
+                  ReadHotkey(reader, hotkey);
+               }
             }
-            //
-            foreach (Hotkey hotkey in hotkeys)
+            catch(IOException e)
             {
-               ReadHotkey(reader, hotkey);
+               Log.Warning("error reading hotkeys from config");
+               throw e;
             }
          }
 
@@ -201,6 +212,8 @@ namespace Nereid
             //
             // marker
             writer.Write(CONFIGFILE_MARK);
+            //
+            writer.Write(enabled);
             //
             foreach (Hotkey hotkey in hotkeys)
             {

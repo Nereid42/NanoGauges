@@ -43,7 +43,9 @@ namespace Nereid
             DrawProfile(manager.FLIGHT);
             DrawProfile(manager.ORBIT);
             DrawProfile(manager.ESCAPE);
-            DrawProfile(manager.LAND);
+            DrawProfile(manager.ORBIT_TO_SUBORBITAL);
+            DrawProfile(manager.FLIGHT_TO_SUBORBITAL);
+            DrawProfile(manager.OTHER_TO_SUBORBITAL);
             DrawProfile(manager.LANDED);
             DrawProfile(manager.DOCKED);
             DrawProfile(manager.DOCKING);
