@@ -113,11 +113,15 @@ namespace Nereid
             GUILayout.BeginHorizontal();
             DrawHotkey("Set 2", HotkeyManager.HOTKEY_SET_SET2, main_hotkey);
             GUILayout.FlexibleSpace();
-            DrawHotkey("Open config window", HotkeyManager.HOTKEY_WINDOW_CONFIG, main_hotkey);
+            DrawHotkey("Config window", HotkeyManager.HOTKEY_WINDOW_CONFIG, main_hotkey);
             GUILayout.EndHorizontal();
             //
             GUILayout.BeginHorizontal();
             DrawHotkey("Set 3", HotkeyManager.HOTKEY_SET_SET3, main_hotkey);
+            GUILayout.EndHorizontal();
+            //
+            GUILayout.BeginHorizontal();
+            DrawHotkey("Alignment gauge", HotkeyManager.HOTKEY_ALIGNMENT_GAUGE, main_hotkey);
             GUILayout.FlexibleSpace();
             DrawHotkey("Drag&Close", HotkeyManager.HOTKEY_CLOSE_AND_DRAG);
             GUILayout.EndHorizontal();

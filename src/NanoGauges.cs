@@ -307,7 +307,7 @@ namespace Nereid
                else
                {
                   // Hotkeys in chord with main hotkey
-
+                  //
                   if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_STANDARD))
                   {
                      SetGaugeSet(GaugeSet.ID.STANDARD);
@@ -371,6 +371,10 @@ namespace Nereid
                   else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_AUTOLAYOUT))
                   {
                      gauges.AutoLayout();
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_ALIGNMENT_GAUGE))
+                  {
+                     gauges.ShowAligmentGauge(!gauges.IsAligmentGaugeVisible());
                   }
                }
             }

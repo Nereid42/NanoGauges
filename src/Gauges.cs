@@ -120,7 +120,32 @@ namespace Nereid
             
             // Real Fuels
             AddOptionalResourceGauge(new KarboniteGauge(resourceInspecteur));
+
+            // special gauges
+            AddGauge(new AlignmentGauge());
+
+            // events
+            GameEvents.onGameSceneSwitchRequested.Add(this.OnGameSceneSwitchRequested);
          }
+
+         private void OnGameSceneSwitchRequested(GameEvents.FromToAction<GameScenes,GameScenes> action)
+         {
+            if(action.from!=action.to)
+            {
+               ShowAligmentGauge(false);
+            }
+         }
+
+         public void ShowAligmentGauge(bool visible)
+         {
+            SetGaugeEnabled(Constants.WINDOW_ID_GAUGE_ALIGNMENT, visible);
+         }
+
+         public bool IsAligmentGaugeVisible()
+         {
+            return IsGaugeEnabled(Constants.WINDOW_ID_GAUGE_ALIGNMENT);
+         }
+
 
          public AbstractGauge GetGauge(int id)
          {
@@ -195,6 +220,7 @@ namespace Nereid
             {
                gauge.Reset();
             }
+            ShowAligmentGauge(false);
          }
 
          public void ShowGauges()

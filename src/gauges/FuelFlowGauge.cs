@@ -39,6 +39,7 @@ namespace Nereid
             if (vessel != null)
             {
                double rate = Math.Abs(inspecteur.GetRate(Resources.LIQUID_FUEL));
+
                if (rate > MAX_RATE) rate = MAX_RATE;
                y = (float)(b + 91.0f * Math.Log10(1 + rate) / 400.0f);
             }

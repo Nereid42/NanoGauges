@@ -62,6 +62,9 @@ namespace Nereid
          public bool gaugesInEvaEnabled { get; set; }
          public bool gaugesInMapEnabled { get; set; }
 
+         public int minProfileInterval { get; set; }
+
+
          public Configuration()
          {
             // Defaults
@@ -82,6 +85,7 @@ namespace Nereid
             gaugesInIvaEnabled = true;
             gaugesInEvaEnabled = true;
             gaugesInMapEnabled = true;
+            minProfileInterval = 4;
          }
 
          public void EnableAllGauges(Gauges gauges)
@@ -259,6 +263,9 @@ namespace Nereid
             Log.Detail("writing " + set.Count() + " gauge states");
             foreach (int id in set.Keys())
             {
+               // never write the aligment gauge
+               if (id == Constants.WINDOW_ID_GAUGE_ALIGNMENT) continue;
+               //
                writer.Write((Int32)id);
                bool enabled = set.IsGaugeEnabled(id);
                writer.Write(enabled);
@@ -286,6 +293,9 @@ namespace Nereid
             Log.Detail("writing " + set.Count() + " window positions");
             foreach (int id in set.Keys())
             {
+               // never write the aligment gauge
+               if (id == Constants.WINDOW_ID_GAUGE_ALIGNMENT) continue;
+               //
                Pair<int, int> position = set.GetWindowPosition(id);
                writer.Write((Int32)id);
                writer.Write((Int16)position.first);
@@ -354,6 +364,8 @@ namespace Nereid
                   //
                   // HotkeyManager
                   NanoGauges.hotkeyManager.Write(writer);
+                  //
+                  writer.Write((UInt16)minProfileInterval);
                }
             }
             catch
@@ -427,6 +439,8 @@ namespace Nereid
                      //
                      // HotkeyManager
                      NanoGauges.hotkeyManager.Read(reader);
+                     //
+                     minProfileInterval = reader.ReadInt16();
                   }
                }
                else

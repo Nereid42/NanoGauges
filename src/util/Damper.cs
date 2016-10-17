@@ -70,12 +70,27 @@ namespace Nereid
                }
                return value;
             }
+
             return targetValue;
          }
 
          public void SetValue(float value)
          {
-            targetValue = value;
+            // just to be safe
+            if (value == float.NaN)
+            {
+               if (Log.IsLogable(Log.LEVEL.DETAIL)) Log.Detail("WARNING: invalid damper value");
+               targetValue = lower;
+            }
+            else
+            {
+               targetValue = value;
+            }
+         }
+
+         public override string ToString()
+         {
+            return "damper: value="+value+", target value="+targetValue+", damp="+damp+", enabled="+enabled+", lower="+lower+", upper="+upper;
          }
       }
    }

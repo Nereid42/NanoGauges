@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="src\Gauges.cs" />
     <Compile Include="src\gauges\BarometricGauge.cs" />
+    <Compile Include="src\gauges\base\AlignmentGauge.cs" />
     <Compile Include="src\gauges\base\AbstractTimeGauge.cs" />
     <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />

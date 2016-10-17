@@ -34,6 +34,8 @@ namespace Nereid
          public KeyCode Hotkey2 = KeyCode.None;
          public KeyCode Hotkey3 = KeyCode.None;
 
+         // kerbin time until profile changes are locked (0=off)
+         private double profileChangeIsLockedUntil = 0;
 
          public ProfileManager()
          {
@@ -72,6 +74,22 @@ namespace Nereid
             SetDefaults();
          }
 
+         private void UnlockProfileChange()
+         {
+            profileChangeIsLockedUntil = 0;
+         }
+
+         private void LockProfileChange()
+         {
+            profileChangeIsLockedUntil = Planetarium.GetUniversalTime()+NanoGauges.configuration.minProfileInterval;
+            Log.Info("locking profile switch until " + profileChangeIsLockedUntil + ", now=" + Planetarium.GetUniversalTime());
+         }
+
+         public bool IsProfileChangeLocked()
+         {
+            return (profileChangeIsLockedUntil > 0) && (profileChangeIsLockedUntil > Planetarium.GetUniversalTime());
+         }
+
          public void IgnoreHotkeyInFrame()
          {
             ignoreHotkeysInFrame = true;
@@ -79,7 +97,7 @@ namespace Nereid
 
          private void SwitchProfile(Profile profile)
          {
-            // noi gauges, no profile...
+            // no gauges, no profile...
             if (NanoGauges.gauges == null) return;
             //
             Log.Info("switching to profile "+profile.name);
@@ -159,11 +177,13 @@ namespace Nereid
                   }
                }
             }
+            UnlockProfileChange();
          }
 
          private void OnCrewOnEva(GameEvents.FromToAction<Part, Part> action)
          {
             SwitchProfile(EVA);
+            UnlockProfileChange();
          }
 
          private void OnGameStateCreated(Game game)
@@ -175,12 +195,21 @@ namespace Nereid
             {
                SwitchProfile(LAUNCH);
             }
+            UnlockProfileChange();
          }
 
          private void OnVesselSituationChange(GameEvents.HostedFromToAction<Vessel, Vessel.Situations> action)
          {
             Vessel vessel = action.host;
             if (vessel == null || vessel != FlightGlobals.ActiveVessel) return;
+
+            // is the automatic profile change locked?
+            if (!IsProfileChangeLocked())
+            {
+               // extend lock
+               LockProfileChange();
+               return;
+            }
 
             Vessel.Situations from = action.from;
             Vessel.Situations to = action.to;
@@ -191,6 +220,18 @@ namespace Nereid
             if (!vessel.isEVA)
             {
                SwitchSituation(from,to);
+            }
+
+            // decide about locking
+            if(!vessel.isEVA && to!=Vessel.Situations.PRELAUNCH && vessel.missionTime>1)
+            {
+               // lock profile change caused by vessel situations for a few seconds
+               LockProfileChange();
+            }
+            else
+            {
+               // EVA or PRELAUNCH and any change in the first 1 second unlocks profile change
+               UnlockProfileChange();
             }
          }
 
@@ -207,6 +248,7 @@ namespace Nereid
             {
                SwitchToSituation(vessel.situation);
             }
+            UnlockProfileChange();
          }
 
          public void Update()

@@ -116,7 +116,7 @@ namespace Nereid
             }
             catch (Exception e)
             {
-               Log.Error("Exception (damper value) in gauge " + this.GetType() + " detected: " + e.GetType());
+               Log.Error("Exception (damper value) in gauge " + this.GetType() + " detected: " + e.GetType()+" - "+damper);
                return 0;
             }
          }

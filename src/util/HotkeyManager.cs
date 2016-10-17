@@ -57,7 +57,8 @@ namespace Nereid
          public const int HOTKEY_STANDARDLAYOUT = 16;
          public const int HOTKEY_AUTOLAYOUT = 17;
          public const int HOTKEY_ALT_HIDE = 18;
-         private const int HOTKEY_COUNT = 19;
+         public const int HOTKEY_ALIGNMENT_GAUGE = 19;
+         private const int HOTKEY_COUNT = 20;
 
          private Hotkey[] hotkeys;
 
@@ -98,7 +99,8 @@ namespace Nereid
             hotkeys[HOTKEY_WINDOW_CONFIG] = new Hotkey(KeyCode.KeypadEnter);
             hotkeys[HOTKEY_STANDARDLAYOUT] = new Hotkey(KeyCode.Backspace);
             hotkeys[HOTKEY_AUTOLAYOUT] = new Hotkey(KeyCode.KeypadMultiply);
-            hotkeys[HOTKEY_ALT_HIDE] = new Hotkey(KeyCode.KeypadDivide);            
+            hotkeys[HOTKEY_ALT_HIDE] = new Hotkey(KeyCode.KeypadDivide);
+            hotkeys[HOTKEY_ALIGNMENT_GAUGE] = new Hotkey(KeyCode.Tab);
          }
 
          public bool GetKey(int id)
