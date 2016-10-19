@@ -6,10 +6,10 @@ namespace Nereid
 {
    namespace NanoGauges
    {
-      public abstract class VerticalGauge : AbstractClosableGauge
+      public abstract class HorizontalGauge : AbstractClosableGauge
       {
-         public const int SCALE_HEIGHT = 400;
-         public const int SCALE_WIDTH = 42;
+         public const int SCALE_HEIGHT = 42;
+         public const int SCALE_WIDTH = 800;
          //
 
          private readonly Texture2D skin;
@@ -17,25 +17,17 @@ namespace Nereid
          private Rect scaleBounds;
          private Rect skinBounds;
          
-         private Damper damper;
-         private bool autoLimiterEnabled = false;
 
          private readonly PowerOffFlag offFlag;
          private readonly LimiterFlag limitFlag;
 
-         private readonly VerticalGaugeZoom zoom;
-
-         public VerticalGauge(int id, Texture2D skin, Texture2D scale, bool damped = true, float dampfactor=0.002f)
+         public HorizontalGauge(int id, Texture2D skin, Texture2D scale)
             : base(id)
          {
-            this.damper = new Damper(dampfactor); 
-            this.damper.SetEnabled(damped);
             this.scale = scale;
             this.skin = skin;
             this.skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
             this.scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
-            //
-            this.zoom = new VerticalGaugeZoom(this,skin,scale);
 
             if (scale == null) Log.Error("no scale for gauge " + id + " defined");
             if (skin == null) Log.Error("no skin for gauge " + id + " defined");
@@ -108,17 +100,10 @@ namespace Nereid
             }
          }
 
-         private float GetInternalValue()
+
+         protected virtual void DrawInternalScale()
          {
-            try
-            {
-               return damper.GetValue();
-            }
-            catch (Exception e)
-            {
-               Log.Error("Exception (damper value) in gauge " + this.GetType() + " detected: " + e.GetType()+" - "+damper);
-               return 0;
-            }
+            // to be overwritten and implemented by subclasses
          }
 
          protected override void OnWindow(int id)
@@ -128,18 +113,14 @@ namespace Nereid
             // check for limits (wont work very well, so disabled at the moment)
             //AutomaticLimiter();
 
-            // damper for smoother changes in the gauges
-            damper.SetValue(GetScaleOffset());
 
-            float verticalScaleratio = (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT / (float)SCALE_HEIGHT;
+            float horizonalScaleratio = (float)Configuration.UNSCALED_HORIZONTAL_GAUGE_WIDTH / (float)SCALE_WIDTH;
 
-            // scale
-            float value = GetInternalValue();
-            Rect off = new Rect(0, value, 1.0f, verticalScaleratio);
+            Rect off = new Rect(GetScaleOffset(), 0, horizonalScaleratio, 1.0f);
             GUI.DrawTextureWithTexCoords(skinBounds, scale, off, false);
             //
-            // zoom
-            zoom.value = value;
+            // internal scales or pointer (gauge specific)
+            DrawInternalScale();
             //
             // flags
             if(NanoGauges.configuration.gaugeMarkerEnabled)
@@ -195,7 +176,6 @@ namespace Nereid
 
          public override void Reset()
          {
-            damper.Reset();
             limitFlag.Up();
          }
 
@@ -211,36 +191,15 @@ namespace Nereid
             }
          }
 
-         // not working right now
-         protected virtual void AutomaticLimiter()
-         {
-            if(autoLimiterEnabled)
-            {
-               if(damper.IsInLimits())
-               {
-                  InLimits();
-               }
-               else
-               {
-                  OutOfLimits();
-               }
-            }
-         }
-
-         protected void SetAutoLimiterEnabled(bool enabled)
-         {
-            this.autoLimiterEnabled = enabled;
-         }
-
          public override void OnGaugeScalingChanged()
          {
             // change dimensions of window
-            bounds.width = NanoGauges.configuration.verticalGaugeWidth;
-            bounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            bounds.width = NanoGauges.configuration.horizontalGaugeWidth;
+            bounds.height = NanoGauges.configuration.horizontalGaugeHeight;
             //
             //change dimensions of skin and scale
-            skinBounds.width = NanoGauges.configuration.verticalGaugeWidth;
-            skinBounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            skinBounds.width = NanoGauges.configuration.horizontalGaugeWidth;
+            skinBounds.height = NanoGauges.configuration.horizontalGaugeHeight;
          }
 
       }

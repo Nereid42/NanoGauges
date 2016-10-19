@@ -62,11 +62,14 @@
   <ItemGroup>
     <Compile Include="src\Gauges.cs" />
     <Compile Include="src\gauges\BarometricGauge.cs" />
+    <Compile Include="src\gauges\base\AbstractCompassGauge.cs" />
     <Compile Include="src\gauges\base\AlignmentGauge.cs" />
     <Compile Include="src\gauges\base\AbstractTimeGauge.cs" />
     <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
+    <Compile Include="src\gauges\base\HorizontalGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\CameraCompassGauge.cs" />
     <Compile Include="src\gauges\VesselGauge.cs" />
     <Compile Include="src\gauges\CO2Gauge.cs" />
     <Compile Include="src\gauges\SeismicGauge.cs" />

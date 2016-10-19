@@ -277,6 +277,7 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 1 * hDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 2 * hDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 3 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CAMERA, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 4 * hDY);
          }
 
          // 
@@ -286,6 +287,7 @@ namespace Nereid
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_BIOME, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_LATITUDE, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_LONGITUDE, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_CAMERA, true);
          }
       }
 

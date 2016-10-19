@@ -102,6 +102,7 @@ namespace Nereid
             AddGauge(new BiomeGauge(biomeInspecteur));
             AddGauge(new LatitudeGauge());
             AddGauge(new LongitudeGauge());
+            AddGauge(new CameraCompassGauge());
 
             // TAC life support and Kerbalism (only added if TAC installed)
             AddOptionalResourceGauge(new OxygenGauge(resourceInspecteur));
