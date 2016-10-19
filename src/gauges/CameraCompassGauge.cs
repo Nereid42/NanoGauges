@@ -29,7 +29,9 @@ namespace Nereid
          {
             FlightCamera camera = FlightCamera.fetch;
 
-            if (camera == null || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Map)
+            if (camera == null 
+            || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Map
+            || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA)
             {
                Off();
                return 0.0f;
