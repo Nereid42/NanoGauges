@@ -31,7 +31,9 @@ namespace Nereid
 
             if (camera == null 
             || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Map
-            || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA)
+            || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.IVA
+            || camera.mode == FlightCamera.Modes.CHASE 
+            || camera.mode == FlightCamera.Modes.LOCKED)
             {
                Off();
                return 0.0f;
@@ -39,7 +41,7 @@ namespace Nereid
             //
             On();
 
-            float hdg = (180.0f*FlightCamera.CamHdg/(float)Math.PI) % 360;
+            float hdg = (180.0f * FlightCamera.CamHdg / (float)Math.PI) % 360;
 
             if(hdg<0)
             {
