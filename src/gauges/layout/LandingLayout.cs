@@ -25,13 +25,11 @@ namespace Nereid
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_CAM);
             AddToTopBlock(set, Constants.WINDOW_ID_GAUGE_IMPACT);
 
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_G);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MAXG);
+           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_IMPACT);
+           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ATM);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VACCL);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_HACCL);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ACCL);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ATM);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_TWR);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_THRUST);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_AOA);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VAI);
@@ -56,10 +54,7 @@ namespace Nereid
 
          public override void EnableGauges(GaugeSet set)
          {
-            foreach (int id in set)
-            {
-               SetGaugeEnabled(set, id, false);
-            }
+            DisableAllgauges(set);
             //
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_SETS, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_INDICATOR, true);
@@ -67,13 +62,11 @@ namespace Nereid
             //
             EnableAllHorizontalTextGauges(set);
             //
-            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_MAXG, true);
-            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_G, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_IMPACT, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_ATM, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_VACCL, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_HACCL, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_ACCL, true);
-            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_ATM, true);
-            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_TWR, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_THRUST, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_AOA, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_VAI, true);

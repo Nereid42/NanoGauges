@@ -289,6 +289,23 @@ namespace Nereid
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_LONGITUDE, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_CAMERA, true);
          }
+
+         protected void DisableAllgauges(GaugeSet set)
+         {
+            foreach (int id in set)
+            {
+               SetGaugeEnabled(set, id, false);
+            }
+         }
+
+
+         protected void EnableAllgauges(GaugeSet set)
+         {
+            foreach (int id in set)
+            {
+               SetGaugeEnabled(set, id, true);
+            }
+         }
       }
 
 

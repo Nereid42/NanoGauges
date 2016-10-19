@@ -28,7 +28,8 @@ namespace Nereid
          protected override float GetDegrees()
          {
             FlightCamera camera = FlightCamera.fetch;
-            if (camera == null)
+
+            if (camera == null || CameraManager.Instance.currentCameraMode == CameraManager.CameraMode.Map)
             {
                Off();
                return 0.0f;

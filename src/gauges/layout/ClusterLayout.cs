@@ -123,10 +123,7 @@ namespace Nereid
 
          public override void EnableGauges(GaugeSet set)
          {
-            foreach (int id in set)
-            {
-               SetGaugeEnabled(set, id, true);
-            }
+            EnableAllgauges(set);
          }
       }
    }

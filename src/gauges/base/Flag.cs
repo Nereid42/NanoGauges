@@ -35,6 +35,16 @@ namespace Nereid
             this.state = STATE.DOWN;
          }
 
+         public int GetWidth()
+         {
+            return skin.width;
+         }
+
+         public int GetHeight()
+         {
+            return skin.height;
+         }
+
          public void Up()
          {
             this.state = STATE.UP;

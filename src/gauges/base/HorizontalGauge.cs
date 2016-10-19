@@ -43,12 +43,12 @@ namespace Nereid
 
          public override sealed int GetWidth()
          {
-            return NanoGauges.configuration.verticalGaugeWidth;
+            return NanoGauges.configuration.horizontalGaugeWidth;
          }
 
          public override sealed int GetHeight()
          {
-            return NanoGauges.configuration.verticalGaugeHeight;
+            return NanoGauges.configuration.horizontalGaugeHeight;
          }
 
          protected int GetScaleHeight()
@@ -127,7 +127,7 @@ namespace Nereid
             {
                // draw current state of flags (on/off and limiter)
                // increment animation step on each draw (flags will not show up immediately)
-               offFlag.Draw(GetWidth() / 2 - 4, 0);
+               offFlag.Draw(GetWidth() - offFlag.GetWidth(), 0);
                limitFlag.Draw(0, 0);
             }
             //
