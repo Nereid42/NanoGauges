@@ -48,14 +48,14 @@ namespace Nereid
 
          protected void drawLight(int pos, Texture2D color)
          {
-            int y0 = INDICATOR_TOP_OFFSET + pos * INDICATOR_HEIGHT;
+            float y0 = (INDICATOR_TOP_OFFSET + pos * INDICATOR_HEIGHT) * (float)NanoGauges.configuration.gaugeScaling;
             colorBounds.y = y0;
             GUI.DrawTexture(colorBounds, color);
          }
 
          protected void drawBlinkingLight(int pos, Texture2D color1, Texture2D color2)
          {
-            int y0 = INDICATOR_TOP_OFFSET + pos * INDICATOR_HEIGHT;
+            float y0 = (INDICATOR_TOP_OFFSET + pos * INDICATOR_HEIGHT) * (float)NanoGauges.configuration.gaugeScaling;
             colorBounds.y = y0;
 
             if (blinkingPhase==0)
@@ -289,6 +289,10 @@ namespace Nereid
             //change dimensions of skin
             skinBounds.width = NanoGauges.configuration.verticalGaugeWidth;
             skinBounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            // 
+            // colors
+            colorBounds.width = NanoGauges.configuration.verticalGaugeWidth;
+            colorBounds.height = INDICATOR_HEIGHT * (float)NanoGauges.configuration.gaugeScaling;
          }
       }
    }
