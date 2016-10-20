@@ -36,6 +36,8 @@ namespace Nereid
 
          // kerbin time until profile changes are locked (0=off)
          private double profileChangeIsLockedUntil = 0;
+         // temporay lock
+         private bool locked = false;
 
          public ProfileManager()
          {
@@ -87,7 +89,32 @@ namespace Nereid
 
          public bool IsProfileChangeLocked()
          {
+            if (locked) return true;
             return (profileChangeIsLockedUntil > 0) && (profileChangeIsLockedUntil > Planetarium.GetUniversalTime());
+         }
+
+         public void Lock()
+         {
+            locked = true;
+         }
+
+         public void Unlock()
+         {
+            profileChangeIsLockedUntil = 0;
+            locked = false;
+         }
+
+         public void ToggleLock()
+         {
+            if (!locked && !IsProfileChangeLocked())
+            {
+               locked = true;
+            }
+            else
+            {
+               locked = false;
+            }
+            profileChangeIsLockedUntil = 0;
          }
 
          public void IgnoreHotkeyInFrame()
@@ -188,6 +215,7 @@ namespace Nereid
 
          private void OnGameStateCreated(Game game)
          {
+            Unlock();
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel == null) return;
 
@@ -202,14 +230,17 @@ namespace Nereid
          {
             Vessel vessel = action.host;
             if (vessel == null || vessel != FlightGlobals.ActiveVessel) return;
+            if (Log.IsLogable(Log.LEVEL.DETAIL))  Log.Detail("situation changed for vessel " + vessel.name);
 
             // is the automatic profile change locked?
-            if (!IsProfileChangeLocked())
+            if (IsProfileChangeLocked())
             {
+               if (Log.IsLogable(Log.LEVEL.DETAIL)) Log.Detail("profile change locked");
                // extend lock
                LockProfileChange();
                return;
             }
+            if (Log.IsLogable(Log.LEVEL.DETAIL)) Log.Detail("profile change not locked");
 
             Vessel.Situations from = action.from;
             Vessel.Situations to = action.to;
@@ -239,6 +270,8 @@ namespace Nereid
          private void OnVesselChange(Vessel vessel)
          {
             if (vessel == null || vessel != FlightGlobals.ActiveVessel) return;
+
+            Unlock();
 
             if(vessel.isEVA)
             {

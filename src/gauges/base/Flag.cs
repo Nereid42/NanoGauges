@@ -120,5 +120,15 @@ namespace Nereid
          }
       }
 
+      public class RFlag : Flag
+      {
+         private static Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/R-flag");
+
+         public RFlag(AbstractGauge gauge)
+            : base(gauge, SKIN)
+         {
+
+         }
+      }
    }
 }

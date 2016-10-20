@@ -12,8 +12,13 @@ namespace Nereid
          public const int SCALE_WIDTH = 800;
          //
 
+         // wich scale toi display
+         private enum SCALE { PRIMARY, SECONDARY } ;
+         private SCALE mode = SCALE.PRIMARY;
+
          private readonly Texture2D skin;
-         private readonly Texture2D scale;
+         private readonly Texture2D primaryScale;
+         private readonly Texture2D secondaryScale;
          private Rect scaleBounds;
          private Rect skinBounds;
          
@@ -21,19 +26,30 @@ namespace Nereid
          private readonly PowerOffFlag offFlag;
          private readonly LimiterFlag limitFlag;
 
-         public HorizontalGauge(int id, Texture2D skin, Texture2D scale)
+         public HorizontalGauge(int id, Texture2D skin, Texture2D primaryScale, Texture2D secondaryScale = null)
             : base(id)
          {
-            this.scale = scale;
+            this.primaryScale = primaryScale;
+            this.secondaryScale = secondaryScale;
             this.skin = skin;
             this.skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
             this.scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
 
-            if (scale == null) Log.Error("no scale for gauge " + id + " defined");
+            if (primaryScale == null) Log.Error("no scale for gauge " + id + " defined");
             if (skin == null) Log.Error("no skin for gauge " + id + " defined");
 
             offFlag = new PowerOffFlag(this);
             limitFlag = new LimiterFlag(this);
+         }
+
+         protected void PrimaryScale()
+         {
+            mode = SCALE.PRIMARY;
+         }
+
+         protected void SecondaryScale()
+         {
+            mode = SCALE.SECONDARY;
          }
 
          /**
@@ -53,12 +69,12 @@ namespace Nereid
 
          protected int GetScaleHeight()
          {
-            return scale.height;
+            return primaryScale.height;
          }
 
          protected float GetCenterOffset()
          {
-            return (scale.height - Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT) / (2.0f * scale.height);
+            return (primaryScale.height - Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT) / (2.0f * primaryScale.height);
          }
 
          /**
@@ -74,8 +90,8 @@ namespace Nereid
           */
          protected float GetOffset(int y)
          {
-            int d = (scale.height-y) - Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT / 2;
-            return ((float)d) / (float)scale.height;
+            int d = (primaryScale.height-y) - Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT / 2;
+            return ((float)d) / (float)primaryScale.height;
          }
 
          /**
@@ -83,7 +99,7 @@ namespace Nereid
           */
          protected float GetUpperOffset()
          {
-            return ((float)scale.height - (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT) / (float)scale.height;
+            return ((float)primaryScale.height - (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT) / (float)primaryScale.height;
          }
 
 
@@ -106,18 +122,34 @@ namespace Nereid
             // to be overwritten and implemented by subclasses
          }
 
+         protected virtual void DrawFlags()
+         {
+            // draw current state of flags (on/off and limiter)
+            // increment animation step on each draw (flags will not show up immediately)
+            offFlag.Draw(GetWidth() - offFlag.GetWidth(), 0);
+            limitFlag.Draw(0, 0);
+         }
+
          protected override void OnWindow(int id)
          {
             // check for on/off
             AutomaticOnOff();
-            // check for limits (wont work very well, so disabled at the moment)
-            //AutomaticLimiter();
-
 
             float horizonalScaleratio = (float)Configuration.UNSCALED_HORIZONTAL_GAUGE_WIDTH / (float)SCALE_WIDTH;
 
-            Rect off = new Rect(GetScaleOffset(), 0, horizonalScaleratio, 1.0f);
-            GUI.DrawTextureWithTexCoords(skinBounds, scale, off, false);
+            // draw scale
+            float scaleOffset = GetScaleOffset();
+            Rect off = new Rect(scaleOffset, 0, horizonalScaleratio, 1.0f);
+            if(mode==SCALE.PRIMARY && secondaryScale!=null)
+            {
+               // primary scale
+               GUI.DrawTextureWithTexCoords(skinBounds, primaryScale, off, false);
+            }
+            else
+            {
+               // secondary scale
+               GUI.DrawTextureWithTexCoords(skinBounds, secondaryScale, off, false);
+            }
             //
             // internal scales or pointer (gauge specific)
             DrawInternalScale();
@@ -125,10 +157,7 @@ namespace Nereid
             // flags
             if(NanoGauges.configuration.gaugeMarkerEnabled)
             {
-               // draw current state of flags (on/off and limiter)
-               // increment animation step on each draw (flags will not show up immediately)
-               offFlag.Draw(GetWidth() - offFlag.GetWidth(), 0);
-               limitFlag.Draw(0, 0);
+               DrawFlags();
             }
             //
             // skin

@@ -20,8 +20,8 @@ namespace Nereid
          private Damper damper;
          private bool autoLimiterEnabled = false;
 
-         private readonly PowerOffFlag offFlag;
-         private readonly LimiterFlag limitFlag;
+         private readonly Flag offFlag;
+         private readonly Flag limitFlag;
 
          private readonly VerticalGaugeZoom zoom;
 

@@ -58,7 +58,8 @@ namespace Nereid
          public const int HOTKEY_AUTOLAYOUT = 17;
          public const int HOTKEY_ALT_HIDE = 18;
          public const int HOTKEY_ALIGNMENT_GAUGE = 19;
-         private const int HOTKEY_COUNT = 20;
+         public const int HOTKEY_LOCK_PROFILE = 20;
+         private const int HOTKEY_COUNT = 21;
 
          private Hotkey[] hotkeys;
 
@@ -81,6 +82,7 @@ namespace Nereid
 
          public void SetDefaultHotkeys()
          {
+            Log.Info("setting hotkeys to default");
             hotkeys[HOTKEY_MAIN] = new Hotkey(KeyCode.RightControl);
             hotkeys[HOTKEY_CLOSE_AND_DRAG] = new Hotkey(KeyCode.RightControl);
             hotkeys[HOTKEY_HIDE] = new Hotkey(KeyCode.KeypadEnter);
@@ -101,6 +103,7 @@ namespace Nereid
             hotkeys[HOTKEY_AUTOLAYOUT] = new Hotkey(KeyCode.KeypadMultiply);
             hotkeys[HOTKEY_ALT_HIDE] = new Hotkey(KeyCode.KeypadDivide);
             hotkeys[HOTKEY_ALIGNMENT_GAUGE] = new Hotkey(KeyCode.Tab);
+            hotkeys[HOTKEY_LOCK_PROFILE] = new Hotkey(KeyCode.P);
          }
 
          public bool GetKey(int id)
@@ -187,6 +190,7 @@ namespace Nereid
             //
             try
             {
+               // marker
                String marker = reader.ReadString();
                if (marker != CONFIGFILE_MARK)
                {
@@ -200,10 +204,18 @@ namespace Nereid
                {
                   ReadHotkey(reader, hotkey);
                }
+               //
+               // marker
+               marker = reader.ReadString();
+               if (marker != CONFIGFILE_MARK)
+               {
+                  throw new IOException("config file structure corrupt: missing hotkey marker");
+               }
             }
             catch(IOException e)
             {
                Log.Warning("error reading hotkeys from config");
+               SetDefaultHotkeys();
                throw e;
             }
          }
@@ -221,6 +233,8 @@ namespace Nereid
             {
                WriteHotkey(writer, hotkey);
             }
+            // marker
+            writer.Write(CONFIGFILE_MARK);
          }
 
          public static bool ValidKeyCode(KeyCode keycode)

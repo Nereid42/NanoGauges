@@ -118,6 +118,8 @@ namespace Nereid
             //
             GUILayout.BeginHorizontal();
             DrawHotkey("Set 3", HotkeyManager.HOTKEY_SET_SET3, main_hotkey);
+            GUILayout.FlexibleSpace();
+            DrawHotkey("Lock Profile", HotkeyManager.HOTKEY_LOCK_PROFILE);
             GUILayout.EndHorizontal();
             //
             GUILayout.BeginHorizontal();

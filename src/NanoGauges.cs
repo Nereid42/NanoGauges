@@ -283,7 +283,6 @@ namespace Nereid
                if (!hotkeyPressed)
                {
                   // simple Hotkeys 
-
                   if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_HIDE))
                   {
                      if (gauges.Hidden())
@@ -295,13 +294,17 @@ namespace Nereid
                         gauges.Hide();
                      }
                   }
-                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_PREVSET))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_PREVSET))
                   {
                      SetGaugeSet(configuration.GetGaugeSetId().decrement());
                   }
-                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_NEXTSET))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_NEXTSET))
                   {
                      SetGaugeSet(configuration.GetGaugeSetId().increment());
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_LOCK_PROFILE))
+                  {
+                     profileManager.ToggleLock();
                   }
                }
                else
