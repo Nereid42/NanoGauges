@@ -26,6 +26,7 @@ namespace Nereid
          private readonly PowerOffFlag offFlag;
          private readonly LimiterFlag limitFlag;
 
+
          public HorizontalGauge(int id, Texture2D skin, Texture2D primaryScale, Texture2D secondaryScale = null)
             : base(id)
          {
@@ -51,6 +52,8 @@ namespace Nereid
          {
             mode = SCALE.SECONDARY;
          }
+
+
 
          /**
           * Get the fractional offset of the scale. This method will move the scale regarding to readout value. It has to be implemented by a gauge. 
@@ -116,11 +119,11 @@ namespace Nereid
             }
          }
 
-
          protected virtual void DrawInternalScale()
          {
             // to be overwritten and implemented by subclasses
          }
+
 
          protected virtual void DrawFlags()
          {

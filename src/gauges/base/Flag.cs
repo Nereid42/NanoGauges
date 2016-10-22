@@ -19,6 +19,9 @@ namespace Nereid
 
          enum STATE { UP, DOWN };
 
+         private static readonly Rect texCoords = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
+         private Rect position = new Rect();
+
 
          public Flag(AbstractGauge gauge, Texture2D skin, float a = 0.260f)
          {
@@ -90,9 +93,12 @@ namespace Nereid
             float sh = (float)skin.height;
             float w = sw / gw;
             float h = sh / gh;
-            Rect off = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
-            Rect skinBounds = new Rect(x, y - sh + offset, sw, sh);
-            GUI.DrawTextureWithTexCoords(skinBounds, skin, off, false);
+
+            position.x = x;
+            position.y = y - sh + offset;
+            position.width = sw;
+            position.height = sh;
+            GUI.DrawTextureWithTexCoords(position, skin, texCoords, false);
             Next();
          }
 
