@@ -65,6 +65,7 @@
     <Compile Include="src\gauges\base\AbstractCompassGauge.cs" />
     <Compile Include="src\gauges\base\AlignmentGauge.cs" />
     <Compile Include="src\gauges\base\AbstractTimeGauge.cs" />
+    <Compile Include="src\gauges\base\Sprite.cs" />
     <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
     <Compile Include="src\gauges\base\HorizontalGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />

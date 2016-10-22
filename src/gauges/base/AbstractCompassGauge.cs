@@ -62,20 +62,11 @@ namespace Nereid
 
          protected override void DrawInternalScale()
          {
-            if(blueNeedleEnabled)
+            /*if(blueNeedleEnabled || true)
             {
-               //float delta = 
-               float gw = (float)GetWidth();
-               float gh = (float)GetHeight();
-               float sw = (float)NEEDLE_BLUE.width;
-               float sh = (float)NEEDLE_BLUE.height;
-               float w = sw / gw;
-               float h = sh / gh;
-               Rect off = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
-               float offset =  0.5f; //GetDegrees()
-               Rect skinBounds = new Rect(x, y - sh + offset, sw, sh);
-               GUI.DrawTextureWithTexCoords(skinBounds, NEEDLE_BLUE, off, false);
-            }
+               Sprite s = new Sprite(this, NEEDLE_BLUE);
+               s.Draw(50,0);
+            }*/
          }
 
          protected abstract float GetDegrees();

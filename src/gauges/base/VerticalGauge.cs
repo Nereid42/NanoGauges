@@ -16,6 +16,9 @@ namespace Nereid
          private readonly Texture2D scale;
          private Rect scaleBounds;
          private Rect skinBounds;
+
+         // position of scale
+         private Rect position = new Rect();
          
          private Damper damper;
          private bool autoLimiterEnabled = false;
@@ -36,6 +39,10 @@ namespace Nereid
             this.scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
             //
             this.zoom = new VerticalGaugeZoom(this,skin,scale);
+            //
+            this.position.x = 0;
+            this.position.width = 1.0f;
+
 
             if (scale == null) Log.Error("no scale for gauge " + id + " defined");
             if (skin == null) Log.Error("no skin for gauge " + id + " defined");
@@ -108,7 +115,7 @@ namespace Nereid
             }
          }
 
-         private float GetInternalValue()
+         private float GetDamperValue()
          {
             try
             {
@@ -134,12 +141,14 @@ namespace Nereid
             float verticalScaleratio = (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT / (float)SCALE_HEIGHT;
 
             // scale
-            float value = GetInternalValue();
-            Rect off = new Rect(0, value, 1.0f, verticalScaleratio);
-            GUI.DrawTextureWithTexCoords(skinBounds, scale, off, false);
+            float scaleoffset = GetDamperValue();
+            this.position.y = scaleoffset;
+            this.position.height = verticalScaleratio;
+
+            GUI.DrawTextureWithTexCoords(skinBounds, scale, position, false);
             //
             // zoom
-            zoom.value = value;
+            zoom.value = scaleoffset;
             //
             // flags
             if(NanoGauges.configuration.gaugeMarkerEnabled)

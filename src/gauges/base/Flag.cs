@@ -7,6 +7,8 @@ namespace Nereid
    {
       public abstract class Flag
       {
+         private const int Y_UP = 0;
+
          private readonly AbstractGauge gauge;
          private readonly Texture2D skin;
          private bool visible = false;
@@ -23,7 +25,7 @@ namespace Nereid
          private Rect position = new Rect();
 
 
-         public Flag(AbstractGauge gauge, Texture2D skin, float a = 0.260f)
+         public Flag(AbstractGauge gauge, Texture2D skin, float a = 0.240f)
          {
             this.gauge = gauge;
             this.skin = skin;
@@ -31,6 +33,7 @@ namespace Nereid
             this.a = a;
             this.d = 0;
             this.state = STATE.UP;
+            this.offset = Y_UP;
          }
 
          public void Down()
@@ -70,7 +73,7 @@ namespace Nereid
             {
                offset -= d;
                if (d < 2) d += a;
-               if (offset < 0) offset = 0;
+               if (offset < Y_UP) offset = Y_UP;
             }
             else
             {

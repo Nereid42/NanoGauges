@@ -21,6 +21,8 @@ namespace Nereid
          private readonly Texture2D secondaryScale;
          private Rect scaleBounds;
          private Rect skinBounds;
+         // position of scale
+         private Rect off = new Rect();
          
 
          private readonly PowerOffFlag offFlag;
@@ -35,6 +37,10 @@ namespace Nereid
             this.skin = skin;
             this.skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
             this.scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
+            //
+            this.off.y = 0;
+            this.off.height = 1.0f;
+
 
             if (primaryScale == null) Log.Error("no scale for gauge " + id + " defined");
             if (skin == null) Log.Error("no skin for gauge " + id + " defined");
@@ -142,7 +148,8 @@ namespace Nereid
 
             // draw scale
             float scaleOffset = GetScaleOffset();
-            Rect off = new Rect(scaleOffset, 0, horizonalScaleratio, 1.0f);
+            this.off.x = scaleOffset;
+            this.off.width = horizonalScaleratio;
             if(mode==SCALE.PRIMARY && secondaryScale!=null)
             {
                // primary scale
