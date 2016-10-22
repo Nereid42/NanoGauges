@@ -15,23 +15,23 @@ namespace Nereid
          private const int X_FLAG_RELATIVE = 14;
          private readonly Flag relativeFlag;
 
+         private float degrees = 0;
          private float scaleOffset = 0;
 
          // needles
          private readonly Texture2D NEEDLE_BLUE = Utils.GetTexture("Nereid/NanoGauges/Resource/BLUE-horizontal-needle");
+         private readonly Sprite blueNeedle;
          private bool blueNeedleEnabled;
          private float blueNeedleDegrees;
-         //private bool redNeedleEnabled;
-
 
          public AbstractCompassGauge(int id, Texture2D skin)
             : base(id, skin, SCALE00,SCALE0B)
          {
             relativeFlag = new RFlag(this);
 
+            this.blueNeedle = new Sprite(this, NEEDLE_BLUE);
             this.blueNeedleEnabled = false;
             this.blueNeedleDegrees = 0.0f;
-            //this.redNeedleEnabled = false;
          }
 
          public void SetBlueNeedleTo(float degrees)
@@ -44,16 +44,6 @@ namespace Nereid
             blueNeedleEnabled = true;
          }
 
-         /*public void EnableRedNeedle()
-         {
-            redNeedleEnabled = true;
-         }
-
-         public void DisableRedNeedle()
-         {
-            redNeedleEnabled = false;
-         }*/
-
          public void DisableBlueNeedle()
          {
             blueNeedleEnabled = false;
@@ -62,11 +52,15 @@ namespace Nereid
 
          protected override void DrawInternalScale()
          {
-            /*if(blueNeedleEnabled || true)
+            if(blueNeedleEnabled)
             {
-               Sprite s = new Sprite(this, NEEDLE_BLUE);
-               s.Draw(50,0);
-            }*/
+               blueNeedleDegrees = 45f;
+
+               float angle = (blueNeedleDegrees - ((IsOn() && IsInLimits()) ? GetDegrees() : this.degrees)) % 360;
+               if (angle < 0) angle += 360;
+               float x = angle + GetWidth() / 2;
+               blueNeedle.Draw(x, 0);
+            }
          }
 
          protected abstract float GetDegrees();
@@ -92,9 +86,11 @@ namespace Nereid
 
          protected override float GetScaleOffset()
          {
-            float offset = ( GetDegrees() % 360 )  / (float)SCALE_WIDTH;
+            float degrees = GetDegrees() % 360;
+            float offset = degrees / (float)SCALE_WIDTH;
             if (!IsOn() || !IsInLimits()) return this.scaleOffset;
             this.scaleOffset = offset;
+            this.degrees = degrees;
             return offset;
          }
       }
