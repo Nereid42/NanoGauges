@@ -298,6 +298,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CAMERA, "Camera compass gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LATITUDE, "Latitude gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LONGITUDE, "Longitude gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_NAV, "VOR/ILS gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VESSEL, "Vessel gauge enabled");
             GUILayout.EndScrollView();
             

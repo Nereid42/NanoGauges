@@ -9,7 +9,7 @@ namespace Nereid
       public class Sprite
       {
 
-         private readonly AbstractGauge gauge;
+         protected readonly AbstractGauge gauge;
          private readonly Texture2D skin;
 
          private Rect position = new Rect();

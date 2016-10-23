@@ -18,49 +18,77 @@ namespace Nereid
          private float degrees = 0;
          private float scaleOffset = 0;
 
+
          // needles
          private readonly Texture2D NEEDLE_BLUE = Utils.GetTexture("Nereid/NanoGauges/Resource/BLUE-horizontal-needle");
-         private readonly Sprite blueNeedle;
-         private bool blueNeedleEnabled;
-         private float blueNeedleDegrees;
+         private readonly Texture2D NEEDLE_RED = Utils.GetTexture("Nereid/NanoGauges/Resource/RED-horizontal-needle");
+         private readonly Texture2D NEEDLE_YELLOW = Utils.GetTexture("Nereid/NanoGauges/Resource/YELLOW-horizontal-needle");
+         private Needle blueNeedle;
+         private Needle redNeedle;
+         private Needle yellowNeedle;
 
          public AbstractCompassGauge(int id, Texture2D skin)
             : base(id, skin, SCALE00,SCALE0B)
          {
             relativeFlag = new RFlag(this);
 
-            this.blueNeedle = new Sprite(this, NEEDLE_BLUE);
-            this.blueNeedleEnabled = false;
-            this.blueNeedleDegrees = 0.0f;
+            this.blueNeedle = new Needle(this, NEEDLE_BLUE);
+            this.redNeedle = new Needle(this, NEEDLE_RED);
+            this.yellowNeedle = new Needle(this, NEEDLE_YELLOW);
+
          }
 
          public void SetBlueNeedleTo(float degrees)
          {
-            this.blueNeedleDegrees = degrees;
+            this.blueNeedle.degrees = degrees;
          }
 
          public void EnableBlueNeedle()
          {
-            blueNeedleEnabled = true;
+            this.blueNeedle.enabled = true;
          }
 
          public void DisableBlueNeedle()
          {
-            blueNeedleEnabled = false;
+            this.blueNeedle.enabled = false;
+         }
+
+         public void SetRedNeedleTo(float degrees)
+         {
+            this.redNeedle.degrees = degrees;
+         }
+
+         public void EnableRedNeedle()
+         {
+            this.redNeedle.enabled = true;
+         }
+
+         public void DisableRedNeedle()
+         {
+            this.redNeedle.enabled = false;
+         }
+
+         public void SetYellowNeedleTo(float degrees)
+         {
+            this.yellowNeedle.degrees = degrees;
+         }
+
+         public void EnableYellowNeedle()
+         {
+            this.yellowNeedle.enabled = true;
+         }
+
+         public void DisableYellowNeedle()
+         {
+            this.yellowNeedle.enabled = false;
          }
 
 
          protected override void DrawInternalScale()
          {
-            if(blueNeedleEnabled)
-            {
-               blueNeedleDegrees = 45f;
-
-               float angle = (blueNeedleDegrees - ((IsOn() && IsInLimits()) ? GetDegrees() : this.degrees)) % 360;
-               if (angle < 0) angle += 360;
-               float x = angle + GetWidth() / 2;
-               blueNeedle.Draw(x, 0);
-            }
+            blueNeedle.Draw(this.degrees);
+            redNeedle.Draw(this.degrees);
+            yellowNeedle.Draw(this.degrees);
          }
 
          protected abstract float GetDegrees();
@@ -83,7 +111,6 @@ namespace Nereid
             relativeFlag.Up();
          }
 
-
          protected override float GetScaleOffset()
          {
             float degrees = GetDegrees() % 360;
@@ -92,6 +119,30 @@ namespace Nereid
             this.scaleOffset = offset;
             this.degrees = degrees;
             return offset;
+         }
+
+         private class Needle : Sprite
+         {
+            public float degrees = 0.0f;
+            public bool enabled = false;
+
+            public Needle(AbstractGauge gauge, Texture2D texture)
+               : base(gauge,texture)
+            {
+
+            }
+
+            public void Draw(float relativeTo)
+            {
+               if(enabled)
+               {
+                  float angle = degrees - relativeTo;
+                  if (angle > 180.0f) angle = angle - 360.0f;
+                  if (angle < -180.0f) angle = angle + 360.0f;
+                  float x = angle + gauge.GetWidth() / 2;
+                  Draw(x, 0);
+               }
+            }
          }
       }
    }

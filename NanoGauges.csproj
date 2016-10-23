@@ -70,6 +70,7 @@
     <Compile Include="src\gauges\base\HorizontalGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\NavGauge.cs" />
     <Compile Include="src\gauges\CameraCompassGauge.cs" />
     <Compile Include="src\gauges\VesselGauge.cs" />
     <Compile Include="src\gauges\CO2Gauge.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="src\util\Log.cs" />
     <Compile Include="src\util\Measurement.cs" />
     <Compile Include="src\util\MovingAverage.cs" />
+    <Compile Include="src\util\Coords.cs" />
     <Compile Include="src\util\Pair.cs" />
     <Compile Include="src\util\HotkeyManager.cs" />
     <Compile Include="src\util\Reference.cs" />

@@ -94,8 +94,9 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_CRAP = WINDOW_ID_BASE + 81;
          public const int WINDOW_ID_GAUGE_IAS = WINDOW_ID_BASE + 82;
          public const int WINDOW_ID_GAUGE_VESSEL = WINDOW_ID_BASE + 83;
-         public const int WINDOW_ID_GAUGE_DELTAV = WINDOW_ID_BASE + 84;
+         public const int WINDOW_ID_GAUGE_DELTAV = WINDOW_ID_BASE + 84; // not used
          public const int WINDOW_ID_GAUGE_CAMERA = WINDOW_ID_BASE + 85;
+         public const int WINDOW_ID_GAUGE_NAV = WINDOW_ID_BASE + 86;
          //
          public const int WINDOW_ID_GAUGE_ALIGNMENT = 19999;
 
@@ -152,6 +153,8 @@ namespace Nereid
          public static readonly  Pair<int, int> ORIGIN = new Pair<int, int>(0, 0);
 
          public static readonly UnityEngine.Color ORANGE = new UnityEngine.Color(250, 100, 0);
+
+         public static readonly Coords COORDS_RUNWAY_SPACE_CENTER = new Coords(-Utils.ToDegrees(74, 41, 28), -Utils.ToDegrees(0, 2, 26));
 
       }
    }
