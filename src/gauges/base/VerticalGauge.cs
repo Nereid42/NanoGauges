@@ -119,7 +119,7 @@ namespace Nereid
          {
             try
             {
-               return damper.GetValue();
+               return damper.Get();
             }
             catch (Exception e)
             {
@@ -136,7 +136,7 @@ namespace Nereid
             //AutomaticLimiter();
 
             // damper for smoother changes in the gauges
-            damper.SetValue(GetScaleOffset());
+            damper.Set(GetScaleOffset());
 
             float verticalScaleratio = (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT / (float)SCALE_HEIGHT;
 

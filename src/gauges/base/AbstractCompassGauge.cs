@@ -126,10 +126,14 @@ namespace Nereid
             public float degrees = 0.0f;
             public bool enabled = false;
 
+            private readonly Damper traverseDamper;
+
+            private bool traversing = false;
+
             public Needle(AbstractGauge gauge, Texture2D texture)
                : base(gauge,texture)
             {
-
+               traverseDamper = new Damper(1.0f,int.MinValue,int.MaxValue);
             }
 
             public void Draw(float relativeTo)
@@ -140,6 +144,34 @@ namespace Nereid
                   if (angle > 180.0f) angle = angle - 360.0f;
                   if (angle < -180.0f) angle = angle + 360.0f;
                   float x = angle + gauge.GetWidth() / 2;
+                  float margin = gauge.GetWidth() / 24.0f;
+                  float xmin = margin;
+                  float xmax = gauge.GetWidth() - margin - GetWidth();
+                  if (x <= xmin)
+                  {
+                     if(!traversing)
+                     {
+                        traverseDamper.SetValue(xmin);
+                        traversing = true;
+                     }
+                     traverseDamper.Set(xmin);
+                     x = traverseDamper.Get();
+                     Draw(x, 0);
+                     return;
+                  }
+                  if (x >= xmax)
+                  {
+                     if (!traversing)
+                     {
+                        traverseDamper.SetValue(xmax);
+                        traversing = true;
+                     }
+                     traverseDamper.Set(xmax);
+                     x = traverseDamper.Get();
+                     Draw(x, 0);
+                     return;
+                  }
+                  traversing = false;
                   Draw(x, 0);
                }
             }
