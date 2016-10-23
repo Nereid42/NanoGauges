@@ -147,32 +147,22 @@ namespace Nereid
                   float margin = gauge.GetWidth() / 24.0f;
                   float xmin = margin;
                   float xmax = gauge.GetWidth() - margin - GetWidth();
-                  if (x <= xmin)
+                  if (x <= xmin || x>xmax)
                   {
-                     if(!traversing)
+                     float limit = (x<=xmin)?xmin:xmax;
+                     if(!traversing )
                      {
-                        traverseDamper.SetValue(xmin);
+                        traverseDamper.SetValue(limit);
                         traversing = true;
                      }
-                     traverseDamper.Set(xmin);
-                     x = traverseDamper.Get();
-                     Draw(x, 0);
-                     return;
+                     traverseDamper.Set(limit);
+                     Draw(traverseDamper.Get(), 0);
                   }
-                  if (x >= xmax)
+                  else
                   {
-                     if (!traversing)
-                     {
-                        traverseDamper.SetValue(xmax);
-                        traversing = true;
-                     }
-                     traverseDamper.Set(xmax);
-                     x = traverseDamper.Get();
+                     traversing = false;
                      Draw(x, 0);
-                     return;
                   }
-                  traversing = false;
-                  Draw(x, 0);
                }
             }
          }

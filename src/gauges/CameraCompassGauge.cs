@@ -14,12 +14,6 @@ namespace Nereid
             : base(Constants.WINDOW_ID_GAUGE_CAMERA, SKIN)
          {
             Absolut();
-            EnableBlueNeedle();
-            SetBlueNeedleTo(8);
-            EnableRedNeedle();
-            SetRedNeedleTo(30);
-            EnableYellowNeedle();
-            SetYellowNeedleTo(45);
          }
 
          public override string GetName()
