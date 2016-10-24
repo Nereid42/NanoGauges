@@ -72,7 +72,7 @@ namespace Nereid
 
             float hdg = FlightGlobals.ship_heading;
 
-            float bearing = Utils.InitialBearingFromTo(vessel.longitude, vessel.latitude, Constants.COORDS_RUNWAY_SPACE_CENTER.longitude, Constants.COORDS_RUNWAY_SPACE_CENTER.latitude);
+            float bearing = NavUtils.InitialBearingFromTo(vessel.longitude, vessel.latitude, Constants.COORDS_RUNWAY_SPACE_CENTER.longitude, Constants.COORDS_RUNWAY_SPACE_CENTER.latitude);
 
             if(bearing<0)
             {

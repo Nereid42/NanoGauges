@@ -253,6 +253,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HEAT, "Heat shield temperatur gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Horizontal acceleration gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HSPD, "Horizontal speed gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_GLIDE, "ILS/DME gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_IMPACT, "Impact gauge");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_IAS, "Indicated airspeed gauge");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DISP, "ISP rate gauge (Delta Isp/s) enabled");

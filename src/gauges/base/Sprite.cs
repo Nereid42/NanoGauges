@@ -35,7 +35,7 @@ namespace Nereid
          }
 
 
-         public void Draw(float x = 0, float y = 0)
+         public virtual void Draw(float x = 0, float y = 0)
          {
             float gw = (float)gauge.GetWidth();
             float gh = (float)gauge.GetHeight();

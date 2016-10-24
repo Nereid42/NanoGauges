@@ -102,6 +102,16 @@ namespace Nereid
          }
 
 
+         protected virtual void DrawInternalScale()
+         {
+            // to be overwritten and implemented by subclasses
+         }
+
+         protected virtual void DrawOverlay()
+         {
+            // to be overwritten and implemented by subclasses
+         }
+
          private double GetInternalScaleOffset()
          {
             try 
@@ -161,6 +171,9 @@ namespace Nereid
             //
             // skin
             GUI.DrawTexture(skinBounds, skin);
+            //
+            // Overlay
+            DrawOverlay();
          }
 
          protected override void OnTooltip()

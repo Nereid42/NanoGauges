@@ -12,6 +12,11 @@ namespace Nereid
          public double longitude { get; private set; }
          public double latitude { get; private set; }
 
+         public static Coords Create(double longitude, double latitude)
+         {
+            return new Coords(longitude, latitude);
+         }
+
          public Coords(double longitude, double latitude)
          {
             this.longitude = longitude;

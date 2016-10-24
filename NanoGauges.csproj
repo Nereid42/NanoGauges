@@ -65,11 +65,13 @@
     <Compile Include="src\gauges\base\AbstractCompassGauge.cs" />
     <Compile Include="src\gauges\base\AlignmentGauge.cs" />
     <Compile Include="src\gauges\base\AbstractTimeGauge.cs" />
+    <Compile Include="src\gauges\base\DigitalDisplay.cs" />
     <Compile Include="src\gauges\base\Sprite.cs" />
     <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
     <Compile Include="src\gauges\base\HorizontalGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\GlideGauge.cs" />
     <Compile Include="src\gauges\NavGauge.cs" />
     <Compile Include="src\gauges\CameraCompassGauge.cs" />
     <Compile Include="src\gauges\VesselGauge.cs" />
@@ -168,6 +170,9 @@
     <Compile Include="src\inspecteurs\AccelerationInspecteur.cs" />
     <Compile Include="src\inspecteurs\VesselInspecteur.cs" />
     <Compile Include="src\NanoGauges.cs" />
+    <Compile Include="src\navigation\NavGlobals.cs" />
+    <Compile Include="src\navigation\Runway.cs" />
+    <Compile Include="src\navigation\NavUtils.cs" />
     <Compile Include="src\profiles\Profile.cs" />
     <Compile Include="src\profiles\ProfileBehaviour.cs" />
     <Compile Include="src\profiles\ProfileManager.cs" />

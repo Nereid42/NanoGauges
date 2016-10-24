@@ -96,46 +96,6 @@ namespace Nereid
          {
             return (double)degrees + ((double)minutes) / 60.0 + ((double)seconds) / 3600.0;
          }
-
-         public static float InitialBearingFromTo(double longitudeFrom, double latitudeFrom, double longitudeTo, double latitudeTo)
-         {
-            double phi1 = Utils.DegreeToRadians(latitudeFrom);
-            double lambda1 = Utils.DegreeToRadians(longitudeFrom);
-            double phi2 = Utils.DegreeToRadians(latitudeTo);
-            double lambda2 = Utils.DegreeToRadians(longitudeTo);
-
-
-            double dy = Math.Sin(lambda2-lambda1) * Math.Cos(phi2);
-            double dx = Math.Cos(phi1) * Math.Sin(phi2) - Math.Sin(phi1) * Math.Cos(phi2) * Math.Cos(lambda2 - lambda1);
-
-            if(dx==0)
-            {
-               if (lambda2 - lambda1 > 0) return 0.0f;
-               return 180.0f;
-            }
-
-            double theta = Math.Atan2(dy,dx);
-            float bearing = (float)(RadiansToDegree(theta) + 360.0f) % 360.0f;
-            return bearing;
-         }
-
-         public static float BearingFromTo(double longitudeFrom, double latitudeFrom, double longitudeTo, double latitudeTo)
-         {
-            double phi1 = Utils.DegreeToRadians(latitudeFrom);
-            double lambda1 = Utils.DegreeToRadians(longitudeFrom);
-            double phi2 = Utils.DegreeToRadians(latitudeTo);
-            double lambda2 = Utils.DegreeToRadians(longitudeTo);
-
-            double dphi = Math.Log( Math.Tan(Math.PI/4 +phi2/2) / Math.Tan(Math.PI/4 +phi1/2) );
-            double dlambda = Math.Abs(lambda2 - lambda1);
-
-            double theta = Math.Atan2(dlambda, dphi);
-            float bearing = (float)(RadiansToDegree(theta) + 360.0f) % 360.0f;
-            return bearing;
-         }
-
-
-
       }
    }
 }

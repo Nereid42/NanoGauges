@@ -97,6 +97,7 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_DELTAV = WINDOW_ID_BASE + 84; // not used
          public const int WINDOW_ID_GAUGE_CAMERA = WINDOW_ID_BASE + 85;
          public const int WINDOW_ID_GAUGE_NAV = WINDOW_ID_BASE + 86;
+         public const int WINDOW_ID_GAUGE_GLIDE = WINDOW_ID_BASE + 87;
          //
          public const int WINDOW_ID_GAUGE_ALIGNMENT = 19999;
 

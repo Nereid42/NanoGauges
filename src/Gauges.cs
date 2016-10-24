@@ -96,7 +96,8 @@ namespace Nereid
             AddGauge(new IndicatedAirspeedGauge());
             // not working
             //AddGauge(new TimeToTransistionGauge());
-
+            AddGauge(new GlideGauge());
+            
             // horizontal gauges
             AddGauge(new VesselGauge());
             AddGauge(new BiomeGauge(biomeInspecteur));
