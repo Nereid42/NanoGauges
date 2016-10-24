@@ -154,8 +154,11 @@ namespace Nereid
             float scaleoffset = GetDamperValue();
             this.position.y = scaleoffset;
             this.position.height = verticalScaleratio;
-
+            // draw scale
             GUI.DrawTextureWithTexCoords(skinBounds, scale, position, false);
+            //
+            // internal scale
+            DrawInternalScale();
             //
             // zoom
             zoom.value = scaleoffset;
