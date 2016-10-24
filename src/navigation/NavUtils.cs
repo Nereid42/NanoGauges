@@ -65,7 +65,6 @@ namespace Nereid
             double c = 2*Math.Atan2(Math.Sqrt(a),Math.Sqrt(1-a));
             double d = radius * c;
             */
-            
 
             // less complex sperical law of Cosinus
             double d = Math.Acos ( Math.Sin(phi1)*Math.Sin(phi2) +Math.Cos(phi1)*Math.Cos(phi2)*Math.Cos(lambda2 - lambda1) ) * radius;
@@ -79,6 +78,23 @@ namespace Nereid
             return DistanceFromTo(vessel.longitude, vessel.latitude, runway.coords.longitude, runway.coords.latitude, vessel.mainBody.Radius);
          }
 
+         public static Coords LocationFromBearingAtDistance(double longitudeFrom, double latitudeFrom, float bearing, float distance, double radius)
+         {
+            double phi1 = Utils.DegreeToRadians(latitudeFrom);
+            double lambda1 = Utils.DegreeToRadians(longitudeFrom);
+            double theta = Utils.DegreeToRadians(bearing);
+            double rho = distance / radius;
+
+            double phi2 = Math.Asin(Math.Sin(phi1) * Math.Cos(rho) + Math.Cos(phi1) * Math.Sin(rho) * Math.Cos(theta));
+            double lambda2 = lambda1 + Math.Atan2(Math.Sin(theta) * Math.Sin(rho) * Math.Cos(phi1), Math.Cos(rho) - Math.Sin(phi1) * Math.Sin(phi2));
+
+            return new Coords( lambda2, phi2 );
+         }
+
+         public static Coords LocationRunwayAtDistance(Runway runway, float distance, double radius)
+         {
+            return LocationFromBearingAtDistance(runway.coords.longitude, runway.coords.latitude, runway.From(), distance, radius);
+         }
       }
    }
 

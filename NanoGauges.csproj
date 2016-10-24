@@ -171,6 +171,7 @@
     <Compile Include="src\inspecteurs\VesselInspecteur.cs" />
     <Compile Include="src\NanoGauges.cs" />
     <Compile Include="src\navigation\NavGlobals.cs" />
+    <Compile Include="src\navigation\Airport.cs" />
     <Compile Include="src\navigation\Runway.cs" />
     <Compile Include="src\navigation\NavUtils.cs" />
     <Compile Include="src\profiles\Profile.cs" />

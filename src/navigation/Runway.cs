@@ -26,6 +26,18 @@ namespace Nereid
             this.slopeTangens = (float)Math.Tan(Utils.DegreeToRadians(glideslope));
          }
 
+         public float From()
+         {
+            if (heading > 180.0f) return heading - 180.0f;
+            if (heading == 0.0f) return 180.0f;
+            return 360.0f - heading;
+         }
+
+         public float To()
+         {
+            return heading;
+         }
+
          public override string ToString()
          {
             return "Runway "+name+ " at "+coords+" "+elevation+"m ["+heading.ToString("000")+"]\\"+glideslope+"°";
