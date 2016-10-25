@@ -155,8 +155,6 @@ namespace Nereid
 
          public static readonly UnityEngine.Color ORANGE = new UnityEngine.Color(250, 100, 0);
 
-         public static readonly Coords COORDS_RUNWAY_SPACE_CENTER = new Coords(-Utils.ToDegrees(74, 41, 28), -Utils.ToDegrees(0, 2, 26));
-
       }
    }
 }

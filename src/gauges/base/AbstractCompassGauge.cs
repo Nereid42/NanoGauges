@@ -35,10 +35,10 @@ namespace Nereid
             this.blueNeedle = new Needle(this, NEEDLE_BLUE);
             this.redNeedle = new Needle(this, NEEDLE_RED);
             this.yellowNeedle = new Needle(this, NEEDLE_YELLOW);
-
+            this.yellowNeedle.mode = Needle.MODE.INDEPENDET;
          }
 
-         public void SetBlueNeedleTo(float degrees)
+         public void SetBlueNeedleTo(double degrees)
          {
             this.blueNeedle.degrees = degrees;
          }
@@ -53,7 +53,7 @@ namespace Nereid
             this.blueNeedle.enabled = false;
          }
 
-         public void SetRedNeedleTo(float degrees)
+         public void SetRedNeedleTo(double degrees)
          {
             this.redNeedle.degrees = degrees;
          }
@@ -68,7 +68,7 @@ namespace Nereid
             this.redNeedle.enabled = false;
          }
 
-         public void SetYellowNeedleTo(float degrees)
+         public void SetYellowNeedleTo(double degrees)
          {
             this.yellowNeedle.degrees = degrees;
          }
@@ -123,8 +123,16 @@ namespace Nereid
 
          private class Needle : Sprite
          {
-            public float degrees = 0.0f;
+            public double degrees = 0.0f;
             public bool enabled = false;
+
+            public enum MODE
+            {
+               SCALE,       // needle follows scale
+               INDEPENDET   // needle indepentdent from scale (stays  degrees left/right from center)
+            };
+
+            public MODE mode = MODE.SCALE;
 
             private readonly Damper traverseDamper;
 
@@ -139,17 +147,25 @@ namespace Nereid
             public void Draw(float relativeTo)
             {
                if(enabled)
-               {
-                  float angle = degrees - relativeTo;
-                  if (angle > 180.0f) angle = angle - 360.0f;
-                  if (angle < -180.0f) angle = angle + 360.0f;
-                  float x = angle + gauge.GetWidth() / 2;
+               {                  
+                  double angle;
+                  if (mode == MODE.SCALE)
+                  {
+                     angle = degrees - relativeTo;
+                     if (angle > 180.0f) angle = angle - 360.0f;
+                     if (angle < -180.0f) angle = angle + 360.0f;
+                  }
+                  else
+                  {
+                     angle = degrees;
+                  }
+                  float x = (float)angle + gauge.GetWidth() / 2;
                   float margin = gauge.GetWidth() / 24.0f;
                   float xmin = margin;
                   float xmax = gauge.GetWidth() - margin - GetWidth();
                   if (x <= xmin || x>xmax)
                   {
-                     float limit = (x<=xmin)?xmin:xmax;
+                     float limit = (x <= xmin) ? xmin : xmax;
                      if(!traversing )
                      {
                         traverseDamper.SetValue(limit);

@@ -11,20 +11,22 @@ namespace Nereid
       {
          public readonly String name;
          public readonly Runway[] runways;
+         public readonly Coords coords;
 
          public Airport(String name, params Runway[] runways)
          {
             this.name = name;
             this.runways = runways;
+            this.coords = CenterOfRunways(runways);
          }
 
-         public Runway GetLandingRunwayForBearing(float bearing)
+         public Runway GetLandingRunwayForBearing(double bearing)
          {
             Runway result = null;
-            float best = float.MaxValue;
+            double best = float.MaxValue;
             foreach(Runway rwy in runways)
             {
-               float d = Math.Abs(rwy.heading - bearing); // WRONG !!
+               double d = Math.Abs(rwy.heading - bearing); // WRONG !!
                if( d < best )
                {
                   result = rwy;
@@ -32,6 +34,23 @@ namespace Nereid
                }
             }
             return result;
+         }
+
+         private Coords CenterOfRunways(Runway[] runways)
+         {
+            double lonCenter = 0;
+            double latCenter = 0;
+            foreach(Runway rwy in runways)
+            {
+               lonCenter += rwy.coords.longitude;
+               latCenter += rwy.coords.latitude;
+            }
+            return new Coords(lonCenter / runways.Length, latCenter / runways.Length);
+         }
+
+         public override string ToString()
+         {
+            return "Airport " + name+ " at "+coords;
          }
 
       }

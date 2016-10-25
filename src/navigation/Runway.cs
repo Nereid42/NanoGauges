@@ -11,10 +11,12 @@ namespace Nereid
       {
          public readonly String name;
          public readonly Coords coords;
-         public readonly float elevation;
-         public readonly float heading;
-         public readonly float glideslope;
-         public readonly float slopeTangens;
+         public readonly double elevation;
+         public readonly double heading;
+         public readonly double glideslope;
+         public readonly double slopeTangens;
+         public readonly double From;
+         public readonly double To;
 
          public Runway(String name, Coords coords, float elevation, float heading, float glideslope = 3.0f)
          {
@@ -24,18 +26,8 @@ namespace Nereid
             this.heading = heading;
             this.glideslope = glideslope;
             this.slopeTangens = (float)Math.Tan(Utils.DegreeToRadians(glideslope));
-         }
-
-         public float From()
-         {
-            if (heading > 180.0f) return heading - 180.0f;
-            if (heading == 0.0f) return 180.0f;
-            return 360.0f - heading;
-         }
-
-         public float To()
-         {
-            return heading;
+            this.To = heading;
+            this.From = NavUtils.InverseHeading(To);
          }
 
          public override string ToString()

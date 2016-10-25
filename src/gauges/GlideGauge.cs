@@ -39,24 +39,28 @@ namespace Nereid
             return "Landing Glide path and distance to runway";
          }
 
+         protected override void AjustValues()
+         {
+            base.AjustValues();
+            Vessel vessel = FlightGlobals.ActiveVessel;
+            // TODO: to NavGlobals
+            yellowNeedle.degrees = (float)(NavUtils.VerticalGlideSlopeDeviation(vessel, NavGlobals.RUNWAY_090_SPACECENTER) / 4.0);
+            //
+            // DME
+            // TODO: to NavGlobals
+            double d = NavUtils.DistanceToRunway(FlightGlobals.ActiveVessel, NavGlobals.RUNWAY_090_SPACECENTER);
+            int dme = (int)(d / 1000.0);
+            DmeDisplay.SetValue(dme);
+         }
+
          protected override void DrawInternalScale()
          {
-            // TODO: to NavGlobals
             Vessel vessel = FlightGlobals.ActiveVessel;
-            float d = NavUtils.DistanceToRunway(vessel, NavGlobals.RUNWAY_090_SPACECENTER);
-            float slopeAltitude = runway.slopeTangens * d + runway.elevation;
-            float deviation = (slopeAltitude - (float)vessel.altitude);
-            yellowNeedle.Draw(deviation / 4.0f);
+            yellowNeedle.Draw();
          }
 
          protected override void DrawOverlay()
          {
-            // TODO: to NavGlobals
-            float d = NavUtils.DistanceToRunway(FlightGlobals.ActiveVessel, NavGlobals.RUNWAY_090_SPACECENTER);
-            Log.Test("Distance to rwy: "+d.ToString("0.0"));
-            int dme = (int)(d/1000.0f);
-            DmeDisplay.SetValue(dme);
-
             float h = GetHeight();
             float w = GetWidth();
             float x = w - DmeDisplay.GetWidth();
@@ -102,12 +106,11 @@ namespace Nereid
                traverseDamper = new Damper(1.0f, int.MinValue, int.MaxValue);
             }
 
-            public void Draw(float degrees)
+            public void Draw()
             {
                if (enabled)
                {
                   float y = gauge.GetHeight() / 2 - degrees;
-                  Log.Test("y=" + y);
                   float margin = gauge.GetHeight() / 6.0f;
                   float ymin = margin;
                   float ymax = gauge.GetHeight() - margin - GetHeight();

@@ -60,11 +60,19 @@ namespace Nereid
          {
          }
 
+         // adjust values like internal needles, etc
+         // called once per Update before the gauge is drawn
+         protected virtual void AjustValues()
+         {
+            // overwritten by subclasses
+         }
+
 
          public void OnDraw()
          {
             if (visible)
             {
+               AjustValues();
                bounds = GUI.Window(id, bounds, OnWindowInternal, "", GUI.skin.label);
             }
             else

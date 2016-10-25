@@ -15,6 +15,7 @@ namespace Nereid
          {
             Absolut();
             EnableBlueNeedle();
+            EnableYellowNeedle();
          }
 
          public override string GetName()
@@ -47,10 +48,16 @@ namespace Nereid
             return false;
          }
 
+         protected override void AjustValues()
+         {
+            base.AjustValues();
+            SetBlueNeedleTo(NavGlobals.bearingToRunway);
+            SetYellowNeedleTo(NavGlobals.horizontalGlideslopeDeviation/8.0);
+         }
+
          protected override float GetDegrees()
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
-
 
             if (vessel.mainBody == null || vessel == null || !vessel.mainBody.isHomeWorld)
             {
@@ -71,15 +78,6 @@ namespace Nereid
             On();
 
             float hdg = FlightGlobals.ship_heading;
-
-            float bearing = NavUtils.InitialBearingFromTo(vessel.longitude, vessel.latitude, Constants.COORDS_RUNWAY_SPACE_CENTER.longitude, Constants.COORDS_RUNWAY_SPACE_CENTER.latitude);
-
-            if(bearing<0)
-            {
-               bearing = 360 - bearing;
-            }
-
-            SetBlueNeedleTo(bearing);
 
             return hdg; 
          }

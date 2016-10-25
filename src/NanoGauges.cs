@@ -38,6 +38,7 @@ namespace Nereid
          // debug
          private readonly TimedStatistics.Timer updateTimer = TimedStatistics.instance.GetTimer("Update");
          private readonly TimedStatistics.Timer gaugeUpdateTimer = TimedStatistics.instance.GetTimer("Gauge updates");
+         private readonly TimedStatistics.Timer navUpdateTimer = TimedStatistics.instance.GetTimer("Navigation updates");
 
 
          static NanoGauges()
@@ -99,6 +100,10 @@ namespace Nereid
                Log.Info("stock toolbar button enabled");
                CreateStockToolbarButton();
             }
+            
+            // scheduling navigation Updates
+            InvokeRepeating("UpdateNavGlobals", 0.0f, 0.1f);
+            
             Log.Info("NanoGauges started");
          }
 
@@ -248,6 +253,19 @@ namespace Nereid
             finally
             {
                gaugeUpdateTimer.Stop();
+            }
+         }
+
+         private void UpdateNavGlobals()
+         {
+            navUpdateTimer.Start();
+            try
+            {
+               NavGlobals.Update();
+            }
+            finally
+            {
+               navUpdateTimer.Stop();
             }
          }
 
