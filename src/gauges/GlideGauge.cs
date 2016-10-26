@@ -43,14 +43,28 @@ namespace Nereid
          {
             base.AjustValues();
             Vessel vessel = FlightGlobals.ActiveVessel;
-            // TODO: to NavGlobals
-            yellowNeedle.degrees = (float)(NavUtils.VerticalGlideSlopeDeviation(vessel, NavGlobals.RUNWAY_090_SPACECENTER) / 4.0);
-            //
-            // DME
-            // TODO: to NavGlobals
-            double d = NavUtils.DistanceToRunway(FlightGlobals.ActiveVessel, NavGlobals.RUNWAY_090_SPACECENTER);
-            int dme = (int)(d / 1000.0);
-            DmeDisplay.SetValue(dme);
+            if (vessel!=null && NavGlobals.landingRunway != null)
+            {
+               yellowNeedle.degrees = (float)(NavUtils.VerticalGlideSlopeDeviation(vessel, NavGlobals.landingRunway) / 4.0);
+               //
+               // DME
+               double d = NavUtils.DistanceToRunway(FlightGlobals.ActiveVessel, NavGlobals.landingRunway);
+               int dme = (int)(d / 1000.0);
+               if(dme<=99)
+               {
+                  InLimits();
+                  DmeDisplay.SetValue(dme);
+               }
+               else
+               {
+                  OutOfLimits();
+                  DmeDisplay.SetValue(99);
+               }
+            }
+            else
+            {
+               DmeDisplay.SetValue(99);
+            }
          }
 
          protected override void DrawInternalScale()

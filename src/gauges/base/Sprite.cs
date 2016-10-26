@@ -24,12 +24,12 @@ namespace Nereid
          }
 
 
-         public int GetWidth()
+         public float GetWidth()
          {
             return skin.width;
          }
 
-         public int GetHeight()
+         public float GetHeight()
          {
             return skin.height;
          }

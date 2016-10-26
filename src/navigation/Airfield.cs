@@ -9,12 +9,17 @@ namespace Nereid
    {
       public class Airfield
       {
+         // generates ids
+         private static int sequence = 0;
+
+         public readonly int id;
          public readonly String name;
          public readonly Runway[] runways;
          public readonly Coords coords;
 
          public Airfield(String name, params Runway[] runways)
          {
+            this.id = sequence++;
             this.name = name;
             this.runways = runways;
             this.coords = CenterOfRunways(runways);
@@ -55,14 +60,14 @@ namespace Nereid
 
          public override bool Equals(object obj)
          {
-            Airfield aifield = obj as Airfield;
-            if (aifield == null) return false;
-            return name == aifield.name;
+            Airfield airfield = obj as Airfield;
+            if (airfield == null) return false;
+            return id == airfield.id;
          }
 
          public override int GetHashCode()
          {
-            return name.GetHashCode();
+            return id;
          }
       }
    }

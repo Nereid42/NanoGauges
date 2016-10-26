@@ -42,6 +42,15 @@ namespace Nereid
             return this.position.height;
          }
 
+         public void SetWidth(float width)
+         {
+            this.position.width = width;
+         }
+
+         public void SetHeight(float height)
+         {
+            this.position.height = height;
+         }
 
          public virtual bool Draw(float x = 0, float y = 0)
          {

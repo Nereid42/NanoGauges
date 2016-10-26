@@ -14,15 +14,27 @@ namespace Nereid
          private static readonly Texture2D SKIN_SWITCH_ON = Utils.GetTexture("Nereid/NanoGauges/Resource/SWITCH-right");
 
          // Buttons
-         private const int BUTTON_SWITCH_WIDTH = 17;
-         private const int BUTTON_SWITCH_HEIGHT = 8;
+         private const float BUTTON_SWITCH_WIDTH = 17;
+         private const float BUTTON_SWITCH_HEIGHT = 8;
          private readonly Button buttonSwitch;
 
+         // Nav flags
+         private static Texture2D FLAG_SC_TEXTURE = Utils.GetTexture("Nereid/NanoGauges/Resource/SC-flag");
+         private static Texture2D FLAG_OA_TEXTURE = Utils.GetTexture("Nereid/NanoGauges/Resource/OA-flag");
+         Flag navScFlag;
+         Flag navOaFlag;
 
          public NavGauge()
             : base(Constants.WINDOW_ID_GAUGE_NAV, SKIN)
          {
-            this.buttonSwitch = new Button(this, SKIN_SWITCH_OFF, SKIN_SWITCH_ON, BUTTON_SWITCH_WIDTH, BUTTON_SWITCH_HEIGHT);
+            float scale = (float)NanoGauges.configuration.gaugeScaling;
+            this.buttonSwitch = new Button(this, SKIN_SWITCH_OFF, SKIN_SWITCH_ON, BUTTON_SWITCH_WIDTH * scale, BUTTON_SWITCH_HEIGHT * scale);
+
+            this.navScFlag = new Flag(this, FLAG_SC_TEXTURE);
+            this.navOaFlag = new Flag(this, FLAG_OA_TEXTURE);
+
+            navScFlag.Down();
+            navOaFlag.Down();
 
             Absolut();
             EnableBlueNeedle();
@@ -62,8 +74,29 @@ namespace Nereid
          protected override void AjustValues()
          {
             base.AjustValues();
-            SetBlueNeedleTo(NavGlobals.bearingToRunway);
-            SetYellowNeedleTo(NavGlobals.horizontalGlideslopeDeviation/8.0);
+            if (NavGlobals.landingRunway != null)
+            {
+               SetBlueNeedleTo(NavGlobals.bearingToRunway);
+               SetYellowNeedleTo(NavGlobals.horizontalGlideslopeDeviation / 8.0);
+            }
+            else
+            {
+               SetBlueNeedleTo(180);
+               SetYellowNeedleTo(-180);
+            }
+         }
+
+         protected override void DrawFlags()
+         {
+            // choose flag for navigation
+            navScFlag.Set(NavGlobals.destinationAirfield == NavGlobals.AIRFIELD_SPACECENTER);
+            navOaFlag.Set(NavGlobals.destinationAirfield == NavGlobals.AIRFIELD_OLDAIRFIELD);
+            //
+            // draw current state of flags (on/off and limiter)
+            // increment animation step on each draw (flags will not show up immediately)
+            float scaling = (float)NanoGauges.configuration.gaugeScaling;
+            navScFlag.Draw(14*scaling, 0);
+            navOaFlag.Draw(31*scaling, 0);
          }
 
          protected override void DrawOverlay()
@@ -74,7 +107,10 @@ namespace Nereid
             float x0 = w - buttonSwitch.GetWidth() - margin;
             float y = 4;
 
-            buttonSwitch.Draw(x0, y);
+            if(buttonSwitch.Draw(x0, y))
+            {
+               NavGlobals.SelectNextAirfield();
+            }
          }
 
          protected override float GetDegrees()
@@ -93,9 +129,8 @@ namespace Nereid
             }
             else
             {
-               InLimits();
+               //InLimits();
             }
-
             
             On();
 
@@ -104,6 +139,15 @@ namespace Nereid
             return hdg; 
          }
 
+         public override void OnGaugeScalingChanged()
+         {
+            base.OnGaugeScalingChanged();
+            float scaling = (float)NanoGauges.configuration.gaugeScaling;
+            buttonSwitch.SetWidth(BUTTON_SWITCH_WIDTH * scaling);
+            buttonSwitch.SetHeight(BUTTON_SWITCH_HEIGHT * scaling);
+            navScFlag.ScaleTo(scaling);
+            navOaFlag.ScaleTo(scaling);
+         }
       }
    }
 }

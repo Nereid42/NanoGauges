@@ -5,12 +5,12 @@ namespace Nereid
 {
    namespace NanoGauges
    {
-      public abstract class Flag
+      public class Flag
       {
          private const int Y_UP = 0;
 
          private readonly AbstractGauge gauge;
-         private readonly Texture2D skin;
+         private readonly Texture2D texture;
          private bool visible = false;
          private float offset;
          private readonly double max_offset;
@@ -24,16 +24,25 @@ namespace Nereid
          private static readonly Rect texCoords = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
          private Rect position = new Rect();
 
+         private int width;
+         private int height;
 
-         public Flag(AbstractGauge gauge, Texture2D skin, float a = 0.240f)
+         public Flag(AbstractGauge gauge, Texture2D texture, double scale = Configuration.GAUGE_SCALE_100, float a = 0.240f)
          {
             this.gauge = gauge;
-            this.skin = skin;
-            this.max_offset = skin.height;
+            this.texture = texture;
+            this.max_offset = texture.height;
             this.a = a;
             this.d = 0;
             this.state = STATE.UP;
             this.offset = Y_UP;
+            this.width = (int)(texture.width * scale);
+            this.height = (int)(texture.height * scale);
+         }
+
+         public void Set(bool down)
+         {
+            this.state = down ? STATE.DOWN : STATE.UP;
          }
 
          public void Down()
@@ -43,12 +52,12 @@ namespace Nereid
 
          public int GetWidth()
          {
-            return skin.width;
+            return width;
          }
 
          public int GetHeight()
          {
-            return skin.height;
+            return height;
          }
 
          public void Up()
@@ -66,6 +75,11 @@ namespace Nereid
             return state == STATE.DOWN;
          }
 
+         public void ScaleTo(double scale)
+         {
+            this.width = (int)(texture.width * scale);
+            this.height = (int)(texture.height * scale);
+         }
 
          protected void Next()
          {
@@ -79,7 +93,7 @@ namespace Nereid
             {
                offset += d;
                if (d < 2) d += a;
-               if (offset > skin.height) offset = skin.height;
+               if (offset > height) offset = height;
             }
          }
 
@@ -92,8 +106,8 @@ namespace Nereid
          {
             float gw = (float)gauge.GetWidth();
             float gh = (float)gauge.GetHeight();
-            float sw = (float)skin.width;
-            float sh = (float)skin.height;
+            float sw = this.width;
+            float sh = this.height;
             float w = sw / gw;
             float h = sh / gh;
 
@@ -101,7 +115,7 @@ namespace Nereid
             position.y = y - sh + offset;
             position.width = sw;
             position.height = sh;
-            GUI.DrawTextureWithTexCoords(position, skin, texCoords, false);
+            GUI.DrawTextureWithTexCoords(position, texture, texCoords, false);
             Next();
          }
 
@@ -109,10 +123,10 @@ namespace Nereid
 
       public class PowerOffFlag : Flag
       {
-         private static Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/OFF-flag");
+         private static Texture2D TEXTURE = Utils.GetTexture("Nereid/NanoGauges/Resource/OFF-flag");
 
          public PowerOffFlag(AbstractGauge gauge)
-            : base(gauge, SKIN)
+            : base(gauge, TEXTURE)
          {
 
          }
@@ -120,10 +134,10 @@ namespace Nereid
 
       public class LimiterFlag : Flag
       {
-         private static Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/LIMIT-flag");
+         private static Texture2D TEXTURE = Utils.GetTexture("Nereid/NanoGauges/Resource/LIMIT-flag");
 
          public LimiterFlag(AbstractGauge gauge)
-            : base(gauge, SKIN)
+            : base(gauge, TEXTURE)
          {
 
          }
@@ -131,10 +145,10 @@ namespace Nereid
 
       public class RFlag : Flag
       {
-         private static Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/R-flag");
+         private static Texture2D TEXTURE = Utils.GetTexture("Nereid/NanoGauges/Resource/R-flag");
 
          public RFlag(AbstractGauge gauge)
-            : base(gauge, SKIN)
+            : base(gauge, TEXTURE)
          {
 
          }

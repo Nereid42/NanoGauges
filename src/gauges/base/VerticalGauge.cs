@@ -138,6 +138,21 @@ namespace Nereid
             }
          }
 
+         protected virtual void DrawFlags()
+         {
+            // to be implemented by subclasses
+         }
+
+         private void InternalDrawFlags()
+         {
+            // draw current state of flags (on/off and limiter)
+            // increment animation step on each draw (flags will not show up immediately)
+            offFlag.Draw(GetWidth() / 2 - 4*(float)NanoGauges.configuration.gaugeScaling, 0);
+            limitFlag.Draw(0, 0);
+            // draw flags from subclasses
+            DrawFlags();
+         }
+
          protected override void OnWindow(int id)
          {
             // check for on/off
@@ -166,10 +181,7 @@ namespace Nereid
             // flags
             if(NanoGauges.configuration.gaugeMarkerEnabled)
             {
-               // draw current state of flags (on/off and limiter)
-               // increment animation step on each draw (flags will not show up immediately)
-               offFlag.Draw(GetWidth() / 2 - 4, 0);
-               limitFlag.Draw(0, 0);
+               InternalDrawFlags();
             }
             //
             // skin
@@ -266,6 +278,10 @@ namespace Nereid
             //change dimensions of skin and scale
             skinBounds.width = NanoGauges.configuration.verticalGaugeWidth;
             skinBounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            //
+            // change flags
+            limitFlag.ScaleTo(NanoGauges.configuration.gaugeScaling);
+            offFlag.ScaleTo(NanoGauges.configuration.gaugeScaling);
          }
 
       }
