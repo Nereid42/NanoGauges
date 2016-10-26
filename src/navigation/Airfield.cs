@@ -7,13 +7,13 @@ namespace Nereid
 {
    namespace NanoGauges
    {
-      public class Airport
+      public class Airfield
       {
          public readonly String name;
          public readonly Runway[] runways;
          public readonly Coords coords;
 
-         public Airport(String name, params Runway[] runways)
+         public Airfield(String name, params Runway[] runways)
          {
             this.name = name;
             this.runways = runways;
@@ -53,6 +53,17 @@ namespace Nereid
             return "Airport " + name+ " at "+coords;
          }
 
+         public override bool Equals(object obj)
+         {
+            Airfield aifield = obj as Airfield;
+            if (aifield == null) return false;
+            return name == aifield.name;
+         }
+
+         public override int GetHashCode()
+         {
+            return name.GetHashCode();
+         }
       }
    }
 

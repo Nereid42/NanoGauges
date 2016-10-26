@@ -35,9 +35,9 @@ namespace Nereid
             return InitialBearingFromTo(vessel.longitude, vessel.latitude, runway.coords.longitude, runway.coords.latitude);
          }
 
-         public static double InitialBearingToAirport(Vessel vessel, Airport airport)
+         public static double InitialBearingToAirfield(Vessel vessel, Airfield airfield)
          {
-            return InitialBearingFromTo(vessel.longitude, vessel.latitude, airport.coords.longitude, airport.coords.latitude);
+            return InitialBearingFromTo(vessel.longitude, vessel.latitude, airfield.coords.longitude, airfield.coords.latitude);
          }
 
          public static double BearingFromTo(double longitudeFrom, double latitudeFrom, double longitudeTo, double latitudeTo)
@@ -91,10 +91,10 @@ namespace Nereid
             return DistanceFromTo(vessel.longitude, vessel.latitude, runway.coords.longitude, runway.coords.latitude, vessel.mainBody.Radius);
          }
 
-         public static double DistanceToAirport(Vessel vessel, Airport airport)
+         public static double DistanceToAirfield(Vessel vessel, Airfield airfield)
          {
             if (vessel == null) return float.MaxValue;
-            return DistanceFromTo(vessel.longitude, vessel.latitude, airport.coords.longitude, airport.coords.latitude, vessel.mainBody.Radius);
+            return DistanceFromTo(vessel.longitude, vessel.latitude, airfield.coords.longitude, airfield.coords.latitude, vessel.mainBody.Radius);
          }
 
          public static Coords DestinationFromBearingAtDistance(double longitudeFrom, double latitudeFrom, double bearing, double distance, double radius)

@@ -48,7 +48,7 @@ namespace Nereid
             position.y = y;
             position.width = sw;
             position.height = sh;
-            GUI.DrawTextureWithTexCoords(position, skin, texCoords, false);
+            GUI.DrawTextureWithTexCoords(position, skin, texCoords, true);
          }
 
       }

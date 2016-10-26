@@ -12,9 +12,17 @@ namespace Nereid
          public static readonly Runway RUNWAY_090_SPACECENTER = new Runway("RWY 090", Coords.Create(-74.7130, -0.0486), 65.75f, 90.0f);
          public static readonly Runway RUNWAY_270_SPACECENTER = new Runway("RWY 270", Coords.Create(-74.5039, -0.0501), 65.75f, 270.0f);
 
-         public static readonly Airport AIRPORT_SPACECENTER = new Airport("Space Center", RUNWAY_090_SPACECENTER, RUNWAY_270_SPACECENTER);
+         public static readonly Airfield AIRFIELD_SPACECENTER = new Airfield("Space Center", RUNWAY_090_SPACECENTER, RUNWAY_270_SPACECENTER);
+         public static readonly Airfield AIRFIELD_OLDAIRFIELD = new Airfield("Old Airfield");
 
-         public static Airport destinationAirport { get; private set; }
+         public static readonly Airfield[] Airfields = new Airfield[] 
+         {
+            AIRFIELD_SPACECENTER,
+            AIRFIELD_OLDAIRFIELD
+         };
+
+         private static int indexAirfield; 
+         public static Airfield destinationAirfield { get; private set; }
          public static Runway landingRunway { get; private set; }
          public static bool ILS { get; private set; }
 
@@ -25,14 +33,16 @@ namespace Nereid
 
          static NavGlobals()
          {
-            destinationAirport = AIRPORT_SPACECENTER;
+            destinationAirfield = AIRFIELD_SPACECENTER;
+            indexAirfield = 0;
          }
          
 
          public static void ResetNavigation()
          {
             Log.Info("reset of nav point");
-            destinationAirport = null;
+            indexAirfield = Airfields.Length;
+            destinationAirfield = null;
             landingRunway = null;
             ILS = false;
             distanceToRunway = double.MaxValue;
@@ -45,15 +55,15 @@ namespace Nereid
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel == null) return;
 
-            if(destinationAirport == null)  return;
+            if(destinationAirfield == null)  return;
 
-            double distanceToAirport = NavUtils.DistanceToAirport(vessel, destinationAirport);
-            double bearingToAirport = NavUtils.InitialBearingToAirport(vessel, destinationAirport);
+            double distanceToAirfield = NavUtils.DistanceToAirfield(vessel, destinationAirfield);
+            double bearingToAirfield = NavUtils.InitialBearingToAirfield(vessel, destinationAirfield);
 
             // do this not to often
-            if(landingRunway==null || distanceToAirport> 2000)
+            if(landingRunway==null || distanceToAirfield> 2000)
             {
-               landingRunway = destinationAirport.GetLandingRunwayForBearing(bearingToAirport);
+               landingRunway = destinationAirfield.GetLandingRunwayForBearing(bearingToAirfield);
             }
 
             // Bearing to runway
@@ -76,17 +86,17 @@ namespace Nereid
 
          }
 
-         public static void SetDestinationAirport(Airport airport)
+         public static void SetDestinationAirfield(Airfield airfield)
          {
-            if(airport!=null)
+            if(airfield!=null)
             {
-               Log.Info("set navigation airport to "+airport);
-               destinationAirport = airport;
+               Log.Info("set navigation airfield to "+airfield);
+               destinationAirfield = airfield;
                Update();
             }
             else
             {
-               Log.Info("set navigation airport cleared");
+               Log.Info("set navigation airfield cleared");
                ResetNavigation();
             }
          }

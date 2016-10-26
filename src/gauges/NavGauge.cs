@@ -10,9 +10,20 @@ namespace Nereid
       {
          private static readonly Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/NAV-skin");
 
+         private static readonly Texture2D SKIN_SWITCH_OFF = Utils.GetTexture("Nereid/NanoGauges/Resource/SWITCH-left");
+         private static readonly Texture2D SKIN_SWITCH_ON = Utils.GetTexture("Nereid/NanoGauges/Resource/SWITCH-right");
+
+         // Buttons
+         private const int BUTTON_SWITCH_WIDTH = 17;
+         private const int BUTTON_SWITCH_HEIGHT = 8;
+         private readonly Button buttonSwitch;
+
+
          public NavGauge()
             : base(Constants.WINDOW_ID_GAUGE_NAV, SKIN)
          {
+            this.buttonSwitch = new Button(this, SKIN_SWITCH_OFF, SKIN_SWITCH_ON, BUTTON_SWITCH_WIDTH, BUTTON_SWITCH_HEIGHT);
+
             Absolut();
             EnableBlueNeedle();
             EnableYellowNeedle();
@@ -53,6 +64,17 @@ namespace Nereid
             base.AjustValues();
             SetBlueNeedleTo(NavGlobals.bearingToRunway);
             SetYellowNeedleTo(NavGlobals.horizontalGlideslopeDeviation/8.0);
+         }
+
+         protected override void DrawOverlay()
+         {
+            int w = GetWidth();
+            int h = GetHeight();
+            int margin = w / 20;
+            float x0 = w - buttonSwitch.GetWidth() - margin;
+            float y = 4;
+
+            buttonSwitch.Draw(x0, y);
          }
 
          protected override float GetDegrees()
