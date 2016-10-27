@@ -217,7 +217,7 @@ namespace Nereid
             limitFlag.Up();
          }
 
-         public override void OutOfLimits()
+         public override void NotInLimits()
          {
             limitFlag.Down();
          }

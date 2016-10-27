@@ -66,7 +66,7 @@ namespace Nereid
                 if (time == NO_IMPACT_TIME || time >= MAX_IMPACT_TIME)
                 {
                     //No Impact happening, or impact time beyond MAX_IMPACT_TIME.
-                    OutOfLimits();
+                    NotInLimits();
                     return upper;
                 }
                 InLimits();

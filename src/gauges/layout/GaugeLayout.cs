@@ -308,8 +308,43 @@ namespace Nereid
                SetGaugeEnabled(set, id, true);
             }
          }
+
+
+         private const int MIN_GAUGE_DISTANCE = 10;
+
+
+         private bool Declutter(GaugeSet set, int id)
+         {
+            foreach (int other in set)
+            {
+               if (!set.IsGaugeEnabled(other)) continue;
+               if (id != other)
+               {
+                  Pair<int, int> position = set.GetWindowPosition(id);
+                  Pair<int, int> cmp = set.GetWindowPosition(other);
+                  if (Math.Abs(position.first - cmp.first) < MIN_GAUGE_DISTANCE || Math.Abs(position.second - cmp.second) < MIN_GAUGE_DISTANCE)
+                  {
+                     Pair<int, int> newPosition = new Pair<int, int>(position.first + MIN_GAUGE_DISTANCE, position.second + MIN_GAUGE_DISTANCE);
+                     set.SetWindowPosition(id, newPosition);
+                     return true;
+                  }
+               }
+            }
+            return false;
+         }
+
+         public void Declutter(GaugeSet set)
+         {
+            Log.Info("declutter "+set);
+            foreach (int id in set)
+            {
+               if (!set.IsGaugeEnabled(id)) continue;
+               while(Declutter(set, id))
+               {
+                  Log.Info("decluttering gauge id " + id + " to " + set.GetWindowPosition(id) + " in set " + set);
+               }
+            }
+         }
       }
-
-
    }
 }

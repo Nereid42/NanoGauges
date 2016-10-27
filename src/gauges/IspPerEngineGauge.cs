@@ -49,7 +49,7 @@ namespace Nereid
          {
            if (IsOn()) 
            {
-              OutOfLimits();
+              NotInLimits();
            }
            else 
            {

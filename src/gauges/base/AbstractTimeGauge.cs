@@ -49,7 +49,7 @@ namespace Nereid
 
                if (double.IsNaN(time) || time == NO_TIME || time >= MAX_TIME)
                 {
-                    OutOfLimits();
+                    NotInLimits();
                     return upper;
                 }
                 InLimits();

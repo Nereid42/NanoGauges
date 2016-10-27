@@ -15,39 +15,42 @@ namespace Nereid
          private Rect position = new Rect();
          private Rect texCoords = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
 
+         private float width;
+         private float height;
+
          public Sprite(AbstractGauge gauge, Texture2D skin, int x=0, int y=0)
          {
             this.gauge = gauge;
             this.skin = skin;
             this.position.x = x;
             this.position.y = y;
+            this.width = skin.width;
+            this.height = skin.height;
          }
 
 
          public float GetWidth()
          {
-            return skin.width;
+            return width;
          }
 
          public float GetHeight()
          {
-            return skin.height;
+            return height;
          }
 
+         public virtual void Resize(float width, float height)
+         {
+            this.width = width;
+            this.height = height;
+         }
 
          public virtual void Draw(float x = 0, float y = 0)
          {
-            float gw = (float)gauge.GetWidth();
-            float gh = (float)gauge.GetHeight();
-            float sw = (float)skin.width;
-            float sh = (float)skin.height;
-            float w = sw / gw;
-            float h = sh / gh;
-
             position.x = x;
             position.y = y;
-            position.width = sw;
-            position.height = sh;
+            position.width = width;
+            position.height = height;
             GUI.DrawTextureWithTexCoords(position, skin, texCoords, true);
          }
 

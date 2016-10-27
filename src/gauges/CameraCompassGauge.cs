@@ -71,7 +71,7 @@ namespace Nereid
 
             if (vessel == null || vessel.mainBody == null || vessel.altitude > vessel.mainBody.Radius/2)
             {
-               OutOfLimits();
+               NotInLimits();
             }
             else
             {

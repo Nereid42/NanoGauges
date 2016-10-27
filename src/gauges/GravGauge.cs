@@ -57,12 +57,12 @@ namespace Nereid
                if (grav > MAX_GRAV)
                {
                   grav = MAX_GRAV;
-                  OutOfLimits();
+                  NotInLimits();
                }
                if (grav < MIN_GRAV)
                {
                   grav = MAX_GRAV;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else
                {

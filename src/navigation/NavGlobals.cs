@@ -23,20 +23,25 @@ namespace Nereid
             AIRFIELD_OLDAIRFIELD
          };
 
+         private const int INDEX_NO_AIRFIELD = -1;
          private static int indexAirfield; 
          public static Airfield destinationAirfield { get; private set; }
          public static Runway landingRunway { get; private set; }
+         // runway has ILS
          public static bool ILS { get; private set; }
+         // vessel is inside cone of ILS beam
+         public static bool InBeam { get; private set; }
 
          public static double distanceToRunway { get; private set; }
          public static double bearingToRunway { get; private set; }
          public static double verticalGlideslopeDeviation { get; private set; }
          public static double horizontalGlideslopeDeviation { get; private set; }
 
+
          static NavGlobals()
          {
-            destinationAirfield = AIRFIELD_SPACECENTER;
-            indexAirfield = 0;
+            destinationAirfield = null;
+            indexAirfield = INDEX_NO_AIRFIELD;
          }
          
 
@@ -66,25 +71,40 @@ namespace Nereid
             if(landingRunway==null || distanceToAirfield> 2000)
             {
                landingRunway = destinationAirfield.GetLandingRunwayForBearing(bearingToAirfield);
+               ILS = landingRunway.HasILS;
             }
-
-            // Bearing to runway
-            bearingToRunway = NavUtils.InitialBearingToRunway(vessel, landingRunway);
-            if (bearingToRunway < 0)
+            
+            if(landingRunway!=null)
             {
-               bearingToRunway = 360 - bearingToRunway;
+               // Bearing to runway
+               bearingToRunway = NavUtils.InitialBearingToRunway(vessel, landingRunway);
+               if (bearingToRunway < 0)
+               {
+                  bearingToRunway = 360 - bearingToRunway;
+               }
+               //
+               // distance to runway
+               distanceToRunway = NavUtils.DistanceToRunway(vessel, landingRunway);
+               //
+               // glide slope
+               horizontalGlideslopeDeviation = NavUtils.HorizontalGlideSlopeDeviation(bearingToRunway, landingRunway);
+               verticalGlideslopeDeviation = NavUtils.VerticalGlideSlopeDeviation(vessel, landingRunway);
+               //
+               // check if we are inside the ILS cone
+               bool insideHorizontalBeam = NavUtils.InsideCone(bearingToRunway, landingRunway.To, landingRunway.ILSCone);
+               bool insideVerticalBeam = NavUtils.InsideCone(verticalGlideslopeDeviation, 0.0, landingRunway.ILSCone);
+               InBeam = insideHorizontalBeam && insideVerticalBeam && distanceToRunway <= landingRunway.ILSRange;
+
             }
-
-            // distance to runway
-            distanceToRunway = NavUtils.DistanceToRunway(vessel, landingRunway);
-
-            // glide slope
-            horizontalGlideslopeDeviation = NavUtils.HorizontalGlideSlopeDeviation(vessel, landingRunway);
-            if (NavUtils.HeadingDeviation(landingRunway.To, bearingToRunway) < 0)
+            else
             {
-               horizontalGlideslopeDeviation = -horizontalGlideslopeDeviation;
+               bearingToRunway = 0.0;
+               distanceToRunway = double.MaxValue;
+               InBeam = false;
+               horizontalGlideslopeDeviation = double.MaxValue;
+               verticalGlideslopeDeviation = double.MaxValue;
             }
-            verticalGlideslopeDeviation = NavUtils.VerticalGlideSlopeDeviation(vessel, landingRunway);
+
 
          }
 
@@ -106,9 +126,8 @@ namespace Nereid
          public static void SelectNextAirfield()
          {
             indexAirfield++;
-            if (indexAirfield >= Airfields.Length) indexAirfield = -1;
-            Log.Test("choosing airfield "+indexAirfield);
-            if(indexAirfield < 0)
+            if (indexAirfield >= Airfields.Length) indexAirfield = INDEX_NO_AIRFIELD;
+            if (indexAirfield == INDEX_NO_AIRFIELD)
             {
                SetDestinationAirfield(null);
             }

@@ -132,18 +132,21 @@ namespace Nereid
          public static double VerticalGlideSlopeDeviation(Vessel vessel, Runway runway)
          {
             double d = DistanceToRunway(vessel, runway);
-            double slopeAltitude = runway.slopeTangens * d + runway.elevation;
-            return slopeAltitude - vessel.altitude;
+            double h = vessel.altitude - runway.elevation;
+            double glide = Utils.RadiansToDegree(Math.Asin(h / d));
+            return glide - runway.glideslope;
          }
 
-         public static double HorizontalGlideSlopeDeviation(Vessel vessel, Runway runway)
+         public static double HorizontalGlideSlopeDeviation(double bearingToRunway, Runway runway)
          {
-            if(vessel==null) return 0.0;
+            return NavUtils.HeadingDeviation(runway.To, bearingToRunway);
 
+            // deviation by distance (not used anymore)
+            /*if(vessel==null) return 0.0;
             double d = DistanceToRunway(vessel, runway);
             Coords onSlope = DestinationFromRunwayAtDistance(runway, d, vessel.mainBody.Radius);
             double deviation = DistanceFromVesselTo(vessel, onSlope);
-            return deviation;
+            return deviation;*/
          }
 
          // deviation from heading from to heading to in degrees (-180..180)
@@ -170,6 +173,14 @@ namespace Nereid
             return 360.0 - heading;
          }
 
+         // true if vessel inside cone of a beam
+         // currentbearingToBeam: bearing toward origin of beam
+         // bearingOfBeam: bearing towards origin of beam at its center
+         // coneOfBeam: cone of the beam in degrees
+         public static bool InsideCone(double currentbearingToBeam, double centerBearingToBeam, double coneOfBeam)
+         {
+            return Math.Abs(HeadingDeviation(currentbearingToBeam, centerBearingToBeam)) <= coneOfBeam;
+         }
       }
    }
 

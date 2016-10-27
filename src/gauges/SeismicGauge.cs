@@ -58,12 +58,12 @@ namespace Nereid
                if (acc > MAX_ACC)
                {
                   acc = MAX_ACC;
-                  OutOfLimits();
+                  NotInLimits();
                }
                if (acc < MIN_ACC)
                {
                   acc = MIN_ACC;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else
                {

@@ -223,6 +223,9 @@ namespace Nereid
 
          private void ReadGaugeSets(BinaryReader reader)
          {
+            // used for decluttering (i.e. show gauges hidden by other gauges)
+            DefaultLayout layout = new DefaultLayout(NanoGauges.gauges,this);
+
             int cnt = reader.ReadInt16();
             for(int i=0; i<cnt; i++)
             {
@@ -230,6 +233,7 @@ namespace Nereid
                Log.Detail("loading gaugeset " + id);
                GaugeSet set = GaugeSetPool.instance.GetGaugeSet(id);
                ReadGaugeSet(reader, set);
+               layout.Declutter(set);
             }
          }
 

@@ -160,7 +160,7 @@ namespace Nereid
          {
          }
 
-         public override void OutOfLimits()
+         public override void NotInLimits()
          {
          }
 

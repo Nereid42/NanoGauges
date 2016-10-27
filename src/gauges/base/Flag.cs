@@ -75,10 +75,17 @@ namespace Nereid
             return state == STATE.DOWN;
          }
 
+   
          public void ScaleTo(double scale)
          {
             this.width = (int)(texture.width * scale);
             this.height = (int)(texture.height * scale);
+         }
+
+         public void resize(int width, int height)
+         {
+            this.width = width;
+            this.height = height;
          }
 
          protected void Next()

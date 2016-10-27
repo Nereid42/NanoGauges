@@ -89,7 +89,7 @@ namespace Nereid
                   }
                   else
                   {
-                     OutOfLimits();
+                     NotInLimits();
                   }
                }
                else
@@ -192,12 +192,12 @@ namespace Nereid
                   if (maxg > MAX_G)
                   {
                      maxg = MAX_G;
-                     OutOfLimits();
+                     NotInLimits();
                   }
                   else if (maxg < 0)
                   {
                      maxg = 0;
-                     OutOfLimits();
+                     NotInLimits();
                   }
                   y = b + 30.0f * (float)maxg / 400.0f;
                }

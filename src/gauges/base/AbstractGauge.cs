@@ -239,10 +239,14 @@ namespace Nereid
          public abstract void Off();
          public abstract bool IsOn();
          public abstract void InLimits();
-         public abstract void OutOfLimits();
+         public abstract void NotInLimits();
          public abstract bool IsInLimits();
          //
          public abstract void Reset();
+         //
+         // derived
+         public bool IsOff() { return !IsOn(); }
+         public bool IsNotInLimits() { return !IsInLimits(); }
 
 
          public abstract void EnableCloseButton(bool enabled);

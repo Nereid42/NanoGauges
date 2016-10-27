@@ -43,26 +43,35 @@ namespace Nereid
          {
             base.AjustValues();
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel!=null && NavGlobals.landingRunway != null)
+
+            if (NavGlobals.InBeam || IsOff() || NavGlobals.destinationAirfield == null)
             {
-               yellowNeedle.degrees = (float)(NavUtils.VerticalGlideSlopeDeviation(vessel, NavGlobals.landingRunway) / 4.0);
+               InLimits();
+            }
+            else
+            {
+               NotInLimits();
+            }
+
+            if (vessel!=null && NavGlobals.landingRunway != null && IsOn() && IsInLimits())
+            {
+               yellowNeedle.degrees = (float)(-NavGlobals.verticalGlideslopeDeviation * 50.0);
                //
                // DME
                double d = NavUtils.DistanceToRunway(FlightGlobals.ActiveVessel, NavGlobals.landingRunway);
                int dme = (int)(d / 1000.0);
                if(dme<=99)
                {
-                  InLimits();
                   DmeDisplay.SetValue(dme);
                }
                else
                {
-                  OutOfLimits();
                   DmeDisplay.SetValue(99);
                }
             }
             else
             {
+               yellowNeedle.degrees = -200.0f;
                DmeDisplay.SetValue(99);
             }
          }
@@ -88,11 +97,20 @@ namespace Nereid
             float y = b;
 
             Vessel vessel = FlightGlobals.ActiveVessel;
+
+            if(vessel==null || vessel.mainBody==null || vessel.altitude > vessel.mainBody.Radius/2)
+            {
+               Off();
+            }
+            else
+            { 
+               On(); 
+            }
+
             if (vessel != null && IsOn())
             {
                Vector3 forward = vessel.GetTransform().up;
                double glide = 90.0 - Vector3.Angle(forward, vessel.upAxis);
-
 
                y = b + 90.0f*((float)glide/90.0f) / (float)SCALE_HEIGHT;
             }
@@ -105,19 +123,36 @@ namespace Nereid
          }
 
 
+         public override void OnGaugeScalingChanged()
+         {
+            base.OnGaugeScalingChanged();
+            //
+            float scaling = (float)NanoGauges.configuration.gaugeScaling;
+            this.yellowNeedle.Resize((float)NEEDLE_YELLOW.width * scaling, (float)NEEDLE_YELLOW.height * scaling);
+
+         }
+
          private class Needle : Sprite
          {
             public float degrees = 0.0f;
             public bool enabled = false;
 
             private readonly Damper traverseDamper;
-
             private bool traversing = false;
+            // offset to draw at center off needle
+            private float offset;
 
             public Needle(AbstractGauge gauge, Texture2D texture)
                : base(gauge, texture)
             {
                traverseDamper = new Damper(1.0f, int.MinValue, int.MaxValue);
+               this.offset = (float)texture.height / 2.0f;
+            }
+
+            public override void Resize(float width, float height)
+            {
+               base.Resize(width, height);
+               this.offset = height / 2.0f;
             }
 
             public void Draw()
@@ -125,9 +160,10 @@ namespace Nereid
                if (enabled)
                {
                   float y = gauge.GetHeight() / 2 - degrees;
-                  float margin = gauge.GetHeight() / 6.0f;
-                  float ymin = margin;
-                  float ymax = gauge.GetHeight() - margin - GetHeight();
+                  float topmargin = gauge.GetHeight() / 5.5f;
+                  float bottommargin = gauge.GetHeight() / 12.0f;
+                  float ymin = topmargin;
+                  float ymax = gauge.GetHeight() - bottommargin - GetHeight();
                   if (y <= ymin || y > ymax)
                   {
                      float limit = (y <= ymin) ? ymin : ymax;
@@ -137,12 +173,12 @@ namespace Nereid
                         traversing = true;
                      }
                      traverseDamper.Set(limit);
-                     Draw(0, traverseDamper.Get());
+                     Draw(0, traverseDamper.Get() - this.offset);
                   }
                   else
                   {
                      traversing = false;
-                     Draw(0, y);
+                     Draw(0, y - this.offset);
                   }
                }
             }

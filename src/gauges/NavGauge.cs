@@ -74,10 +74,20 @@ namespace Nereid
          protected override void AjustValues()
          {
             base.AjustValues();
-            if (NavGlobals.landingRunway != null)
+
+            if (NavGlobals.InBeam || IsOff() || NavGlobals.destinationAirfield == null)
+            {
+               InLimits();
+            }
+            else
+            {
+               NotInLimits();
+            }
+
+            if (NavGlobals.landingRunway != null && IsOn() && IsInLimits())
             {
                SetBlueNeedleTo(NavGlobals.bearingToRunway);
-               SetYellowNeedleTo(NavGlobals.horizontalGlideslopeDeviation / 8.0);
+               SetYellowNeedleTo(NavGlobals.horizontalGlideslopeDeviation * 10);
             }
             else
             {
@@ -117,21 +127,12 @@ namespace Nereid
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
 
-            if (vessel.mainBody == null || vessel == null || !vessel.mainBody.isHomeWorld)
+            if (vessel.mainBody == null || vessel == null || !vessel.mainBody.isHomeWorld || vessel.altitude > vessel.mainBody.Radius / 2)
             {
                Off();
                return 0;
             }
 
-            if(vessel.altitude > vessel.mainBody.Radius/2)
-            {
-               OutOfLimits();
-            }
-            else
-            {
-               //InLimits();
-            }
-            
             On();
 
             float hdg = FlightGlobals.ship_heading;

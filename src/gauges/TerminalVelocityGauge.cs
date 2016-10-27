@@ -61,14 +61,14 @@ namespace Nereid
 
                if( double.IsNaN(vt) )
                {
-                  OutOfLimits();
+                  NotInLimits();
                   return y;
                }
                //
                double dvt = Math.Abs(vessel.verticalSpeed) - vt;
                if (double.IsNaN(dvt))
                {
-                  OutOfLimits();
+                  NotInLimits();
                   return y;
                }
 

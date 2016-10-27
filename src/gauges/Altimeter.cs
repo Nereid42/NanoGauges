@@ -55,12 +55,12 @@ namespace Nereid
                   if (alt > MAX_ALTITUDE)
                   {
                      alt = MAX_ALTITUDE;
-                     OutOfLimits();
+                     NotInLimits();
                   }
                   else if (alt < MIN_ALTITUDE)
                   {
                      alt = MIN_ALTITUDE;
-                     OutOfLimits();
+                     NotInLimits();
                   }
                   else
                   {

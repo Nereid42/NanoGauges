@@ -43,12 +43,12 @@ namespace Nereid
                if (pct > MAX_PCT)
                {
                   pct = MAX_PCT;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else if (pct < MIN_PCT)
                {
                   pct = MIN_PCT;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else
                {

@@ -42,7 +42,7 @@ namespace Nereid
                if (thrust > MAX_THRUST)
                {
                   thrust = MAX_THRUST;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else
                {

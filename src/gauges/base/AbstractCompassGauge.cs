@@ -121,6 +121,16 @@ namespace Nereid
             return offset;
          }
 
+         public override void OnGaugeScalingChanged()
+         {
+            base.OnGaugeScalingChanged();
+
+            float scaling =(float) NanoGauges.configuration.gaugeScaling;
+            this.blueNeedle.Resize((float)NEEDLE_BLUE.width * scaling, (float)NEEDLE_BLUE.height * scaling);
+            this.redNeedle.Resize((float)NEEDLE_RED.width * scaling, (float)NEEDLE_RED.height * scaling);
+            this.yellowNeedle.Resize((float)NEEDLE_YELLOW.width * scaling, (float)NEEDLE_YELLOW.height * scaling);
+         }
+
          private class Needle : Sprite
          {
             public double degrees = 0.0f;
@@ -135,13 +145,21 @@ namespace Nereid
             public MODE mode = MODE.SCALE;
 
             private readonly Damper traverseDamper;
-
             private bool traversing = false;
+            // offset to draw at center off needle
+            private float offset;
 
             public Needle(AbstractGauge gauge, Texture2D texture)
                : base(gauge,texture)
             {
                traverseDamper = new Damper(1.0f,int.MinValue,int.MaxValue);
+               this.offset = (float)texture.width / 2.0f;
+            }
+
+            public override void Resize(float width, float height)
+            {
+               base.Resize(width, height);
+               this.offset = width / 2.0f;
             }
 
             public void Draw(float relativeTo)
@@ -172,12 +190,12 @@ namespace Nereid
                         traversing = true;
                      }
                      traverseDamper.Set(limit);
-                     Draw(traverseDamper.Get(), 0);
+                     Draw(traverseDamper.Get() - this.offset, 0);
                   }
                   else
                   {
                      traversing = false;
-                     Draw(x, 0);
+                     Draw(x - this.offset, 0);
                   }
                }
             }

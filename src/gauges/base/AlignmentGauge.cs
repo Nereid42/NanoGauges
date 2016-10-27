@@ -75,7 +75,7 @@ namespace Nereid
             // do nothing
          }
 
-         public override void OutOfLimits()
+         public override void NotInLimits()
          {
             // do nothing
          }

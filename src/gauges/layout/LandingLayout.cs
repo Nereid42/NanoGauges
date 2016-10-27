@@ -31,9 +31,9 @@ namespace Nereid
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_HACCL);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ACCL);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_GLIDE);
-           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_AOA);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VAI);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VVI);
+           AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_AOA);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_SPD);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VSI);
            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_HSPD);
@@ -67,10 +67,10 @@ namespace Nereid
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_VACCL, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_HACCL, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_ACCL, true);
-            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_GLIDE, true);
-            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_AOA, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_VAI, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_GLIDE, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_VVI, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_AOA, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_SPD, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_VSI, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_HSPD, true);
