@@ -322,7 +322,7 @@ namespace Nereid
                {
                   Pair<int, int> position = set.GetWindowPosition(id);
                   Pair<int, int> cmp = set.GetWindowPosition(other);
-                  if (Math.Abs(position.first - cmp.first) < MIN_GAUGE_DISTANCE || Math.Abs(position.second - cmp.second) < MIN_GAUGE_DISTANCE)
+                  if (Math.Abs(position.first - cmp.first) < MIN_GAUGE_DISTANCE && Math.Abs(position.second - cmp.second) < MIN_GAUGE_DISTANCE)
                   {
                      Pair<int, int> newPosition = new Pair<int, int>(position.first + MIN_GAUGE_DISTANCE, position.second + MIN_GAUGE_DISTANCE);
                      set.SetWindowPosition(id, newPosition);
