@@ -160,6 +160,7 @@ namespace Nereid
             GUILayout.BeginHorizontal();
             // Gauge marker
             config.gaugeMarkerEnabled = GUILayout.Toggle(config.gaugeMarkerEnabled, "Gauge marker enabled", STYLE_TOGGLE_2_PER_ROW);
+            config.declutterEnabled = GUILayout.Toggle(config.declutterEnabled, "Declutter enabled", STYLE_TOGGLE_2_PER_ROW);
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Hotkeys", STYLE_SIDE_BUTTON))
             {

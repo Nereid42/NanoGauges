@@ -40,6 +40,7 @@ namespace Nereid
          public bool useStockToolbar { get; set; }
          public bool exactReadoutEnabled { get; set; }
          public bool performanceStatisticsEnabled { get; set; }
+         public bool declutterEnabled { get; set; }
          // need a restart to take effect
          public double gaugeScaling { get; set; }
          public int verticalGaugeWidth { get; private set; }
@@ -73,6 +74,7 @@ namespace Nereid
             tooltipsEnabled = true;
             snapinEnabled = true;
             trimIndicatorsEnabled = true;
+            declutterEnabled = true;
             useStockToolbar = !ToolbarManager.ToolbarAvailable;
             exactReadoutEnabled = false;
             performanceStatisticsEnabled = false;
@@ -233,7 +235,10 @@ namespace Nereid
                Log.Detail("loading gaugeset " + id);
                GaugeSet set = GaugeSetPool.instance.GetGaugeSet(id);
                ReadGaugeSet(reader, set);
-               layout.Declutter(set);
+               if(declutterEnabled)
+               {
+                  layout.Declutter(set);
+               }
             }
          }
 
@@ -370,6 +375,8 @@ namespace Nereid
                   NanoGauges.hotkeyManager.Write(writer);
                   //
                   writer.Write((UInt16)minProfileInterval);
+                  //
+                  writer.Write(declutterEnabled);
                }
             }
             catch
@@ -445,6 +452,8 @@ namespace Nereid
                      NanoGauges.hotkeyManager.Read(reader);
                      //
                      minProfileInterval = reader.ReadInt16();
+                     //
+                     declutterEnabled = reader.ReadBoolean();
                   }
                }
                else

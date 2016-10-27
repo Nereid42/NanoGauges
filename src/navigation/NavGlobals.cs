@@ -67,8 +67,8 @@ namespace Nereid
             double distanceToAirfield = NavUtils.DistanceToAirfield(vessel, destinationAirfield);
             double bearingToAirfield = NavUtils.InitialBearingToAirfield(vessel, destinationAirfield);
 
-            // do this not to often
-            if(landingRunway==null || distanceToAirfield> 2000)
+            // do this not to often and not in an airfield
+            if(landingRunway==null || distanceToAirfield> 2000 || !InBeam)
             {
                landingRunway = destinationAirfield.GetLandingRunwayForBearing(bearingToAirfield);
                ILS = landingRunway.HasILS;

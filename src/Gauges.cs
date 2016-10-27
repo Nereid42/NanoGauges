@@ -466,9 +466,14 @@ namespace Nereid
             List<AbstractGauge> leftToRight = new List<AbstractGauge>();
             foreach(AbstractGauge gauge in gauges.Values)
             {
-               if(gauge.IsVisible())
+               // Autolayout works with vertical gauges only
+               VerticalGauge vgauge = gauge as VerticalGauge;
+               if(vgauge!=null)
                {
-                  leftToRight.Add(gauge);
+                  if (vgauge.IsVisible())
+                  {
+                     leftToRight.Add(vgauge);
+                  }
                }
             }
             

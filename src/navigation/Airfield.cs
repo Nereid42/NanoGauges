@@ -45,6 +45,7 @@ namespace Nereid
          {
             double lonCenter = 0;
             double latCenter = 0;
+            if (runways.Length == 0) return new Coords(0, 0);
             foreach(Runway rwy in runways)
             {
                lonCenter += rwy.coords.longitude;

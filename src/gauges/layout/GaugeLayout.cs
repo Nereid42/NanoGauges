@@ -324,7 +324,11 @@ namespace Nereid
                   Pair<int, int> cmp = set.GetWindowPosition(other);
                   if (Math.Abs(position.first - cmp.first) < MIN_GAUGE_DISTANCE && Math.Abs(position.second - cmp.second) < MIN_GAUGE_DISTANCE)
                   {
-                     Pair<int, int> newPosition = new Pair<int, int>(position.first + MIN_GAUGE_DISTANCE, position.second + MIN_GAUGE_DISTANCE);
+                     int x = position.first + MIN_GAUGE_DISTANCE;
+                     int y = position.second + MIN_GAUGE_DISTANCE;
+                     if (x >= Screen.width - NanoGauges.configuration.verticalGaugeWidth) x = 0;
+                     if (y >= Screen.height - NanoGauges.configuration.verticalGaugeHeight) y = 0;
+                     Pair<int, int> newPosition = new Pair<int, int>(x, y);
                      set.SetWindowPosition(id, newPosition);
                      return true;
                   }
