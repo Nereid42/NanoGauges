@@ -39,6 +39,19 @@ namespace Nereid
             return "Landing Glide path and distance to runway";
          }
 
+         protected void SetDme(double distance)
+         {
+            int dme = (int)(distance / 1000.0);
+            if (dme <= 99)
+            {
+               DmeDisplay.SetValue(dme);
+            }
+            else
+            {
+               DmeDisplay.SetValue(99);
+            }
+         }
+
          protected override void AjustValues()
          {
             base.AjustValues();
@@ -53,27 +66,42 @@ namespace Nereid
                NotInLimits();
             }
 
-            if (vessel!=null && NavGlobals.landingRunway != null && IsOn() && IsInLimits())
+            if(IsOn() && vessel != null)
             {
-               yellowNeedle.degrees = (float)(-NavGlobals.verticalGlideslopeDeviation * 50.0);
-               //
-               // DME
-               double d = NavUtils.DistanceToRunway(FlightGlobals.ActiveVessel, NavGlobals.landingRunway);
-               int dme = (int)(d / 1000.0);
-               if(dme<=99)
+               if (NavGlobals.landingRunway != null) 
                {
-                  DmeDisplay.SetValue(dme);
+                  // we have a runway 
+                  //
+                  if(IsInLimits())
+                  {
+                     // on glide slope
+                     yellowNeedle.degrees = (float)(-NavGlobals.verticalGlideslopeDeviation * 50.0);
+                  }
+                  else
+                  {
+                     // not on glide slope
+                     yellowNeedle.degrees = -200.0f;
+                  }
+                  //
+                  // DME
+                  double d = NavUtils.DistanceToRunway(vessel, NavGlobals.landingRunway);
+                  SetDme(d);
                }
                else
                {
+                  // no runway
+                  //
                   DmeDisplay.SetValue(99);
+                  yellowNeedle.degrees = -200.0f;
                }
             }
             else
             {
-               yellowNeedle.degrees = -200.0f;
+               // gaue is off or no vessel
                DmeDisplay.SetValue(99);
+               yellowNeedle.degrees = -200.0f;
             }
+
          }
 
          protected override void DrawInternalScale()

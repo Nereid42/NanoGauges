@@ -84,15 +84,44 @@ namespace Nereid
                NotInLimits();
             }
 
-            if (NavGlobals.landingRunway != null && IsOn() && IsInLimits())
+            if(IsOn())
             {
-               SetBlueNeedleTo(NavGlobals.bearingToRunway);
-               SetYellowNeedleTo(NavGlobals.horizontalGlideslopeDeviation * 10);
+               // gauge is on
+               if (NavGlobals.landingRunway != null)
+               {
+                  // we have a runway for landing
+                  SetBlueNeedleTo(NavGlobals.bearingToRunway);
+                  if (IsInLimits())
+                  {
+                     SetYellowNeedleTo(NavGlobals.horizontalGlideslopeDeviation * 10);
+                  }
+                  else
+                  {
+                     SetYellowNeedleTo(-999);
+                  }
+               }
+               else
+               {
+                  // we do not have a runway for landing
+                  SetYellowNeedleTo(-999);
+                  //
+                  // bearing to airport
+                  if (NavGlobals.destinationAirfield != null)
+                  {
+                     SetBlueNeedleTo(NavGlobals.bearingToAirfield);
+                  }
+                  else
+                  {
+                     // no airport, no bearing
+                     SetBlueNeedleTo(999);
+                  }
+               }
             }
             else
             {
-               SetBlueNeedleTo(180);
-               SetYellowNeedleTo(-180);
+               // gauge is off
+               SetYellowNeedleTo(-999);
+               SetBlueNeedleTo(999);
             }
          }
 

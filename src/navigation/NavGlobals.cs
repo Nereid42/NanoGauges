@@ -33,7 +33,9 @@ namespace Nereid
          public static bool InBeam { get; private set; }
 
          public static double distanceToRunway { get; private set; }
+         public static double distanceToAirfield { get; private set; }
          public static double bearingToRunway { get; private set; }
+         public static double bearingToAirfield { get; private set; }
          public static double verticalGlideslopeDeviation { get; private set; }
          public static double horizontalGlideslopeDeviation { get; private set; }
 
@@ -53,8 +55,11 @@ namespace Nereid
             landingRunway = null;
             ILS = false;
             distanceToRunway = double.MaxValue;
+            distanceToAirfield = double.MaxValue;
             verticalGlideslopeDeviation = double.MaxValue;
             horizontalGlideslopeDeviation = double.MaxValue;
+            bearingToAirfield = 0.0;
+            bearingToRunway = 0.0;
          }
 
          public static void Update()
@@ -64,8 +69,8 @@ namespace Nereid
 
             if(destinationAirfield == null)  return;
 
-            double distanceToAirfield = NavUtils.DistanceToAirfield(vessel, destinationAirfield);
-            double bearingToAirfield = NavUtils.InitialBearingToAirfield(vessel, destinationAirfield);
+            distanceToAirfield = NavUtils.DistanceToAirfield(vessel, destinationAirfield);
+            bearingToAirfield = NavUtils.InitialBearingToAirfield(vessel, destinationAirfield);
 
             // do this not to often and not in an airfield
             if(landingRunway==null || distanceToAirfield> 2000 || !InBeam)

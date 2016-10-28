@@ -115,7 +115,7 @@ namespace Nereid
          {
             float degrees = GetDegrees() % 360;
             float offset = degrees / (float)SCALE_WIDTH;
-            if (!IsOn() || !IsInLimits()) return this.scaleOffset;
+            if (IsOff()) return this.scaleOffset;
             this.scaleOffset = offset;
             this.degrees = degrees;
             return offset;

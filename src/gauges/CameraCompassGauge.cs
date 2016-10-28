@@ -72,14 +72,13 @@ namespace Nereid
             if (vessel == null || vessel.mainBody == null || vessel.altitude > vessel.mainBody.Radius/2)
             {
                NotInLimits();
+               Off();
             }
             else
             {
                InLimits();
+               On();
             }
-
-            //
-            On();
 
             float hdg = (180.0f * FlightCamera.CamHdg / (float)Math.PI) % 360;
 
