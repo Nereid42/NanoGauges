@@ -34,7 +34,7 @@ namespace Nereid
             float b = GetLowerOffset();
             float y = b;
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null)
+            if (vessel != null && !vessel.isEVA)
             {
                On();
                double v = vessel.indicatedAirSpeed;

@@ -126,9 +126,10 @@ namespace Nereid
 
             Vessel vessel = FlightGlobals.ActiveVessel;
 
-            if(vessel==null || vessel.mainBody==null || vessel.altitude > vessel.mainBody.Radius/2)
+            if(vessel==null || vessel.isEVA || vessel.mainBody==null || vessel.altitude > vessel.mainBody.Radius/2)
             {
                Off();
+               return y;
             }
             else
             { 

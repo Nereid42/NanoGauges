@@ -32,7 +32,7 @@ namespace Nereid
          protected override void AutomaticOnOff()
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null && vessel.parts.Count > 0 && vessel.atmDensity>0.0)
+            if (vessel != null && !vessel.isEVA  && vessel.parts.Count > 0 && vessel.atmDensity > 0.0)
             {
                On();
             }

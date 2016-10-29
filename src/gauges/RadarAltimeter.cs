@@ -11,6 +11,7 @@ namespace Nereid
       {
          private static readonly Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/RALT-skin");
          private static readonly Texture2D SCALE = Utils.GetTexture("Nereid/NanoGauges/Resource/RALT-scale");
+         private const double MIN_ALTITUDE = 0.0001;
          private const double MAX_ALTITUDE = 10000;
 
          public RadarAltimeter()
@@ -31,10 +32,11 @@ namespace Nereid
          protected override void AutomaticOnOff()
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null && FlightGlobals.ActiveVessel.parts.Count > 0)
+            if (vessel != null && FlightGlobals.ActiveVessel.parts.Count > 0 && !vessel.isEVA)
             {
                double alt = vessel.altitude - vessel.terrainAltitude;
-               if (alt > 0.0001)
+               //
+               if (alt > MIN_ALTITUDE)
                {
                   if (alt < MAX_ALTITUDE)
                   {

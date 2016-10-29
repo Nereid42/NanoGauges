@@ -56,7 +56,7 @@ namespace Nereid
             float b = GetLowerOffset();
             float y = b;
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null)
+            if (vessel != null && !vessel.isEVA)
             {
                if(vessel.mainBody!=null)
                {
@@ -71,6 +71,10 @@ namespace Nereid
                      y = (float)(b + 149.5f * Math.Log10(1 + 10 * twr) / 400.0f);
                   }
                }
+            }
+            else
+            {
+               Off();
             }
             return y;
          }

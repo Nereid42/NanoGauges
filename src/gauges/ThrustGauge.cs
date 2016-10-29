@@ -36,8 +36,9 @@ namespace Nereid
             float b = GetLowerOffset();
             float y = b;
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null)
+            if (vessel != null && !vessel.isEVA)
             {
+               On();
                double thrust = inspecteur.engineTotalThrust;
                if (thrust > MAX_THRUST)
                {
@@ -49,6 +50,10 @@ namespace Nereid
                   InLimits();
                }
                y = (float)(b + 60.0f * Math.Log10(1 + thrust) / 400.0f);
+            }
+            else
+            {
+               Off();
             }
             return y;
          }

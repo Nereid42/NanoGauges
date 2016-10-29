@@ -35,8 +35,9 @@ namespace Nereid
             float y = m;
 
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null)
+            if (vessel != null && !vessel.isEVA)
             {
+               On();
                double v = vessel.verticalSpeed;
                if (v > MAX_SPEED)
                {
@@ -61,6 +62,10 @@ namespace Nereid
                {
                   y = m - 37.5f * (float)Math.Log10(1 - v) / 400.0f;
                }
+            }
+            else
+            {
+               Off();
             }
             return y;
          }

@@ -8,7 +8,7 @@ namespace Nereid
    {
       class ConfigWindow : AbstractWindow
       {
-         private static readonly int GAUGES_HEIGHT = 324; // 270
+         private static readonly int GAUGES_HEIGHT = 333;
          private static readonly GUIStyle STYLE_ENABLE_DISABLE_ALL_TOGGLE = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_COPYPASTE_BUTTONS = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_DEFAULT_BUTTON = new GUIStyle(HighLogic.Skin.button);

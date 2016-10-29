@@ -9,7 +9,7 @@ namespace Nereid
       class HotkeysWindow : AbstractWindow
       {
          public const int WIDTH = 630;
-         public const int HEIGHT = 486;
+         public const int HEIGHT = 495;
 
          private static readonly GUIStyle STYLE_HOTKEY_BUTTON = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_NAME = new GUIStyle(HighLogic.Skin.label);
@@ -123,9 +123,13 @@ namespace Nereid
             GUILayout.EndHorizontal();
             //
             GUILayout.BeginHorizontal();
-            DrawHotkey("Alignment gauge", HotkeyManager.HOTKEY_ALIGNMENT_GAUGE, main_hotkey);
+            DrawHotkey("Next Navpoint", HotkeyManager.HOTKEY_SELECT_NAV, main_hotkey);
             GUILayout.FlexibleSpace();
             DrawHotkey("Drag&Close", HotkeyManager.HOTKEY_CLOSE_AND_DRAG);
+            GUILayout.EndHorizontal();
+            //
+            GUILayout.BeginHorizontal();
+            DrawHotkey("Align. gauge", HotkeyManager.HOTKEY_ALIGNMENT_GAUGE, main_hotkey);
             GUILayout.EndHorizontal();
 
             GUILayout.FlexibleSpace();
