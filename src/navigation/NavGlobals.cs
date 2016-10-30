@@ -11,8 +11,8 @@ namespace Nereid
       {
          public static readonly Runway RUNWAY_090_SPACECENTER = new Runway("RWY 090", Coords.Create(-74.7130, -0.0486), 65.75f, 90.0f);
          public static readonly Runway RUNWAY_270_SPACECENTER = new Runway("RWY 270", Coords.Create(-74.5039, -0.0501), 65.75f, 270.0f);
-         public static readonly Runway RUNWAY_090_OLDAIRFIELD = new Runway("RWY 090", Coords.Create(-71.9663, -1.5182), 65.75f, 90.0f,2.5f);
-         public static readonly Runway RUNWAY_270_OLDAIRFIELD = new Runway("RWY 270", Coords.Create(-71.8900, -1.5571), 65.75f, 270.0f,2.5f);
+         public static readonly Runway RUNWAY_090_OLDAIRFIELD = new Runway("RWY 090", Coords.Create(-71.9663, -1.5182), 133f, 90.0f,2.5f);
+         public static readonly Runway RUNWAY_270_OLDAIRFIELD = new Runway("RWY 270", Coords.Create(-71.8900, -1.5571), 133f, 270.0f,2.5f);
 
          public static readonly Airfield AIRFIELD_SPACECENTER = new Airfield("Space Center", RUNWAY_090_SPACECENTER, RUNWAY_270_SPACECENTER);
          public static readonly Airfield AIRFIELD_OLDAIRFIELD = new Airfield("Old Airfield", RUNWAY_090_OLDAIRFIELD, RUNWAY_270_OLDAIRFIELD);
