@@ -97,6 +97,7 @@ namespace Nereid
             // not working
             //AddGauge(new TimeToTransistionGauge());
             AddGauge(new GlideGauge());
+            AddGauge(new ThrottleGauge(engineInspecteur));
             
             // horizontal gauges
             AddGauge(new VesselGauge());

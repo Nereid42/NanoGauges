@@ -108,16 +108,15 @@ namespace Nereid
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
             yellowNeedle.Draw();
-         }
 
-         protected override void DrawOverlay()
-         {
+            float scaling = (float)NanoGauges.configuration.gaugeScaling;
             float h = GetHeight();
             float w = GetWidth();
-            float x = w - DmeDisplay.GetWidth();
-            float y = h - DmeDisplay.GetHeight();
+            float x = w - DmeDisplay.GetWidth() - 2 * scaling;
+            float y = h - DmeDisplay.GetHeight() - 3 * scaling;
             DmeDisplay.Draw(x, y);
          }
+
 
          protected override float GetScaleOffset()
          {
@@ -158,7 +157,8 @@ namespace Nereid
             //
             float scaling = (float)NanoGauges.configuration.gaugeScaling;
             this.yellowNeedle.Resize((float)NEEDLE_YELLOW.width * scaling, (float)NEEDLE_YELLOW.height * scaling);
-
+            //
+            DmeDisplay.SetScaling(scaling);
          }
 
          private class Needle : Sprite

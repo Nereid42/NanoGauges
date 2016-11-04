@@ -30,7 +30,7 @@ namespace Nereid
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_TWR);
 
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_HSPD);
-            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_MACH);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_THROTTLE);
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_SPD);
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VSI);
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_ALTIMETER);
@@ -65,7 +65,7 @@ namespace Nereid
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_THRUST, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_TWR, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_HSPD, true);
-            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_MACH, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_THROTTLE, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_SPD, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_VSI, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_ALTIMETER, true);

@@ -283,6 +283,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOAPA, "Time to apoapsis gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOTRANS, "Time to next transition gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOPEA, "Time to periapsis gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_THROTTLE, "Throttle gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_THRUST, "Thrust gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TWR, "TWR gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VAI, "VAI (vertical attidute indicator) gauge enabled");

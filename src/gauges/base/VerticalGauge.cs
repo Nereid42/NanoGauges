@@ -14,8 +14,7 @@ namespace Nereid
 
          private readonly Texture2D skin;
          private readonly Texture2D scale;
-         private Rect scaleBounds;
-         private Rect skinBounds;
+         protected Rect gaugeBounds;
 
          // position of scale
          private Rect position = new Rect();
@@ -35,8 +34,7 @@ namespace Nereid
             this.damper.SetEnabled(damped);
             this.scale = scale;
             this.skin = skin;
-            this.skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
-            this.scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
+            this.gaugeBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
             //
             this.zoom = new VerticalGaugeZoom(this,skin,scale);
             //
@@ -170,7 +168,7 @@ namespace Nereid
             this.position.y = scaleoffset;
             this.position.height = verticalScaleratio;
             // draw scale
-            GUI.DrawTextureWithTexCoords(skinBounds, scale, position, false);
+            GUI.DrawTextureWithTexCoords(gaugeBounds, scale, position, false);
             //
             // internal scale
             DrawInternalScale();
@@ -185,7 +183,7 @@ namespace Nereid
             }
             //
             // skin
-            GUI.DrawTexture(skinBounds, skin);
+            GUI.DrawTexture(gaugeBounds, skin);
             //
             // Overlay
             DrawOverlay();
@@ -276,8 +274,8 @@ namespace Nereid
             bounds.height = NanoGauges.configuration.verticalGaugeHeight;
             //
             //change dimensions of skin and scale
-            skinBounds.width = NanoGauges.configuration.verticalGaugeWidth;
-            skinBounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            gaugeBounds.width = NanoGauges.configuration.verticalGaugeWidth;
+            gaugeBounds.height = NanoGauges.configuration.verticalGaugeHeight;
             //
             // change flags
             limitFlag.ScaleTo(NanoGauges.configuration.gaugeScaling);

@@ -31,12 +31,12 @@ namespace Nereid
 
          public float GetWidth()
          {
-            return width;
+            return this.width;
          }
 
          public float GetHeight()
          {
-            return height;
+            return this.height;
          }
 
          public virtual void Resize(float width, float height)
