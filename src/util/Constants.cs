@@ -94,7 +94,14 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_CRAP = WINDOW_ID_BASE + 81;
          public const int WINDOW_ID_GAUGE_IAS = WINDOW_ID_BASE + 82;
          public const int WINDOW_ID_GAUGE_VESSEL = WINDOW_ID_BASE + 83;
-         public const int WINDOW_ID_GAUGE_DELTAV = WINDOW_ID_BASE + 84;
+         public const int WINDOW_ID_GAUGE_DELTAV = WINDOW_ID_BASE + 84; // not used
+         public const int WINDOW_ID_GAUGE_CAMERA = WINDOW_ID_BASE + 85;
+         public const int WINDOW_ID_GAUGE_NAV = WINDOW_ID_BASE + 86;
+         public const int WINDOW_ID_GAUGE_GLIDE = WINDOW_ID_BASE + 87;
+         public const int WINDOW_ID_GAUGE_THROTTLE = WINDOW_ID_BASE + 88;
+         //
+         public const int WINDOW_ID_GAUGE_ALIGNMENT = 19999;
+
          
          public const String RESOURCE_NAME_LIQUID_FUEL = "LiquidFuel";
          public const String RESOURCE_NAME_XENON_GAS = "XenonGas";
@@ -139,6 +146,7 @@ namespace Nereid
          public const double G = 6.674e-11;
          public const double ATM = 1.2230948554874;
          public const double MIN_TEMP = -273.15;
+
 
          public const long SECONDS_PER_MINUTE = 60;
          public const long MINUTES_PER_HOUR = 60;

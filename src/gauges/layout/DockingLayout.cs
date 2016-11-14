@@ -51,10 +51,7 @@ namespace Nereid
 
          public override void EnableGauges(GaugeSet set)
          {
-            foreach (int id in set)
-            {
-               SetGaugeEnabled(set, id, false);
-            }
+            DisableAllgauges(set);
             //
             EnableAllHorizontalTextGauges(set);
             //

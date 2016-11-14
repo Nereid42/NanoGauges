@@ -65,12 +65,12 @@ namespace Nereid
                      if (v > MAX_SPEED)
                      {
                         v = MAX_SPEED;
-                        OutOfLimits();
+                        NotInLimits();
                      }
                      else if (v < MIN_SPEED)
                      {
                         v = MIN_SPEED;
-                        OutOfLimits();
+                        NotInLimits();
                      }
                      else
                      {

@@ -37,7 +37,8 @@ namespace Nereid
 
          // debug
          private readonly TimedStatistics.Timer updateTimer = TimedStatistics.instance.GetTimer("Update");
-         private readonly TimedStatistics.Timer fixedUpdateTimer = TimedStatistics.instance.GetTimer("Fixed update");
+         private readonly TimedStatistics.Timer gaugeUpdateTimer = TimedStatistics.instance.GetTimer("Gauge updates");
+         private readonly TimedStatistics.Timer navUpdateTimer = TimedStatistics.instance.GetTimer("Navigation updates");
 
 
          static NanoGauges()
@@ -99,6 +100,10 @@ namespace Nereid
                Log.Info("stock toolbar button enabled");
                CreateStockToolbarButton();
             }
+            
+            // scheduling navigation Updates
+            InvokeRepeating("UpdateNavGlobals", 0.0f, 0.1f);
+            
             Log.Info("NanoGauges started");
          }
 
@@ -238,22 +243,36 @@ namespace Nereid
             return gauges.GetCluster(gauge);
          }
 
-         public void FixedUpdate()
+         private void UpdateGauges()
          {
-            fixedUpdateTimer.Start();
+            gaugeUpdateTimer.Start();
             try
             {
                gauges.Update();
             }
             finally
             {
-               fixedUpdateTimer.Stop();
+               gaugeUpdateTimer.Stop();
             }
+         }
 
+         private void UpdateNavGlobals()
+         {
+            navUpdateTimer.Start();
+            try
+            {
+               NavGlobals.Update();
+            }
+            finally
+            {
+               navUpdateTimer.Stop();
+            }
          }
 
          public void Update()
          {
+            UpdateGauges();
+
             updateTimer.Start();
             try
             {
@@ -282,7 +301,6 @@ namespace Nereid
                if (!hotkeyPressed)
                {
                   // simple Hotkeys 
-
                   if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_HIDE))
                   {
                      if (gauges.Hidden())
@@ -294,19 +312,27 @@ namespace Nereid
                         gauges.Hide();
                      }
                   }
-                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_PREVSET))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_PREVSET))
                   {
                      SetGaugeSet(configuration.GetGaugeSetId().decrement());
                   }
-                  if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_NEXTSET))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_NEXTSET))
                   {
                      SetGaugeSet(configuration.GetGaugeSetId().increment());
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_LOCK_PROFILE))
+                  {
+                     profileManager.ToggleLock();
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SELECT_NAV))
+                  {
+                     NavGlobals.SelectNextAirfield();
                   }
                }
                else
                {
                   // Hotkeys in chord with main hotkey
-
+                  //
                   if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SET_STANDARD))
                   {
                      SetGaugeSet(GaugeSet.ID.STANDARD);
@@ -370,6 +396,10 @@ namespace Nereid
                   else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_AUTOLAYOUT))
                   {
                      gauges.AutoLayout();
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_ALIGNMENT_GAUGE))
+                  {
+                     gauges.ShowAligmentGauge(!gauges.IsAligmentGaugeVisible());
                   }
                }
             }

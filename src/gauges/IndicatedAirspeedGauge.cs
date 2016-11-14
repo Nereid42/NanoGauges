@@ -34,19 +34,19 @@ namespace Nereid
             float b = GetLowerOffset();
             float y = b;
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null)
+            if (vessel != null && !vessel.isEVA)
             {
                On();
                double v = vessel.indicatedAirSpeed;
                if (v > MAX_SPEED)
                {
                   v = MAX_SPEED;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else if (v < MIN_SPEED && v > 0)
                {
                   v = 0;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else
                {

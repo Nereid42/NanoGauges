@@ -31,7 +31,7 @@ namespace Nereid
          protected const int MARGIN_Y_LEFT_NAVBALL_BLOCK = 12;
          protected const int MARGIN_X_LEFT_NAVBALL_BLOCK = 200;
          protected const int MARGIN_Y_RIGHT_NAVBALL_BLOCK = MARGIN_Y_LEFT_NAVBALL_BLOCK;
-         protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 220;
+         protected const int MARGIN_X_RIGHT_NAVBALL_BLOCK = 275;
 
 
          protected Gauges gauges { get; private set; }
@@ -277,6 +277,8 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_BIOME, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 1 * hDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LATITUDE, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 2 * hDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 3 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CAMERA, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 4 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_NAV, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 5 * hDY);
          }
 
          // 
@@ -286,9 +288,67 @@ namespace Nereid
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_BIOME, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_LATITUDE, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_LONGITUDE, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_CAMERA, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_NAV, true);
+         }
+
+         protected void DisableAllgauges(GaugeSet set)
+         {
+            foreach (int id in set)
+            {
+               SetGaugeEnabled(set, id, false);
+            }
+         }
+
+
+         protected void EnableAllgauges(GaugeSet set)
+         {
+            foreach (int id in set)
+            {
+               SetGaugeEnabled(set, id, true);
+            }
+         }
+
+
+         private const int MIN_GAUGE_DISTANCE = 10;
+
+
+         private bool Declutter(GaugeSet set, int id)
+         {
+            foreach (int other in set)
+            {
+               if (!set.IsGaugeEnabled(other)) continue;
+               if (id != other)
+               {
+                  Pair<int, int> position = set.GetWindowPosition(id);
+                  Pair<int, int> cmp = set.GetWindowPosition(other);
+                  if (Math.Abs(position.first - cmp.first) < MIN_GAUGE_DISTANCE && Math.Abs(position.second - cmp.second) < MIN_GAUGE_DISTANCE)
+                  {
+                     int x = position.first + MIN_GAUGE_DISTANCE;
+                     int y = position.second + MIN_GAUGE_DISTANCE;
+                     if (x >= Screen.width - NanoGauges.configuration.verticalGaugeWidth) x = 0;
+                     if (y >= Screen.height - NanoGauges.configuration.verticalGaugeHeight) y = 0;
+                     Pair<int, int> newPosition = new Pair<int, int>(x, y);
+                     set.SetWindowPosition(id, newPosition);
+                     return true;
+                  }
+               }
+            }
+            return false;
+         }
+
+         public void Declutter(GaugeSet set)
+         {
+            Log.Info("declutter "+set);
+            foreach (int id in set)
+            {
+               if (!set.IsGaugeEnabled(id)) continue;
+               while(Declutter(set, id))
+               {
+                  Log.Info("decluttering gauge id " + id + " to " + set.GetWindowPosition(id) + " in set " + set);
+               }
+            }
          }
       }
-
-
    }
 }

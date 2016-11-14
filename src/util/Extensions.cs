@@ -32,6 +32,12 @@ namespace Nereid
             }
          }
 
+
+         public static Coords Coords(this Vessel vessel)
+         {
+            return new Coords(vessel.longitude, vessel.latitude);
+         }
+
          public static bool IsDrill(this Part part)
          {
             List<BaseDrill> drills = part.FindModulesImplementing<BaseDrill>();

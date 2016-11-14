@@ -60,7 +60,7 @@ namespace Nereid
                      if (d > MAX_DISTANCE)
                      {
                         d = MAX_DISTANCE;
-                        OutOfLimits();
+                        NotInLimits();
                      }
                      else
                      {

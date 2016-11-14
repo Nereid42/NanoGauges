@@ -57,12 +57,12 @@ namespace Nereid
                if (pressure > MAX_PRES)
                {
                   pressure = MAX_PRES;
-                  OutOfLimits();
+                  NotInLimits();
                }
                if (pressure < MIN_PRES)
                {
                   pressure = MIN_PRES;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else
                {

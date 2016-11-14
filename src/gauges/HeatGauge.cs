@@ -57,7 +57,7 @@ namespace Nereid
                if (temp > MAX_TEMP)
                {
                   temp = MAX_TEMP;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else
                {

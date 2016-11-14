@@ -112,19 +112,21 @@ namespace Nereid
             if (GetLastInspectTime() > 0)
             {
                double time = now - GetLastInspectTime();
-               foreach (PartResourceDefinition item in PartResourceLibrary.Instance.resourceDefinitions)
+               if(time > 0)
                {
-                  int id = item.id;
-                  if(amount.ContainsKey(id) && previous.ContainsKey(id))
+                  foreach (PartResourceDefinition item in PartResourceLibrary.Instance.resourceDefinitions)
                   {
-                     rate[id] = (1 / time) * (this.amount[id] - this.previous[id]);
-                  }
-                  else
-                  {
-                     rate[id] = 0.0;
+                     int id = item.id;
+                     if (amount.ContainsKey(id) && previous.ContainsKey(id))
+                     {
+                        rate[id] = (1 / time) * (this.amount[id] - this.previous[id]);
+                     }
+                     else
+                     {
+                        rate[id] = 0.0;
+                     }
                   }
                }
-
             }
          }
 

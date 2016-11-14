@@ -39,7 +39,7 @@ namespace Nereid
                if (atm > MAX_ATM)
                {
                   atm = MAX_ATM;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else
                {
@@ -49,7 +49,7 @@ namespace Nereid
                   }
                   else
                   {
-                     OutOfLimits();
+                     NotInLimits();
                   }
                }
                if (atm < 0) atm = 0;

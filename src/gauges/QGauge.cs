@@ -45,12 +45,17 @@ namespace Nereid
             float b = GetLowerOffset();
             float y = b;
             Vessel vessel = FlightGlobals.ActiveVessel;
-            if (vessel != null)
+            if (vessel != null && !vessel.isEVA)
             {
+               On();
                double q = vessel.dynamicPressurekPa * 1000;
                if (q > MAX_Q) q = MAX_Q;
                if (q < MIN_Q) q = MIN_Q;
                y = b + 60.0f * (float)Math.Log10(1+q) / 400.0f;
+            }
+            else
+            {
+               Off();
             }
             return y;
          }

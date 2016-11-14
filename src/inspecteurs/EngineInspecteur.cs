@@ -10,7 +10,8 @@ namespace Nereid
       public class EngineInspecteur : Inspecteur 
       {
          public double engineTotalThrust { get; private set; }
-         public double engineIspPerRunningEngine  { get; private set; }
+         public double engineRelativeThrust { get; private set; }
+         public double engineIspPerRunningEngine { get; private set; }
          public float propReqPerRunningEngine { get; private set; }
          public int enginesRunningCount { get; private set; }
          public int enginesTotalCount { get; private set; }
@@ -31,6 +32,7 @@ namespace Nereid
          public override void Reset()
          {
             this.engineTotalThrust = 0.0;
+            this.engineRelativeThrust = 0.0;
             this.engineIspPerRunningEngine = 0.0;
             this.propReqPerRunningEngine = 0.0f;
             this.enginesRunningCount = 0;
@@ -93,6 +95,7 @@ namespace Nereid
 
          protected override void Inspect(Vessel vessel)
          {
+            double engineMaxThrust = 0.0;
             double previousIspPerRunningEngine = engineIspPerRunningEngine;
             engineTotalThrust = 0.0;
             engineIspPerRunningEngine = 0.0;
@@ -107,6 +110,7 @@ namespace Nereid
                engineTotalThrust += thrust;
                if (engine.isEnabled && thrust > 0.0)
                {
+                  engineMaxThrust += engine.maxThrust;
                   engineIspPerRunningEngine += engine.realIsp;
                   propReqPerRunningEngine += engine.propellantReqMet;
                   enginesRunningCount++;
@@ -127,7 +131,7 @@ namespace Nereid
                   }
                }
             }
-            // IST & running Engines
+            // Max Trhist, ISP & running Engines
             if (enginesRunningCount > 0)
             {
                // ISP per engine
@@ -140,11 +144,21 @@ namespace Nereid
                {
                   deltaIspPerSecond.AddValue((engineIspPerRunningEngine - previousIspPerRunningEngine) * (1 / interval));
                }
+               // relative Thrus of engines
+               if (engineMaxThrust>0)
+               {
+                  engineRelativeThrust = engineTotalThrust / engineMaxThrust;
+               }
+               else
+               {
+                  engineRelativeThrust = 0.0;
+               }
             }
             else
             {
                engineIspPerRunningEngine = 0;
                propReqPerRunningEngine = 0;
+               engineRelativeThrust = 0.0;
             }
          }
       }

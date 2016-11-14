@@ -81,6 +81,21 @@ namespace Nereid
             style.focused.textColor = color;
             style.active.textColor = color;
          }
+
+         public static double DegreeToRadians(double deg)
+         {
+            return deg * (Math.PI / 180.0);
+         }
+
+         public static double RadiansToDegree(double rad)
+         {
+            return rad * (180.0 / Math.PI);
+         }
+
+         public static double ToDegrees(int degrees, int minutes, int seconds)
+         {
+            return (double)degrees + ((double)minutes) / 60.0 + ((double)seconds) / 3600.0;
+         }
       }
    }
 }

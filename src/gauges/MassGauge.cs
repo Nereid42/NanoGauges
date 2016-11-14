@@ -44,7 +44,7 @@ namespace Nereid
                if (mass > MAX_MASS)
                {
                   mass = MAX_MASS;
-                  OutOfLimits();
+                  NotInLimits();
                }
                else
                {

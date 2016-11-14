@@ -51,7 +51,7 @@ namespace Nereid
                total += elapsed;
                double pct = (double)elapsed / (double)inflight * 100;
                double cntPerSecond = (double)t.Count * 1000.0 / (double)inflight;
-               sb.Append(name + ": " + elapsed + " ms (" + pct.ToString("0.000") + "%, " + cntPerSecond.ToString("0.0") + "x per sec)\n");
+               sb.Append(name + ": " + elapsed + " ms (" + pct.ToString("0.000") + "%, " + cntPerSecond.ToString("0.0") + "x per sec, "+t.Count+"x)\n");
             }
 
             double totalPct = (double)total / (double)inflight * 100;

@@ -22,12 +22,12 @@ namespace Nereid
 
          public override string GetName()
          {
-            return "EVA Monopropellant";
+            return "EVA\nMonopropellant";
          }
 
          public override string GetDescription()
          {
-            return "Remaining eva monopropellant in percent.";
+            return "\n\nRemaining eva monopropellant in percent.";
          }
 
          public override string ToString()

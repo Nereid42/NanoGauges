@@ -44,7 +44,7 @@ namespace Nereid
                // check for minimum speed
                if(vessel.srfSpeed<MIN_SPEED)
                {
-                  OutOfLimits();
+                  NotInLimits();
                   return y;
                }
                double acceleration = inspecteur.Acceleration();
@@ -53,12 +53,12 @@ namespace Nereid
                   if (acceleration > MAX_VALUE)
                   {
                      acceleration = MAX_VALUE;
-                     OutOfLimits();
+                     NotInLimits();
                   }
                   else if (acceleration < MIN_VALUE)
                   {
                      acceleration = MIN_VALUE;
-                     OutOfLimits();
+                     NotInLimits();
                   }
                   else
                   {

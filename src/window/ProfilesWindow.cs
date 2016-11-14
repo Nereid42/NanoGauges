@@ -9,7 +9,7 @@ namespace Nereid
       class ProfilesWindow : AbstractWindow
       {
          public const int WIDTH = 350;
-         public const int HEIGHT = 462;
+         public const int HEIGHT = 525;
 
          private static readonly GUIStyle STYLE_PROFILE_BUTTON = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_HOTKEY_BUTTON = new GUIStyle(HighLogic.Skin.button);
@@ -43,7 +43,9 @@ namespace Nereid
             DrawProfile(manager.FLIGHT);
             DrawProfile(manager.ORBIT);
             DrawProfile(manager.ESCAPE);
-            DrawProfile(manager.LAND);
+            DrawProfile(manager.ORBIT_TO_SUBORBITAL);
+            DrawProfile(manager.FLIGHT_TO_SUBORBITAL);
+            DrawProfile(manager.OTHER_TO_SUBORBITAL);
             DrawProfile(manager.LANDED);
             DrawProfile(manager.DOCKED);
             DrawProfile(manager.DOCKING);

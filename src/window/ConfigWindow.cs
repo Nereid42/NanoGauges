@@ -8,7 +8,7 @@ namespace Nereid
    {
       class ConfigWindow : AbstractWindow
       {
-         private static readonly int GAUGES_HEIGHT = 270;
+         private static readonly int GAUGES_HEIGHT = 333;
          private static readonly GUIStyle STYLE_ENABLE_DISABLE_ALL_TOGGLE = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_COPYPASTE_BUTTONS = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_DEFAULT_BUTTON = new GUIStyle(HighLogic.Skin.button);
@@ -160,6 +160,7 @@ namespace Nereid
             GUILayout.BeginHorizontal();
             // Gauge marker
             config.gaugeMarkerEnabled = GUILayout.Toggle(config.gaugeMarkerEnabled, "Gauge marker enabled", STYLE_TOGGLE_2_PER_ROW);
+            config.declutterEnabled = GUILayout.Toggle(config.declutterEnabled, "Declutter enabled", STYLE_TOGGLE_2_PER_ROW);
             GUILayout.FlexibleSpace();
             if (GUILayout.Button("Hotkeys", STYLE_SIDE_BUTTON))
             {
@@ -253,7 +254,9 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HEAT, "Heat shield temperatur gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HACCL, "Horizontal acceleration gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_HSPD, "Horizontal speed gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_GLIDE, "ILS/DME gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_IMPACT, "Impact gauge");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_IAS, "Indicated airspeed gauge");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DISP, "ISP rate gauge (Delta Isp/s) enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_ISPE, "ISP/E gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_KARBONITE, "Karbonite gauge enabled (Real Fuels plugin required)");
@@ -280,6 +283,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOAPA, "Time to apoapsis gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOTRANS, "Time to next transition gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TIMETOPEA, "Time to periapsis gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_THROTTLE, "Throttle gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_THRUST, "Thrust gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_TWR, "TWR gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VAI, "VAI (vertical attidute indicator) gauge enabled");
@@ -294,8 +298,10 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_XENON, "Xenon gauge enabled");
             GUILayout.Label("", STYLE_LINE);
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_BIOME, "Biome gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CAMERA, "Camera compass gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LATITUDE, "Latitude gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LONGITUDE, "Longitude gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_NAV, "VOR/ILS gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VESSEL, "Vessel gauge enabled");
             GUILayout.EndScrollView();
             
@@ -322,10 +328,10 @@ namespace Nereid
          {
             Configuration config = NanoGauges.configuration;
             GUILayout.BeginHorizontal();
-            gauges.SetEnabledInCamera(CameraManager.CameraMode.Flight, GUILayout.Toggle(config.IsGaugesInFlightEnabled(), "Flight", STYLE_TOGGLE_4_PER_ROW));
-            gauges.SetEnabledInCamera(CameraManager.CameraMode.Map, GUILayout.Toggle(config.IsGaugesInMapEnabled(), "Map", STYLE_TOGGLE_4_PER_ROW));
-            gauges.SetEnabledInCamera(CameraManager.CameraMode.IVA, GUILayout.Toggle(config.IsGaugesInIvaEnabled(), "IVA", STYLE_TOGGLE_4_PER_ROW));
-            gauges.SetEnabledInEva(GUILayout.Toggle(config.IsGaugesInEvaEnabled(), "EVA", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInCamera(CameraManager.CameraMode.Flight, GUILayout.Toggle(config.gaugesInFlightEnabled, "Flight", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInCamera(CameraManager.CameraMode.Map, GUILayout.Toggle(config.gaugesInMapEnabled, "Map", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInCamera(CameraManager.CameraMode.IVA, GUILayout.Toggle(config.gaugesInIvaEnabled, "IVA", STYLE_TOGGLE_4_PER_ROW));
+            gauges.SetEnabledInEva(GUILayout.Toggle(config.gaugesInEvaEnabled, "EVA", STYLE_TOGGLE_4_PER_ROW));
             GUILayout.EndHorizontal();
          }
 

@@ -9,7 +9,7 @@ namespace Nereid
       class HotkeysWindow : AbstractWindow
       {
          public const int WIDTH = 630;
-         public const int HEIGHT = 432;
+         public const int HEIGHT = 495;
 
          private static readonly GUIStyle STYLE_HOTKEY_BUTTON = new GUIStyle(HighLogic.Skin.button);
          private static readonly GUIStyle STYLE_NAME = new GUIStyle(HighLogic.Skin.label);
@@ -33,7 +33,7 @@ namespace Nereid
             STYLE_LABEL.fixedWidth = 9;
             STYLE_LABEL.alignment = TextAnchor.MiddleCenter;
             STYLE_SEPARATOR.stretchWidth = true;
-            STYLE_SEPARATOR.fixedHeight = 8;
+            STYLE_SEPARATOR.fixedHeight = 14;
          }
 
          public HotkeysWindow()
@@ -112,12 +112,24 @@ namespace Nereid
             //
             GUILayout.BeginHorizontal();
             DrawHotkey("Set 2", HotkeyManager.HOTKEY_SET_SET2, main_hotkey);
+            GUILayout.FlexibleSpace();
+            DrawHotkey("Config window", HotkeyManager.HOTKEY_WINDOW_CONFIG, main_hotkey);
             GUILayout.EndHorizontal();
             //
             GUILayout.BeginHorizontal();
             DrawHotkey("Set 3", HotkeyManager.HOTKEY_SET_SET3, main_hotkey);
             GUILayout.FlexibleSpace();
+            DrawHotkey("Lock Profile", HotkeyManager.HOTKEY_LOCK_PROFILE);
+            GUILayout.EndHorizontal();
+            //
+            GUILayout.BeginHorizontal();
+            DrawHotkey("Next Navpoint", HotkeyManager.HOTKEY_SELECT_NAV, main_hotkey);
+            GUILayout.FlexibleSpace();
             DrawHotkey("Drag&Close", HotkeyManager.HOTKEY_CLOSE_AND_DRAG);
+            GUILayout.EndHorizontal();
+            //
+            GUILayout.BeginHorizontal();
+            DrawHotkey("Align. gauge", HotkeyManager.HOTKEY_ALIGNMENT_GAUGE, main_hotkey);
             GUILayout.EndHorizontal();
 
             GUILayout.FlexibleSpace();

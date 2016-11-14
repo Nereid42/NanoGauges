@@ -9,6 +9,8 @@ namespace Nereid
       public class SelectorGauge : AbstractClosableGauge
       {
          private static readonly Texture2D INDICATOR__ON_SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/INDICATOR-on");
+         private static readonly Texture2D INDICATOR__AUTO_SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/INDICATOR-auto");
+         private static readonly Texture2D INDICATOR__LOCKED_SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/INDICATOR-locked");
 
          private static Rect BOUNDS_INDICATOR_STD; 
          private static Rect BOUNDS_INDICATOR_LAU; 
@@ -70,34 +72,46 @@ namespace Nereid
 
             // indicator
             GaugeSet.ID currentGaugeSet = NanoGauges.configuration.GetGaugeSetId();
+            Texture2D indicatorSkin = INDICATOR__ON_SKIN;
+            if(NanoGauges.profileManager.enabled)
+            {
+               if(!NanoGauges.profileManager.IsProfileChangeLocked())
+               {
+                  indicatorSkin = INDICATOR__AUTO_SKIN;
+               }
+               else
+               {
+                  indicatorSkin = INDICATOR__LOCKED_SKIN;
+               }
+            }
             switch(currentGaugeSet)
             {
                case GaugeSet.ID.STANDARD:
-                  GUI.DrawTexture(BOUNDS_INDICATOR_STD, INDICATOR__ON_SKIN);
+                  GUI.DrawTexture(BOUNDS_INDICATOR_STD, indicatorSkin);
                   break;
                case GaugeSet.ID.LAUNCH:
-                  GUI.DrawTexture(BOUNDS_INDICATOR_LAU, INDICATOR__ON_SKIN);
+                  GUI.DrawTexture(BOUNDS_INDICATOR_LAU, indicatorSkin);
                   break;
                case GaugeSet.ID.LAND:
-                  GUI.DrawTexture(BOUNDS_INDICATOR_LAN, INDICATOR__ON_SKIN);
+                  GUI.DrawTexture(BOUNDS_INDICATOR_LAN, indicatorSkin);
                   break;
                case GaugeSet.ID.DOCK:
-                  GUI.DrawTexture(BOUNDS_INDICATOR_DCK, INDICATOR__ON_SKIN);
+                  GUI.DrawTexture(BOUNDS_INDICATOR_DCK, indicatorSkin);
                   break;
                case GaugeSet.ID.ORBIT:
-                  GUI.DrawTexture(BOUNDS_INDICATOR_ORB, INDICATOR__ON_SKIN);
+                  GUI.DrawTexture(BOUNDS_INDICATOR_ORB, indicatorSkin);
                   break;
                case GaugeSet.ID.FLIGHT:
-                  GUI.DrawTexture(BOUNDS_INDICATOR_FLT, INDICATOR__ON_SKIN);
+                  GUI.DrawTexture(BOUNDS_INDICATOR_FLT, indicatorSkin);
                   break;
                case GaugeSet.ID.SET1:
-                  GUI.DrawTexture(BOUNDS_INDICATOR_S_1, INDICATOR__ON_SKIN);
+                  GUI.DrawTexture(BOUNDS_INDICATOR_S_1, indicatorSkin);
                   break;
                case GaugeSet.ID.SET2:
-                  GUI.DrawTexture(BOUNDS_INDICATOR_S_2, INDICATOR__ON_SKIN);
+                  GUI.DrawTexture(BOUNDS_INDICATOR_S_2, indicatorSkin);
                   break;
                case GaugeSet.ID.SET3:
-                  GUI.DrawTexture(BOUNDS_INDICATOR_S_3, INDICATOR__ON_SKIN);
+                  GUI.DrawTexture(BOUNDS_INDICATOR_S_3, indicatorSkin);
                   break;
             }
 
@@ -146,7 +160,7 @@ namespace Nereid
          {
          }
 
-         public override void OutOfLimits()
+         public override void NotInLimits()
          {
          }
 

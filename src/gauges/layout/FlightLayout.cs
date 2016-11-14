@@ -59,10 +59,7 @@ namespace Nereid
 
          public override void EnableGauges(GaugeSet set)
          {
-            foreach (int id in set)
-            {
-               SetGaugeEnabled(set, id, false);
-            }
+            DisableAllgauges(set);
             //
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_SETS, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_INDICATOR, true);

@@ -40,6 +40,7 @@ namespace Nereid
          public bool useStockToolbar { get; set; }
          public bool exactReadoutEnabled { get; set; }
          public bool performanceStatisticsEnabled { get; set; }
+         public bool declutterEnabled { get; set; }
          // need a restart to take effect
          public double gaugeScaling { get; set; }
          public int verticalGaugeWidth { get; private set; }
@@ -47,7 +48,7 @@ namespace Nereid
          public int horizontalGaugeWidth { get; private set; }
          public int horizontalGaugeHeight { get; private set; }
 
-         private const int snapinRange = Gauges.LAYOUT_GAP; // todo: remove constant and make configurable
+         public const int snapinRange = Gauges.LAYOUT_GAP; // todo: remove constant and make configurable
 
          //public KeyCode hotkey  { get; set; }
 
@@ -57,10 +58,13 @@ namespace Nereid
          private GaugeSet.ID gaugeSet = GaugeSet.ID.STANDARD;
          private GaugeSet currentGaugeSet = GaugeSetPool.instance.GetGaugeSet(GaugeSet.ID.STANDARD);
 
-         private bool gaugesInFlightEnabled = true;
-         private bool gaugesInIvaEnabled = true;
-         private bool gaugesInEvaEnabled = true;
-         private bool gaugesInMapEnabled = true;
+         public bool gaugesInFlightEnabled { get; set; }
+         public bool gaugesInIvaEnabled { get; set; }
+         public bool gaugesInEvaEnabled { get; set; }
+         public bool gaugesInMapEnabled { get; set; }
+
+         public int minProfileInterval { get; set; }
+
 
          public Configuration()
          {
@@ -70,6 +74,7 @@ namespace Nereid
             tooltipsEnabled = true;
             snapinEnabled = true;
             trimIndicatorsEnabled = true;
+            declutterEnabled = true;
             useStockToolbar = !ToolbarManager.ToolbarAvailable;
             exactReadoutEnabled = false;
             performanceStatisticsEnabled = false;
@@ -78,6 +83,11 @@ namespace Nereid
             verticalGaugeHeight   = UNSCALED_VERTICAL_GAUGE_HEIGHT;
             horizontalGaugeWidth  = UNSCALED_HORIZONTAL_GAUGE_WIDTH;
             horizontalGaugeHeight = UNSCALED_HORIZONTAL_GAUGE_HEIGHT;
+            gaugesInFlightEnabled = true;
+            gaugesInIvaEnabled = true;
+            gaugesInEvaEnabled = true;
+            gaugesInMapEnabled = true;
+            minProfileInterval = 4;
          }
 
          public void EnableAllGauges(Gauges gauges)
@@ -138,53 +148,6 @@ namespace Nereid
          {
             Log.Detail("layout of gauges in set "+set+" (screen: " + Screen.width + "x" + Screen.height + ") with "+layout);
             layout.Layout(set);
-         }
-
-
-         public int GetSnapinRange()
-         {
-            return snapinRange;
-         }
-
-
-         public bool IsGaugesInFlightEnabled()
-         {
-            return gaugesInFlightEnabled;
-         }
-
-         public bool IsGaugesInIvaEnabled()
-         {
-            return gaugesInIvaEnabled;
-         }
-
-         public bool IsGaugesInEvaEnabled()
-         {
-            return gaugesInEvaEnabled;
-         }
-
-         public bool IsGaugesInMapEnabled()
-         {
-            return gaugesInMapEnabled;
-         }
-
-         public void SetGaugesInFlightEnabled(bool enabled)
-         {
-            this.gaugesInFlightEnabled = enabled;
-         }
-
-         public void SetGaugesInIvaEnabled(bool enabled)
-         {
-            this.gaugesInIvaEnabled = enabled;
-         }
-
-         public void SetGaugesInEvaEnabled(bool enabled)
-         {
-            this.gaugesInEvaEnabled = enabled;
-         }
-
-         public void SetGaugesInMapEnabled(bool enabled)
-         {
-            this.gaugesInMapEnabled = enabled;
          }
 
          public GaugeSet.ID GetGaugeSetId()
@@ -262,6 +225,9 @@ namespace Nereid
 
          private void ReadGaugeSets(BinaryReader reader)
          {
+            // used for decluttering (i.e. show gauges hidden by other gauges)
+            DefaultLayout layout = new DefaultLayout(NanoGauges.gauges,this);
+
             int cnt = reader.ReadInt16();
             for(int i=0; i<cnt; i++)
             {
@@ -269,6 +235,10 @@ namespace Nereid
                Log.Detail("loading gaugeset " + id);
                GaugeSet set = GaugeSetPool.instance.GetGaugeSet(id);
                ReadGaugeSet(reader, set);
+               if(declutterEnabled)
+               {
+                  layout.Declutter(set);
+               }
             }
          }
 
@@ -302,6 +272,9 @@ namespace Nereid
             Log.Detail("writing " + set.Count() + " gauge states");
             foreach (int id in set.Keys())
             {
+               // never write the aligment gauge
+               if (id == Constants.WINDOW_ID_GAUGE_ALIGNMENT) continue;
+               //
                writer.Write((Int32)id);
                bool enabled = set.IsGaugeEnabled(id);
                writer.Write(enabled);
@@ -329,6 +302,9 @@ namespace Nereid
             Log.Detail("writing " + set.Count() + " window positions");
             foreach (int id in set.Keys())
             {
+               // never write the aligment gauge
+               if (id == Constants.WINDOW_ID_GAUGE_ALIGNMENT) continue;
+               //
                Pair<int, int> position = set.GetWindowPosition(id);
                writer.Write((Int32)id);
                writer.Write((Int16)position.first);
@@ -397,6 +373,10 @@ namespace Nereid
                   //
                   // HotkeyManager
                   NanoGauges.hotkeyManager.Write(writer);
+                  //
+                  writer.Write((UInt16)minProfileInterval);
+                  //
+                  writer.Write(declutterEnabled);
                }
             }
             catch
@@ -470,6 +450,10 @@ namespace Nereid
                      //
                      // HotkeyManager
                      NanoGauges.hotkeyManager.Read(reader);
+                     //
+                     minProfileInterval = reader.ReadInt16();
+                     //
+                     declutterEnabled = reader.ReadBoolean();
                   }
                }
                else

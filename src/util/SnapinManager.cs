@@ -23,7 +23,7 @@ namespace Nereid
 
          private void checkSnap(AbstractGauge gauge, int x, int y, int w, int h)
          {
-            int r = NanoGauges.configuration.GetSnapinRange();
+            int r = Configuration.snapinRange;
             foreach (AbstractGauge g in gauges)
             {
                int x0 = g.GetX();

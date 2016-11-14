@@ -30,6 +30,10 @@ namespace Nereid
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_TIMETOAPA);
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_PEA);
             AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_APA);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_VTGT);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_DTGT);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_THRUST);
+            AddToLeftNavballBlock(set, Constants.WINDOW_ID_GAUGE_OSPD);
 
             AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_FUEL);
             AddToRightNavballBlock(set, Constants.WINDOW_ID_GAUGE_OXID);
@@ -45,10 +49,7 @@ namespace Nereid
 
          public override void EnableGauges(GaugeSet set)
          {
-            foreach (int id in set)
-            {
-               SetGaugeEnabled(set, id, false);
-            }
+            DisableAllgauges(set);
             //
             EnableAllHorizontalTextGauges(set);
             //
@@ -56,6 +57,10 @@ namespace Nereid
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_INDICATOR, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_CAM, true);
             //
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_THRUST, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_VTGT, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_DTGT, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_OSPD, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_ORBIT, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_INCL, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_TIMETOPEA, true);

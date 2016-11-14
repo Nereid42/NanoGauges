@@ -14,14 +14,16 @@ namespace Nereid
 
          private readonly Texture2D skin;
          private readonly Texture2D scale;
-         private Rect scaleBounds;
-         private Rect skinBounds;
+         protected Rect gaugeBounds;
+
+         // position of scale
+         private Rect position = new Rect();
          
          private Damper damper;
          private bool autoLimiterEnabled = false;
 
-         private readonly PowerOffFlag offFlag;
-         private readonly LimiterFlag limitFlag;
+         private readonly Flag offFlag;
+         private readonly Flag limitFlag;
 
          private readonly VerticalGaugeZoom zoom;
 
@@ -32,10 +34,13 @@ namespace Nereid
             this.damper.SetEnabled(damped);
             this.scale = scale;
             this.skin = skin;
-            this.skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
-            this.scaleBounds = new Rect(0, 0, SCALE_WIDTH, SCALE_HEIGHT);
+            this.gaugeBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
             //
             this.zoom = new VerticalGaugeZoom(this,skin,scale);
+            //
+            this.position.x = 0;
+            this.position.width = 1.0f;
+
 
             if (scale == null) Log.Error("no scale for gauge " + id + " defined");
             if (skin == null) Log.Error("no skin for gauge " + id + " defined");
@@ -95,6 +100,16 @@ namespace Nereid
          }
 
 
+         protected virtual void DrawInternalScale()
+         {
+            // to be overwritten and implemented by subclasses
+         }
+
+         protected virtual void DrawOverlay()
+         {
+            // to be overwritten and implemented by subclasses
+         }
+
          private double GetInternalScaleOffset()
          {
             try 
@@ -108,17 +123,32 @@ namespace Nereid
             }
          }
 
-         private float GetInternalValue()
+         private float GetDamperValue()
          {
             try
             {
-               return damper.GetValue();
+               return damper.Get();
             }
             catch (Exception e)
             {
-               Log.Error("Exception (damper value) in gauge " + this.GetType() + " detected: " + e.GetType());
+               Log.Error("Exception (damper value) in gauge " + this.GetType() + " detected: " + e.GetType()+" - "+damper);
                return 0;
             }
+         }
+
+         protected virtual void DrawFlags()
+         {
+            // to be implemented by subclasses
+         }
+
+         private void InternalDrawFlags()
+         {
+            // draw current state of flags (on/off and limiter)
+            // increment animation step on each draw (flags will not show up immediately)
+            offFlag.Draw(GetWidth() / 2 - 4*(float)NanoGauges.configuration.gaugeScaling, 0);
+            limitFlag.Draw(0, 0);
+            // draw flags from subclasses
+            DrawFlags();
          }
 
          protected override void OnWindow(int id)
@@ -129,29 +159,34 @@ namespace Nereid
             //AutomaticLimiter();
 
             // damper for smoother changes in the gauges
-            damper.SetValue(GetScaleOffset());
+            damper.Set(GetScaleOffset());
 
             float verticalScaleratio = (float)Configuration.UNSCALED_VERTICAL_GAUGE_HEIGHT / (float)SCALE_HEIGHT;
 
             // scale
-            float value = GetInternalValue();
-            Rect off = new Rect(0, value, 1.0f, verticalScaleratio);
-            GUI.DrawTextureWithTexCoords(skinBounds, scale, off, false);
+            float scaleoffset = GetDamperValue();
+            this.position.y = scaleoffset;
+            this.position.height = verticalScaleratio;
+            // draw scale
+            GUI.DrawTextureWithTexCoords(gaugeBounds, scale, position, false);
+            //
+            // internal scale
+            DrawInternalScale();
             //
             // zoom
-            zoom.value = value;
+            zoom.value = scaleoffset;
             //
             // flags
             if(NanoGauges.configuration.gaugeMarkerEnabled)
             {
-               // draw current state of flags (on/off and limiter)
-               // increment animation step on each draw (flags will not show up immediately)
-               offFlag.Draw(GetWidth() / 2 - 4, 0);
-               limitFlag.Draw(0, 0);
+               InternalDrawFlags();
             }
             //
             // skin
-            GUI.DrawTexture(skinBounds, skin);
+            GUI.DrawTexture(gaugeBounds, skin);
+            //
+            // Overlay
+            DrawOverlay();
          }
 
          protected override void OnTooltip()
@@ -183,7 +218,7 @@ namespace Nereid
             limitFlag.Up();
          }
 
-         public override void OutOfLimits()
+         public override void NotInLimits()
          {
             limitFlag.Down();
          }
@@ -222,7 +257,7 @@ namespace Nereid
                }
                else
                {
-                  OutOfLimits();
+                  NotInLimits();
                }
             }
          }
@@ -239,10 +274,12 @@ namespace Nereid
             bounds.height = NanoGauges.configuration.verticalGaugeHeight;
             //
             //change dimensions of skin and scale
-            skinBounds.width = NanoGauges.configuration.verticalGaugeWidth;
-            skinBounds.height = NanoGauges.configuration.verticalGaugeHeight;
-            scaleBounds.width = NanoGauges.configuration.verticalGaugeWidth;
-            scaleBounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            gaugeBounds.width = NanoGauges.configuration.verticalGaugeWidth;
+            gaugeBounds.height = NanoGauges.configuration.verticalGaugeHeight;
+            //
+            // change flags
+            limitFlag.ScaleTo(NanoGauges.configuration.gaugeScaling);
+            offFlag.ScaleTo(NanoGauges.configuration.gaugeScaling);
          }
 
       }

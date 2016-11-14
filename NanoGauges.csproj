@@ -68,11 +68,20 @@
   <ItemGroup>
     <Compile Include="src\Gauges.cs" />
     <Compile Include="src\gauges\BarometricGauge.cs" />
+    <Compile Include="src\gauges\base\AbstractCompassGauge.cs" />
     <Compile Include="src\gauges\base\AbstractTimeGauge.cs" />
+    <Compile Include="src\gauges\base\AlignmentGauge.cs" />
+    <Compile Include="src\gauges\base\Button.cs" />
+    <Compile Include="src\gauges\base\DigitalDisplay.cs" />
+    <Compile Include="src\gauges\base\HorizontalGauge.cs" />
     <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
+    <Compile Include="src\gauges\base\Sprite.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\CameraCompassGauge.cs" />
     <Compile Include="src\gauges\CO2Gauge.cs" />
+    <Compile Include="src\gauges\GlideGauge.cs" />
+    <Compile Include="src\gauges\NavGauge.cs" />
     <Compile Include="src\gauges\SeismicGauge.cs" />
     <Compile Include="src\gauges\layout\DefaultLayout.cs" />
     <Compile Include="src\gauges\layout\DockingLayout.cs" />
@@ -83,6 +92,7 @@
     <Compile Include="src\gauges\layout\StandardLayout.cs" />
     <Compile Include="src\gauges\layout\ClusterLayout.cs" />
     <Compile Include="src\gauges\layout\GaugeLayout.cs" />
+    <Compile Include="src\gauges\ThrottleGauge.cs" />
     <Compile Include="src\gauges\TimeToTransistionGauge.cs" />
     <Compile Include="src\gauges\TimeToPeriapsisGauge.cs" />
     <Compile Include="src\gauges\TimeToApoapsisGauge.cs" />
@@ -168,12 +178,17 @@
     <Compile Include="src\inspecteurs\AccelerationInspecteur.cs" />
     <Compile Include="src\inspecteurs\VesselInspecteur.cs" />
     <Compile Include="src\NanoGauges.cs" />
+    <Compile Include="src\navigation\Airfield.cs" />
+    <Compile Include="src\navigation\NavGlobals.cs" />
+    <Compile Include="src\navigation\NavUtils.cs" />
+    <Compile Include="src\navigation\Runway.cs" />
     <Compile Include="src\profiles\Profile.cs" />
     <Compile Include="src\profiles\ProfileBehaviour.cs" />
     <Compile Include="src\profiles\ProfileManager.cs" />
     <Compile Include="src\util\Adapter.cs" />
     <Compile Include="src\util\Configuration.cs" />
     <Compile Include="src\util\Constants.cs" />
+    <Compile Include="src\util\Coords.cs" />
     <Compile Include="src\util\Damper.cs" />
     <Compile Include="src\util\DefaultGaugePositionManager.cs" />
     <Compile Include="src\util\Extensions.cs" />

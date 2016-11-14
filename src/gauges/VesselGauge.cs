@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using KSP.IO;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nereid
 {
@@ -27,10 +28,21 @@ namespace Nereid
             return "Name of the controlled vessel.";
          }
 
+         private String GetTextInEva(Vessel vessel)
+         {
+            List<ProtoCrewMember> crew = vessel.GetVesselCrew();
+            if(crew.Count>0)
+            {
+               return crew.First().name;
+            }
+            return vessel.name;
+         }
+
          protected override String GetText()
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel == null) return null;
+            if (vessel.isEVA) return GetTextInEva(vessel);
             if (vessel.protoVessel == null) return null;
             return vessel.protoVessel.vesselName;            
          }

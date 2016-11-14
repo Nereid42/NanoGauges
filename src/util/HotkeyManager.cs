@@ -57,7 +57,10 @@ namespace Nereid
          public const int HOTKEY_STANDARDLAYOUT = 16;
          public const int HOTKEY_AUTOLAYOUT = 17;
          public const int HOTKEY_ALT_HIDE = 18;
-         private const int HOTKEY_COUNT = 19;
+         public const int HOTKEY_ALIGNMENT_GAUGE = 19;
+         public const int HOTKEY_LOCK_PROFILE = 20;
+         public const int HOTKEY_SELECT_NAV = 21;
+         private const int HOTKEY_COUNT = 22;
 
          private Hotkey[] hotkeys;
 
@@ -80,6 +83,7 @@ namespace Nereid
 
          public void SetDefaultHotkeys()
          {
+            Log.Info("setting hotkeys to default");
             hotkeys[HOTKEY_MAIN] = new Hotkey(KeyCode.RightControl);
             hotkeys[HOTKEY_CLOSE_AND_DRAG] = new Hotkey(KeyCode.RightControl);
             hotkeys[HOTKEY_HIDE] = new Hotkey(KeyCode.KeypadEnter);
@@ -98,7 +102,10 @@ namespace Nereid
             hotkeys[HOTKEY_WINDOW_CONFIG] = new Hotkey(KeyCode.KeypadEnter);
             hotkeys[HOTKEY_STANDARDLAYOUT] = new Hotkey(KeyCode.Backspace);
             hotkeys[HOTKEY_AUTOLAYOUT] = new Hotkey(KeyCode.KeypadMultiply);
-            hotkeys[HOTKEY_ALT_HIDE] = new Hotkey(KeyCode.KeypadDivide);            
+            hotkeys[HOTKEY_ALT_HIDE] = new Hotkey(KeyCode.KeypadDivide);
+            hotkeys[HOTKEY_ALIGNMENT_GAUGE] = new Hotkey(KeyCode.Tab);
+            hotkeys[HOTKEY_LOCK_PROFILE] = new Hotkey(KeyCode.P);
+            hotkeys[HOTKEY_SELECT_NAV] = new Hotkey(KeyCode.Menu);
          }
 
          public bool GetKey(int id)
@@ -183,15 +190,35 @@ namespace Nereid
          {
             Log.Info("reading hotkeys");
             //
-            String marker = reader.ReadString();
-            if(marker!=CONFIGFILE_MARK)
+            try
             {
-               throw new IOException("config file structure corrupt: missing hotkey marker");
+               // marker
+               String marker = reader.ReadString();
+               if (marker != CONFIGFILE_MARK)
+               {
+                  throw new IOException("config file structure corrupt: missing hotkey marker");
+               }
+               Log.Info("hotkey marker successfully read from config");
+               //
+               this.enabled = reader.ReadBoolean();
+               //
+               foreach (Hotkey hotkey in hotkeys)
+               {
+                  ReadHotkey(reader, hotkey);
+               }
+               //
+               // marker
+               marker = reader.ReadString();
+               if (marker != CONFIGFILE_MARK)
+               {
+                  throw new IOException("config file structure corrupt: missing hotkey marker");
+               }
             }
-            //
-            foreach (Hotkey hotkey in hotkeys)
+            catch(IOException e)
             {
-               ReadHotkey(reader, hotkey);
+               Log.Warning("error reading hotkeys from config");
+               SetDefaultHotkeys();
+               throw e;
             }
          }
 
@@ -202,10 +229,14 @@ namespace Nereid
             // marker
             writer.Write(CONFIGFILE_MARK);
             //
+            writer.Write(enabled);
+            //
             foreach (Hotkey hotkey in hotkeys)
             {
                WriteHotkey(writer, hotkey);
             }
+            // marker
+            writer.Write(CONFIGFILE_MARK);
          }
 
          public static bool ValidKeyCode(KeyCode keycode)

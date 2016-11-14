@@ -60,11 +60,19 @@ namespace Nereid
          {
          }
 
+         // adjust values like internal needles, etc
+         // called once per Update before the gauge is drawn
+         protected virtual void AjustValues()
+         {
+            // overwritten by subclasses
+         }
+
 
          public void OnDraw()
          {
             if (visible)
             {
+               AjustValues();
                bounds = GUI.Window(id, bounds, OnWindowInternal, "", GUI.skin.label);
             }
             else
@@ -231,10 +239,14 @@ namespace Nereid
          public abstract void Off();
          public abstract bool IsOn();
          public abstract void InLimits();
-         public abstract void OutOfLimits();
+         public abstract void NotInLimits();
          public abstract bool IsInLimits();
          //
          public abstract void Reset();
+         //
+         // derived
+         public bool IsOff() { return !IsOn(); }
+         public bool IsNotInLimits() { return !IsInLimits(); }
 
 
          public abstract void EnableCloseButton(bool enabled);

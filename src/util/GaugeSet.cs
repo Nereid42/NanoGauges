@@ -14,6 +14,11 @@ namespace Nereid
       {
          private static readonly Pair<int, int> ORIGIN = new Pair<int, int>(0, 0);
 
+         // common position for alignment gauge
+         private static Pair<int,int> aligmentGaugePosition = new Pair<int, int>(0, 0);
+         // aligment gauge enabled
+         private static bool aligmentGaugeEnabled = false;
+
          private readonly ID id;
 
          private readonly HashSet<int> gaugeIds = new HashSet<int>();
@@ -39,6 +44,12 @@ namespace Nereid
 
          public Pair<int, int> GetWindowPosition(int windowId)
          {
+            if(windowId==Constants.WINDOW_ID_GAUGE_ALIGNMENT)
+            {
+               if(aligmentGaugePosition==null) return ORIGIN;
+               return aligmentGaugePosition;
+            }
+
             try
             {
                return windowPositions[windowId];
@@ -57,17 +68,26 @@ namespace Nereid
          public void SetWindowPosition(int windowId, Pair<int, int> position)
          {
             if(Log.IsLogable(Log.LEVEL.TRACE)) Log.Trace("set window position for window id " + windowId + ": " + position);
-            if (windowPositions.ContainsKey(windowId))
+            if(windowId!=Constants.WINDOW_ID_GAUGE_ALIGNMENT)
             {
-               windowPositions[windowId] = position;
+               // ordinary gauges
+               if (windowPositions.ContainsKey(windowId))
+               {
+                  windowPositions[windowId] = position;
+               }
+               else
+               {
+                  windowPositions.Add(windowId, position);
+                  if (!gaugeIds.Contains(windowId))
+                  {
+                     gaugeIds.Add(windowId);
+                  }
+               }
             }
             else
             {
-               windowPositions.Add(windowId, position);
-               if (!gaugeIds.Contains(windowId))
-               {
-                  gaugeIds.Add(windowId);
-               }
+               // aligment gauge
+               aligmentGaugePosition = position;
             }
          }
 
@@ -191,6 +211,13 @@ namespace Nereid
 
          public bool IsGaugeEnabled(int windowId)
          {
+            // alignment gauge
+            if(windowId == Constants.WINDOW_ID_GAUGE_ALIGNMENT)
+            {
+               return GaugeSet.aligmentGaugeEnabled;
+            }
+
+            // ordinary gauges
             if (gaugesEnabled.ContainsKey(windowId))
             {
                return gaugesEnabled[windowId];
@@ -205,6 +232,14 @@ namespace Nereid
 
          public void SetGaugeEnabled(int windowId, bool enabled)
          {
+            // alignment gauge
+            if (windowId == Constants.WINDOW_ID_GAUGE_ALIGNMENT)
+            {
+               GaugeSet.aligmentGaugeEnabled = enabled;
+               return;
+            }
+
+            // ordinary gauges
             if (gaugesEnabled.ContainsKey(windowId))
             {
                gaugesEnabled[windowId] = enabled;
