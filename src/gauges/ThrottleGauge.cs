@@ -121,8 +121,6 @@ namespace Nereid
 
                double thrust = inspector.engineRelativeThrust;
 
-               Log.Test("thrust=" + thrust.ToString("0.00"));
-
                if (thrust >= 0.0 && thrust <= 1.0)
                {
                   y = b + 300.0f * (float)thrust / (float)SCALE_HEIGHT;

@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-using KSP.IO;
 
 namespace Nereid
 {
@@ -96,6 +95,7 @@ namespace Nereid
          {
             return (double)degrees + ((double)minutes) / 60.0 + ((double)seconds) / 3600.0;
          }
+
       }
    }
 }
