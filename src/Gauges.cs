@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Nereid
 {
    namespace NanoGauges
-   {
+	 {
       public class Gauges : IEnumerable<AbstractGauge>
       {
          private Dictionary<int, AbstractGauge> gauges = new Dictionary<int, AbstractGauge>();
@@ -120,7 +120,7 @@ namespace Nereid
 
             // Kerbalism
             AddOptionalResourceGauge(new CO2Gauge(resourceInspecteur));
-            AddOptionalResourceGauge(new CrapGauge(resourceInspecteur));
+				AddOptionalResourceGauge(new CrapGauge(resourceInspecteur));
             
             // Real Fuels
             AddOptionalResourceGauge(new KarboniteGauge(resourceInspecteur));
@@ -128,8 +128,9 @@ namespace Nereid
             // special gauges
             AddGauge(new AlignmentGauge());
 
-            // events
-            GameEvents.onGameSceneSwitchRequested.Add(this.OnGameSceneSwitchRequested);
+				// events
+				GameEvents.onGameSceneSwitchRequested.Add(this.OnGameSceneSwitchRequested);
+            GameEvents.onVesselRename.Add(this.OnVesselRename);
          }
 
          private void OnGameSceneSwitchRequested(GameEvents.FromToAction<GameScenes,GameScenes> action)
@@ -138,6 +139,11 @@ namespace Nereid
             {
                ShowAligmentGauge(false);
             }
+         }
+
+
+         public void OnVesselRename(GameEvents.HostedFromToAction<Vessel, string> action)
+         {
          }
 
          public void ShowAligmentGauge(bool visible)

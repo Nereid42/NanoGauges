@@ -43,8 +43,9 @@ namespace Nereid
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel == null) return null;
             if (vessel.isEVA) return GetTextInEva(vessel);
+            if (vessel.vesselName != null && vessel.vesselName.Length > 0) return vessel.vesselName;
             if (vessel.protoVessel == null) return null;
-            return vessel.protoVessel.vesselName;            
+            return vessel.protoVessel.vesselName;
          }
       }
    }
