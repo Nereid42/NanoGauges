@@ -11,12 +11,13 @@ namespace Nereid
       static class Constants
       {
          private const int WINDOW_ID_BASE = 19280;
-         public const int WINDOW_ID_TOOLTIP = WINDOW_ID_BASE + 1;
-         public const int WINDOW_ID_ABOUT = WINDOW_ID_BASE + 3;
-         public const int WINDOW_ID_CONFIG = WINDOW_ID_BASE + 4;
-         public const int WINDOW_ID_PROFILES = WINDOW_ID_BASE + 5;
-         public const int WINDOW_ID_PROFILECHOOSER = WINDOW_ID_BASE + 6;
-         public const int WINDOW_ID_HOTKEYS = WINDOW_ID_BASE + 7;
+         public const int WINDOW_ID_TOOLTIP = WINDOW_ID_BASE + 1001;
+         public const int WINDOW_ID_ABOUT = WINDOW_ID_BASE + 1003;
+         public const int WINDOW_ID_CONFIG = WINDOW_ID_BASE + 1004;
+         public const int WINDOW_ID_PROFILES = WINDOW_ID_BASE + 1005;
+         public const int WINDOW_ID_PROFILECHOOSER = WINDOW_ID_BASE + 1006;
+         public const int WINDOW_ID_HOTKEYS = WINDOW_ID_BASE + 1007;
+         public const int WINDOW_ID_EXPORT = WINDOW_ID_BASE + 1008;
          //
          public const int WINDOW_ID_GAUGE_VSI = WINDOW_ID_BASE + 8;
          public const int WINDOW_ID_GAUGE_RADAR_ALTIMETER = WINDOW_ID_BASE + 9;

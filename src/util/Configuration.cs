@@ -55,7 +55,7 @@ namespace Nereid
          // this class manages the default gauge positions realtive to sceen objects, navball, ...
          private readonly DefaultGaugePositionManager defaultGaugePositionManager = new DefaultGaugePositionManager();
 
-         private GaugeSet.ID gaugeSet = GaugeSet.ID.STANDARD;
+         private GaugeSet.ID gaugeSetId = GaugeSet.ID.STANDARD;
          private GaugeSet currentGaugeSet = GaugeSetPool.instance.GetGaugeSet(GaugeSet.ID.STANDARD);
 
          public bool gaugesInFlightEnabled { get; set; }
@@ -152,12 +152,12 @@ namespace Nereid
 
          public GaugeSet.ID GetGaugeSetId()
          {
-            return gaugeSet;
+            return gaugeSetId;
          }
 
          public void SetGaugeSet(GaugeSet.ID set)
          {
-            this.gaugeSet = set;
+            this.gaugeSetId = set;
             currentGaugeSet = GaugeSetPool.instance.GetGaugeSet(set);
          }
 

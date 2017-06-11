@@ -404,7 +404,7 @@ namespace Nereid
                }
                else if(camMode != this.currentCamMode)
                {
-                  // camer changed
+                  // camera changed
                   bool visible = IsEnabledInCamera(camMode);
                   Log.Detail("camera changed to " + camMode + ", gauges visible: " + visible);
                   SetEnabledGaugesVisible(visible);

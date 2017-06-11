@@ -40,6 +40,7 @@ namespace Nereid
 
          private readonly ProfilesWindow profilesWindow;
          private readonly HotkeysWindow hotkeysWindow;
+         private readonly ExportWindow exportWindow;
 
          private IButton toolbarButton;
          private String toolbarButtonTextureOn;
@@ -60,6 +61,7 @@ namespace Nereid
             //
             profilesWindow = new ProfilesWindow();
             hotkeysWindow = new HotkeysWindow();
+            exportWindow = new ExportWindow();
             //
             SetSize(350, 300);
             CenterWindow();
@@ -181,6 +183,19 @@ namespace Nereid
             config.tooltipsEnabled = GUILayout.Toggle(config.tooltipsEnabled, "Tooltips enabled", STYLE_TOGGLE_2_PER_ROW);
             if (config.tooltipsEnabled) config.exactReadoutEnabled = false;
             //config.exactReadoutEnabled = GUILayout.Toggle(config.exactReadoutEnabled, "Exact readout enabled", STYLE_TOGGLE_2_PER_ROW);
+            //
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Export", STYLE_SIDE_BUTTON))
+            {
+               int px = (int)bounds.x + (int)bounds.width;
+               int py = (int)bounds.y + 332;
+               if (px + ExportWindow.WIDTH > Screen.width)
+               {
+                  px = (int)bounds.x - ExportWindow.WIDTH;
+               }
+               exportWindow.SetPosition(px, py);
+               exportWindow.SetVisible(!exportWindow.IsVisible());
+            }
             GUILayout.EndHorizontal();
             //
             //

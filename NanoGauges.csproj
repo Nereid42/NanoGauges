@@ -60,6 +60,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\export\Exporter.cs" />
     <Compile Include="src\Gauges.cs" />
     <Compile Include="src\gauges\BarometricGauge.cs" />
     <Compile Include="src\gauges\base\AbstractCompassGauge.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="src\util\ToolbarWrapper.cs" />
     <Compile Include="src\util\Utils.cs" />
     <Compile Include="src\window\HotkeysWindow.cs" />
+    <Compile Include="src\window\ExportWindow.cs" />
     <Compile Include="src\window\ProfilesWindow.cs" />
     <Compile Include="src\window\AboutWindow.cs" />
     <Compile Include="src\window\AbstractWindow.cs" />
