@@ -10,6 +10,16 @@ namespace Nereid
    {
       class Exporter
       {
+
+         public bool exportPositions { get; set; }
+         public bool exportStatus { get; set; }
+
+         public Exporter()
+         {
+            exportPositions = true;
+            exportStatus = true;
+         }
+
          public void Export()
          {
             XmlDocument xml = new XmlDocument();
@@ -28,7 +38,7 @@ namespace Nereid
                   int id = gauge.GetWindowId();
                   XmlNode gaugeElement = xml.CreateElement("gauge");
                   XmlAttribute gaugeNameAttrib = xml.CreateAttribute("name");
-                  gaugeNameAttrib.Value = gauge.GetName();
+                  gaugeNameAttrib.Value = gauge.GetName().Replace('\r',' ').Replace('\n', ' ');
                   XmlAttribute gaugeIdAttrib = xml.CreateAttribute("id");
                   gaugeIdAttrib.Value = id.ToString();
                   gaugeElement.Attributes.Append(gaugeIdAttrib);
@@ -36,18 +46,24 @@ namespace Nereid
                   setElement.AppendChild(gaugeElement);
                   //
                   // Position
-                  XmlAttribute xAttrib = xml.CreateAttribute("X");
-                  xAttrib.Value = gauge.GetX().ToString();
-                  XmlAttribute yAttrib = xml.CreateAttribute("Y");
-                  yAttrib.Value = gauge.GetY().ToString();
-                  gaugeElement.Attributes.Append(xAttrib);
-                  gaugeElement.Attributes.Append(yAttrib);
+                  if(exportPositions)
+                  {
+                     XmlAttribute xAttrib = xml.CreateAttribute("X");
+                     xAttrib.Value = gauge.GetX().ToString();
+                     XmlAttribute yAttrib = xml.CreateAttribute("Y");
+                     yAttrib.Value = gauge.GetY().ToString();
+                     gaugeElement.Attributes.Append(xAttrib);
+                     gaugeElement.Attributes.Append(yAttrib);
+                  }
                   //
                   // enabled/disabled
-                  bool enabled = set.IsGaugeEnabled(id);
-                  XmlAttribute enabledAttrib = xml.CreateAttribute("enabled");
-                  enabledAttrib.Value = enabled.ToString();
-                  gaugeElement.Attributes.Append(enabledAttrib);
+                  if(exportStatus)
+                  {
+                     bool enabled = set.IsGaugeEnabled(id);
+                     XmlAttribute enabledAttrib = xml.CreateAttribute("enabled");
+                     enabledAttrib.Value = enabled.ToString();
+                     gaugeElement.Attributes.Append(enabledAttrib);
+                  }
                }
             }
 

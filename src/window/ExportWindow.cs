@@ -39,7 +39,7 @@ namespace Nereid
             GUILayout.Label("Gauge properties:", STYLE_LABEL);
             GUILayout.BeginHorizontal();
             includePosition = GUILayout.Toggle(includePosition, "Position", STYLE_TOGGLE_2_PER_ROW);
-            includeStatus   = GUILayout.Toggle(includeStatus,   "Status", STYLE_TOGGLE_2_PER_ROW);
+            includeStatus   = GUILayout.Toggle(includeStatus,   "Enabled/Disabled", STYLE_TOGGLE_2_PER_ROW);
             GUILayout.EndHorizontal();
             GUILayout.FlexibleSpace();
             GUILayout.BeginHorizontal();
@@ -47,6 +47,8 @@ namespace Nereid
             GUILayout.Button("Import", HighLogic.Skin.button);
             if (GUILayout.Button("Export", HighLogic.Skin.button))
             {
+               exporter.exportPositions = includePosition;
+               exporter.exportStatus = includeStatus;
                exporter.Export();
             }
             if (GUILayout.Button("Close", HighLogic.Skin.button))
