@@ -26,6 +26,8 @@ namespace Nereid
             this.lower = lower;
             this.upper = upper;
             this.damping = false;
+            this.targetValue = lower;
+            this.value = lower;
          }
 
          public bool IsInLimits()
@@ -38,7 +40,7 @@ namespace Nereid
             this.enabled = enabled;
          }
 
-         public void  SetValue(float value)
+         public void SetValue(float value)
          {
             this.value = value;
             this.targetValue = value;

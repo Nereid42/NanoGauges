@@ -12,6 +12,8 @@ namespace Nereid
          static public double TerminalVelocity(CelestialBody body, double m, double altitude, double cw)
          {
             if (FlightGlobals.ActiveVessel == null) return 0;
+            // to avoid NREs while switching from FLIGHT to SPACECENTER
+            if (HighLogic.LoadedScene != GameScenes.FLIGHT) return 0;
 
             double G = Constants.G;
             double M = body.Mass;
@@ -25,8 +27,7 @@ namespace Nereid
                //Log.Test(body.name+" cw: " + cw + " alt "+altitude.ToString("0.0")+"  =>> vt = " + vt+"            // density="+density+"  // mass="+m);
                return vt;
             }
-
-
+            //
             return double.NaN;
          }
 
