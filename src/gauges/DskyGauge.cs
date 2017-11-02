@@ -13,8 +13,28 @@ namespace Nereid
 
          private Rect skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
 
-         private readonly Color LIGHT_ON_YELLOW = new Color(250, 255, 0);
-         private readonly Color LIGHT_OFF_YELLOW = new Color(62, 63, 0);
+         private readonly Color LIGHT_ON_YELLOW = new Color(0.98f, 1.0f, 0.0f);
+         private readonly Color LIGHT_OFF_YELLOW = new Color(0.24f, 0.25f, 0.0f);
+         private readonly Color LIGHT_ON_GREEN = new Color(0.24f, 1.0f, 0.0f);
+         private readonly Color LIGHT_OFF_GREEN = new Color(0.0f, 0.24f, 0.0f);
+         private readonly Color LIGHT_ON_RED = new Color(1.0f, 0.24f, 0.0f);
+         private readonly Color LIGHT_OFF_RED = new Color(0.42f, 0.21f, 0.10f);
+
+         // bound for mode buttons
+         private static Rect BOUNDS_MODE_ORBIT;
+         private static Rect BOUNDS_MODE_VELOCITY;
+         private static Rect BOUNDS_MODE_RUNWAY;
+         private static Rect BOUNDS_MODE_GLIDE;
+         private static Rect BOUNDS_MODE_TRIM;
+
+         enum DISPLAY_MODE { ORBIT, VELOCITY, RUNWAY, GLIDE, TRIM }
+         private DISPLAY_MODE mode = DISPLAY_MODE.ORBIT;
+
+         private static Rect ButtonRect(int left)
+         {
+            float gaugeScale = (float)NanoGauges.configuration.gaugeScaling;
+            return new Rect(left * gaugeScale, 76 * gaugeScale, 14 * gaugeScale, 13 * gaugeScale);
+         }
 
          public override sealed int GetWidth()
          {
@@ -41,22 +61,38 @@ namespace Nereid
             // nothing todo
          }
 
-
-
          public DskyGauge()
             : base(Constants.WINDOW_ID_GAUGE_DSKY)
          {
+            CreateButtons();
+         }
+
+         private void DrawIndicator(int y, bool state, Color on, Color off)
+         {
+            DrawRectagle(7, y, 18, 14, state?on:off);
          }
 
          private void DrawIndicators()
          {
-            DrawRectagle(7, 9, 18, 14, LIGHT_ON_YELLOW);
-            //DrawRectagle(7, 24, 18, 14, LIGHT_OFF_YELLOW);
-            //DrawRectagle(7, 39, 18, 14, LIGHT_ON_YELLOW);
-            DrawRectagle(7, 54, 18, 14, LIGHT_OFF_YELLOW);
+            DrawIndicator(9, true, LIGHT_ON_YELLOW, LIGHT_OFF_YELLOW);
+            DrawIndicator(24, true, LIGHT_ON_GREEN, LIGHT_OFF_GREEN);
+            DrawIndicator(39, true, LIGHT_ON_YELLOW, LIGHT_OFF_YELLOW);
+            DrawIndicator(54, true, LIGHT_ON_RED, LIGHT_OFF_RED);
          }
 
+         private void DrawMode(float x, DISPLAY_MODE mode)
+         {
+            DrawRectagle(x, 76, 14, 13, this.mode == mode ? LIGHT_ON_GREEN : LIGHT_OFF_GREEN);
+         }
 
+         private void DrawDisplayMode()
+         {
+            DrawMode(BOUNDS_MODE_ORBIT.x,  DISPLAY_MODE.ORBIT);
+            DrawMode(BOUNDS_MODE_VELOCITY.x, DISPLAY_MODE.VELOCITY);
+            DrawMode(43, DISPLAY_MODE.RUNWAY);
+            DrawMode(61, DISPLAY_MODE.GLIDE);
+            DrawMode(79, DISPLAY_MODE.TRIM);
+         }
 
 
          protected override void OnWindow(int id)
@@ -65,6 +101,8 @@ namespace Nereid
             GUI.DrawTexture(skinBounds, BACKGROUND);
             // indicator lamps
             DrawIndicators();
+            // moder
+            DrawDisplayMode();
             // skin
             GUI.DrawTexture(skinBounds, SKIN);
 
@@ -75,25 +113,20 @@ namespace Nereid
             {
                float x = e.mousePosition.x;
                float y = e.mousePosition.y;
-               /*CheckIndicatorClick(x, y, BOUNDS_INDICATOR_STD, GaugeSet.ID.STANDARD);
-               CheckIndicatorClick(x, y, BOUNDS_INDICATOR_LAU, GaugeSet.ID.LAUNCH);
-               CheckIndicatorClick(x, y, BOUNDS_INDICATOR_LAN, GaugeSet.ID.LAND);
-               CheckIndicatorClick(x, y, BOUNDS_INDICATOR_DCK, GaugeSet.ID.DOCK);
-               CheckIndicatorClick(x, y, BOUNDS_INDICATOR_ORB, GaugeSet.ID.ORBIT);
-               CheckIndicatorClick(x, y, BOUNDS_INDICATOR_FLT, GaugeSet.ID.FLIGHT);
-               CheckIndicatorClick(x, y, BOUNDS_INDICATOR_S_1, GaugeSet.ID.SET1);
-               CheckIndicatorClick(x, y, BOUNDS_INDICATOR_S_2, GaugeSet.ID.SET2);
-               CheckIndicatorClick(x, y, BOUNDS_INDICATOR_S_3, GaugeSet.ID.SET3);*/
+               CheckModeClick(x, y, BOUNDS_MODE_ORBIT, DISPLAY_MODE.ORBIT);
+               CheckModeClick(x, y, BOUNDS_MODE_VELOCITY, DISPLAY_MODE.VELOCITY);
+               CheckModeClick(x, y, BOUNDS_MODE_RUNWAY, DISPLAY_MODE.RUNWAY);
+               CheckModeClick(x, y, BOUNDS_MODE_GLIDE, DISPLAY_MODE.GLIDE);
+               CheckModeClick(x, y, BOUNDS_MODE_TRIM, DISPLAY_MODE.TRIM);
             }
          }
 
 
-         private void CheckIndicatorClick(float x, float y, Rect bounds, GaugeSet.ID id)
+         private void CheckModeClick(float x, float y, Rect bounds, DISPLAY_MODE mode)
          {
             if(x>=bounds.x && x<bounds.x+bounds.width && y>=bounds.y && y<bounds.y+bounds.height)
             {
-               NanoGauges.configuration.SetGaugeSet(id);
-               NanoGauges.gauges.ReflectGaugeSetChange();
+               this.mode = mode;
             }
          }
 
@@ -123,6 +156,15 @@ namespace Nereid
             return true;
          }
 
+         private void CreateButtons()
+         {
+            BOUNDS_MODE_ORBIT = ButtonRect(7);
+            BOUNDS_MODE_VELOCITY = ButtonRect(25);
+            BOUNDS_MODE_RUNWAY = ButtonRect(43);
+            BOUNDS_MODE_GLIDE = ButtonRect(61);
+            BOUNDS_MODE_TRIM = ButtonRect(79);
+         }
+
          public override void OnGaugeScalingChanged()
          {
             // change dimensions of window
@@ -135,6 +177,7 @@ namespace Nereid
             skinBounds.width = NanoGauges.configuration.verticalGaugeHeight;
             skinBounds.height = NanoGauges.configuration.verticalGaugeHeight;
             //
+            CreateButtons();
          }
       }
    }
