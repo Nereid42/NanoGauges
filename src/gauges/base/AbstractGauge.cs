@@ -132,6 +132,20 @@ namespace Nereid
             }
          }
 
+         // draw a rectagle at (x,y) of with w, height h of color c:
+         private readonly Texture2D RECT_TEXTURE = new Texture2D(1, 1);
+         private Rect RECT_BOUNDS = new Rect();
+         protected void DrawRectagle(int x, int y, int w, int h, Color c)
+         {
+            RECT_TEXTURE.SetPixel(0, 0, c);
+            RECT_TEXTURE.Apply();
+            RECT_BOUNDS.x = x;
+            RECT_BOUNDS.y = y;
+            RECT_BOUNDS.width = w;
+            RECT_BOUNDS.height = h;
+            GUI.DrawTexture(RECT_BOUNDS, RECT_TEXTURE, ScaleMode.StretchToFill);
+         }
+
          private void DragClusterOfGauges(int dx, int dy)
          {
             if(cluster==null)

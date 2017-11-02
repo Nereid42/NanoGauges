@@ -20,7 +20,10 @@ namespace Nereid
          private static Rect BOUNDS_INDICATOR_FLT; 
          private static Rect BOUNDS_INDICATOR_S_1; 
          private static Rect BOUNDS_INDICATOR_S_2; 
-         private static Rect BOUNDS_INDICATOR_S_3; 
+         private static Rect BOUNDS_INDICATOR_S_3;
+
+         private readonly Texture2D skin;
+         private Rect skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
 
          private static Rect ButtonRect(int top)
          {
@@ -52,10 +55,6 @@ namespace Nereid
          {
             // nothing todo
          }
-
-
-         private readonly Texture2D skin;
-         private Rect skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
 
          public SelectorGauge(Gauges gauges)
             : base(Constants.WINDOW_ID_GAUGE_SETS)

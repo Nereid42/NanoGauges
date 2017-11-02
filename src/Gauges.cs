@@ -125,6 +125,10 @@ namespace Nereid
             // Real Fuels
             AddOptionalResourceGauge(new KarboniteGauge(resourceInspecteur));
 
+            // rectangular gauges
+            AddGauge(new DskyGauge());
+
+
             // special gauges
             AddGauge(new AlignmentGauge());
 

@@ -258,6 +258,7 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CRAP, "Crap gauge enabled (Kerbalism required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DTGT, "Distance to target gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DRILLTEMP, "Drill temperature gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_DSKY, "DSKY gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_Q, "Dynamic pressure (Q) gauge enabled (FAR plugin required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CHARGE, "Electric charge gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_EVAMP, "EVA monopropellant gauge enabled");
