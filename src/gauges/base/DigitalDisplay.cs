@@ -19,9 +19,11 @@ namespace Nereid
          private readonly Sprite seg7;
          private readonly Sprite seg7I;
          private readonly Sprite seg7H;
+         private readonly Sprite seg7minus;
 
          private const int BORDER = 0;
          private readonly int numberOfDigits;
+         public  bool signed;
 
 
          private int value;
@@ -31,11 +33,12 @@ namespace Nereid
 
          private float scaling = 1.0f;
 
-         public DigitalDisplay(AbstractGauge gauge, int numberOfDigits = 2, bool leadingZeros = true)
+         public DigitalDisplay(AbstractGauge gauge, int numberOfDigits = 2, bool leadingZeros = true, bool signed = true)
             : base(gauge,BACKGROUND)
          {
             this.numberOfDigits = numberOfDigits;
             this.leadingZeros = leadingZeros;
+            this.signed = signed;
             digits = new Sprite[10];
             for(int i=0; i<10; i++)
             {
@@ -44,6 +47,7 @@ namespace Nereid
             seg7 = new Sprite(gauge, Utils.GetTexture("Nereid/NanoGauges/Resource/digit"));
             seg7I = new Sprite(gauge, Utils.GetTexture("Nereid/NanoGauges/Resource/I-digit"));
             seg7H = new Sprite(gauge, Utils.GetTexture("Nereid/NanoGauges/Resource/H-digit"));
+            seg7minus = new Sprite(gauge, Utils.GetTexture("Nereid/NanoGauges/Resource/--digit"));
             limit = (int)Math.Pow(10, numberOfDigits);
             this.scaling = (float)NanoGauges.configuration.gaugeScaling;
             this.widthOfDigit = WIDTH_PER_DIGIT * this.scaling;
@@ -62,22 +66,32 @@ namespace Nereid
             if (value < limit)
             {
                int divisor = this.limit / BASE;
-               int remainder = this.value;
+               int remainder = Math.Abs(this.value);
                for(int i=0; i<numberOfDigits; i++)
                {
                   int digit = (remainder / divisor) % BASE;
-                  remainder = remainder - digit*divisor;
+                  remainder = remainder - digit * divisor;
                   divisor = divisor / BASE;
                   //
-                  // draw digit
-                  if (drawLeadingZeros || digit > 0 || i==numberOfDigits-1)
+                  // sign ?
+                  if (i > 0 || this.value >= 0)
                   {
-                     digits[digit].Draw(xdigits + i * widthOfDigit, ydigits);
-                     drawLeadingZeros = true;
+
+                     // draw digit
+                     if (drawLeadingZeros || digit > 0 || i == numberOfDigits - 1)
+                     {
+                        digits[digit].Draw(xdigits + i * widthOfDigit, ydigits);
+                        drawLeadingZeros = true;
+                     }
+                     else
+                     {
+                        seg7.Draw(xdigits + i * widthOfDigit, ydigits);
+                     }
                   }
                   else
                   {
-                     seg7.Draw(xdigits + i * widthOfDigit, ydigits);
+                     // draw minus sign
+                     seg7minus.Draw(xdigits + i * widthOfDigit, ydigits);
                   }
                }
             }

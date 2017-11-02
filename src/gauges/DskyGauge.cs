@@ -140,6 +140,11 @@ namespace Nereid
                   digital2.SetValue(pea);
                   digital3.SetValue(inc);
                   break;
+               case DISPLAY_MODE.VELOCITY:
+                  digital1.SetValue(-900);
+                  digital2.SetValue(-90);
+                  digital3.SetValue(-5000);
+                  break;
                default:
                   digital1.SetValue(88888);
                   digital2.SetValue(88888);
