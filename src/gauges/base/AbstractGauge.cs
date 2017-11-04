@@ -132,6 +132,15 @@ namespace Nereid
             }
          }
 
+         // Get a simple texture of color c
+         protected Texture2D GetSolidColorTexture(Color c)
+         {
+            Texture2D t = new Texture2D(1, 1);
+            t.SetPixel(0, 0, c);
+            t.Apply();
+            return t;
+         }
+
          // draw a rectagle at (x,y) of with w, height h of color c:
          private readonly Texture2D RECT_TEXTURE = new Texture2D(1, 1);
          private Rect RECT_BOUNDS = new Rect();
@@ -179,6 +188,11 @@ namespace Nereid
             {
                HideTooltip();
             }
+         }
+
+         protected void UpdateTooltips()
+         {
+            tooltip.UpdateText();
          }
 
          protected void HideTooltip()

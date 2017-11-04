@@ -106,6 +106,8 @@ namespace Nereid
             AddGauge(new LongitudeGauge());
             AddGauge(new CameraCompassGauge());
             AddGauge(new NavGauge());
+            AddGauge(new ApoapsisHorizontalGauge());
+            AddGauge(new PeriapsisHorizontalGauge());
 
             // TAC life support and Kerbalism (only added if TAC installed)
             AddOptionalResourceGauge(new OxygenGauge(resourceInspecteur));
@@ -126,7 +128,7 @@ namespace Nereid
             AddOptionalResourceGauge(new KarboniteGauge(resourceInspecteur));
 
             // rectangular gauges
-            AddGauge(new DskyGauge());
+            AddGauge(new DskyGauge(vesselInspecteur));
 
 
             // special gauges

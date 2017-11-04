@@ -116,6 +116,11 @@ namespace Nereid
             this.value = value;
          }
 
+         public void SetValue(double value)
+         {
+            SetValue((int)value);
+         }
+
          public void SetScaling(float scaling)
          {
             this.scaling = scaling;

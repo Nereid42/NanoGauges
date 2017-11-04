@@ -313,10 +313,12 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_H2O, "Water gauge enabled (TAC life suppord required)");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_XENON, "Xenon gauge enabled");
             GUILayout.Label("", STYLE_LINE);
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_APOAPSIS, "Apoapsis gauge (horizontal) enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_BIOME, "Biome gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CAMERA, "Camera compass gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LATITUDE, "Latitude gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LONGITUDE, "Longitude gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_PERIAPSIS, "Periapsis gauge (horizontal) enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_NAV, "VOR/ILS gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VESSEL, "Vessel gauge enabled");
             GUILayout.EndScrollView();

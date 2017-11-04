@@ -77,6 +77,11 @@ namespace Nereid
             return TOOLTIP_WIDTH;
          }
 
+         public void UpdateText()
+         {
+            this.title = gauge.GetName();
+            this.text = gauge.GetDescription();
+         }
       }
    }
 }

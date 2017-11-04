@@ -101,6 +101,8 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_GLIDE = WINDOW_ID_BASE + 87;
          public const int WINDOW_ID_GAUGE_THROTTLE = WINDOW_ID_BASE + 88;
          public const int WINDOW_ID_GAUGE_DSKY = WINDOW_ID_BASE + 89;
+         public const int WINDOW_ID_GAUGE_PERIAPSIS = WINDOW_ID_BASE + 90;
+         public const int WINDOW_ID_GAUGE_APOAPSIS = WINDOW_ID_BASE + 91;
          //
          public const int WINDOW_ID_GAUGE_ALIGNMENT = 19999;
 

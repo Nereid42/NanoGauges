@@ -35,10 +35,22 @@ namespace Nereid
          private DigitalDisplay digital2;
          private DigitalDisplay digital3;
 
+         private VesselInspecteur vesselInspecteur;
+
          private static Rect ButtonRect(int left)
          {
             float gaugeScale = (float)NanoGauges.configuration.gaugeScaling;
             return new Rect(left * gaugeScale, 76 * gaugeScale, 14 * gaugeScale, 13 * gaugeScale);
+         }
+
+         public DskyGauge(VesselInspecteur vesselInspecteur)
+            : base(Constants.WINDOW_ID_GAUGE_DSKY)
+         {
+            this.vesselInspecteur = vesselInspecteur;
+            this.digital1 = new DigitalDisplay(this, DIGITS);
+            this.digital2 = new DigitalDisplay(this, DIGITS);
+            this.digital3 = new DigitalDisplay(this, DIGITS);
+            CreateButtons();
          }
 
          public override sealed int GetWidth()
@@ -58,21 +70,17 @@ namespace Nereid
 
          public override string GetDescription()
          {
-            return "DSKY gauge. Shows orbital, velocity, runway, ils and trim information.";
+            switch(mode)
+            {
+               case DISPLAY_MODE.ORBIT: return "Shows orbital data:\n - apoapsis\n - periapsis\n - inclination";
+               case DISPLAY_MODE.VELOCITY: return "Shows vessel speed:\n - horizontal\n - orbital\n - vertical";
+               default: return "unknown display mode";
+            }
          }
 
          public override void Reset()
          {
             // nothing todo
-         }
-
-         public DskyGauge()
-            : base(Constants.WINDOW_ID_GAUGE_DSKY)
-         {
-            this.digital1 = new DigitalDisplay(this, DIGITS);
-            this.digital2 = new DigitalDisplay(this, DIGITS);
-            this.digital3 = new DigitalDisplay(this, DIGITS);
-            CreateButtons();
          }
 
          private void DrawIndicator(float y, bool state, Color on, Color off)
@@ -123,6 +131,7 @@ namespace Nereid
          private void SetDigitals()
          {
             Vessel vessel = FlightGlobals.ActiveVessel;
+            if (vessel == null) return;
             switch (mode)
             {
                case DISPLAY_MODE.ORBIT:
@@ -141,9 +150,9 @@ namespace Nereid
                   digital3.SetValue(inc);
                   break;
                case DISPLAY_MODE.VELOCITY:
-                  digital1.SetValue(-900);
-                  digital2.SetValue(-90);
-                  digital3.SetValue(-5000);
+                  digital1.SetValue(vessel.horizontalSrfSpeed);
+                  digital2.SetValue((vessel.orbit!=null)?vessel.orbit.orbitalSpeed:0.0);
+                  digital3.SetValue(vessel.verticalSpeed);
                   break;
                default:
                   digital1.SetValue(88888);
@@ -196,6 +205,7 @@ namespace Nereid
             if(x>=bounds.x && x<bounds.x+bounds.width && y>=bounds.y && y<bounds.y+bounds.height)
             {
                this.mode = mode;
+               UpdateTooltips();
             }
          }
 

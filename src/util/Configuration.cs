@@ -41,7 +41,6 @@ namespace Nereid
          public bool exactReadoutEnabled { get; set; }
          public bool performanceStatisticsEnabled { get; set; }
          public bool declutterEnabled { get; set; }
-         // need a restart to take effect
          public double gaugeScaling { get; set; }
          public int verticalGaugeWidth { get; private set; }
          public int verticalGaugeHeight { get; private set; }

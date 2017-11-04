@@ -67,11 +67,14 @@
     <Compile Include="src\gauges\base\AbstractTimeGauge.cs" />
     <Compile Include="src\gauges\base\DigitalDisplay.cs" />
     <Compile Include="src\gauges\base\Button.cs" />
+    <Compile Include="src\gauges\base\HorizontalDigitalGauge.cs" />
     <Compile Include="src\gauges\base\Sprite.cs" />
     <Compile Include="src\gauges\base\HorizontalTextGauge.cs" />
     <Compile Include="src\gauges\base\HorizontalGauge.cs" />
     <Compile Include="src\gauges\base\VerticalGaugeZoom.cs" />
     <Compile Include="src\gauges\AtmosphereTempGauge.cs" />
+    <Compile Include="src\gauges\ApoapsisHorizontalGauge.cs" />
+    <Compile Include="src\gauges\PeriapsisHorizontalGauge.cs" />
     <Compile Include="src\gauges\DskyGauge.cs" />
     <Compile Include="src\gauges\ThrottleGauge.cs" />
     <Compile Include="src\gauges\GlideGauge.cs" />
