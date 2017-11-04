@@ -35,6 +35,12 @@ namespace Nereid
          private DigitalDisplay digital2;
          private DigitalDisplay digital3;
 
+         // indicator values
+         private bool indicatorBattery;
+         private bool indicatorCommunication;
+         private bool indicatorTerrain;
+         private bool indicatorFuel;
+
          private VesselInspecteur vesselInspecteur;
 
          private static Rect ButtonRect(int left)
@@ -74,6 +80,7 @@ namespace Nereid
             {
                case DISPLAY_MODE.ORBIT: return "Shows orbital data:\n - apoapsis\n - periapsis\n - inclination";
                case DISPLAY_MODE.VELOCITY: return "Shows vessel speed:\n - horizontal\n - orbital\n - vertical";
+               case DISPLAY_MODE.TRIM: return "Shows vessel trim:\n - pitch\n - roll\n - yaw";
                default: return "unknown display mode";
             }
          }
@@ -91,10 +98,10 @@ namespace Nereid
 
          private void DrawIndicators()
          {
-            DrawIndicator( 9, true, LIGHT_ON_YELLOW, LIGHT_OFF_YELLOW);
-            DrawIndicator(24, true, LIGHT_ON_GREEN, LIGHT_OFF_GREEN);
-            DrawIndicator(39, true, LIGHT_ON_YELLOW, LIGHT_OFF_YELLOW);
-            DrawIndicator(54, true, LIGHT_ON_RED, LIGHT_OFF_RED);
+            DrawIndicator( 9, indicatorBattery, LIGHT_ON_YELLOW, LIGHT_OFF_YELLOW);
+            DrawIndicator(24, indicatorCommunication, LIGHT_ON_GREEN, LIGHT_OFF_GREEN);
+            DrawIndicator(39, indicatorTerrain, LIGHT_ON_YELLOW, LIGHT_OFF_YELLOW);
+            DrawIndicator(54, indicatorFuel, LIGHT_ON_RED, LIGHT_OFF_RED);
          }
 
          private void DrawMode(Rect r, DISPLAY_MODE mode)
@@ -151,8 +158,14 @@ namespace Nereid
                   break;
                case DISPLAY_MODE.VELOCITY:
                   digital1.SetValue(vessel.horizontalSrfSpeed);
-                  digital2.SetValue((vessel.orbit!=null)?vessel.orbit.orbitalSpeed:0.0);
+                  digital2.SetValue(vessel.obt_speed);
                   digital3.SetValue(vessel.verticalSpeed);
+                  break;
+               case DISPLAY_MODE.TRIM:
+                  digital1.SetValue(vessel.ctrlState.pitchTrim*100);
+                  digital2.SetValue(vessel.ctrlState.rollTrim*100);
+                  digital3.SetValue(vessel.ctrlState.yawTrim*100
+                     );
                   break;
                default:
                   digital1.SetValue(88888);
@@ -164,7 +177,16 @@ namespace Nereid
 
          private void SetIndicators()
          {
+            indicatorBattery = false;
+            indicatorCommunication = false;
+            indicatorTerrain = false;
+            indicatorFuel = false;
 
+            Vessel vessel = FlightGlobals.ActiveVessel;
+            if (vessel == null) return;
+
+            CommNet.CommNetVessel connection = vessel.connection;
+            if (connection != null) indicatorCommunication = connection.CanComm;
          }
 
          protected override void OnWindow(int id)
