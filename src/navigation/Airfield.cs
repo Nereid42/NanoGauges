@@ -10,7 +10,7 @@ namespace Nereid
       public class Airfield
       {
          // generates ids
-         private static int sequence = 0;
+         private static int sequence = 1;
 
          public readonly int id;
          public readonly String name;

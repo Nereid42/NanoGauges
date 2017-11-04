@@ -60,7 +60,7 @@ namespace Nereid
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_INDICATOR, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_CAM, true);
             //
-            EnableAllHorizontalTextGauges(set);
+            EnableAllHorizontalGauges(set);
             //
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_IMPACT, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_ATM, true);

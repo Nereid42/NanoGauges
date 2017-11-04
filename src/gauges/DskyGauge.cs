@@ -11,6 +11,10 @@ namespace Nereid
          private static readonly Texture2D SKIN = Utils.GetTexture("Nereid/NanoGauges/Resource/DSKY-skin");
          private static readonly Texture2D BACKGROUND = Utils.GetTexture("Nereid/NanoGauges/Resource/DIGIT-background");
 
+         private const double TERRAIN_THRESHOLD = 500;
+         private const double FUEL_THRESHOLD = 0.05;
+         private const double ELECTRIC_CHARGE_THRESHOLD = 0.25;
+
          private Rect skinBounds = new Rect(0, 0, NanoGauges.configuration.verticalGaugeWidth, NanoGauges.configuration.verticalGaugeHeight);
 
          private readonly Color LIGHT_ON_YELLOW = new Color(0.98f, 1.0f, 0.0f);
@@ -41,7 +45,8 @@ namespace Nereid
          private bool indicatorTerrain;
          private bool indicatorFuel;
 
-         private VesselInspecteur vesselInspecteur;
+         private readonly VesselInspecteur vesselInspecteur;
+         private readonly ResourceInspecteur resourceInspecteur;
 
          private static Rect ButtonRect(int left)
          {
@@ -49,10 +54,11 @@ namespace Nereid
             return new Rect(left * gaugeScale, 76 * gaugeScale, 14 * gaugeScale, 13 * gaugeScale);
          }
 
-         public DskyGauge(VesselInspecteur vesselInspecteur)
+         public DskyGauge(VesselInspecteur vesselInspecteur, ResourceInspecteur resourceInspecteur)
             : base(Constants.WINDOW_ID_GAUGE_DSKY)
          {
             this.vesselInspecteur = vesselInspecteur;
+            this.resourceInspecteur = resourceInspecteur;
             this.digital1 = new DigitalDisplay(this, DIGITS);
             this.digital2 = new DigitalDisplay(this, DIGITS);
             this.digital3 = new DigitalDisplay(this, DIGITS);
@@ -80,6 +86,8 @@ namespace Nereid
             {
                case DISPLAY_MODE.ORBIT: return "Shows orbital data:\n - apoapsis\n - periapsis\n - inclination";
                case DISPLAY_MODE.VELOCITY: return "Shows vessel speed:\n - horizontal\n - orbital\n - vertical";
+               case DISPLAY_MODE.RUNWAY: return "Shows selected ILS runway:\n - airfield id\n - runway\n - heading to runway";
+               case DISPLAY_MODE.GLIDE: return "Shows ILS data:\n - horizontal deviation\n - vertical deviation\n - distance to runway";
                case DISPLAY_MODE.TRIM: return "Shows vessel trim:\n - pitch\n - roll\n - yaw";
                default: return "unknown display mode";
             }
@@ -161,6 +169,29 @@ namespace Nereid
                   digital2.SetValue(vessel.obt_speed);
                   digital3.SetValue(vessel.verticalSpeed);
                   break;
+               case DISPLAY_MODE.RUNWAY:
+                  Airfield airfield = NavGlobals.destinationAirfield;
+                  int id = 0;
+                  int rway = 0;
+                  if(airfield!=null)
+                  {
+                     id = airfield.id;
+                     Runway runway = NavGlobals.landingRunway;
+                     if(runway!=null)
+                     {
+                        rway = (int)runway.heading;
+                     }
+                     
+                  }
+                  digital1.SetValue(id);
+                  digital2.SetValue(rway);
+                  digital3.SetValue(NavGlobals.bearingToAirfield);
+                  break;
+               case DISPLAY_MODE.GLIDE:
+                  digital1.SetValue(NavGlobals.horizontalGlideslopeDeviation);
+                  digital2.SetValue(NavGlobals.verticalGlideslopeDeviation);
+                  digital3.SetValue(NavGlobals.distanceToRunway);
+                  break;
                case DISPLAY_MODE.TRIM:
                   digital1.SetValue(vessel.ctrlState.pitchTrim*100);
                   digital2.SetValue(vessel.ctrlState.rollTrim*100);
@@ -185,8 +216,38 @@ namespace Nereid
             Vessel vessel = FlightGlobals.ActiveVessel;
             if (vessel == null) return;
 
+            // -- Battery --
+            double capacity_electric_charge = resourceInspecteur.GetCapacity(Resources.ELECTRIC_CHARGE);
+            double electric_charge = resourceInspecteur.GetAmount(Resources.ELECTRIC_CHARGE);
+            if (electric_charge / capacity_electric_charge < ELECTRIC_CHARGE_THRESHOLD)
+            {
+               indicatorBattery = true;
+            }
+
+            // -- Comms --
             CommNet.CommNetVessel connection = vessel.connection;
-            if (connection != null) indicatorCommunication = connection.CanComm;
+            if (connection != null) indicatorCommunication = connection.IsConnectedHome;
+
+            // -- Terrain --
+            double alt = vessel.RadarAltitude();
+            if (alt < TERRAIN_THRESHOLD) indicatorTerrain = true;
+
+            // -- Fuel --
+            double capacity_liquid_fuel = resourceInspecteur.GetCapacity(Resources.LIQUID_FUEL);
+            double capacity_oxydizer = resourceInspecteur.GetCapacity(Resources.OXIDIZER);
+            if(capacity_liquid_fuel>0 && capacity_oxydizer>0)
+            {
+               double liquid_fuel = resourceInspecteur.GetAmount(Resources.LIQUID_FUEL);
+               double oxydizer = resourceInspecteur.GetAmount(Resources.OXIDIZER);
+               if( liquid_fuel/capacity_liquid_fuel < FUEL_THRESHOLD )
+               {
+                  indicatorFuel = true;
+               }
+               if (oxydizer / capacity_oxydizer < FUEL_THRESHOLD)
+               {
+                  indicatorFuel = true;
+               }
+            }
          }
 
          protected override void OnWindow(int id)

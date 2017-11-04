@@ -128,7 +128,7 @@ namespace Nereid
             AddOptionalResourceGauge(new KarboniteGauge(resourceInspecteur));
 
             // rectangular gauges
-            AddGauge(new DskyGauge(vesselInspecteur));
+            AddGauge(new DskyGauge(vesselInspecteur, resourceInspecteur));
 
 
             // special gauges
