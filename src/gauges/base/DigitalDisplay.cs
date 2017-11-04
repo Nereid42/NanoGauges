@@ -113,6 +113,9 @@ namespace Nereid
 
          public void SetValue(int value)
          {
+            if (this.value == value) return;
+            if (value > limit) value = limit;
+            if (value < -limit/10) value = -limit/10;
             this.value = value;
          }
 
