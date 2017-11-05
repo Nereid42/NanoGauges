@@ -16,14 +16,26 @@ namespace Nereid
          public static readonly Runway RUNWAY_320_KERMAN_LAKE = new Runway("RWY 32", Coords.Create(-63.4268, 11.1343), 40f, 325.0f, 6.5f);
          public static readonly Runway RUNWAY_140_KERMAN_LAKE = new Runway("RWY 14", Coords.Create(-63.5231, 11.2742), 40f, 145.0f, 6.5f);
          public static readonly Runway RUNWAY_140_BLACK_KRAGS = new Runway("RWY 19", Coords.Create(-87.6877, 11.3158), 40f, 145.0f, 6.5f);
-         public static readonly Runway RUNWAY_220_COALA_CRATER= new Runway("RWY 19", Coords.Create(-98.9055, 35.4285), 70f, 225.0f, 3.0f);
+         public static readonly Runway RUNWAY_230_COALA_CRATER= new Runway("RWY 23", Coords.Create(-98.9049, 35.4293), 70f, 230.0f, 5.2f);
+         public static readonly Runway RUNWAY_140_LAKE_DERMAL = new Runway("RWY 14", Coords.Create(-121.0690, 22.8300), 566f, 136.82f, 3.5f);
+         public static readonly Runway RUNWAY_060_GREEN_COAST = new Runway("RWY 06", Coords.Create( 179.0901, -3.4933), 224f, 59.46f, 4.75f);
+         public static readonly Runway RUNWAY_220_SOUTH_POINT = new Runway("RWY 22", Coords.Create(166.4266, -17.8228), 237f, 222.5f, 3.25f);
+         public static readonly Runway RUNWAY_080_KERBINS_BOTTOM = new Runway("RWY 08", Coords.Create(170.5908, -50.4879), 108f, 75.5f, 4.75f);
+         public static readonly Runway RUNWAY_130_THE_SHELF = new Runway("RWY 13", Coords.Create(-162.0918, -53.8177), 317f, 128f, 3.5f);
+         public static readonly Runway RUNWAY_160_VALENTINAS_LANDING = new Runway("RWY 13", Coords.Create(127.5678, -49.3626), 124f, 159f, 5.0f);
 
 
          public static readonly Airfield AIRFIELD_SPACECENTER = new Airfield("Space Center", "KSC", RUNWAY_090_SPACECENTER, RUNWAY_270_SPACECENTER);
          public static readonly Airfield AIRFIELD_OLDAIRFIELD = new Airfield("Old Airfield", "KOA", RUNWAY_090_OLDAIRFIELD, RUNWAY_270_OLDAIRFIELD);
          public static readonly Airfield AIRFIELD_KERMAN_LAKE = new Airfield("Kerman Lake",  "KLA", RUNWAY_320_KERMAN_LAKE, RUNWAY_140_KERMAN_LAKE);
          public static readonly Airfield AIRFIELD_BLACK_KRAGS = new Airfield("Black Krags",  "KBK", RUNWAY_140_BLACK_KRAGS);
-         public static readonly Airfield AIRFIELD_COALA_CRATER = new Airfield("COALA Crater", "KCR", RUNWAY_220_COALA_CRATER);
+         public static readonly Airfield AIRFIELD_COALA_CRATER = new Airfield("Coala Crater", "KCR", RUNWAY_230_COALA_CRATER);
+         public static readonly Airfield AIRFIELD_LAKE_DERMAL = new Airfield("Lake Dermal", "KLD", RUNWAY_140_LAKE_DERMAL);
+         public static readonly Airfield AIRFIELD_GREEN_COAST = new Airfield("Green Coast", "KGC", RUNWAY_060_GREEN_COAST);
+         public static readonly Airfield AIRFIELD_SOUTH_POINT = new Airfield("South Point", "KSP", RUNWAY_220_SOUTH_POINT);
+         public static readonly Airfield AIRFIELD_KERBINS_BOTTOM = new Airfield("Kerbins Bottom", "KKB", RUNWAY_080_KERBINS_BOTTOM);
+         public static readonly Airfield AIRFIELD_THE_SHELF = new Airfield("The Shelf", "KSH", RUNWAY_130_THE_SHELF);
+         public static readonly Airfield AIRFIELD_VALENTINAS_LANDING = new Airfield("Valentina's Landing", "KVL", RUNWAY_160_VALENTINAS_LANDING);
 
          public static readonly Airfield[] Airfields = new Airfield[] 
          {
@@ -31,7 +43,13 @@ namespace Nereid
             AIRFIELD_OLDAIRFIELD,
             AIRFIELD_KERMAN_LAKE,
             AIRFIELD_BLACK_KRAGS,
-            AIRFIELD_COALA_CRATER
+            AIRFIELD_COALA_CRATER,
+            AIRFIELD_LAKE_DERMAL,
+            AIRFIELD_GREEN_COAST,
+            AIRFIELD_SOUTH_POINT,
+            AIRFIELD_KERBINS_BOTTOM,
+            AIRFIELD_THE_SHELF,
+            AIRFIELD_VALENTINAS_LANDING
          };
 
          private const int INDEX_NO_AIRFIELD = -1;
