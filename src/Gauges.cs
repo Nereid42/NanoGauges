@@ -108,6 +108,8 @@ namespace Nereid
             AddGauge(new NavGauge());
             AddGauge(new ApoapsisHorizontalGauge());
             AddGauge(new PeriapsisHorizontalGauge());
+            AddGauge(new AirfieldGauge());
+            AddGauge(new RunwayGauge());
 
             // TAC life support and Kerbalism (only added if TAC installed)
             AddOptionalResourceGauge(new OxygenGauge(resourceInspecteur));

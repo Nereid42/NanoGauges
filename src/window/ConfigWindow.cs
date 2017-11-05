@@ -319,7 +319,9 @@ namespace Nereid
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LATITUDE, "Latitude gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_LONGITUDE, "Longitude gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_PERIAPSIS, "Periapsis gauge (horizontal) enabled");
-            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_NAV, "VOR/ILS gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_AIRFIELD, "VOR/ILS airfield gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_NAV, "VOR/ILS navigation gauge enabled");
+            GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_RUNWAY, "VOR/ILS runway gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_VESSEL, "Vessel gauge enabled");
             GUILayout.EndScrollView();
             

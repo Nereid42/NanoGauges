@@ -59,6 +59,8 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\gauges\AirfieldGauge.cs" />
+    <Compile Include="src\gauges\RunwayGauge.cs" />
     <Compile Include="src\export\Exporter.cs" />
     <Compile Include="src\Gauges.cs" />
     <Compile Include="src\gauges\BarometricGauge.cs" />

@@ -279,8 +279,10 @@ namespace Nereid
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_LONGITUDE, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 3 * hDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_CAMERA, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 4 * hDY);
             set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_NAV, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 5 * hDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_APOAPSIS, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 6 * hDY);
-            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_PERIAPSIS, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 7 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_AIRFIELD, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 6 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_RUNWAY, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 7 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_APOAPSIS, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 8 * hDY);
+            set.SetWindowPosition(Constants.WINDOW_ID_GAUGE_PERIAPSIS, MARGIN_X_TOP_LEFT_BLOCK, MARGIN_Y_TOP_LEFT_BLOCK + 9 * hDY);
          }
 
          // 
@@ -294,6 +296,8 @@ namespace Nereid
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_NAV, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_APOAPSIS, true);
             SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_PERIAPSIS, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_RUNWAY, true);
+            SetGaugeEnabled(set, Constants.WINDOW_ID_GAUGE_AIRFIELD, true);
          }
 
          protected void DisableAllgauges(GaugeSet set)

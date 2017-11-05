@@ -9,18 +9,29 @@ namespace Nereid
    {
       public static class NavGlobals
       {
-         public static readonly Runway RUNWAY_090_SPACECENTER = new Runway("RWY 090", Coords.Create(-74.7130, -0.0486), 65.75f, 90.0f);
-         public static readonly Runway RUNWAY_270_SPACECENTER = new Runway("RWY 270", Coords.Create(-74.5039, -0.0501), 65.75f, 270.0f);
-         public static readonly Runway RUNWAY_090_OLDAIRFIELD = new Runway("RWY 090", Coords.Create(-71.9663, -1.5182), 133f, 90.0f,2.5f);
-         public static readonly Runway RUNWAY_270_OLDAIRFIELD = new Runway("RWY 270", Coords.Create(-71.8900, -1.5571), 133f, 270.0f,2.5f);
+         public static readonly Runway RUNWAY_090_SPACECENTER = new Runway("RWY 09", Coords.Create(-74.7130, -0.0486), 65.75f, 90.0f);
+         public static readonly Runway RUNWAY_270_SPACECENTER = new Runway("RWY 27", Coords.Create(-74.5039, -0.0501), 65.75f, 270.0f);
+         public static readonly Runway RUNWAY_090_OLDAIRFIELD = new Runway("RWY 09", Coords.Create(-71.9663, -1.5182), 133f, 90.0f,2.5f);
+         public static readonly Runway RUNWAY_270_OLDAIRFIELD = new Runway("RWY 27", Coords.Create(-71.8900, -1.5571), 133f, 270.0f,2.5f);
+         public static readonly Runway RUNWAY_320_KERMAN_LAKE = new Runway("RWY 32", Coords.Create(-63.4268, 11.1343), 40f, 325.0f, 6.5f);
+         public static readonly Runway RUNWAY_140_KERMAN_LAKE = new Runway("RWY 14", Coords.Create(-63.5231, 11.2742), 40f, 145.0f, 6.5f);
+         public static readonly Runway RUNWAY_140_BLACK_KRAGS = new Runway("RWY 19", Coords.Create(-87.6877, 11.3158), 40f, 145.0f, 6.5f);
+         public static readonly Runway RUNWAY_220_COALA_CRATER= new Runway("RWY 19", Coords.Create(-98.9055, 35.4285), 70f, 225.0f, 3.0f);
 
-         public static readonly Airfield AIRFIELD_SPACECENTER = new Airfield("Space Center", RUNWAY_090_SPACECENTER, RUNWAY_270_SPACECENTER);
-         public static readonly Airfield AIRFIELD_OLDAIRFIELD = new Airfield("Old Airfield", RUNWAY_090_OLDAIRFIELD, RUNWAY_270_OLDAIRFIELD);
+
+         public static readonly Airfield AIRFIELD_SPACECENTER = new Airfield("Space Center", "KSC", RUNWAY_090_SPACECENTER, RUNWAY_270_SPACECENTER);
+         public static readonly Airfield AIRFIELD_OLDAIRFIELD = new Airfield("Old Airfield", "KOA", RUNWAY_090_OLDAIRFIELD, RUNWAY_270_OLDAIRFIELD);
+         public static readonly Airfield AIRFIELD_KERMAN_LAKE = new Airfield("Kerman Lake",  "KLA", RUNWAY_320_KERMAN_LAKE, RUNWAY_140_KERMAN_LAKE);
+         public static readonly Airfield AIRFIELD_BLACK_KRAGS = new Airfield("Black Krags",  "KBK", RUNWAY_140_BLACK_KRAGS);
+         public static readonly Airfield AIRFIELD_COALA_CRATER = new Airfield("COALA Crater", "KCR", RUNWAY_220_COALA_CRATER);
 
          public static readonly Airfield[] Airfields = new Airfield[] 
          {
             AIRFIELD_SPACECENTER,
-            AIRFIELD_OLDAIRFIELD
+            AIRFIELD_OLDAIRFIELD,
+            AIRFIELD_KERMAN_LAKE,
+            AIRFIELD_BLACK_KRAGS,
+            AIRFIELD_COALA_CRATER
          };
 
          private const int INDEX_NO_AIRFIELD = -1;

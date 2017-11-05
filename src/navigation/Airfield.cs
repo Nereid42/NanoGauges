@@ -14,13 +14,15 @@ namespace Nereid
 
          public readonly int id;
          public readonly String name;
+         public readonly String code;
          public readonly Runway[] runways;
          public readonly Coords coords;
 
-         public Airfield(String name, params Runway[] runways)
+         public Airfield(String name, String code, params Runway[] runways)
          {
             this.id = sequence++;
             this.name = name;
+            this.code = code;
             this.runways = runways;
             this.coords = CenterOfRunways(runways);
          }

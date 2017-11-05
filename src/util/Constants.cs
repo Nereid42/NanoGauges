@@ -103,6 +103,8 @@ namespace Nereid
          public const int WINDOW_ID_GAUGE_DSKY = WINDOW_ID_BASE + 89;
          public const int WINDOW_ID_GAUGE_PERIAPSIS = WINDOW_ID_BASE + 90;
          public const int WINDOW_ID_GAUGE_APOAPSIS = WINDOW_ID_BASE + 91;
+         public const int WINDOW_ID_GAUGE_RUNWAY = WINDOW_ID_BASE + 92;
+         public const int WINDOW_ID_GAUGE_AIRFIELD = WINDOW_ID_BASE + 93;
          //
          public const int WINDOW_ID_GAUGE_ALIGNMENT = 19999;
 
