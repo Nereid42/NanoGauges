@@ -324,9 +324,13 @@ namespace Nereid
                   {
                      profileManager.ToggleLock();
                   }
-                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_SELECT_NAV))
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_NEXT_NAV))
                   {
                      NavGlobals.SelectNextAirfield();
+                  }
+                  else if (hotkeyManager.GetKeyDown(HotkeyManager.HOTKEY_PREV_NAV))
+                  {
+                     NavGlobals.SelectPrevAirfield();
                   }
                }
                else

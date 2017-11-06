@@ -23,6 +23,9 @@ namespace Nereid
          public static readonly Runway RUNWAY_080_KERBINS_BOTTOM = new Runway("RWY 08", Coords.Create(170.5908, -50.4879), 108f, 75.5f, 4.75f);
          public static readonly Runway RUNWAY_130_THE_SHELF = new Runway("RWY 13", Coords.Create(-162.0918, -53.8177), 317f, 128f, 3.5f);
          public static readonly Runway RUNWAY_160_VALENTINAS_LANDING = new Runway("RWY 13", Coords.Create(127.5678, -49.3626), 124f, 159f, 5.0f);
+         public static readonly Runway RUNWAY_010_NORTH_POLE_BIO_DOME = new Runway("RWY 01", Coords.Create(-77.5569, 79.4520), 36f, 12.5f, 3.0f);
+         public static readonly Runway RUNWAY_170_SOUTH_HOPE = new Runway("RWY 17", Coords.Create(16.9541, -49.5518), 264f, 174f, 3.0f);
+         public static readonly Runway RUNWAY_050_SOUTH_POLE_STATION = new Runway("RWY 05", Coords.Create(142.7851, -84.7356), 32f, 51.5f, 3.0f, false);
 
 
          public static readonly Airfield AIRFIELD_SPACECENTER = new Airfield("Space Center", "KSC", RUNWAY_090_SPACECENTER, RUNWAY_270_SPACECENTER);
@@ -36,6 +39,9 @@ namespace Nereid
          public static readonly Airfield AIRFIELD_KERBINS_BOTTOM = new Airfield("Kerbins Bottom", "KKB", RUNWAY_080_KERBINS_BOTTOM);
          public static readonly Airfield AIRFIELD_THE_SHELF = new Airfield("The Shelf", "KSH", RUNWAY_130_THE_SHELF);
          public static readonly Airfield AIRFIELD_VALENTINAS_LANDING = new Airfield("Valentina's Landing", "KVL", RUNWAY_160_VALENTINAS_LANDING);
+         public static readonly Airfield AIRFIELD_NORTH_POLE_BIO_DOME = new Airfield("North Pole Bio Dome", "KNB", RUNWAY_010_NORTH_POLE_BIO_DOME);
+         public static readonly Airfield AIRFIELD_SOUTH_HOPE = new Airfield("South Hope", "KSH", RUNWAY_170_SOUTH_HOPE);
+         public static readonly Airfield AIRFIELD_SOUTH_POLE_STATION = new Airfield("South Pole Station", "KSP", RUNWAY_050_SOUTH_POLE_STATION);
 
          public static readonly Airfield[] Airfields = new Airfield[] 
          {
@@ -49,7 +55,10 @@ namespace Nereid
             AIRFIELD_SOUTH_POINT,
             AIRFIELD_KERBINS_BOTTOM,
             AIRFIELD_THE_SHELF,
-            AIRFIELD_VALENTINAS_LANDING
+            AIRFIELD_VALENTINAS_LANDING,
+            AIRFIELD_NORTH_POLE_BIO_DOME,
+            AIRFIELD_SOUTH_POLE_STATION,
+            AIRFIELD_SOUTH_HOPE
          };
 
          private const int INDEX_NO_AIRFIELD = -1;
@@ -170,6 +179,21 @@ namespace Nereid
                SetDestinationAirfield(Airfields[indexAirfield]);
             }
          }
+
+         public static void SelectPrevAirfield()
+         {
+            indexAirfield--;
+            if (indexAirfield < INDEX_NO_AIRFIELD) indexAirfield = Airfields.Length-1;
+            if (indexAirfield == INDEX_NO_AIRFIELD)
+            {
+               SetDestinationAirfield(null);
+            }
+            else
+            {
+               SetDestinationAirfield(Airfields[indexAirfield]);
+            }
+         }
+
       }
    }
 

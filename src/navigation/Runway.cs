@@ -22,7 +22,7 @@ namespace Nereid
          public readonly double ILSCone; // angle of ILS from center glideslope in degrees
          public readonly double ILSRange; // range of ILS in meter
 
-         public Runway( String name, Coords coords, float elevation, float heading, float glideslope = 3.0f)
+         public Runway( String name, Coords coords, float elevation, float heading, float glideslope = 3.0f, bool hasILS=true)
          {
             this.name = name;
             this.coords = coords;
@@ -34,7 +34,7 @@ namespace Nereid
             this.From = NavUtils.InverseHeading(To);
             //
             // currently constant
-            this.HasILS = true;
+            this.HasILS = hasILS;
             this.HasDME = true;
             this.ILSCone = 10.0;
             this.ILSRange = 80000.0;

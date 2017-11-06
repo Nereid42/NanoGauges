@@ -123,13 +123,15 @@ namespace Nereid
             GUILayout.EndHorizontal();
             //
             GUILayout.BeginHorizontal();
-            DrawHotkey("Next Navpoint", HotkeyManager.HOTKEY_SELECT_NAV, main_hotkey);
+            DrawHotkey("Align. gauge", HotkeyManager.HOTKEY_ALIGNMENT_GAUGE, main_hotkey);
             GUILayout.FlexibleSpace();
             DrawHotkey("Drag&Close", HotkeyManager.HOTKEY_CLOSE_AND_DRAG);
             GUILayout.EndHorizontal();
             //
             GUILayout.BeginHorizontal();
-            DrawHotkey("Align. gauge", HotkeyManager.HOTKEY_ALIGNMENT_GAUGE, main_hotkey);
+            DrawHotkey("Prev Navpoint", HotkeyManager.HOTKEY_PREV_NAV);
+            GUILayout.FlexibleSpace();
+            DrawHotkey("Next Navpoint", HotkeyManager.HOTKEY_NEXT_NAV);
             GUILayout.EndHorizontal();
 
             GUILayout.FlexibleSpace();

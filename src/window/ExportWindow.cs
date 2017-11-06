@@ -27,7 +27,7 @@ namespace Nereid
 
 
          public ExportWindow()
-            : base(Constants.WINDOW_ID_EXPORT, "Export")
+            : base(Constants.WINDOW_ID_EXPORT, "Export (work in progress)")
          {
             SetSize(WIDTH, HEIGHT);
          }
@@ -44,6 +44,7 @@ namespace Nereid
             GUILayout.FlexibleSpace();
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
+            GUI.enabled = false;
             GUILayout.Button("Import", HighLogic.Skin.button);
             if (GUILayout.Button("Export", HighLogic.Skin.button))
             {
@@ -51,6 +52,7 @@ namespace Nereid
                exporter.exportStatus = includeStatus;
                exporter.Export();
             }
+            GUI.enabled = true;
             if (GUILayout.Button("Close", HighLogic.Skin.button))
             {
                SetVisible(false);

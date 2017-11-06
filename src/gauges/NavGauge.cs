@@ -56,6 +56,11 @@ namespace Nereid
          private const int FLAG_X10 = 14;
          private const int FLAG_X01 = 24;
 
+         // ILS flag off
+         private static Texture2D FLAG_ILS_TEXTURE = Utils.GetTexture("Nereid/NanoGauges/Resource/ILS-flag");
+         Flag ilsFlag;
+
+
          public NavGauge()
             : base(Constants.WINDOW_ID_GAUGE_NAV, SKIN)
          {
@@ -80,10 +85,15 @@ namespace Nereid
             this.nav10Flag = new Flag(this, FLAG_1_TEXTURE);
             this.nav20Flag = new Flag(this, FLAG_2_TEXTURE);
 
+            this.ilsFlag = new Flag(this, FLAG_ILS_TEXTURE);
+
+
             navScFlag.Down();
             navOaFlag.Down();
             navKlFlag.Down();
             navBkFlag.Down();
+
+            this.ilsFlag.Down();
 
             Absolut();
             EnableBlueNeedle();
@@ -140,7 +150,7 @@ namespace Nereid
                {
                   // we have a runway for landing
                   SetBlueNeedleTo(NavGlobals.bearingToRunway);
-                  if (IsInLimits())
+                  if (IsInLimits() && NavGlobals.landingRunway.HasILS)
                   {
                      SetYellowNeedleTo(NavGlobals.horizontalGlideslopeDeviation * 10);
                   }
@@ -222,6 +232,10 @@ namespace Nereid
             nav7Flag.Draw(FLAG_X01 * scaling, 0);
             nav8Flag.Draw(FLAG_X01 * scaling, 0);
             nav9Flag.Draw(FLAG_X01 * scaling, 0);
+
+            // ILS flag
+            ilsFlag.Set(NavGlobals.landingRunway != null && !NavGlobals.landingRunway.HasILS);
+            ilsFlag.Draw(107 * scaling, 0);
 
          }
 
