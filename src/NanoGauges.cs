@@ -90,6 +90,14 @@ namespace Nereid
          {
             Log.Info("starting NanoGauges");
 
+            Log.Info("Texture Quality: " + GameSettings.TEXTURE_QUALITY);
+
+            // show dialog if texture settings are to low
+            if (GameSettings.TEXTURE_QUALITY!=0)
+            {
+               PopupDialog.SpawnPopupDialog(new Vector2(0, 0), new Vector2(0, 0), "TEXTURE", "NanoGauges Warning!", "The used texture quality is not supported by Nanogauges. Please change the texture quality to fullres in the graphic settings.", "OK", true, null);
+            }
+
             if (!configuration.useStockToolbar)
             {
                Log.Info("stock toolbar button disabled");
