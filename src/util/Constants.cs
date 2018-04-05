@@ -162,6 +162,8 @@ namespace Nereid
 
          public static readonly UnityEngine.Color ORANGE = new UnityEngine.Color(250, 100, 0);
 
+         public static readonly String ROOT_PATH = Utils.GetRootPath();
+         public static readonly String GAMEDATA_PATH = ROOT_PATH + System.IO.Path.DirectorySeparatorChar + "GameData";
       }
    }
 }
