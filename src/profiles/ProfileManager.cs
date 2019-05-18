@@ -188,20 +188,15 @@ namespace Nereid
             if (vessel == null) return;
             if (DOCKING.enabled && vessel.situation == Vessel.Situations.ORBITING)
             {
-               if (mode == FlightUIMode.DOCKING)
+               switch(mode)
                {
-                  SwitchProfile(DOCKING);
-               }
-               else
-               {
-                  if (mode == FlightUIMode.ORBITAL)
-                  {
-                     SwitchProfile(ORBIT);
-                  }
-                  else
-                  {
+                  case FlightUIMode.DOCKING:
+                     SwitchProfile(DOCKING);
+                     break;
+                  // TODO: ORBIT
+                  default:
                      SwitchToSituation(vessel.situation);
-                  }
+                     break;
                }
             }
             UnlockProfileChange();
