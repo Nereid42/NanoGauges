@@ -31,6 +31,8 @@ namespace Nereid
 
          private volatile bool destroyed = false;
 
+         private readonly TrimIndicators trimIndicators;
+
          // for timed logging
          private readonly Stopwatch timer = new Stopwatch();
          private long lastPerformanceLog = 0;
@@ -67,6 +69,8 @@ namespace Nereid
          public NanoGauges()
          {
             Log.Info("new instance of NanoGauges");
+            this.trimIndicators = new TrimIndicators();
+
             // 
             timer.Start();
          }
@@ -90,6 +94,7 @@ namespace Nereid
          {
             Log.Info("starting NanoGauges");
 
+
             Log.Info("Texture Quality: " + GameSettings.TEXTURE_QUALITY);
 
             // show dialog if texture settings are to low
@@ -98,6 +103,11 @@ namespace Nereid
             {
                PopupDialog.SpawnPopupDialog(new Vector2(0, 0), new Vector2(0, 0), "TEXTURE", "NanoGauges Warning!", "The used texture quality is not supported by Nanogauges. Please change the texture quality to fullres in the graphic settings.", "OK", true, null);
             }*/
+
+            if (NanoGauges.configuration.trimIndicatorsEnabled)
+            {
+               trimIndicators.Init();
+            }
 
             if (!configuration.useStockToolbar)
             {
