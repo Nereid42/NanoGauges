@@ -95,8 +95,8 @@ namespace Nereid
                     Log.Warning("exception caught in trim indicator init");
                     disabled = true;
                     NanoGauges.configuration.trimIndicatorsEnabled = false;
-                    throw e;
                     Destroy(this);
+                    throw e;
                 }
             }
 
