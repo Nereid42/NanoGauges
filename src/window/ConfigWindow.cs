@@ -236,7 +236,7 @@ namespace Nereid
             GUILayout.EndHorizontal();
             scrollPosGauges = GUILayout.BeginScrollView(scrollPosGauges, false, true, HighLogic.Skin.horizontalScrollbar, HighLogic.Skin.verticalScrollbar, STYLE_SCROLLVIEW, GUILayout.Height(GAUGES_HEIGHT));
             this.allGaugesEnables = true;
-            //config.trimIndicatorsEnabled = GUILayout.Toggle(config.trimIndicatorsEnabled, "Trim indicators enabled (restart required)", HighLogic.Skin.toggle);
+            config.trimIndicatorsEnabled = GUILayout.Toggle(config.trimIndicatorsEnabled, "Trim indicators enabled (restart required)", HighLogic.Skin.toggle);
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_SETS, "Gaugeset selector gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_INDICATOR, "Indicator gauge enabled");
             GaugeEnabledToggle(Constants.WINDOW_ID_GAUGE_CAM, "Camera indicator gauge enabled");
