@@ -78,6 +78,7 @@
     <Compile Include="src\gauges\GlideGauge.cs" />
     <Compile Include="src\gauges\NavGauge.cs" />
     <Compile Include="src\gauges\CameraCompassGauge.cs" />
+    <Compile Include="src\gauges\TrimIndicators.cs" />
     <Compile Include="src\gauges\VesselGauge.cs" />
     <Compile Include="src\gauges\CO2Gauge.cs" />
     <Compile Include="src\gauges\SeismicGauge.cs" />
@@ -181,7 +182,6 @@
     <Compile Include="src\profiles\Profile.cs" />
     <Compile Include="src\profiles\ProfileBehaviour.cs" />
     <Compile Include="src\profiles\ProfileManager.cs" />
-    <Compile Include="src\TrimIndicators.cs" />
     <Compile Include="src\util\Adapter.cs" />
     <Compile Include="src\util\Configuration.cs" />
     <Compile Include="src\util\Constants.cs" />
